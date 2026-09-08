@@ -53,11 +53,12 @@
 7. [👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)](#deep-dive-the-zero-footprint-architecture-0-resident-files)
 8. [🛡️ Enterprise Auditability & Tamper-Proof Architecture](#enterprise-auditability--tamper-proof-architecture)
 9. [⌨️ Universal Global Hotkeys](#universal-global-hotkeys)
-10. [🛡️ Novice Protection & Technician Mode](#novice-protection--technician-mode)
+10. [🔒 Novice Protection & Technician Mode](#novice-protection--technician-mode)
 11. [🚀 Quick Start & CLI Reference](#quick-start--cli-reference)
-12. [🏷️ White-Labeling & The $100 Lifetime Shop Branding Perk](#white-labeling--the-100-lifetime-shop-branding-perk)
+12. [🏷️ White-Labeling & The \$100 Lifetime Shop Branding Perk](#white-labeling--the-100-lifetime-shop-branding-perk)
 13. [📚 Technical Documentation Directory](#technical-documentation-directory)
-14. [⚖️ Legal & Process Interception Disclaimer](#legal--process-interception-disclaimer)
+14. [📋 Technical Requirements](#technical-requirements)
+15. [⚖️ Legal & Process Interception Disclaimer](#legal--process-interception-disclaimer)
 
 ---
 
@@ -146,7 +147,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 
 ---
 
-### 7. The 5 Critical Windows Utility Failure Mode Defenses (100% Native Architecture)
+### 🔧 Technical Resiliency Engine: 5 Failure-Mode Defenses
 
 To guarantee enterprise-grade survivability without bloated third-party drivers or black-box agents, WINBARS incorporates five specialized defensive engineering patterns:
 
@@ -194,7 +195,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 | **Dynamic Drive Drift Shield** | ✅ **6-Tier Auto-Discovery (`D:` $\rightarrow$ `E:`)** | ⚠️ Often halts until reconfigured | ⚠️ Reconfiguration needed | ⚠️ Reconfiguration needed | ❌ Completely halts backups |
 | **White-Label Branding for Repair Shops** | ✅ **1-Time $100 Lifetime Token** (Unlimited PCs) | ❌ White-labeling costs $10k+ / MSP | ❌ None | ❌ None | ❌ None |
 
-### Key Market Takeaways:
+#### 🔑 Key Takeaways:
 1. **Vs. Macrium Reflect & Acronis Cyber Protect**:
    * *The Problem*: Legacy backup giants lock your irreplaceable files inside massive, proprietary container files (`.mrimg` or `.tibx`). If the software license lapses, or if the container suffers a 1-byte CRC corruption, your entire backup is lost. Furthermore, their kernel filter drivers frequently cause boot-loop Blue Screens after major Windows 11 feature upgrades.
    * *The WINBARS Advantage*: WINBARS creates transparent, standard 1:1 file mirrors and native Microsoft `.wim` images. You can plug your external hard drive into **any computer on earth** and immediately browse, copy, and restore your files in Windows Explorer or macOS Finder without installing a single piece of software.
@@ -289,6 +290,11 @@ Accessible by clicking the **Gear icon** in the Floating Quick-Action Bar or sel
 4. **Silent Bare-Metal Local Fallback (`C:\SystemImages`)**: If no secondary or external drive is attached during a scheduled image pass, WINBARS captures the bare-metal DISM image cleanly to `C:\SystemImages` at `INFO` level without raising false-alarm warning toasts.
 5. **Frozen VSS Snapshot Capture**: Bare-metal DISM captures are bound to a temporary Volume Shadow Copy mount (`New-VssSnapshotMount`), guaranteeing 100% crash consistency and completely bypassing open-file lock collisions.
 
+
+### 📊 Smart On-Demand Progress Engine
+* **Desktop Shortcut**: Shows the live Dual Progress Bar immediately from start to finish (`-ShowProgress`).
+* **Tray Menu & Automated Backups**: Run quietly in the background without stealing window focus. The tray icon turns **🟣 Purple**, and the top menu item dynamically shows `🟣 Status: Backup in Progress (X%)... Click to Show`. Clicking it opens the progress window on demand.
+
 ---
 
 ## 🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)
@@ -331,19 +337,26 @@ Every deployment mode (Modes 0–4 and Custom Modes 5+) features an instant **Pr
   * **Mode 3 (`HeadlessFull`)** builds on Mode 1 by adding automated differential Robocopy file sync, external bare-metal images, multi-drive rotation, and missing drive connection prompts.
   * **Mode 4 (`TotalProtection`)** adds the dynamic Floppy Disk Tray sentry, active ScamBuster remote tool interceptor, Protection Center GUI (`Ctrl+Win+W`), and organization partner branding.
 * **Hotkey Panic Shield Active Across Modes 1–4**:
-  * Even in headless and minimal profiles (Modes 1–3) where no tray icon or ScamBuster watchdog runs, the **emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Win+K` $ightarrow$ `Ctrl+Alt+B`)** remains active for instant emergency response.
+  * Even in headless and minimal profiles (Modes 1–3) where no tray icon or ScamBuster watchdog runs, the **emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Win+K` $
+ightarrow$ `Ctrl+Alt+B`)** remains active for instant emergency response.
   * In **Mode 0 (`ZeroFootprint`)**, a strict 0-file policy is enforced: zero resident shortcuts, scripts, or registry modifications on the PC.
 * **ScamBuster & Remote Access Interceptor**:
-  * **Option 4 (`FullInteractive`)** is the **only** profile that maintains an active, continuous background sentry listening for browser sirens and intercepting unauthorized remote access tools (AnyDesk, TeamViewer, UltraViewer, RustDesk) in real time.
-  * **Zero-Footprint (Option 0)** maintains a strict 0% resident footprint guarantee on the target PC as a dedicated, automated backup engine. ScamBuster is available when running directly from the technician's USB drive or by selecting Profile 4.
+  * **Mode 4 (`FullInteractive`)** is the **only** profile that maintains an active, continuous background sentry listening for browser sirens and intercepting unauthorized remote access tools (AnyDesk, TeamViewer, UltraViewer, RustDesk) in real time.
+  * **Zero-Footprint (Mode 0)** maintains a strict 0% resident footprint guarantee on the target PC as a dedicated, automated backup engine. ScamBuster is available when running directly from the technician's USB drive or by selecting Profile 4.
 * **GUI Dialog Availability Across All Profiles**:
   * Regardless of which profile is installed, whenever `WINBARS.exe` is launched directly (or with `-GUI` / `-StatusCard`), it immediately opens the **Protection Center Live Dashboard**. The dashboard includes a live **Installation & Profile Status Banner** (`✔ INSTALLED` or `⚠ NOT INSTALLED • Running from USB / Portable`) indicating the active profile.
 
 *Switch profiles anytime via `WINBARS.exe -SetProfile <ProfileName>` or through the interactive technician menu (`[P]`).*
 
-### 📊 Smart On-Demand Progress Engine
-* **Desktop Shortcut**: Shows the live Dual Progress Bar immediately from start to finish (`-ShowProgress`).
-* **Tray Menu & Automated Backups**: Run quietly in the background without stealing window focus. The tray icon turns **🟣 Purple**, and the top menu item dynamically shows `🟣 Status: Backup in Progress (X%)... Click to Show`. Clicking it opens the progress window on demand.
+### 📋 Profile Capabilities Breakdown (Info Modal & CLI Inspector)
+
+WINBARS provides a comprehensive breakdown for each of the 6 deployment styles explaining **What it DOES**, **What it Does NOT Do**, and **Togglable Settings**:
+
+* **In the GUI Protection Center**:
+  Click the deployment profile pill (`▶ [Profile Name]`) in the status bar to launch the interactive **Deployment Profile Capabilities Breakdown** modal with multi-tab comparisons across all 6 profiles (Modes 0, N, 1, 2, 3, and 4).
+* **In the CLI Profile Manager (`[P]`)**:
+  * Selecting any profile (0–4 and Mode N) presents the detailed capability card and prompts for explicit confirmation (`Apply Profile X to this machine? (Y/n)`) before executing changes.
+  * Press **`[I]`** to inspect or compare all 6 profiles sequentially or individually without applying them.
 
 ---
 
@@ -380,15 +393,13 @@ WINBARS never traps your data inside proprietary container files:
 
 ---
 
----
-
 ## 👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)
 
 The **Zero-Footprint profile** was engineered specifically for computer repair technicians, managed service providers (MSPs), and power users who need to set up bulletproof, recurring disaster protection on a customer's or family member's PC **without leaving third-party background software, resident executables, or persistent scripts on the target machine (`C:\`)**.
 
 Everything needed to perform daily backups, resolve drive shifts, log history, and execute emergency rollbacks lives **directly on the external backup storage drive**.
 
-### 🌟 11 Core Pillars of the Zero-Footprint Engine:
+### 🌟 12 Core Pillars of the Zero-Footprint Engine:
 
 1. **0 Resident Bytes on Target Machine (`C:\`)**:
    * No `WINBARS.exe`, no background daemons, and no PowerShell scripts are stored on the internal hard drive.
@@ -403,7 +414,7 @@ Everything needed to perform daily backups, resolve drive shifts, log history, a
    * The Task Scheduler command and the sync runner dynamically query `Win32_LogicalDisk` for the signature marker (`\Backup_Logs\Run-ZeroFootprintSync.ps1` or `.winbars_target`), automatically resolving the active drive letter on the fly with zero dropped backups.
 4. **Smart 1:1 Robocopy Mirror with Active Volume Shadow Copy (VSS) Snapshot Mount**:
    * **Bypassing In-Use & Exclusively Locked Files**: Traditional live mirroring with `robocopy.exe /ZB` uses backup semantics to bypass NTFS ACLs, but it can still fail on exclusively locked files (such as active Outlook `.pst`/`.ost` stores, running browser SQLite databases like Chrome/Edge `History` and `Cookies`, active accounting databases, or running VM disks).
-   * **Automated VSS Mountpoint (`mklink /D`)**: WINBARS automatically binds live Robocopy passes directly to a temporary Volume Shadow Copy snapshot mount (`New-VssSnapshotMount` via `Win32_ShadowCopy` and `mklink /D`). Robocopy mirrors cleanly from the frozen point-in-time snapshot, guaranteeing 100% consistent, non-corrupted reads of active databases with zero locked-file errors. Once the mirror pass completes, the temporary junction and shadow copy are cleanly unmounted and released.
+   * **Automated VSS Mountpoint (`mklink /D`)**: WINBARS automatically binds live Robocopy passes directly to a temporary Volume Shadow Copy snapshot mount (`New-VssSnapshotMount` via `Win32_ShadowCopy` and `mklink /D`). Robocopy mirrors cleanly from the frozen VSS snapshot volume, guaranteeing 100% consistent, non-corrupted reads of active databases with zero locked-file errors. Once the mirror pass completes, the temporary junction and shadow copy are cleanly unmounted and released.
    * **Accidental Deletion Protection (`_DeletedArchive`)**: Before mirroring, a non-destructive pre-scan moves any files deleted or modified on the PC into timestamped isolation folders (`_DeletedArchive\YYYY-MM-DD\`). Expired archives (> 30 days) are pruned automatically.
    * **Low Disk Space Headroom Guard**: If the backup drive drops below 10 GB free, an accelerated prune cleans archives older than 7 days; if space drops below 2 GB, the sync pauses safely to protect data integrity.
 5. **Conflict-Safe Smart Swap & Race Condition Shield**:
@@ -473,7 +484,7 @@ WINBARS uses the non-conflicting `Ctrl + Win` modifier family for instant emerge
 
 ---
 
-## 🛡️ Novice Protection & Technician Mode
+## 🔒 Novice Protection & Technician Mode
 
 To prevent accidental misconfiguration or confusion when end users and novices access the Protection Center GUI (`Ctrl + Win + W`):
 
@@ -486,18 +497,6 @@ To prevent accidental misconfiguration or confusion when end users and novices a
    * Once unlocked, the status bar shifts to amber: `[TECH MODE UNLOCKED] • Click to Lock` and reveals the `⚙ Tech Console` link.
    * **1-Click Lock**: Clicking the amber pill/bar immediately locks Technician Mode back to safe Novice Mode.
    * **Per-Session Security**: Technician Mode is strictly in-memory and is never persisted to disk. Closing and reopening the dialog always resets it back to protected Novice Mode.
-
----
-
-### 📋 Profile Capabilities Breakdown (Info Modal & CLI Inspector)
-
-WINBARS provides a comprehensive breakdown for each of the 6 deployment styles explaining **What it DOES**, **What it Does NOT Do**, and **Togglable Settings**:
-
-* **In the GUI Protection Center**:
-  Click the deployment profile pill (`▶ [Profile Name]`) in the status bar to launch the interactive **Deployment Profile Capabilities Breakdown** modal with multi-tab comparisons across all 6 profiles (Modes 0, N, 1, 2, 3, and 4).
-* **In the CLI Profile Manager (`[P]`)**:
-  * Selecting any profile (0–4 and Mode N) presents the detailed capability card and prompts for explicit confirmation (`Apply Profile X to this machine? (Y/n)`) before executing changes.
-  * Press **`[I]`** to inspect or compare all 6 profiles sequentially or individually without applying them.
 
 ---
 
