@@ -145,6 +145,12 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **100% Non-Destructive**: Normal OneDrive file synchronization is never disabled or broken. Users who legitimately use OneDrive for school, work, or team sharing continue to enjoy full functionality. Only deceptive upsell banners, library hijacking, and takeover prompts are silenced.
 * **Deployment Profile Rules**: **Enabled by default across ALL deployment modes (Modes 0 through 4 and Custom Profiles)**, because every mode provides complete, verified WINBARS protection. Mode 0 (`ZeroFootprint`) maintains its strict 0-file guarantee because registry policies place **0 executable files on disk**. Technicians can toggle it `[OFF]` via key `[0]` on the Pre-Flight screen if desired.
 
+### 7. Master Baseline Checkpoints & Bare-Metal Images (`_baseline.wim`)
+* **Technician Hardware & Driver Staging**: Before attempting risky hardware or driver replacements (such as conflicting I2C HID touchscreen/touchpad drivers, GPU firmware updates, or network stack overrides), technicians can capture a dedicated **Baseline System Restore Point** (`WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-I2C Driver Fix"`).
+* **`[📌 BASELINE]` Visual Badging**: Baseline checkpoints are explicitly badged across all WINBARS repair menus and the WinRE blue screen recovery console, ensuring technicians can immediately identify known-good master states before testing experimental vendor drivers.
+* **VSS Shadow Headroom Expansion**: Baseline creation automatically sizes the VSS shadow quota (15%) and instructs WINBARS retention routines to skip the baseline during FIFO pruning to maximize checkpoint longevity.
+* **Immortal Bare-Metal System Image (`_baseline.wim`)**: Capturing a bare-metal image with `-Baseline` creates `SystemImage_YYYY-MM-DD_HHmmss_baseline.wim`. These master factory setup images are permanently immune to rotation pruning on both `C:\SystemImages` and external storage, providing an indestructible rollback target even if Windows VSS is eventually purged by major OS feature updates.
+
 ---
 
 ### 🔧 Technical Resiliency Engine: 5 Failure-Mode Defenses

@@ -15,9 +15,9 @@ All switches can be passed with standard PowerShell syntax (-Switch) or Windows 
 | Action Switch | Description | Automated / Unattended |
 | :--- | :--- | :---: |
 | -Action FastBackup | Runs daily fast backup pass: mirrors personal files + creates System Checkpoint. [⚡ 1-Click: Backup My Files Now] | WINBARS.exe -Action FastBackup -Unattended |
-| -Action RestorePoint | Creates a hardened, atomic Windows System Restore Point checkpoint. | WINBARS.exe -Action RestorePoint -Unattended |
+| -Action RestorePoint | Creates a hardened, atomic Windows System Restore Point checkpoint. Use `-Baseline` for immortal driver/hardware checkpoint. | WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-Driver Fix" |
 | -Action FileHistory | Runs multi-threaded unbuffered Robocopy personal file synchronization. | WINBARS.exe -Action FileHistory -Unattended |
-| -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). | WINBARS.exe -Action SystemImage -Unattended |
+| -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). Use `-Baseline` to tag as permanent master (`_baseline.wim`). | WINBARS.exe -Action SystemImage -Baseline -Unattended |
 | -Action All | Runs a complete multi-pass backup (Restore Point, File Mirror, DISM Image). | WINBARS.exe -Action All -Unattended |
 | -Action AutoHeal | Runs a 2-second silent scan to self-heal Windows VSS & SystemProtection. | WINBARS.exe -Action AutoHeal -Unattended |
 | -Action VerifyFix | Runs full diagnostic self-test and auto-repairs broken scheduled tasks. | WINBARS.exe -VerifyFix |
@@ -116,6 +116,9 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
 | -AddBackupDrive <Path> | Registers a backup destination drive letter (e.g. `E:`) or custom directory path (e.g. `E:\Backups`). |
 | -RemoveBackupDrive <Path> [-Force] | Removes a backup destination. Enforces 1-Drive Minimum Guardrail (requires `-Force` for technician override). |
 | -SetPrimaryBackupDrive <Path> | Designates a backup drive/path as Primary. |
+| -Baseline | Captures an immortal Day-1 baseline restore point or bare-metal system image (`_baseline.wim`). Excluded permanently from retention rotation. |
+| -Description <Text> | Specifies a custom hardware or repair label for baseline restore points (e.g., `-Description "Pre-I2C Mouse Fix"`). |
+| -MaxRetentionOverride <N> | Overrides default system image retention rotation count (default: 1 on `C:`, 2 on external storage). |
 | -StatusCard / -GUI | Opens the GUI Protection Center Live Dashboard (Ctrl+Win+W). |
 | -Console / -Menu | Launches the interactive technician CLI console. |
 | -Tray | Launches the background Floppy Tray Sentry in the Windows notification area. |
