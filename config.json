@@ -116,7 +116,7 @@
                                    "DefuseOneDriveNags":  true,
                                    "EnableScamBusterHotkey":  true,
                                    "EnableTraySentry":  true,
-                                   "EasyMenuMode":  true,
+                                   "EasyMenuMode": true,
                                    "DeploymentProfile":  "FullInteractive",
                                    "DomainBlacklist":  [
                                                            "support-alert-microsoft.com",
