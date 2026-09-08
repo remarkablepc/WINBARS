@@ -98,7 +98,7 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 >
 > *That tool became WINBARS."*
 >
-> — **David Hewitt**, Creator of WINBARS
+> — **RemarkablePC**, Creator of WINBARS
 
 ---
 

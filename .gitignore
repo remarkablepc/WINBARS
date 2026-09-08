@@ -1,0 +1,7 @@
+﻿# Local private branding assets & tokens (never publish to public repo)
+brands/
+branding.json
+branding*.json
+*.old
+*.log
+*.zip
