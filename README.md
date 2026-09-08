@@ -7,7 +7,7 @@
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
   <img src="https://img.shields.io/badge/Binary-WINBARS.exe-informational" alt="Standalone Binary" />
-  <img src="https://img.shields.io/badge/Zero--Footprint-Mode%200%20Supported-brightgreen" alt="Zero-Footprint Mode" />
+  <img src="https://img.shields.io/badge/Agentless%20Native-Mode%200%20Supported-brightgreen" alt="Agentless Zero-Footprint Mode" />
   <img src="https://img.shields.io/badge/License-100%25%20Free%20for%20Personal%20%26%20Commercial%20Use-brightgreen" alt="License" />
   <a href="https://www.paypal.com/ncp/payment/EKH76RTYHH24S"><img src="https://img.shields.io/badge/Say%20Thanks-PayPal-00457C?logo=paypal&logoColor=white" alt="Say Thanks" /></a>
   <a href="https://github.com/sponsors/remarkablepc"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors" /></a>
@@ -21,7 +21,7 @@
 
 <div align="center">
 
-  **[📥 Download WINBARS.exe (v0.7.44)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases & Packages](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📋 Release Notes & Changelog](https://github.com/remarkablepc/WINBARS/releases/tag/v0.7.44)**
+  **[📥 Download WINBARS.exe (v0.7.44)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.7.44)**
 
 </div>
 
@@ -50,13 +50,14 @@
 > WINBARS is distributed as a **single, self-contained standalone executable** (`WINBARS.exe`) with embedded floppy icon.
 > - **Zero Runtimes / Zero Installers**: Requires no third-party runtimes, no Python, no Node, and no MSI installer. It runs natively using Windows 10/11 built-in PowerShell 5.1 and .NET WinForms.
 > - **Run Portably or Provision Locally**: Run directly from a technician's USB thumb drive or portable folder, or provision permanently to `C:\Tools\WINBARS` with a single click.
-> - **Flexible Footprint**: Choose between full interactive real-time protection (Mode 4), background automation (Modes 1–3), or strict **Zero-Footprint Mode (Mode 0)** leaving **0 resident files and 0 bytes on the target `C:\` drive**.
+> - **Flexible Footprint**: Choose between full interactive real-time protection (Mode 4), background automation (Modes 1–3), or strict **Agentless Zero-Footprint Mode (Mode 0)** leaving **0 resident third-party binaries and 0 background processes on `C:\`**.
 > - **Transparent Audit Ledger (`deployment.log`)**: All configuration changes and uninstallation operations are streamed live to the console in green/yellow/red and appended to `deployment.log`.
 
 ---
 
 ## 📑 Table of Contents
 
+0. [📜 Changelog & Version History](CHANGELOG.md)
 1. [💔 Why WINBARS Was Born: 4 Real-World Nightmares](#why-winbars-was-born-4-real-world-nightmares)
 2. [🛡️ How WINBARS Solves Each Problem](#how-winbars-solves-each-problem)
 3. [⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites](#market-comparison-winbars-vs-legacy-backup-suites)
@@ -204,7 +205,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 | **Recovery Without Software** | ✅ **Drag-and-drop on any PC/Mac/Linux** | ❌ Requires Acronis installed | ❌ Requires Macrium installed | ❌ Requires Veeam installed | ⚠️ Partial (Catalog dependent) |
 | **Resident RAM & CPU Footprint** | **0 MB** *(Modes 0–3)* / ~18 MB *(Mode 4)* | ~650 MB – 1.2 GB (8-12 daemons) | ~120 MB (2 services) | ~250 MB (3 services) | Dynamic OS Cache |
 | **Kernel Drivers & BSOD Risk** | **Zero Kernel Drivers** (100% Native API) | ⚠️ High (Prone to upgrade BSODs) | ⚠️ Medium (CBT filter driver) | ⚠️ Medium (CBT filter driver) | Native Windows Drivers |
-| **Zero-Footprint Mode (0 bytes on PC)**| ✅ **Supported** (Entire engine on USB drive) | ❌ Impossible | ❌ Impossible | ❌ Impossible | ❌ Not available |
+| **Agentless / Zero-Resident Footprint** | ✅ **Supported (Mode 0)**: 0 installed binaries & 0 resident processes on host | ❌ Impossible | ❌ Impossible | ❌ Impossible | ❌ Not available |
 | **Abrupt USB Disconnect & Crash Safety**| ✅ **Atomic Staging + Robocopy `/ZB` + Canary** | Proprietary Journaling | Delta Index (can corrupt on pull) | Transaction Log | ❌ Truncates open PST/DBs |
 | **VSS Engine & COM Self-Repair** | ✅ **Frozen Snapshot Reads + In-Memory Repair** | Proprietary VSS Provider | Proprietary CBT & VSS Writer | Proprietary CBT VSS Engine | ⚠️ Fragile (Silent failure) |
 | **Target Storage Agnostic** | ✅ **USB, Internal, NAS, UNC, S3 Mounts** | Proprietary Cloud or Local | Local / NAS (Proprietary) | Local / NAS (Proprietary) | USB / Dedicated Share |
@@ -260,8 +261,8 @@ When deployed in Near-Zero Footprint mode (`[N]`), WINBARS leaves **0 background
 * **`Browse Backup Files` (📁 Windows Folder Icon)**: Double-clicking dynamically resolves the backup drive letter and opens Windows File Explorer directly into the backed-up `Users` folder. Users can easily browse and drag-and-drop restored files with zero third-party tools.
 * **Start Menu Folder (`System Backup & Recovery`)**: Generic unbranded Start Menu group containing 5 native Windows tools (*Backup Personal Files*, *Windows System Restore*, *Create System Image*, *Browse Backup Files*, *All-In-One Backup & Recovery*). For business and corporate clients where third-party utility branding is restricted. Uses 100% native Windows Task Scheduler and generic shortcuts (`System Backup & Recovery`) so the automation blends seamlessly into Windows as a built-in system capability.
 
-#### Zero-Footprint Profile (Pure Native Mode)
-When deployed in Zero-Footprint mode (`[0]`), WINBARS leaves **0 resident files on the host PC**, running on-demand tasks directly from the technician's USB drive.
+#### Agentless Zero-Footprint Profile (Mode 0 — Pure Native Mode)
+When deployed in Agentless Zero-Footprint mode (`[0]`), WINBARS leaves **0 resident binaries or background daemons on `C:\`**. All scheduled backup tasks execute autonomously via native Windows Task Scheduler (`robocopy.exe`, `wbadmin.exe`, VSS), requiring **zero resident software and no USB drive to remain connected**. On-demand technician tasks and configuration adjustments can be run at any time directly from the technician's portable USB drive.
 
 ### ⚙️ Modern Tabbed Settings & Protection Console (Tray Sentry)
 
@@ -413,7 +414,7 @@ WINBARS never traps your data inside proprietary container files:
 
 ---
 
-## 👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)
+## 👻 Deep Dive: The Agentless Zero-Footprint Architecture (0 Resident Binaries)
 
 The **Zero-Footprint profile** was engineered specifically for computer repair technicians, managed service providers (MSPs), and power users who need to set up bulletproof, recurring disaster protection on a customer's or family member's PC **without leaving third-party background software, resident executables, or persistent scripts on the target machine (`C:\`)**.
 
@@ -421,8 +422,8 @@ Everything needed to perform daily backups, resolve drive shifts, log history, a
 
 ### 🌟 12 Core Pillars of the Zero-Footprint Engine:
 
-1. **0 Resident Bytes on Target Machine (`C:\`)**:
-   * No `WINBARS.exe`, no background daemons, and no PowerShell scripts are stored on the internal hard drive.
+1. **0 Resident Third-Party Binaries on Target Machine (`C:\`) (Agentless Native Design)**:
+   * No `WINBARS.exe`, no background daemons, and no persistent scripts are installed on the internal system drive.
    * The primary automated runner script (`Run-ZeroFootprintSync.ps1`) and backup logs (`Sync_History.log`) reside entirely within `D:\Backup_Logs\` on the external backup drive.
 2. **100% Native Windows Task Scheduler Automation**:
    * Uses standard Windows tasks registered cleanly in `\WindowsBackup\` running with `NT AUTHORITY\SYSTEM` (highest integrity):
