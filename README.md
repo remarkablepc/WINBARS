@@ -1,4 +1,4 @@
-﻿# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.7.43)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.7.43)
 ### *WINBARS helps prevent the reasons people lose their files, lose access to their computers, lose money to scammers, and lose hours rebuilding Windows.*
 
 [![Windows 10 & 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white)](https://microsoft.com)
@@ -17,7 +17,7 @@
 > This repository distributes the pre-compiled, self-contained standalone executable releases of **WINBARS** (`WINBARS.exe`), accompanied by complete technical documentation, recovery scripts, and partner branding assets. To protect against unauthorized commercial paywalls, adware bundling, and predatory repackaging, the core monolithic source orchestrator is maintained in a private build repository. All distributed files are 100% free for personal and commercial deployment.
 
 <p align="center">
-  <img src="screenshot.png" alt="WINBARS Protection Center and Sentry Dashboard" width="820" />
+  <img src="assets/screenshot.png" alt="WINBARS Protection Center and Sentry Dashboard" width="820" />
   <br>
   <em>WINBARS Protection Center Live Dashboard (Ctrl+Win+W), Floppy Tray Sentry, and Quick-Action Bar</em>
 </p>
