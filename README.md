@@ -1,7 +1,8 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.7.43)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.7.44)
 ### *WINBARS helps prevent the reasons people lose their files, lose access to their computers, lose money to scammers, and lose hours rebuilding Windows.*
 
 <p align="center">
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.7.44-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -11,6 +12,18 @@
   <a href="https://www.paypal.com/ncp/payment/EKH76RTYHH24S"><img src="https://img.shields.io/badge/Say%20Thanks-PayPal-00457C?logo=paypal&logoColor=white" alt="Say Thanks" /></a>
   <a href="https://github.com/sponsors/remarkablepc"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors" /></a>
 </p>
+
+<p align="center">
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.7.44-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+  </a>
+</p>
+
+<div align="center">
+
+  **[📥 Download WINBARS.exe (v0.7.44)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases & Packages](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📋 Release Notes & Changelog](https://github.com/remarkablepc/WINBARS/releases/tag/v0.7.44)**
+
+</div>
 
 ---
 
