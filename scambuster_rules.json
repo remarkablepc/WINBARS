@@ -1,0 +1,154 @@
+{
+  "SchemaVersion": "1.0",
+  "LastUpdated": "2026-09-07",
+  "Author": "WINBARS Security Intelligence",
+  "Description": "Decoupled threat rules for ScamBuster Anti-Fraud & Remote Access Detection",
+
+  "ProcessBlacklist": [
+    "syskey",
+    "tree.com",
+    "netwire",
+    "remcos",
+    "njrat",
+    "xmrig",
+    "miner",
+    "agenttesla",
+    "redline",
+    "darkcomet",
+    "nanocore",
+    "quasarrat",
+    "dcrat",
+    "asyncrat"
+  ],
+
+  "AuthorizedProcessWhitelist": [
+    "mstsc.exe",
+    "msra.exe",
+    "powershell.exe",
+    "cmd.exe",
+    "taskmgr.exe"
+  ],
+
+  "RemoteAccessTools": [
+    {
+      "Name": "AnyDesk",
+      "ProcessNames": [ "anydesk" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "anydesk.com", "boot.net" ],
+      "WarningMessage": "High-risk remote desktop tool commonly abused by refund, bank, and tech support scammers."
+    },
+    {
+      "Name": "TeamViewer",
+      "ProcessNames": [ "teamviewer", "teamviewer_service" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "teamviewer.com", "start.teamviewer.com" ],
+      "WarningMessage": "Remote control tool. If an unsolicited caller asked you to install this, hang up immediately."
+    },
+    {
+      "Name": "UltraViewer",
+      "ProcessNames": [ "ultraviewer", "ultraviewerservice" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "ultraviewer.net" ],
+      "WarningMessage": "Remote control software frequently used in refund and tech support fraud."
+    },
+    {
+      "Name": "RustDesk",
+      "ProcessNames": [ "rustdesk" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "rustdesk.com" ],
+      "WarningMessage": "Open-source remote access client often used by scam operators."
+    },
+    {
+      "Name": "ConnectWise ScreenConnect",
+      "ProcessNames": [ "screenconnect.clientservice", "screenconnect.windowsclient" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "screenconnect.com" ],
+      "WarningMessage": "Remote management tool commonly used by legitimate MSPs but also abused by scammers."
+    },
+    {
+      "Name": "Zoho Assist",
+      "ProcessNames": [ "zohoassist", "zohoursservice" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "assist.zoho.com", "join.zoho.com" ],
+      "WarningMessage": "Remote assistance software often used for support sessions."
+    },
+    {
+      "Name": "Splashtop",
+      "ProcessNames": [ "splashtopstreamer", "splashtopremote", "strwinclt" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "splashtop.com", "sos.splashtop.com" ],
+      "WarningMessage": "Remote control application active."
+    },
+    {
+      "Name": "Supremo Remote Desktop",
+      "ProcessNames": [ "supremo", "supremoservice" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "supremofree.com" ],
+      "WarningMessage": "Supremo remote assistance client active."
+    },
+    {
+      "Name": "LogMeIn / GoToAssist",
+      "ProcessNames": [ "logmein", "lmiguardian", "g2a_comm" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "logmein.com", "123rescue.com", "fastsupport.com" ],
+      "WarningMessage": "Remote support session detected."
+    },
+    {
+      "Name": "VNC / Chrome Remote / DWAgent / RemotePC",
+      "ProcessNames": [ "winvnc", "vncviewer", "remoting_host", "chromoting", "dwagent", "remotepc", "remotepcservice", "srmanager", "srserver", "ateraagent", "ninjarmmagent" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "remotedesktop.google.com", "dwservice.net", "remotepc.com" ],
+      "WarningMessage": "Background remote assistance service active."
+    }
+  ],
+
+  "UrlBlacklist": [
+    "helpme.net",
+    "fastsupport.com",
+    "sos.splashtop.com",
+    "123rescue.com",
+    "support.me",
+    "anydesk.com/en/downloads",
+    "ultraviewer.net/en/download.html",
+    "supremofree.com/download",
+    "support-alert-microsoft.com",
+    "security-critical-error.net",
+    "windows-defender-alert.online",
+    "pc-virus-alert.org",
+    "helpdesk-assist-login.com",
+    "system-warning-center.net"
+  ],
+
+  "UrlWhitelist": [
+    "support.microsoft.com",
+    "support.dell.com",
+    "support.hp.com",
+    "support.lenovo.com",
+    "support.apple.com",
+    "learn.microsoft.com"
+  ],
+
+  "SuspiciousKeyPhrases": [
+    "refund department",
+    "overpayment",
+    "cancel order",
+    "bank transfer",
+    "wire transfer",
+    "gift card",
+    "target card",
+    "apple card",
+    "syskey",
+    "eventvwr",
+    "tree command",
+    "compromised network",
+    "send money",
+    "open your bank",
+    "secure server",
+    "frozen account",
+    "federal trade commission",
+    "law enforcement",
+    "warrant for your arrest",
+    "do not turn off your computer",
+    "call toll free"
+  ]
+}

@@ -1,0 +1,243 @@
+{
+    "ScamBuster":  {
+                       "MediaWhitelist":  [
+                                              "youtube",
+                                              "netflix",
+                                              "twitch",
+                                              "disney",
+                                              "hulu",
+                                              "prime video",
+                                              "spotify",
+                                              "vimeo",
+                                              "hbo",
+                                              "max.com",
+                                              "crunchyroll",
+                                              "plex",
+                                              "google slides",
+                                              "powerpoint",
+                                              "canva",
+                                              "slides.com"
+                                          ],
+                       "EnableShortcut":  true,
+                       "EnableProactiveScamDetection":  true,
+                       "ScamKeywords":  [
+                                            "virus",
+                                            "trojan",
+                                            "infected",
+                                            "0x800",
+                                            "call 1-8",
+                                            "call 800",
+                                            "call +1",
+                                            "call support",
+                                            "computer locked",
+                                            "has been locked",
+                                            "security alert",
+                                            "defender security",
+                                            "pornographic",
+                                            "spyware alert",
+                                            "access blocked",
+                                            "ip address hacked",
+                                            "microsoft support",
+                                            "apple support",
+                                            "security warning",
+                                            "threat detected",
+                                            "critical alert",
+                                            "call toll free",
+                                            "call toll-free",
+                                            "suspicious activity"
+                                        ],
+                       "EnableAutoMute":  true
+                   },
+    "Webhooks":  {
+                     "DiscordWebhookUrl":  "",
+                     "CustomWebhookUrl":  "",
+                     "TeamsWebhookUrl":  "",
+                     "NotifyOn":  [
+                                      "Error",
+                                      "CanaryAlert",
+                                      "RecoveryAlert",
+                                      "Warning"
+                                  ],
+                     "EnableWebhooks":  false,
+                     "SlackWebhookUrl":  ""
+                 },
+    "StorageAndHardware":  {
+                               "BackupVolumeLabel":  "Internal Data Drive",
+                               "PauseOnLowBattery":  true,
+                               "PromptMissingDrive":  true,
+                               "EnableLocalImageBackup":  true,
+                               "IgnoredDriveSerials":  [
+                                                           "8A178420"
+                                                       ],
+                               "MinBatteryPercentRequired":  20,
+                               "EnableLocalBackupFallback":  false,
+                               "RescuePartition":  {
+                                                       "Enabled":  false,
+                                                       "VolumeGuid":  "",
+                                                       "VolumeLabel":  "WINBARS_RECOVERY",
+                                                       "AllocatedSizeGB":  "AUTO",
+                                                       "MinPostShrinkHostFreeSpaceGB":  35,
+                                                       "HideDriveLetter":  true
+                                                   },
+                               "BackupVolumeGuid":  "",
+                               "LocalBackupFolder":  "C:\\WINBARS_Backups",
+                               "ExternalImageRetentionCount":  2,
+                               "EnableExternalImageBackup":  true,
+                               "LocalImageFolder":  "C:\\SystemImages",
+                               "MinFreeSpaceGBRequired":  25,
+                               "AutoSizingImageCompressionRatio":  0.6,
+                               "BackupVolumeSerialNumber":  "5028CB66",
+                               "LocalImageRetentionCount":  1,
+                               "MinExternalDriveSizeGB":  "AUTO",
+                               "AutoSizingBufferPercent":  25,
+                               "LocalOnlyMode":  false,
+                               "RegisteredBackupDrives":  [
+                                                              {
+                                                                  "VolumeSerialNumber":  "",
+                                                                  "VolumeLabel":  "Backup Destination",
+                                                                  "PreferredDriveLetter":  "D:",
+                                                                  "CustomBackupPath":  "D:\\"
+                                                              }
+                                                          ],
+                               "PreferredExternalDriveLetter":  "D"
+                           },
+    "Branding":  {
+                     "DefaultBrand":  "Auto",
+                     "AllowTechnicianOverride":  true
+                 },
+    "SentryAndNotifications":  {
+                                   "EnableUsbHotPlugAutoBackup":  true,
+                                   "EnableRemoteAccessMonitoring":  true,
+                                   "EnableToastNotifications":  true,
+                                   "ProtectionCenterKey":  "W",
+                                   "ScamBusterKey":  "S",
+                                   "EnableBitLockerAutoArchival":  true,
+                                   "EnableProactiveScamDetection":  true,
+                                   "DefuseOneDriveNags":  true,
+                                   "EnableScamBusterHotkey":  true,
+                                   "EnableTraySentry":  true,
+                                   "EasyMenuMode":  true,
+                                   "DeploymentProfile":  "FullInteractive",
+                                   "DomainBlacklist":  [
+                                                           "support-alert-microsoft.com",
+                                                           "security-critical-error.net",
+                                                           "windows-defender-alert.online",
+                                                           "pc-virus-alert.org",
+                                                           "helpdesk-assist-login.com",
+                                                           "system-warning-center.net"
+                                                       ],
+                                   "EnableCanarySentinel":  true,
+                                   "NotificationMode":  "WarningsAndErrors",
+                                   "AutoEnableFileHistory":  true,
+                                   "AllowedRemoteTools":  [
+                                                              "teamviewer",
+                                                              "teamviewer_service",
+                                                              "anydesk"
+                                                          ]
+                               },
+    "LogRetentionDays":  730,
+    "Defaults":  {
+                     "DefaultLogRetentionDays":  730,
+                     "DefaultDeploymentProfile":  "ZeroFootprint",
+                     "DefaultMenuChoice":  "1",
+                     "DefaultBrand":  "Auto"
+                 },
+    "CanaryGuard":  {
+                        "SentinelFileName":  ".winbar_canary.dat",
+                        "CreateEmergencyRestorePoint":  true,
+                        "EnableCanaryGuard":  true,
+                        "AutoLockOnTamper":  true
+                    },
+    "BackupTargets":  {
+                          "BrowserExclusions":  [
+                                                    "Cache",
+                                                    "Code Cache",
+                                                    "GPUCache",
+                                                    "ShaderCache",
+                                                    "GrShaderCache",
+                                                    "Service Worker\\CacheStorage",
+                                                    "cache2",
+                                                    "startupCache",
+                                                    "Crashpad",
+                                                    "Thumbnails"
+                                                ],
+                          "BackupPublicFolder":  false,
+                          "ExportDriverStore":  true,
+                          "BackupAllUserProfiles":  true,
+                          "BackupBrowserProfiles":  true,
+                          "AppDataExclusions":  [
+                                                    "Cache",
+                                                    "Code Cache",
+                                                    "GPUCache",
+                                                    "ShaderCache",
+                                                    "GrShaderCache",
+                                                    "Service Worker\\CacheStorage",
+                                                    "Crashpad",
+                                                    "CrashDumps",
+                                                    "Temp",
+                                                    "*.tmp",
+                                                    "*.log",
+                                                    "Package Cache"
+                                                ],
+                          "BackupSmartAppData":  true,
+                          "BackupEmailStores":  true,
+                          "CustomBackupFolders":  [
+
+                                                  ]
+                      },
+    "Verification":  {
+                         "VerifyManifests":  true,
+                         "AutoVerifyAfterBackup":  true,
+                         "VerifyCanarySentinels":  true,
+                         "VerifyWimIntegrity":  true
+                     },
+    "AppRestore":  {
+                       "RestoreSmartAppDataWithApps":  true,
+                       "EnableWingetRestore":  true,
+                       "WingetInteractiveMode":  false,
+                       "WingetManifestPath":  "System_Migration_Manifest\\winget_packages.json"
+                   },
+    "Logging":  {
+                    "EnableAppDataLogs":  true,
+                    "LogFolderPath":  "C:\\ProgramData\\WINBARS\\Logs",
+                    "LogMaxSizeBytes":  10485760,
+                    "LogMaxArchiveFiles":  5,
+                    "EnableLocalLogSubfolder":  true,
+                    "LogRetentionDays":  730
+                },
+    "Schedules":  {
+                      "SystemImageMonthlyDay":  1,
+                      "RestorePointTime":  "09:00",
+                      "FileHistoryCheckIntervalHours":  24,
+                      "FileSyncTime":  "12:00",
+                      "FileHistoryStaleThresholdHours":  48,
+                      "RestorePointSchedule":  "Daily",
+                      "SystemImageMonthlyTime":  "02:00",
+                      "RestorePointDailyTime":  "09:00"
+                  },
+    "SystemRestore":  {
+                          "MaxRestorePoints":  14,
+                          "RestorePointRetentionDays":  30,
+                          "MaxShadowStoragePercent":  10
+                      },
+    "RansomwareCanary":  {
+                             "AutoLockBackups":  true,
+                             "DetectionThreshold":  1,
+                             "Enabled":  true
+                         },
+    "GlobalShortcuts":  {
+                            "ProtectionCenterHotkey":  "Ctrl+Win+W",
+                            "ScamBusterHotkey":  "Ctrl+Win+B",
+                            "QuickAssistHotkey":  "Ctrl+Win+Q",
+                            "Description":  "Uniform global shortcuts when WINBARS Tray Sentry is running: Ctrl+Win+W for Protection Center (fallback: Ctrl+Win+P), Ctrl+Win+B for Scam Buster (fallback: Ctrl+Win+K), Ctrl+Win+Q for Quick Assist (fallback: Ctrl+Win+A)."
+                        },
+    "SystemMigrationAdvisory":  {
+                                    "ShowAdvisory":  true,
+                                    "ActionUrl":  "https://github.com/jdavidhewitt",
+                                    "Title":  "Need Full Legacy App \u0026 License Migration?",
+                                    "ButtonText":  "Learn More",
+                                    "Status":  "ComingSoon",
+                                    "BadgeText":  "Advanced Application Migration",
+                                    "Message":  "Winget cleanly restores modern desktop applications. For complex legacy software, databases, proprietary tools, and full machine-to-machine application migrations, an advanced migration module will be supported in a future update."
+                                }
+}
