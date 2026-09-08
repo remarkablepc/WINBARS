@@ -48,8 +48,8 @@
 2. [🛡️ How WINBARS Solves Each Problem](#how-winbars-solves-each-problem)
 3. [⚖️ Market Comparison: WINBARS vs. Legacy Backup & AV Suites](#market-comparison-winbars-vs-legacy-backup--av-suites)
 4. [💾 Floppy Tray Sentry & 1-Click Desktop Shortcuts](#floppy-tray-sentry--1-click-desktop-shortcuts)
-5. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
-6. [🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)](#6-deployment-profiles-including-zero--near-zero-footprint)
+5. [🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)](#6-deployment-profiles-including-zero--near-zero-footprint)
+6. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 7. [👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)](#deep-dive-the-zero-footprint-architecture-0-resident-files)
 8. [🛡️ Enterprise Auditability & Tamper-Proof Architecture](#enterprise-auditability--tamper-proof-architecture)
 9. [⌨️ Universal Global Hotkeys](#universal-global-hotkeys)
@@ -291,35 +291,55 @@ Accessible by clicking the **Gear icon** in the Floating Quick-Action Bar or sel
 
 ---
 
-### ⚡ Dynamic Per-Profile Action Buttons & 1-Click Elevation
+## 🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)
 
-In WINBARS v0.7.43, every primary action button across the **Status Card Live Dashboard (`Ctrl+Win+W`)**, the **Floating Quick-Action Bar**, and the **Notification Tray Menus** dynamically adapts to the machine's active deployment profile (Modes 0, N, 1, 2, 3, 4) and live external backup drive connection state:
+Choose the right balance of visibility, permanence, and automation for each workstation using this unified decision matrix:
 
-| Active Profile | External Drive State | Status Card Hero Button (`▶`) | Floating Quick-Action Bar | Tray Context Menu Action |
-| :--- | :--- | :--- | :--- | :--- |
-| **Mode 4: `TotalProtection`** | Drive Attached / Configured | `▶ Backup My Files Now`<br>*( ⚡ 1-Click: Mirrors Personal Files + Checkpoint)* | `🛡 Backup Files` | `⚡ Backup My Files Now (Files + Checkpoint)` |
-| **Mode 3: `HeadlessFull`** | Drive Attached / Configured | `▶ Backup My Files Now`<br>*( ⚡ 1-Click: Mirrors Personal Files + Checkpoint)* | `🛡 Backup Files` | `⚡ Backup My Files Now (Files + Checkpoint)` |
-| **Mode 2: `LocalDisasterGuard`** | Drive Connected (`D:`) | `▶ Capture Full Disaster Image`<br>*(Bare-Metal DISM Archive on D: + Checkpoint)* | `🛡 Disaster Image` | `⚡ Capture Full Disaster Image (DISM to D: + Checkpoint)` |
-| **Mode 2: `LocalDisasterGuard`** | No External Drive | `▶ Capture System Image & Checkpoint`<br>*(Bare-Metal DISM + System Restore)* | `🛡 Capture Image` | `⚡ Capture System Image & Checkpoint (DISM Local + Restore Point)` |
-| **Mode 1: `SystemUndo`** | Drive Connected (`D:`) | `▶ Create System Checkpoint Now`<br>*(Secures System + Mirrors Registry to D:)* | `🛡 Checkpoint` | `⚡ Create System Checkpoint Now (Registry + Restore Point to D:)` |
-| **Mode 1: `SystemUndo`** | No External Drive | `▶ Create Restore Point Now`<br>*(System Protection Baseline)* | `🛡 Create Point` | `⚡ Create Restore Point Now (System Undo Baseline)` |
-| **Mode 0: `ZeroFootprint`** | USB / External Drive Attached | `▶ Run Zero-Footprint Backup Now`<br>*( ⚡ 1-Click: Mirrors Files to D: + Native Checkpoint)* | `🛡 Zero Backup` | `⚡ Run Zero-Footprint Backup Now (Files + Checkpoint to D:)` |
-| **Mode N: `NearZeroFootprint`** | USB / External Drive Attached | `▶ Run Near-Zero Backup Now`<br>*( ⚡ 1-Click: Client File Sync to D: + Native Checkpoint)* | `🛡 Near-Zero Backup` | `⚡ Run Near-Zero Backup Now (Files + Checkpoint to D:)` |
+| Profile & Mode | Target Persona | What It Protects | Footprint & Recovery Hooks |
+| :--- | :--- | :--- | :--- |
+| **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | **0 MB (0 files on target PC)**<br>Runs strictly from USB; 100% native Task Scheduler |
+| **Mode N: `NearZeroFootprint`** 👻 | Corporate Clients & Anti-Competitor Stealth | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`) | **0 Resident EXEs/Daemons**<br>Native Task Scheduler; restores via standard Explorer |
+| **Mode 1: `SystemUndo`** | Family, Casual Users & Gamers (No External Drive) | Unthrottled Daily System Restore Points + VSS Writer Auto-Healing & Shadow Storage Guard | **< 5 MB RAM** (Silent background)<br>Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 2: `LocalDisasterGuard`** | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | **< 5 MB RAM** (Silent background)<br>Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 3: `HeadlessFull`** | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | **< 5 MB RAM** (Silent background)<br>Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 4: `TotalProtection`** | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | **~18 MB RAM**<br>Floppy Tray • Scam Sentry • `Ctrl+Win+W` Protection Center |
+| **Mode 5+: Custom Profiles** 🛠️ | Specialized Enterprise & Boutique Deployments | Dynamically selected components via `custom_profiles.json` or Pre-Flight toggle screen (`[0-9]`) | Configurable per-profile |
 
-#### ⚡ Non-Technical 1-Click Personal File Backup Elevation Badge
-In **Mode 1 (`SystemUndo`)** and **Mode 2 (`LocalDisasterGuard`)**, personal file backups (`C:\Users`) are omitted by design because these profiles focus on rapid OS rollback and local recovery for users without external drives.
+> [!TIP]
+> ### ⚡ Dynamic Adaptive UI: Per-Profile Action Buttons & 1-Click Elevation
+> Across the **Protection Center Live Dashboard (`Ctrl+Win+W`)**, the **Floating Quick-Action Bar**, and the **Tray Menu**, primary action buttons dynamically adapt their labels to the active profile:
+> - **Mode 4 (`TotalProtection`)**: `▶ Backup My Files Now` *(Mirrors Personal Files + System Restore Point Checkpoint)*
+> - **Mode 2 (`LocalDisasterGuard`)**: `▶ Capture Full Disaster Image` *(Local DISM Archive + System Restore Point)*
+> - **Mode 1 (`SystemUndo`)**: `▶ Create System Restore Point Now` *(System Protection Baseline)*
+> - **Mode 0 / N (`Zero-Footprint`)**: `▶ Run Zero-Footprint Backup Now` *(Files + System Restore Point to D:)*
+> 
+> **1-Click Personal File Backup Elevation Badge**: In Modes 1 and 2 (where user file sync is omitted by default for PCs without external storage), connecting an external backup drive automatically reveals a friendly badge beneath the hero button on the Status Card:  
+> `[⚡ Backup Drive (D:) Ready — Click to Enable Daily Personal File Backup]`. Clicking it activates daily personal file sync and promotes the machine to Mode 4 with a single click.
 
-When an external backup drive (e.g. `D:`) is plugged in, WINBARS automatically surfaces an end-user friendly elevation badge directly beneath the hero button on the Status Card:
-```text
-[⚡ Backup Drive (D:) Ready — Click to Enable Daily Personal File Backup]
-```
-* **Designed for Everyday Users**: All intimidating technical jargon (such as *"& Elevate to Mode 4"*) has been removed. The badge speaks in friendly, intuitive terms focusing on the direct benefit: securing personal files.
-* **1-Click Seamless Promotion**: Clicking the badge prompts the user to enable daily personal file backups. Upon confirmation, WINBARS configures the daily Robocopy sync schedule, updates task triggers, and smoothly elevates the system profile to **Mode 4 (`TotalProtection`)** without requiring technician intervention.
+### ⚡ Pre-Flight Quick Defaults (1-Key Immediate Deployment)
+Every deployment mode (Modes 0–4 and Custom Modes 5+) features an instant **Pre-Flight Review Screen**:
+* **1-Key Default Execution**: Pressing **`[ENTER]`** immediately applies the profile using hardened system defaults—zero tedious confirmation menus.
+* **Component Toggling (`0-9`)**: Toggle individual components on or off on the fly (User Data Sync, Bare-Metal Image, Restore Point Hardening, WinPE Recovery Hooks, Missing Drive Prompt, Hotkeys, ScamBuster Watchdog, Tray Sentry, Partner Branding, Defuse OneDrive Nags).
+* **Target Storage Selection (`[C]`)**: Instantly inspect available storage volumes and select or change the target drive letter.
+* **Save as Custom Profile (`[S]`)**: Save your current component configuration as a new custom profile stored in `custom_profiles.json`.
+* **Custom Profile Manager (`[M]`)**: Interactively Add (`[A]`), Edit (`[E]`), Delete (`[D]`), or Open in Notepad (`[O]`) custom profiles directly from the CLI.
 
-* **The Core Operation Trio**:
-  1. `Backup My Files Now`: Personal File Mirror + System Restore Point Checkpoint.
-  2. `Create System Checkpoint`: Windows OS, registry, drivers, and system rollback point.
-  3. `Create System Image`: Bare-Metal DISM `.wim` capture for total drive failure.
+### 💡 Cumulative Architecture: Key Distinctions
+* **Cumulative Tiering**: Modes 1 through 4 cleanly build upon one another:
+  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, WinPE offline boot hooks, and the emergency panic hotkey (`Ctrl+Win+B`).
+  * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by adding a monthly bare-metal DISM system image (`.wim`) to a local recovery partition—ideal for laptops with no external drive attached.
+  * **Mode 3 (`HeadlessFull`)** builds on Mode 1 by adding automated differential Robocopy file sync, external bare-metal images, multi-drive rotation, and missing drive connection prompts.
+  * **Mode 4 (`TotalProtection`)** adds the dynamic Floppy Disk Tray sentry, active ScamBuster remote tool interceptor, Protection Center GUI (`Ctrl+Win+W`), and organization partner branding.
+* **Hotkey Panic Shield Active Across Modes 1–4**:
+  * Even in headless and minimal profiles (Modes 1–3) where no tray icon or ScamBuster watchdog runs, the **emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Win+K` $ightarrow$ `Ctrl+Alt+B`)** remains active for instant emergency response.
+  * In **Mode 0 (`ZeroFootprint`)**, a strict 0-file policy is enforced: zero resident shortcuts, scripts, or registry modifications on the PC.
+* **ScamBuster & Remote Access Interceptor**:
+  * **Option 4 (`FullInteractive`)** is the **only** profile that maintains an active, continuous background sentry listening for browser sirens and intercepting unauthorized remote access tools (AnyDesk, TeamViewer, UltraViewer, RustDesk) in real time.
+  * **Zero-Footprint (Option 0)** maintains a strict 0% resident footprint guarantee on the target PC as a dedicated, automated backup engine. ScamBuster is available when running directly from the technician's USB drive or by selecting Profile 4.
+* **GUI Dialog Availability Across All Profiles**:
+  * Regardless of which profile is installed, whenever `WINBARS.exe` is launched directly (or with `-GUI` / `-StatusCard`), it immediately opens the **Protection Center Live Dashboard**. The dashboard includes a live **Installation & Profile Status Banner** (`✔ INSTALLED` or `⚠ NOT INSTALLED • Running from USB / Portable`) indicating the active profile.
+
+*Switch profiles anytime via `WINBARS.exe -SetProfile <ProfileName>` or through the interactive technician menu (`[P]`).*
 
 ### 📊 Smart On-Demand Progress Engine
 * **Desktop Shortcut**: Shows the live Dual Progress Bar immediately from start to finish (`-ShowProgress`).
@@ -356,48 +376,9 @@ WINBARS never traps your data inside proprietary container files:
 * BitLocker recovery cards are standard offline `.html` documents you can view in any browser.
 
 ### Q: Does a System Restore Point affect my personal files?
-**No.** System Restore Points only revert Windows system files, drivers, and registry settings. Your personal documents, family photos, desktop files, downloads, and emails are **never modified or removed** by a System Restore.
+**No, absolutely not.** System Restore Points in WINBARS use native Windows Volume Shadow Copies (`rstrui.exe`, `Checkpoint-Computer`). They function 100% like traditional Windows System Restore points: they revert Windows system files, drivers, and registry settings, but your personal documents, family photos, desktop files, downloads, and emails are **never modified or removed** by a System Restore.
 
 ---
-
-## 🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)
-
-Choose the right balance of visibility, permanence, and automation for each workstation using this unified decision matrix:
-
-| Mode & Profile | Best For (Customer Persona) | Primary Backup Capabilities (`BACKS UP`) | Resident Footprint & Exclusions (`OMITS`) | Sentry, Hotkeys & Recovery Hooks | Real-World Technician Scenario & Why It Fits |
-| :--- | :--- | :--- | :--- | :---: | :--- |
-| **Mode 0: `ZeroFootprint`** ⭐ | **Strict Corporate Audits & MSP Compliance** | Daily Restore Point + Robocopy Mirror (30-day recycle bin) + wbadmin Image + BitLocker Keys | **0 MB (0 files on target PC)**; No tray, no resident scripts, no branding | ❌ Zero host files (USB on-demand only) | Regulated or audited workstations where security policy strictly forbids leaving third-party files or scripts on `C:\`. The entire engine and logs run purely off the technician's external drive. |
-| **Mode N: `NearZeroFootprint`** 👻 | **Corporate Clients & Anti-Competitor Stealth Shield** | Daily Restore Point + Robocopy Mirror to `E:\WindowsBackup\` + wbadmin Image + BitLocker Keys | **0 Resident EXEs/Daemons** (100% native Task Scheduler). 2 unbranded desktop links + generic Start Menu folder. | ❌ Zero host EXEs (Native `powershell.exe` & `rstrui.exe` shortcuts) | Prevents competing IT providers from discovering WINBARS and poaching client accounts. Automation runs under native `\WindowsBackup\` tasks and generic folders (`System Backup & Recovery`). |
-| **Mode 1: `SystemUndo`** (`Minimal`) | **Family Members, Casual Users & Gamers** | Daily System Restore Point (unthrottled) + VSS Writer Auto-Heal & Shadow Storage Guard | No user data sync, no bare-metal images, no tray icon | ✅ **WinPE Boot Hooks** • **Panic Hotkey (`Ctrl+Win+B`)** | Users without an external drive who install experimental drivers, software, or game mods that risk Windows stability. Gives them instant unthrottled OS rollback. |
-| **Mode 2: `LocalDisasterGuard`** | **Road Warriors, Students & Mobile Laptops** | **[Mode 1 +]** Local partition bare-metal DISM image (`.wim`), driver & MSI install checkpoints | No external drive backup, no user file sync, no tray icon | ✅ **WinPE Boot Hooks** • **Panic Hotkey (`Ctrl+Win+B`)** | Traveling laptops that rarely connect to external storage. Captures monthly bare-metal system images to a local recovery partition for full offline restore in the field. |
-| **Mode 3: `HeadlessFull`** | **Silent Workstations, Accounting & Medical Clinics** | **[Mode 1 +]** Daily differential Robocopy sync, bare-metal images, missing drive connection alert | No floppy tray icon, no ScamBuster active watchdog. Defaults to Shop Branding (unless `-Vanilla`). | ✅ **WinPE Boot Hooks** • **Panic Hotkey (`Ctrl+Win+B`)** • **Drive Alerts** | Production office environments (CPAs, dental, legal) needing 100% silent, uninterrupted background protection with zero user prompts—alerting only if the drive is unplugged. |
-| **Mode 4: `TotalProtection`** (`FullInteractive`) | **Seniors, VIPs & Scam-Prone Non-Technical Clients** | **[Mode 3 +]** Complete user data, bare-metal images, restore points, drive alerts | **Zero Omissions** (complete interactive protection suite). Defaults to Shop Branding (unless `-Vanilla`). | ✅ **WinPE Boot Hooks** • **Panic Hotkey (`Ctrl+Win+B`)** • **Protection Center GUI (`Ctrl+Win+W`)** • **Floppy Tray & ScamBuster** | Non-technical clients or high-value VIPs frequently targeted by browser pop-ups, fake virus sirens, and phone support scammers. Features real-time Remote Tool Interceptor (`[STOP] Disconnect & Block`). |
-| **Mode 5+: Custom Profiles** 🛠️ | **Specialized Enterprise & Boutique Deployments** | **Dynamically calculated** based on active components configured in `custom_profiles.json` | **Dynamically calculated** based on omitted components | Configurable per-profile | Tailored multi-drive configurations, specialized network shares, or specific retention tiers configured via `custom_profiles.json` or the Pre-Flight interactive builder. |
-
-### ⚡ Pre-Flight Quick Defaults (1-Key Immediate Deployment)
-Every deployment mode (Modes 0–4 and Custom Modes 5+) features an instant **Pre-Flight Review Screen**:
-* **1-Key Default Execution**: Pressing **`[ENTER]`** immediately applies the profile using hardened system defaults—zero tedious confirmation menus.
-* **Component Toggling (`0-9`)**: Toggle individual components on or off on the fly (User Data Sync, Bare-Metal Image, Restore Point Hardening, WinPE Recovery Hooks, Missing Drive Prompt, Hotkeys, ScamBuster Watchdog, Tray Sentry, Partner Branding, Defuse OneDrive Nags).
-* **Target Storage Selection (`[C]`)**: Instantly inspect available storage volumes and select or change the target drive letter.
-* **Save as Custom Profile (`[S]`)**: Save your current component configuration as a new custom profile stored in `custom_profiles.json`.
-* **Custom Profile Manager (`[M]`)**: Interactively Add (`[A]`), Edit (`[E]`), Delete (`[D]`), or Open in Notepad (`[O]`) custom profiles directly from the CLI.
-
-### 💡 Cumulative Architecture: Key Distinctions
-* **Cumulative Tiering**: Modes 1 through 4 cleanly build upon one another:
-  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, WinPE offline boot hooks, and the emergency panic hotkey (`Ctrl+Win+B`).
-  * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by adding a monthly bare-metal DISM system image (`.wim`) to a local recovery partition—ideal for laptops with no external drive attached.
-  * **Mode 3 (`HeadlessFull`)** builds on Mode 1 by adding automated differential Robocopy file sync, external bare-metal images, multi-drive rotation, and missing drive connection prompts.
-  * **Mode 4 (`TotalProtection`)** adds the dynamic Floppy Disk Tray sentry, active ScamBuster remote tool interceptor, Protection Center GUI (`Ctrl+Win+W`), and organization partner branding.
-* **Hotkey Panic Shield Active Across Modes 1–4**:
-  * Even in headless and minimal profiles (Modes 1–3) where no tray icon or ScamBuster watchdog runs, the **emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Win+K` $\rightarrow$ `Ctrl+Alt+B`)** remains active for instant emergency response.
-  * In **Mode 0 (`ZeroFootprint`)**, a strict 0-file policy is enforced: zero resident shortcuts, scripts, or registry modifications on the PC.
-* **ScamBuster & Remote Access Interceptor**:
-  * **Option 4 (`FullInteractive`)** is the **only** profile that maintains an active, continuous background sentry listening for browser sirens and intercepting unauthorized remote access tools (AnyDesk, TeamViewer, UltraViewer, RustDesk) in real time.
-  * **Zero-Footprint (Option 0)** maintains a strict 0% resident footprint guarantee on the target PC as a dedicated, automated backup engine. ScamBuster is available when running directly from the technician's USB drive or by selecting Profile 4.
-* **GUI Dialog Availability Across All Profiles**:
-  * Regardless of which profile is installed, whenever `WINBARS.exe` is launched directly (or with `-GUI` / `-StatusCard`), it immediately opens the **Protection Center Live Dashboard**. The dashboard includes a live **Installation & Profile Status Banner** (`✔ INSTALLED` or `⚠ NOT INSTALLED • Running from USB / Portable`) indicating the active profile.
-
-*Switch profiles anytime via `WINBARS.exe -SetProfile <ProfileName>` or through the interactive technician menu (`[P]`).*
 
 ---
 
