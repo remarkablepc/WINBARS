@@ -139,7 +139,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **Notification Spam Defuser**: Surgically purges rogue Web Push notification subscriptions from scam domains without affecting legitimate notifications (Gmail, calendar, news).
 * **Architecture Note on Profiles**: The active real-time ScamBuster and Remote Tool Interceptor sentry runs continuously in **Profile 4 (`FullInteractive`)**. In **Profiles 1–3 and Zero-Footprint**, the system maintains **0 resident background processes**; ScamBuster can be triggered on-demand via shortcut, hotkey, or directly from the technician's USB drive.
 
-### 6. OneDrive Nag & Cloud Scareware Defusal
+### 6. OneDrive Alert Guard & Local Folder Protection
 * **Silences Deceptive "Not Backed Up" Scare Banners**: Windows 10 and 11 frequently inject confusing yellow and red warning cards in Windows Settings Home and File Explorer claiming your PC is "not backed up" simply because you do not pay for a Microsoft OneDrive cloud subscription. WINBARS defuses these banners so clients and family members are never misled.
 * **Blocks Known Folder Move (KFM) Hijacking**: OneDrive periodically displays aggressive wizards urging users to "back up" their Desktop, Documents, and Pictures. If clicked, OneDrive silently diverts local folders into Microsoft's free 5 GB cloud container, quickly runs out of space, and begins holding file saving hostage behind a Microsoft 365 paywall. WINBARS enforces `KFMBlockOptIn = 1` to halt these takeover prompts.
 * **100% Non-Destructive**: Normal OneDrive file synchronization is never disabled or broken. Users who legitimately use OneDrive for school, work, or team sharing continue to enjoy full functionality. Only deceptive upsell banners, library hijacking, and takeover prompts are silenced.
@@ -231,9 +231,9 @@ The background system tray icon renders a classic floppy disk that dynamically c
 
 #### Managed Suite Profiles (Installed Mode)
 When deployed in Managed mode (`FullInteractive`), WINBARS provisions up to 4 self-elevating desktop shortcuts:
-* **`WINBARS Protection Center` (🔵 Classic Blue Floppy Disk)**:
+* **`WINBARS Protection Center` (<img src="assets/app_icon.png" width="18" height="18" valign="middle" alt="Blue Floppy" /> **Classic Blue Floppy Disk**)**:
   * Opens the live System Health dashboard displaying backup status, restore points, S.M.A.R.T. disk telemetry, and BitLocker keys.
-* **`Backup Personal Data` (🟣 Purple Floppy Disk)**:
+* **`Backup Personal Data` (<img src="assets/app_backup_preview.png" width="18" height="18" valign="middle" alt="Purple Floppy" /> **Signature Purple Floppy Disk**)**:
   * Double-clicking immediately launches the **Dual Progress Bar Window** (Overall Completion 0–100% + Active Step Progress) for an on-demand personal file and profile mirror pass.
 * **`Create System Restore Point` (🛡️ Windows Security Shield)**:
   * Immediately captures an unthrottled System Restore Point with native toast confirmation.
@@ -242,8 +242,8 @@ When deployed in Managed mode (`FullInteractive`), WINBARS provisions up to 4 se
 
 #### Near-Zero Footprint Profile (Stealth Native Automation)
 When deployed in Near-Zero Footprint mode (`[N]`), WINBARS leaves **0 background EXEs or running daemons** on the target PC while giving the customer standard, unbranded desktop links:
-* **`Backup Personal Files` (🟣 Signature Purple Floppy Disk)**: Triggers native robocopy sync pass.
-* **`Windows System Restore` (🔵 Classic Blue Floppy Disk)**: Launches native `rstrui.exe` for instant OS rollback.
+* **`Backup Personal Files` (<img src="assets/app_backup_preview.png" width="18" height="18" valign="middle" alt="Purple Floppy" /> **Signature Purple Floppy Disk**)**: Triggers native robocopy sync pass.
+* **`Windows System Restore` (<img src="assets/app_icon.png" width="18" height="18" valign="middle" alt="Blue Floppy" /> **Classic Blue Floppy Disk**)**: Launches native `rstrui.exe` for instant OS rollback.
 * **`Browse Backup Files` (📁 Windows Folder Icon)**: Double-clicking dynamically resolves the backup drive letter and opens Windows File Explorer directly into the backed-up `Users` folder. Users can easily browse and drag-and-drop restored files with zero third-party tools.
 * **Start Menu Folder (`System Backup & Recovery`)**: Generic unbranded Start Menu group containing 5 native Windows tools (*Backup Personal Files*, *Windows System Restore*, *Create System Image*, *Browse Backup Files*, *All-In-One Backup & Recovery*). Completely conceals WINBARS branding so competitors cannot poach your client account.
 
@@ -312,10 +312,10 @@ Choose the right balance of visibility, permanence, and automation for each work
 | :--- | :--- | :--- | :--- |
 | **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | **0 MB (0 files on target PC)**<br>Runs strictly from USB; 100% native Task Scheduler |
 | **Mode N: `NearZeroFootprint`** 👻 | Corporate Clients & Anti-Competitor Stealth | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`) | **0 Resident EXEs/Daemons**<br>Native Task Scheduler; restores via standard Explorer |
-| **Mode 1: `SystemUndo`** | Family, Casual Users & Gamers (No External Drive) | Unthrottled Daily System Restore Points + VSS Writer Auto-Healing & Shadow Storage Guard | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 2: `LocalDisasterGuard`** | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 3: `HeadlessFull`** | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 4: `TotalProtection`** | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | **~18 MB RAM**<br>Floppy Tray • Scam Sentry • `Ctrl+Win+W` Protection Center |
+| **Mode 1: `SystemUndo`** ⏪ | Family, Casual Users & Gamers (No External Drive) | Unthrottled Daily System Restore Points + VSS Writer Auto-Healing & Shadow Storage Guard | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 2: `LocalDisasterGuard`** 💽 | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 3: `HeadlessFull`** 🏢 | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 4: `TotalProtection`** 🛡️ | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | **~18 MB RAM**<br>Floppy Tray • Scam Sentry • `Ctrl+Win+W` Protection Center |
 | **Mode 5+: Custom Profiles** 🛠️ | Specialized Enterprise & Boutique Deployments | Dynamically selected components via `custom_profiles.json` or Pre-Flight toggle screen (`[0-9]`) | Configurable per-profile |
 
 > [!TIP]
