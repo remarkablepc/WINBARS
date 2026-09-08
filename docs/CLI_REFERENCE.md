@@ -1,4 +1,4 @@
-﻿# WINBARS Command-Line Interface (CLI) Reference (v0.7.43)
+# WINBARS Command-Line Interface (CLI) Reference (v0.7.43)
 
 ## 1. Quick Syntax Overview
 
@@ -68,7 +68,7 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
   * `[7]` ScamBuster Active Remote Access Watchdog
   * `[8]` Floppy Disk Notification Tray Monitor
   * `[9]` Custom Partner Branding & Organization Assets
-  * `[0]` Defuse Deceptive OneDrive 'Not Backed Up' Nags
+  * `[0]` Silence Deceptive OneDrive 'Not Backed Up' Warnings
 * **Target Drive Selection (`[C]`)**: Inspect available logical drives and change the destination letter.
 * **Save as Custom Profile (`[S]`)**: Persist custom component tweaks as a named profile in `custom_profiles.json`.
 * **Custom Profile Manager (`[M]`)**: Submenu to Add (`[A]`), Edit (`[E]`), Delete (`[D]`), or Open in Notepad (`[O]`).

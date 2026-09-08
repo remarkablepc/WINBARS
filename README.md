@@ -221,11 +221,11 @@ The background system tray icon renders a classic floppy disk that dynamically c
 
 | Tray Floppy | State Name | What It Means |
 | :---: | :--- | :--- |
-| 💾🟢 | **Emerald Green** | **All Systems Protected**: Daily restore points active, file backups up to date, and canaries intact. |
-| 💾🟣 | **Signature Purple** | **Backup or Sync in Progress (Action Color)**: Purple is the suite's signature action color. Indicates an active file mirror, system restore point creation, or system image capture. Returns to 🟢 when complete. |
-| 💾🔵 | **Classic Blue** | **Protection Center / Ready**: Idle state for the Protection Center and desktop utilities. |
-| 💾🟡 | **Amber Gold** | **Notice / Local Mode**: External backup drive is unplugged (local snapshot active) or backup is due. |
-| 💾🔴 | **Crimson Red** | **Attention Required**: S.M.A.R.T. drive degradation, NTFS bad block event, or service failure. |
+| <img src="assets/floppy_green.png" width="18" height="18" valign="middle" alt="Emerald Green Floppy" /> 🟢 | **Emerald Green** | **All Systems Protected**: Daily restore points active, file backups up to date, and canaries intact. |
+| <img src="assets/floppy_purple.png" width="18" height="18" valign="middle" alt="Signature Purple Floppy" /> 🟣 | **Signature Purple** | **Backup or Sync in Progress (Action Color)**: Purple is the suite's signature action color. Indicates an active file mirror, system restore point creation, or system image capture. Returns to 🟢 when complete. |
+| <img src="assets/floppy_blue.png" width="18" height="18" valign="middle" alt="Classic Blue Floppy" /> 🔵 | **Classic Blue** | **Protection Center / Ready**: Idle state for the Protection Center and desktop utilities. |
+| <img src="assets/floppy_yellow.png" width="18" height="18" valign="middle" alt="Amber Gold Floppy" /> 🟡 | **Amber Gold** | **Notice / Local Mode**: External backup drive is unplugged (local snapshot active) or backup is due. |
+| <img src="assets/floppy_red.png" width="18" height="18" valign="middle" alt="Crimson Red Floppy" /> 🔴 | **Crimson Red** | **Attention Required**: S.M.A.R.T. drive degradation, NTFS bad block event, or service failure. |
 
 ### 🖥️ 1-Click Desktop Shortcuts
 
