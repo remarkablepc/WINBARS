@@ -46,7 +46,7 @@
 
 1. [💔 Why WINBARS Was Born: 4 Real-World Nightmares](#why-winbars-was-born-4-real-world-nightmares)
 2. [🛡️ How WINBARS Solves Each Problem](#how-winbars-solves-each-problem)
-3. [⚖️ Market Comparison: WINBARS vs. Legacy Backup & AV Suites](#market-comparison-winbars-vs-legacy-backup--av-suites)
+3. [⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites](#market-comparison-winbars-vs-legacy-backup-suites)
 4. [💾 Floppy Tray Sentry & 1-Click Desktop Shortcuts](#floppy-tray-sentry--1-click-desktop-shortcuts)
 5. [🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)](#6-deployment-profiles-including-zero--near-zero-footprint)
 6. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
@@ -175,7 +175,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 
 ---
 
-## ⚖️ Market Comparison: WINBARS vs. Legacy Backup & AV Suites
+## ⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites
 
 | Feature / Capability | WINBARS (v0.7.43) | Acronis Cyber Protect | Macrium Reflect (v8/v10) | Veeam Agent Windows | Windows Native Alone |
 | :--- | :---: | :---: | :---: | :---: | :---: |
@@ -202,9 +202,10 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 2. **Vs. Native Windows Tools Alone**:
    * *The Problem*: Windows includes File History, System Restore, and `wbadmin`, but Microsoft has left them unmaintained. File History was silently disabled in Windows 11 upgrades without notifying users; System Restore is throttled to once every 24 hours; VSS writers lock up; and external drive letter changes (`D:` moving to `E:`) silently cause backups to fail indefinitely.
    * *The WINBARS Advantage*: WINBARS acts as the intelligent conductor: it self-heals VSS writers, removes the 24-hour throttle, guarantees shadow storage headroom, auto-discovers shifted drive letters, and safely preserves deleted files in a 30-day safety recycle bin.
-3. **Vs. Antivirus & EDR (Malwarebytes, Bitdefender, Norton, Defender)**:
-   * *The Problem*: Modern phone scammers and pop-up boiler rooms **do not use malware or viruses**. They create full-screen browser traps with blaring audio sirens, convincing victims to call a toll-free number. The scammer instructs the victim to download legitimate, digitally signed commercial remote support tools (AnyDesk, TeamViewer, ScreenConnect, UltraViewer). Because these tools are legitimate and digitally signed, Antivirus software permits them completely.
-   * *The WINBARS Advantage*: WINBARS provides active defense against the human vector: an instant browser freeze hotkey (`Ctrl+Win+B`) that kills full-screen traps and audio loops across 25+ browsers, and a real-time Remote Access Interceptor that catches AnyDesk/TeamViewer launches and gives the user an unmistakable **`[STOP] Disconnect & Block`** button.
+3. **The Tech-Scam Blindspot (Why WINBARS Complements, Not Replaces, Antivirus)**:
+   * *Important Distinction*: **WINBARS is not an antivirus or anti-malware suite, and it does not replace Windows Defender or your existing AV software.** Instead, it defends against an entirely different threat vector that antivirus engines fundamentally cannot address: social engineering and weaponized legitimate tools.
+   * *The Problem*: Modern phone scammers and pop-up boiler rooms **do not use malware or viruses**. They create full-screen browser traps with blaring audio sirens, convincing victims to call a toll-free number. The scammer instructs the victim to download legitimate, digitally signed commercial remote support tools (AnyDesk, TeamViewer, ScreenConnect, UltraViewer). Because these tools are legitimate and digitally signed, antivirus software correctly permits them.
+   * *The WINBARS Sentry Layer*: WINBARS operates as an assistive safety layer alongside your antivirus: an instant browser freeze hotkey (`Ctrl+Win+B`) that terminates full-screen traps and audio loops across 25+ browsers, and a real-time Remote Access Interceptor that catches AnyDesk/TeamViewer launches and gives the user an unmistakable **`[STOP] Disconnect & Block`** button.
 
 ---
 
@@ -249,30 +250,30 @@ Accessible by clicking the **Gear icon** in the Floating Quick-Action Bar or sel
 
 ```
 ┌─ WINBARS — Settings & Protection Console ───────────────────────────────┐
-│ 🛡 Active Profile: [Mode 4 — Total Protection (Full Sentry + Tray)]     │
+│ [>>] Active Profile: [Mode 4 — Total Protection (Full Sentry + Tray)]   │
 ├─────────────────────────────────────────────────────────────────────────┤
-│ [ ⚙ General ]  [ 🕒 Schedules ]  [ 💾 Disk Management ]                 │
+│ [ General ]  [ Schedules ]  [ Disk Management ]                         │
 ├─────────────────────────────────────────────────────────────────────────┤
-│ ⚙ GENERAL TAB:                                                          │
-│   • [✔] Show System Tray Icon in taskbar notification area              │
-│         (Tip: When hidden, press Ctrl+Win+W or launch WINBARS to restore)│
+│ GENERAL TAB:                                                            │
+│   • [v] Show System Tray Icon in taskbar notification area              │
+│         (Tip: When hidden, Ctrl+Win+W or relaunch WINBARS to restore)   │
 │         • Mode 0/N Guardrail: Disabled/Locked to preserve 0 host files  │
-│         • Mode 3 ↔ 4 Bridge: Checking elevates to Mode 4; unchecking    │
+│         • Mode 3 <-> 4 Bridge: Checking elevates to Mode 4; unchecking  │
 │           cleanly returns profile to Mode 3 (Headless Full)             │
-│   • [✔] Enable Floating Quick-Action Bar on tray click                  │
+│   • [v] Enable Floating Quick-Action Bar on tray click                  │
 │   • Notification Level: [ Warnings & Errors Only (Recommended — Quiet) ]│
-│     🔒 Security Guardrail: Warnings and error alerts cannot be disabled│
-│   • [✔] Enable audible alarms for critical ransomware & security alerts │
+│     [!] Security Guardrail: Warnings and error alerts cannot be disabled│
+│   • [v] Enable audible alarms for critical ransomware & security alerts │
 │                                                                         │
-│ 🕒 SCHEDULES TAB (Timing Adjustments Only — Never Disables):            │
-│   • System Restore Point Time (HH:mm) & Cadence (Daily / 3-Day / Weekly)│
+│ SCHEDULES TAB (Timing Adjustments Only — Never Disables):               │
+│   • Restore Point Time (HH:mm) & Cadence (Daily / 3-Day / Weekly)       │
 │   • Daily File Sync / FileHistory Mirror Time (HH:mm)                   │
 │   • Bare-Metal DISM System Image Time (HH:mm) & Monthly Day (1–28)      │
 │   • Auto-Sync: Saving immediately refreshes Windows Task Scheduler      │
 │                                                                         │
-│ 💾 DISK MANAGEMENT TAB (With 1-Drive Minimum Guardrail):               │
+│ DISK MANAGEMENT TAB (With 1-Drive Minimum Guardrail):                   │
 │   • Interactive ListView: Target Path, Label, Role (Primary), Status    │
-│   • Add Destination: Supports drive letters (`E:`) & paths (`E:\Backups`)│
+│   • Add Destination: Supports drive letters (E:) and paths (E:\Backups) │
 │     • Mode 1/2 Elevation: Adding a destination prompts to enable file   │
 │       sync and elevates profile to Mode 4 (or Mode 3 if headless)       │
 │   • Set as Primary: Promotes any selected destination to Primary        │
@@ -305,9 +306,9 @@ Choose the right balance of visibility, permanence, and automation for each work
 | :--- | :--- | :--- | :--- |
 | **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | **0 MB (0 files on target PC)**<br>Runs strictly from USB; 100% native Task Scheduler |
 | **Mode N: `NearZeroFootprint`** 👻 | Corporate Clients & Anti-Competitor Stealth | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`) | **0 Resident EXEs/Daemons**<br>Native Task Scheduler; restores via standard Explorer |
-| **Mode 1: `SystemUndo`** | Family, Casual Users & Gamers (No External Drive) | Unthrottled Daily System Restore Points + VSS Writer Auto-Healing & Shadow Storage Guard | **< 5 MB RAM** (Silent background)<br>Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 2: `LocalDisasterGuard`** | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | **< 5 MB RAM** (Silent background)<br>Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 3: `HeadlessFull`** | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | **< 5 MB RAM** (Silent background)<br>Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 1: `SystemUndo`** | Family, Casual Users & Gamers (No External Drive) | Unthrottled Daily System Restore Points + VSS Writer Auto-Healing & Shadow Storage Guard | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 2: `LocalDisasterGuard`** | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
+| **Mode 3: `HeadlessFull`** | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
 | **Mode 4: `TotalProtection`** | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | **~18 MB RAM**<br>Floppy Tray • Scam Sentry • `Ctrl+Win+W` Protection Center |
 | **Mode 5+: Custom Profiles** 🛠️ | Specialized Enterprise & Boutique Deployments | Dynamically selected components via `custom_profiles.json` or Pre-Flight toggle screen (`[0-9]`) | Configurable per-profile |
 
@@ -335,7 +336,7 @@ Every deployment mode (Modes 0–4 and Custom Modes 5+) features an instant **Pr
   * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, WinPE offline boot hooks, and the emergency panic hotkey (`Ctrl+Win+B`).
   * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by adding a monthly bare-metal DISM system image (`.wim`) to a local recovery partition—ideal for laptops with no external drive attached.
   * **Mode 3 (`HeadlessFull`)** builds on Mode 1 by adding automated differential Robocopy file sync, external bare-metal images, multi-drive rotation, and missing drive connection prompts.
-  * **Mode 4 (`TotalProtection`)** adds the dynamic Floppy Disk Tray sentry, active ScamBuster remote tool interceptor, Protection Center GUI (`Ctrl+Win+W`), and organization partner branding.
+  * **Mode 4 (`TotalProtection`)** adds the persistent Floppy Disk Tray sentry in the notification area, active real-time ScamBuster remote tool interceptor, and organization partner branding. *(Note: The **Protection Center Live Dashboard (`Ctrl+Win+W`)** is active and accessible on-demand across Modes 1 through 4).* 
 * **Hotkey Panic Shield Active Across Modes 1–4**:
   * Even in headless and minimal profiles (Modes 1–3) where no tray icon or ScamBuster watchdog runs, the **emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Win+K` $
 ightarrow$ `Ctrl+Alt+B`)** remains active for instant emergency response.
@@ -642,13 +643,16 @@ For independent computer repair shops, MSPs, and mobile IT technicians, customer
 
 ```
    ┌────────────────────────────────────────────────────────┐
-   │             Protected by ACME Computer Repair          │
-   │       Managed Safeguards, System Recovery & Security    │
+   │           Protected by ACME Computer Repair            │
+   │     Managed Safeguards, System Recovery & Security     │
    ├────────────────────────────────────────────────────────┤
-   │  [📞 Call Support: 555-0199]   [🌐 Visit Helpdesk Web] │
-   │  [🚀 Launch Remote Support]    [💾 Backup Personal Data]│
+   │  [Call Support: 555-0199]   [Visit Helpdesk Web]       │
+   │  [Launch Remote Support]    [Backup Personal Data]     │
    └────────────────────────────────────────────────────────┘
 ```
+
+> [!NOTE]
+> **Community Sponsorships**: Donations of any amount are gratefully accepted to support ongoing development and community maintenance of WINBARS. Commercial IT repair shops and MSPs who sponsor the project at the **$100 minimum donation tier** receive the lifetime Shop Branding Token described below.
 
 ### 💼 Why the $100 Lifetime Perk is a Game Changer for Technicians:
 
@@ -660,7 +664,7 @@ For independent computer repair shops, MSPs, and mobile IT technicians, customer
    * If they suspect an issue, click for help, or need remote service, the **Remote Support** button dials your shop's hotline or launches Microsoft Quick Assist pre-configured with your support contact details.
    * Prevents clients from getting conned by offshore pop-up numbers or taking their computer to a competitor.
 3. **Active Scam Defense as a Billable Service**:
-   * Traditional antivirus software ignores remote control tools (AnyDesk, TeamViewer) because they are digitally signed.
+   * Traditional antivirus software intentionally permits commercial remote control tools (AnyDesk, TeamViewer) because they are digitally signed business software, creating a blindspot for phone scammers.
    * With WINBARS Profile 4 deployed, your shop can offer an "Active Scam & Remote Access Defense" service tier. If a pop-up tries to connect, WINBARS stops it in its tracks, displaying an unmistakable warning and your shop's contact hotline.
 4. **100% Air-Gapped & Offline Cryptographic Integrity**:
    * Your branding token (`branding.json`) is cryptographically signed using asymmetric ECDSA-SHA256 and encrypted with AES-256.
@@ -730,5 +734,5 @@ WINBARS is licensed as **100% Free for Personal & Commercial Use** under proprie
 * **Freeware / Unlocked**: All backup, bare-metal imaging, registry restoration, BitLocker vaulting, canary sentinels, and emergency features are 100% unlocked and free of artificial paywalls or nagware.
 * **Closed-Source Executable Wrapper**: The compiled binary (`WINBARS.exe`) and system tray sentry are proprietary freeware. Decompilation, disassembly, reverse engineering, and standalone resale are prohibited.
 * **Transparent Host Orchestration**: All Task Scheduler jobs, WinPE rescue scripts, and backup orchestrations deployed to target systems consist of transparent, un-obfuscated scripts that IT technicians can inspect and verify.
-* **Sponsor Branding Perk**: Commercial IT repair shops and MSPs who sponsor the project may optionally receive a cryptographically signed Sponsor Branding Token (`WINBARS-TOK-...`) to display their custom shop branding in the UI. All core features remain 100% functional without a token.
+* **Sponsor Branding Perk** *(Minimum $100 donation)*: While donations and sponsorships of any amount are welcome, commercial IT repair shops and MSPs who sponsor the project at the $100+ tier may optionally receive a cryptographically signed Shop Branding Token (`WINBARS-TOK-...`) via the [White-Labeling checkout portal](#white-labeling--the-100-lifetime-shop-branding-perk) to display their custom shop branding in the UI across unlimited client machines. All core features remain 100% functional without a token.
 * See [LICENSE.txt](LICENSE.txt) for complete legal terms.
