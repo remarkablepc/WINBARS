@@ -1,24 +1,29 @@
 @echo off
 setlocal EnableDelayedExpansion
-title WINBARS One-Click Installer - Mode 1 (SystemUndo)
+title WINBARS One-Click Installer - Mode 1 (SystemUndo - Stealth Bench Warranty)
 :: ============================================================================
-::  WINBARS ONE-CLICK INSTALLER - MODE 1 : SYSTEM UNDO
-::  Applies all Mode 1 defaults automatically. No drive questions:
-::  Mode 1 omits user data sync and system images entirely.
+::  WINBARS ONE-CLICK INSTALLER - MODE 1 : SYSTEM UNDO (STEALTH BENCH WARRANTY)
+::  The Universal "Bench Warranty" Mode: Deploy on 100% of customer PCs with
+::  ZERO resident EXEs, ZERO shortcuts, and ZERO customer explanation required.
+::  Hardens native Windows recovery (daily unthrottled System Restore points,
+::  VSS auto-healing, RegBack) and captures a local baseline system image
+::  (C:\SystemImages\_baseline.wim) if disk space >= 25 GB.
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
 :: ============================================================================
 
 echo.
 echo ================================================================
 echo   WINBARS ONE-CLICK INSTALLER - MODE 1 : SYSTEM UNDO
+echo   (Stealth Local Recovery Hardener - 0 Resident EXEs)
 echo ================================================================
 echo   What Mode 1 does:
-echo     - Daily unthrottled system restore points
-echo     - VSS writer auto-heal + shadow storage guard
+echo     - Daily unthrottled system restore points (Native Windows)
+echo     - VSS writer auto-heal + shadow storage guard (10%% quota)
 echo     - Driver/MSI install checkpoints
-echo     - No data sync, no images, no tray - pure OS rollback
+echo     - Local baseline system image (C:\SystemImages\_baseline.wim)
+echo     - Zero resident EXEs, zero shortcuts, zero tray, zero daemons
 echo.
-echo   Mode 1 needs no backup drives, so no questions will be asked.
+echo   Mode 1 is 100%% automated - zero questions will be asked.
 echo.
 
 :: ---- 1. Request Administrator privileges if needed ----
@@ -63,74 +68,74 @@ if not defined ACTIVE_CONFIG_PATH (
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
 )
 
-:: ---- 5. Install WINBARS suite to C:\Tools\WINBARS ----
+:: ---- 5. Apply Mode 1 SystemUndo profile (0 Resident EXEs) ----
 echo.
-echo   Installing WINBARS suite to C:\Tools\WINBARS...
-echo   ----------------------------------------------------------------
-!RUN_CMD! -InstallLocal -Vanilla
-set "INSTALL_EXIT=!errorLevel!"
-echo   ----------------------------------------------------------------
-if !INSTALL_EXIT! EQU 0 (
-    echo   [OK] Suite installed to C:\Tools\WINBARS.
-) else (
-    echo   [ERROR] Installation failed with exit code !INSTALL_EXIT!.
-    echo          Cannot proceed with profile setup.
-    echo.
-    echo ================================================================
-    echo   [FAILED] Install step failed. Review the messages above.
-    echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log
-    echo ================================================================
-    echo.
-    pause
-    exit /b !INSTALL_EXIT!
-)
-
-:: ---- 6. Switch to the installed engine for profile application ----
-set "INSTALLED_EXE=C:\Tools\WINBARS\WINBARS.exe"
-set "INSTALLED_PS1=C:\Tools\WINBARS\WINBARS.ps1"
-if exist "!INSTALLED_EXE!" (
-    set RUN_CMD="!INSTALLED_EXE!"
-) else if exist "!INSTALLED_PS1!" (
-    set RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File "!INSTALLED_PS1!"
-) else (
-    echo   [ERROR] Installed engine not found at C:\Tools\WINBARS after install step.
-    echo          The file copy may have failed silently. Check the source folder.
-    echo.
-    pause
-    exit /b 1
-)
-
-:: ---- 7. Resolve config path for installed location ----
-if not defined ACTIVE_CONFIG_PATH (
-    set "ACTIVE_CONFIG_PATH=C:\Tools\WINBARS\config\config.json"
-)
-if exist "C:\Tools\WINBARS\config\config.json" (
-    set "ACTIVE_CONFIG_PATH=C:\Tools\WINBARS\config\config.json"
-)
-
-:: ---- 8. Apply the profile (all settings use mode defaults) ----
-echo.
-echo   Applying Mode 1 SystemUndo defaults and scheduling tasks...
+echo   Applying Mode 1 SystemUndo stealth hardening...
 echo   ----------------------------------------------------------------
 !RUN_CMD! -SetProfile Minimal -Vanilla -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
 set "PROFILE_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !PROFILE_EXIT! EQU 0 (
-    echo   [OK] Mode 1 SystemUndo profile applied successfully.
+    echo   [OK] Mode 1 SystemUndo hardening applied successfully.
 ) else (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
 
-:: ---- 9. Final verdict ----
+:: ---- 6. Check C: free space for baseline system image (>= 25 GB) ----
+set "FREE_GB=0"
+set "CAPTURE_IMAGE=0"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$vol = Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\" -ErrorAction SilentlyContinue; if ($vol) { $gb = [math]::Round($vol.FreeSpace / 1GB, 1); [System.IO.File]::WriteAllText($env:TEMP + '\winbars_c_free.txt', \"$gb\") }" >nul 2>&1
+if exist "%TEMP%\winbars_c_free.txt" (
+    set /p FREE_GB=<"%TEMP%\winbars_c_free.txt"
+    del /f /q "%TEMP%\winbars_c_free.txt" >nul 2>&1
+)
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command "if ([double]'!FREE_GB!' -ge 25.0) { exit 0 } else { exit 1 }" >nul 2>&1
+if !errorLevel! EQU 0 (
+    set "CAPTURE_IMAGE=1"
+)
+
+set "IMAGE_EXIT=0"
+if "!CAPTURE_IMAGE!"=="1" (
+    echo.
+    echo   Drive C: has !FREE_GB! GB free space (>= 25 GB requirement met).
+    echo   Capturing local baseline system image (C:\SystemImages\_baseline.wim)...
+    echo   ----------------------------------------------------------------
+    !RUN_CMD! -Action SystemImage -Baseline -Unattended
+    set "IMAGE_EXIT=!errorLevel!"
+    echo   ----------------------------------------------------------------
+    if !IMAGE_EXIT! EQU 0 (
+        echo   [OK] Local baseline system image captured successfully.
+    ) else (
+        echo   [WARN] System image capture returned code !IMAGE_EXIT!.
+        echo          Windows restore point hardening remains fully active.
+    )
+) else (
+    echo.
+    echo   [i] Drive C: has !FREE_GB! GB free space (less than 25 GB threshold).
+    echo       Skipping local baseline image capture to preserve customer disk space.
+    echo       Daily System Restore & VSS hardening are active and protected.
+)
+
+:: ---- 7. Final verdict ----
 set "OVERALL_EXIT=0"
-if not !INSTALL_EXIT! EQU 0 set "OVERALL_EXIT=1"
 if not !PROFILE_EXIT! EQU 0 set "OVERALL_EXIT=1"
 echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
-    echo   [SUCCESS] Mode 1 SystemUndo installation completed.
+    echo   [SUCCESS] Mode 1 SystemUndo stealth hardening completed!
+    echo   ----------------------------------------------------------------
+    echo   * Native System Restore points: Active (Daily + Startup)
+    echo   * VSS Shadow Storage Quota:     10%% Headroom Hardened
+    echo   * 24-Hour Creation Throttle:    Disabled (Unlimited Checkpoints)
+    echo   * Resident Third-Party Files:   0 (Zero EXEs, Zero Shortcuts)
+    if "!CAPTURE_IMAGE!"=="1" if !IMAGE_EXIT! EQU 0 (
+    echo   * Local Disaster Image:         C:\SystemImages\_baseline.wim
+    )
+    echo   ----------------------------------------------------------------
+    echo   Technician may safely unplug USB drive now.
 ) else (
-    echo   [FAILED] One or more steps failed. Review the messages above.
+    echo   [FAILED] Mode 1 setup encountered an error. Review the messages above.
     echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log
 )
 echo ================================================================

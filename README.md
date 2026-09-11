@@ -1,8 +1,8 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.8.0)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.0)
 ### *WINBARS helps prevent the reasons people lose their files, lose access to their computers, lose money to scammers, and lose hours rebuilding Windows.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.8.0-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.0-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -15,13 +15,13 @@
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.8.0-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.0-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
 </p>
 
 <div align="center">
 
-  **[📥 Download Complete Package (`WINBARS-v0.8.0.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.8.0)**
+  **[📥 Download Complete Package (`WINBARS-v0.9.0.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.0)**
 
 </div>
 
@@ -318,52 +318,85 @@ Accessible by clicking the **Gear icon** in the Floating Quick-Action Bar or sel
 
 ---
 
-## 🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)
+### 🚀 6 Deployment Profiles: The Two-Tier Architecture Split
 
-Choose the right balance of visibility, permanence, and automation for each workstation using this unified decision matrix:
+WINBARS is architecturally divided into two distinct tiers: **Stealth / Native Windows Modes (0, N, 1)** that leave **zero resident third-party EXEs** on the host machine, and **Managed Suite Modes (2, 3, 4)** that provision the local executable (`C:\Tools\WINBARS`) with desktop shortcuts and sentry integration:
 
-| Profile & Mode | Target Persona | What It Protects | Footprint & Recovery Hooks |
+```
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                       WINBARS DEPLOYMENT SPECTRUM                                           │
+├──────────────────────────────────────────────────────────────┬──────────────────────────────────────────────┤
+│          TIER 1: STEALTH / NATIVE WINDOWS MODES              │          TIER 2: MANAGED SUITE MODES         │
+│               (0 Resident Third-Party EXEs)                  │         (Local Suite in C:\Tools\WINBARS)    │
+├──────────────────────────────┬───────────────────────────────┼──────────────────────────────┬───────────────┤
+│ Mode 0: ZeroFootprint        │ Strict corporate compliance;  │ Mode 2: LocalDisasterGuard   │ Local bare-   │
+│                              │ 0 resident files on C:\       │                              │ metal image + │
+│                              │                               │                              │ desktop suite │
+├──────────────────────────────┼───────────────────────────────┼──────────────────────────────┼───────────────┤
+│ Mode N: NearZeroFootprint    │ Stealth native automation;    │ Mode 3: HeadlessFull         │ Silent daily  │
+│                              │ generic unbranded shortcuts   │                              │ Robocopy +    │
+│                              │                               │                              │ drive alerts  │
+├──────────────────────────────┼───────────────────────────────┼──────────────────────────────┼───────────────┤
+│ Mode 1: SystemUndo           │ Universal "Bench Warranty"    │ Mode 4: TotalProtection      │ Full suite +  │
+│         (Stealth Hardener)   │ 0 EXEs, 0 shortcuts, daily    │                              │ Floppy Tray + │
+│                              │ restore points + local image  │                              │ ScamBuster    │
+└──────────────────────────────┴───────────────────────────────┴──────────────────────────────┴───────────────┘
+```
+
+### 📊 Unified Mode Matrix
+
+| Profile & Mode | Target Persona | What It Protects | Footprint & Recovery Hooks | Resident Files |
+| :--- | :--- | :--- | :--- | :---: |
+| **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | Automated tasks run 100% via native Windows engines (`robocopy.exe`, `wbadmin.exe`, VSS) with zero USB required after setup | **0 Resident Files** *(0 bytes on C:)* |
+| **Mode N: `NearZeroFootprint`** 👻 | Corporate Workstations & Vendor-Neutral Deployments | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`, `Browse Backup Files`) + unbranded Start Menu (`System Backup & Recovery`) | Automated via native Task Scheduler; restores via standard Explorer, `rstrui.exe`, and WinRE | **0 Resident EXEs** *(Generic Shortcuts Only)* |
+| **Mode 1: `SystemUndo`** ⏪ | **Standard Bench Tune-Ups & Routine Warranty Service** | **The Universal "Bench Warranty"**: Daily unthrottled System Restore points, VSS writer auto-healing, 10% shadow storage headroom, driver/MSI checkpoints, and local baseline system image (`C:\SystemImages\_baseline.wim` if disk $\ge 25$ GB) | Pure native Windows Task Scheduler automation (`powershell.exe Checkpoint-Computer`, `Set-Service`, `vssadmin`); WinRE detects restore points & `.wim` image | **0 Resident EXEs** *(100% Native Windows Hardening)* |
+| **Mode 2: `LocalDisasterGuard`** 💽 | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | Start Menu `WINBARS` Suite • Desktop `Create System Image` • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks | Local Suite (`C:\Tools\WINBARS`) |
+| **Mode 3: `HeadlessFull`** 🏢 | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | Silent background Task Scheduler execution • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks | Local Suite (`C:\Tools\WINBARS`) |
+| **Mode 4: `TotalProtection`** 🛡️ | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | Full interactive real-time protection • Floppy Tray Sentry • Scam Sentry • `Ctrl+Win+W` Protection Center | Local Suite (~18 MB RAM) |
+| **Mode 5+: Custom Profiles** 🛠️ | Specialized Enterprise & Boutique Deployments | Dynamically selected components via `custom_profiles.json` or Pre-Flight toggle screen (`[0-9]`) | Configurable per-profile | Configurable |
+
+---
+
+### 🎯 Technician Customer Persona Cheat Sheet (3-Second Decision Matrix)
+Need to know which profile to pick for a customer in 3 seconds? Use this cheat sheet:
+
+| Profile Mode | Best For | Technician Rationale |
+| :--- | :--- | :--- |
+| **Mode 0: `ZeroFootprint`** | **Strict Corporate Audits & MSP Sterile Compliance** | Corporate clients or regulated workstations where security policy strictly forbids leaving any third-party files or scripts on `C:\`. The entire runner script and logs reside on the technician's external drive. |
+| **Mode N: `NearZeroFootprint`** | **Corporate Workstations & Vendor-Neutral Stealth Deployments** | For business and corporate clients where third-party utility branding is restricted. Uses 100% native Windows Task Scheduler and generic shortcuts (`System Backup & Recovery`) so the automation blends seamlessly into Windows as a built-in system capability. **Zero background EXEs**, native Task Scheduler jobs (`\WindowsBackup\`), generic external folder (`E:\WindowsBackup\`), and generic native tools. Restores via native Explorer, `rstrui.exe`, & WinRE. |
+| **Mode 1: `SystemUndo`** ⏪ | **Standard Bench Tune-Ups & Routine Warranty Service** | **The Universal "Bench Warranty" Mode**: Deploy on **100% of customer PCs** without asking permission or explaining software. Hardens Windows built-in recovery and captures a local baseline image with **0 resident EXEs** and **0 shortcuts**. No foreign software to explain—it purely hardens Windows' native recovery tools. |
+| **Mode 2: `LocalDisasterGuard`** 💽 | **Road Warriors, Students & Mobile Laptops** | Traveling sales reps and laptop users who rarely plug in an external drive, but *want* a desktop recovery shortcut. Backs up a monthly bare-metal DISM system image (`.wim`) to a local recovery partition with desktop suite access. |
+| **Mode 3: `HeadlessFull`** 🏢 | **Silent Workstations, Accounting & Medical Clinics** | Production office environments (CPA firms, dental clinics, law offices) with dedicated external hard drives. Runs full daily Robocopy sync and bare-metal imaging 100% silently in the background with zero desktop clutter or user prompts—alerting only if the drive is unplugged. |
+| **Mode 4: `TotalProtection`** 🛡️ | **Seniors, VIPs & Scam-Prone Non-Technical Clients** | Grandparents, non-technical clients, or high-value VIPs frequently targeted by browser pop-ups, fake virus sirens, and phone support scammers. Features the Floppy Disk Tray icon, active real-time ScamBuster and Remote Tool Interceptor (`[STOP] Disconnect & Block`), live GUI Protection Center, and your shop's emergency support hotline branding. |
+| **Mode 5+: `Custom Profiles`** | **Specialized Enterprise & Boutique Deployments** | Tailored multi-drive configurations, specialized network shares, or specific retention tiers configured via `custom_profiles.json` or the Pre-Flight interactive builder. |
+
+---
+
+### 🪤 Ransomware Canary Shield Matrix: Who Gets What Protection?
+
+| Profile Mode | Target Storage Monitored | Canary Placement | Detection & Enforcement Mechanism |
 | :--- | :--- | :--- | :--- |
-| **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | **0 MB (0 resident files on target PC)**<br>Configured on-demand; automated tasks run 100% via native Windows engines (robocopy, wbadmin, VSS) with zero USB required after setup |
-| **Mode N: `NearZeroFootprint`** 👻 | Corporate Workstations & Vendor-Neutral Stealth Deployments | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`, `Browse Backup Files`) + unbranded Start Menu (`System Backup & Recovery`) | **0 Resident EXEs/Daemons**<br>Automated via native Task Scheduler; restores via standard Explorer, `rstrui.exe`, and WinRE |
-| **Mode 1: `SystemUndo`** ⏪ | Family, Casual Users & Gamers (No External Drive) | Unthrottled Daily System Restore Points + VSS Writer Auto-Healing & Shadow Storage Guard | **< 5 MB RAM** (Silent background)<br>Start Menu `WINBARS` Suite • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 2: `LocalDisasterGuard`** 💽 | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | **< 5 MB RAM** (Silent background)<br>Start Menu `WINBARS` Suite • Desktop `Create System Image` • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 3: `HeadlessFull`** 🏢 | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | **< 5 MB RAM** (Silent background)<br>`Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks |
-| **Mode 4: `TotalProtection`** 🛡️ | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | **~18 MB RAM**<br>Floppy Tray • Scam Sentry • `Ctrl+Win+W` Protection Center |
-| **Mode 5+: Custom Profiles** 🛠️ | Specialized Enterprise & Boutique Deployments | Dynamically selected components via `custom_profiles.json` or Pre-Flight toggle screen (`[0-9]`) | Configurable per-profile |
+| **Mode 0 (`ZeroFootprint`)** | External Backup Drive | `.winbar_canary.dat` on external drive root | Cryptographic hash verified before and after each Robocopy file mirror pass. |
+| **Mode N (`NearZeroFootprint`)** | External Backup Drive (`E:\WindowsBackup`) | `.winbar_canary.dat` on external drive root | Pre/post-sync integrity verification on every scheduled mirror run. |
+| **Mode 1 (`SystemUndo` - Stealth)** | Internal System Drive (`C:`) | *None (0 resident background processes)* | **VSS Shadow Storage Quota Hardening**: Locks shadow storage headroom (10%) so ransomware cannot easily exhaust System Protection capacity. |
+| **Mode 2 (`LocalDisasterGuard`)** | Local Image Archive (`C:\SystemImages`) | `C:\SystemImages\.winbar_canary.dat` | Inspected during scheduled bare-metal image capture passes and on-demand health audits. |
+| **Mode 3 (`HeadlessFull`)** | External Backup Volumes & Shares | Multi-Target `.winbar_canary.dat` + `.winbars_remote_canary.sha256` | Daily automated pre-sync audit. If canary fails, aborts file sync immediately and disconnects network share. |
+| **Mode 4 (`TotalProtection`)** | Local + All External & Network Targets | Real-time Honeypot Sentinels | **Continuous Real-Time Monitoring**: Floppy Tray Sentry actively watches tripwire tokens; triggers immediate desktop Toast alert, siren alarm, and Webhook dispatch (Discord/Slack/Teams). |
 
-> [!TIP]
-> ### ⚡ Dynamic Adaptive UI: Per-Profile Action Buttons & 1-Click Elevation
-> Across the **Protection Center Live Dashboard (`Ctrl+Win+W`)**, the **Floating Quick-Action Bar**, and the **Tray Menu**, primary action buttons dynamically adapt their labels to the active profile:
-> - **Mode 4 (`TotalProtection`)**: `▶ Backup My Files Now` *(Mirrors Personal Files + System Restore Point Checkpoint)*
-> - **Mode 2 (`LocalDisasterGuard`)**: `▶ Capture Full Disaster Image` *(Local DISM Archive + System Restore Point)*
-> - **Mode 1 (`SystemUndo`)**: `▶ Create System Restore Point Now` *(System Protection Baseline)*
-> - **Mode 0 / N (`Zero-Footprint`)**: `▶ Run Zero-Footprint Backup Now` *(Files + System Restore Point to D:)*
-> 
-> **1-Click Personal File Backup Elevation Badge**: In Modes 1 and 2 (where user file sync is omitted by default for PCs without external storage), connecting an external backup drive automatically reveals a friendly badge beneath the hero button on the Status Card:  
-> `[⚡ Backup Drive (D:) Ready — Click to Enable Daily Personal File Backup]`. Clicking it activates daily personal file sync and promotes the machine to Mode 4 with a single click.
-
-### ⚡ Pre-Flight Quick Defaults (1-Key Immediate Deployment)
-Every deployment mode (Modes 0–4 and Custom Modes 5+) features an instant **Pre-Flight Review Screen**:
-* **1-Key Default Execution**: Pressing **`[ENTER]`** immediately applies the profile using hardened system defaults—zero tedious confirmation menus.
-* **Component Toggling (`0-9`)**: Toggle individual components on or off on the fly (User Data Sync, Bare-Metal Image, Restore Point Hardening, WinPE Recovery Hooks, Missing Drive Prompt, Hotkeys, ScamBuster Watchdog, Tray Sentry, Partner Branding, Defuse OneDrive Nags).
-* **Target Storage Selection (`[C]`)**: Instantly inspect available storage volumes and select or change the target drive letter.
-* **Save as Custom Profile (`[S]`)**: Save your current component configuration as a new custom profile stored in `custom_profiles.json`.
-* **Custom Profile Manager (`[M]`)**: Interactively Add (`[A]`), Edit (`[E]`), Delete (`[D]`), or Open in Notepad (`[O]`) custom profiles directly from the CLI.
+---
 
 ### 💡 Cumulative Architecture: Key Distinctions
-* **Cumulative Tiering**: Modes 1 through 4 cleanly build upon one another:
-  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, WinPE offline boot hooks, and the emergency panic hotkey (`Ctrl+Win+B`).
-  * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by adding a monthly bare-metal DISM system image (`.wim`) to a local recovery partition—ideal for laptops with no external drive attached.
-  * **Mode 3 (`HeadlessFull`)** builds on Mode 1 by adding automated differential Robocopy file sync, external bare-metal images, multi-drive rotation, and missing drive connection prompts.
-  * **Mode 4 (`TotalProtection`)** adds the persistent Floppy Disk Tray sentry in the notification area, active real-time ScamBuster remote tool interceptor, and organization partner branding. *(Note: The **Protection Center Live Dashboard (`Ctrl+Win+W`)** is active and accessible on-demand across Modes 1 through 4).* 
-* **Hotkey Panic Shield Active Across Modes 1–4**:
-  * Even in headless and minimal profiles (Modes 1–3) where no tray icon or ScamBuster watchdog runs, the **emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Win+K` $
-ightarrow$ `Ctrl+Alt+B`)** remains active for instant emergency response.
-  * In **Mode 0 (`ZeroFootprint`)**, a strict 0-file policy is enforced: zero resident shortcuts, scripts, or registry modifications on the PC.
+* **Cumulative Tiering**:
+  * **Stealth Modes (0, N, 1)** require zero resident third-party binaries on `C:\`.
+  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, native Windows Task Scheduler automation, and an immortal baseline system image (`C:\SystemImages\_baseline.wim` if disk space $\ge 25$ GB).
+  * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by provisioning `WINBARS.exe` to `C:\Tools\WINBARS`, adding desktop suite access, universal hotkeys (`Ctrl+Win+B` / `Ctrl+Win+W`), and monthly bare-metal DISM system images (`.wim`).
+  * **Mode 3 (`HeadlessFull`)** adds automated differential Robocopy file sync to external drives, multi-drive rotation, and missing drive connection prompts.
+  * **Mode 4 (`TotalProtection`)** adds the persistent Floppy Disk Tray sentry in the notification area, active real-time ScamBuster remote tool interceptor, and organization partner branding.
+* **Universal Hotkey Sentry**:
+  * In **Modes 2 through 4**, the emergency panic hotkey (`Ctrl+Win+B`) and Protection Center hotkey (`Ctrl+Win+W`) are available.
+  * In **Stealth Modes (0, N, 1)**, strict 0-resident-binary policy is enforced: zero resident processes running in the background.
 * **ScamBuster & Remote Access Interceptor**:
   * **Mode 4 (`FullInteractive`)** is the **only** profile that maintains an active, continuous background sentry listening for browser sirens and intercepting unauthorized remote access tools (AnyDesk, TeamViewer, UltraViewer, RustDesk) in real time.
-  * **Zero-Footprint (Mode 0)** maintains a strict 0% resident footprint guarantee on the target PC as a dedicated, automated backup engine. ScamBuster is available when running directly from the technician's USB drive or by selecting Profile 4.
 * **GUI Dialog Availability Across All Profiles**:
   * Regardless of which profile is installed, whenever `WINBARS.exe` is launched directly (or with `-GUI` / `-StatusCard`), it immediately opens the **Protection Center Live Dashboard**. The dashboard includes a live **Installation & Profile Status Banner** (`✔ INSTALLED` or `⚠ NOT INSTALLED • Running from USB / Portable`) indicating the active profile.
 
