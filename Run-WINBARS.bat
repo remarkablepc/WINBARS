@@ -320,11 +320,22 @@ if exist "%~dp0Toggle_Backup_Drive_Visibility.bat" (
 goto MENU_LOOP
 :DO_UPGRADE
 echo.
-echo  --^> Upgrading Installed WINBARS Suite ^& Refreshing Tasks...
+echo  --> Upgrading Installed WINBARS Suite & Refreshing Tasks...
 if not defined RUN_CMD (
     echo [ERROR] Execution engine not found in %~dp0
     pause
     goto MENU_LOOP
+)
+:: Pre-flight: confirm WINBARS is actually installed before trying to upgrade
+if not exist "C:\Tools\WINBARS\WINBARS.exe" (
+    if not exist "C:\Tools\WINBARS\WINBARS.ps1" (
+        echo.
+        echo  [ERROR] No installed WINBARS suite found at C:\Tools\WINBARS.
+        echo         Use [I] Install / Provision Suite first, then upgrade.
+        echo.
+        pause
+        goto MENU_LOOP
+    )
 )
 !RUN_CMD! -Update !BRAND_ARG!
 echo.

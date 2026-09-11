@@ -1,0 +1,52 @@
+{
+  "Locale": "de-DE",
+  "DisplayName": "Deutsch (German)",
+  "Folders": {
+    "Desktop": [
+      "Desktop",
+      "Schreibtisch"
+    ],
+    "Documents": [
+      "Dokumente",
+      "Eigene Dokumente"
+    ],
+    "Pictures": [
+      "Bilder",
+      "Eigene Bilder",
+      "Fotos"
+    ],
+    "Music": [
+      "Musik",
+      "Eigene Musik"
+    ],
+    "Videos": [
+      "Videos",
+      "Eigene Videos"
+    ],
+    "Downloads": [
+      "Downloads"
+    ],
+    "Favorites": [
+      "Favoriten"
+    ],
+    "Contacts": [
+      "Kontakte"
+    ],
+    "SavedGames": [
+      "Gespeicherte Spiele"
+    ],
+    "Links": [
+      "Links"
+    ]
+  },
+  "Strings": {
+    "StatusCardTitle": "WINBARS - Schutzzentrum",
+    "BackupNow": "Dateien jetzt sichern",
+    "CreateRestorePoint": "System-Wiederherstellungspunkt erstellen",
+    "ContactSupport": "Technischen Support kontaktieren",
+    "DriveMissingTitle": "Sicherungslaufwerk fehlt",
+    "DriveMissingMessage": "Bitte schließen Sie Ihr externes Sicherungslaufwerk an.",
+    "BackupCompleteTitle": "Sicherung abgeschlossen",
+    "BackupCompleteMessage": "Sicherung erfolgreich abgeschlossen."
+  }
+}

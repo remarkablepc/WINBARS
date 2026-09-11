@@ -1,8 +1,8 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.7.44)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.8.0)
 ### *WINBARS helps prevent the reasons people lose their files, lose access to their computers, lose money to scammers, and lose hours rebuilding Windows.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.7.44-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.8.0-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -15,13 +15,13 @@
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.7.44-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.8.0-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
 </p>
 
 <div align="center">
 
-  **[📥 Download Complete Package (`WINBARS-v0.7.44.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.7.44)**
+  **[📥 Download Complete Package (`WINBARS-v0.8.0.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.8.0)**
 
 </div>
 
@@ -197,7 +197,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 
 ## ⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites
 
-| Feature / Capability | WINBARS (v0.7.43) | Acronis Cyber Protect | Macrium Reflect (v8/v10) | Veeam Agent Windows | Windows Native Alone |
+| Feature / Capability | WINBARS (v0.8.0) | Acronis Cyber Protect | Macrium Reflect (v8/v10) | Veeam Agent Windows | Windows Native Alone |
 | :--- | :---: | :---: | :---: | :---: | :---: |
 | **Pricing & Licensing** | **100% Free** *(+$100 Lifetime Shop Branding)* | $50–$189/yr per PC (Sub) | $79–$139 (Perpetual / EOL Free) | Free / $50+ annual | Included with Windows |
 | **Architectural Model** | **100% Native OS Engines** (Zero Resident) | Heavy Proprietary Daemons | Proprietary CBT Filter | Proprietary CBT Driver (`VeeamFSR`) | Native Windows |
@@ -497,9 +497,10 @@ WINBARS uses the non-conflicting `Ctrl + Win` modifier family for instant emerge
   *(If another application claims this shortcut, WINBARS automatically cascades to `Ctrl + Win + P` $\rightarrow$ `Ctrl + Alt + W` without errors).*
 * **`Ctrl + Win + B` $\rightarrow$ Emergency Scam Buster**:
   Instantly closes rogue browser lockups, silences audio sirens, defuses Chromium crash loops, and terminates weaponized remote access tools across 25+ web browsers.
-  *(If claimed by another application, automatically cascades to `Ctrl + Win + K` $\rightarrow$ `Ctrl + Alt + B`).*
-* **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**:
-  Launches native Microsoft Quick Assist (`quickassist.exe`) for fast, authorized remote screen-sharing with a trusted technician or family member.
+* **`Ctrl + Shift + F12` $\rightarrow$ Quick Assist Remote Support**:
+  Launches native Microsoft Quick Assist (`quickassist.exe`) for fast, authorized remote screen-sharing with a trusted technician or family member. (Default updated to eliminate conflict with native Windows Quick Assist).
+* **Technician Mode Configurable Hotkeys**:
+  All three hotkeys can be customized in Tech Mode (`config.json` -> `Hotkeys` or CLI Setup Menu) with dynamic Win32 collision probing (`Test-HotkeyComboAvailable`). Alt/AltGr combinations are strictly barred to prevent international keyboard layout dead-key conflicts.
 * **Technician Mode & Tech Console**:
   Novice-safe by default. Unlocked inside the Protection Center dialog by pressing `Ctrl + T` or triple-clicking (3x) the status bar/pill.
 
@@ -522,6 +523,23 @@ To prevent accidental misconfiguration or confusion when end users and novices a
 ---
 
 ## 🚀 Quick Start & CLI Reference
+
+### 0. Turnkey One-Click Batch Launchers (`.bat`)
+For rapid field deployment from a technician flash drive, WINBARS includes standalone batch scripts that execute common actions with 0–2 questions:
+
+| Batch Launcher | Target Profile / Operation | Questions Asked |
+| :--- | :--- | :---: |
+| **`Run-WINBARS.bat`** | Main Interactive Technician Launcher & Self-Elevation | Interactive Menu |
+| **`Install-Mode0-ZeroFootprint.bat`** | Mode 0: Zero Footprint (100% native Windows automation) | 2 (Data & Image Drives) |
+| **`Install-ModeN-NearZeroFootprint.bat`** | Mode N: Near-Zero Footprint (Stealth native automation) | 2 (Data & Image Drives) |
+| **`Install-Mode1-SystemUndo.bat`** | Mode 1: System Undo (Daily restore points & VSS auto-heal) | **0** (Pure OS rollback) |
+| **`Install-Mode2-LocalDisasterGuard.bat`** | Mode 2: Local Disaster Guard (Local partition DISM image) | **0** (Auto-locates partition) |
+| **`Install-Mode3-HeadlessFull.bat`** | Mode 3: Headless Full (Silent Robocopy + images) | 2 (Data & Image Drives) |
+| **`Install-Mode4-TotalProtection.bat`** | Mode 4: Total Protection (Tray sentry + Scam Buster) | 2 (Data & Image Drives) |
+| **`Capture-Baseline.bat`** | Capture Immortal Baseline System Image (`_baseline.wim`) | Optional: Pin Restore Point |
+| **`Create-RestorePoint.bat`** | Immediate Atomic System Restore Point | **0** |
+| **`Toggle_Backup_Drive_Visibility.bat`** | Cloak or Unhide Backup Volume in File Explorer | **0** |
+| **`Uninstall.bat`** | Complete Suite & Task Removal | **0** |
 
 ### 1. Technician Launcher Menu (`Run-WINBARS.bat`)
 When running from a USB drive or local technician directory, launch `Run-WINBARS.bat` for the streamlined 6-option operational menu:
@@ -557,17 +575,21 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 
 ```text
 ==========================================================
-   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.7.43)
+   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.8.0)
 ==========================================================
- Active Deployment Profile: [ZeroFootprint]
+ Active Deployment Profile : [FullInteractive]
+ Runner Execution Location : [C:\Tools\WINBARS]
 
- [P] Deployment Profile & Silent Mode Manager (1-Click Switcher)
- [I] Install / Provision Suite Locally to C:\Tools\WINBARS
- [U] Quick In-Place Suite Update & Task Refresh
- [1] Suite Setup, Auto-Heal & Task Management
- [2] Run Backup Passes Now (On-Demand)
- [3] System Recovery & File Restoration Helpers
- [4] Self-Diagnostics & System Health Check
+ [P] Deployment Profile & Silent Mode Manager   [FullInteractive]
+ [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.8.0]
+ [1] Suite Setup, Auto-Heal & Task Management   [4/4 Tasks Active]
+ [2] Run Backup Passes Now (On-Demand)          [Target: D:\ (207.2 GB Free)]
+ [3] System Recovery & File Restoration Helpers [WINBARS_Baseline_2026-09-08_1510]
+ [4] Self-Diagnostics & System Health Check     [Hardware S.M.A.R.T. & VSS]
+ [5] Log Management & Retention Utilities       [Logs: C:\ProgramData\WINBARS\Logs]
+ [6] Ransomware Canary Shield & Alert Guard     [Alert Guard Active]
+ [H] Toggle Backup Destination Drive Cloaking   [Drive D: Visible]
+ [0] Exit Suite
  [5] Log Management & Retention Utilities
  [6] Ransomware Canary Shield & Webhook Alerting
  [H] Command-Line Reference & Syntax Help
@@ -756,3 +778,16 @@ WINBARS is licensed as **100% Free for Personal & Commercial Use** under proprie
 * **Transparent Host Orchestration**: All Task Scheduler jobs, WinPE rescue scripts, and backup orchestrations deployed to target systems consist of transparent, un-obfuscated scripts that IT technicians can inspect and verify.
 * **Sponsor Branding Perk** *(Minimum $100 donation)*: While donations and sponsorships of any amount are welcome, commercial IT repair shops and MSPs who sponsor the project at the $100+ tier may optionally receive a cryptographically signed Shop Branding Token (`WINBARS-TOK-...`) via the [White-Labeling checkout portal](#white-labeling--the-100-lifetime-shop-branding-perk) to display their custom shop branding in the UI across unlimited client machines. All core features remain 100% functional without a token.
 * See [LICENSE.txt](LICENSE.txt) for complete legal terms.
+
+
+### 🧱 B-A-R-S Modular Refactor & Technician Hotkey Engine (v0.9.0)
+- **Modular Domain Architecture**: Codebase decomposed into discrete domain modules under `src/` (Backup, Assistance, Recovery, Security, GUI, CLI, Core) with automated zero-dependency single-file bundling.
+- **Dynamic Hotkey Collision Probing**: Tech-mode configurable hotkeys with live Win32 P/Invoke probing to guarantee zero conflicts with Windows reserved shortcuts and international AltGr layouts.
+- **Comprehensive Reliability Hardening**: Atomic state and configuration saves, headless execution guards, and recursive path protection.
+
+### 🛡️ Master USB Audit Vault & Technician Field Automation (v0.8.2)
+- **Automatic USB Audit Vault**: Automatically mirrors deployment and execution logs back to your master technician flash drive under `WINBARS\Logs\Audits\<PC>_<USER>_<YYYYMMDD>.log`.
+- **Intelligent Install Awareness**: Instantly detects pre-existing installations across all modes (`Minimal`, `LocalDisasterGuard`, `HeadlessFull`, `FullInteractive`) with automated task signature deduction.
+- **Mode 2 Single-Drive Realism**: Tailors hero action `[2]` and on-demand passes for single-drive laptops (`C:\SystemImages`), omitting irrelevant external drive checks.
+- **Zero-Question Installer**: Seamless pre-flight toggles for `[K]` Shortcuts, `[B]` Immediate Baseline Image Capture, and auto-initialized `[9]` Branding.
+- **Single-Drive Cloaking Guardrail**: Prohibits cloaking `C:` to ensure operating system drive visibility is always preserved.

@@ -1,4 +1,4 @@
-﻿# WINBARS Suite Architecture & Design Philosophy
+# WINBARS Suite Architecture & Design Philosophy
 
 ## 1. The Core Philosophy: Coordinator & Hardener, Not Proprietary Black Box
 
@@ -236,3 +236,111 @@ The **Settings & Protection Console** serves as the central configuration and go
   ```
   with tooltip: `⚡ 1-Click Backup: Creates System Checkpoint (Restore Point) and mirrors personal files to your backup drive.`
 * Eliminates ambiguity between personal file mirrors, system checkpoints (restore points), and full bare-metal DISM system images.
+
+---
+
+## 9. Runner Location Shift, Dynamic Profile Storage & Visual Progress Architecture (v0.8.0)
+
+### A. Intelligent Runner Location Shift & Execution Handoff
+* **The Transient Media Dilemma**: Technicians frequently plug in a USB flash drive or copy `WINBARS.exe` to the Desktop to run a manual backup or trigger maintenance on a machine where WINBARS was already previously installed to `C:\Tools\WINBARS`. If background tasks or sentries are launched from that transient path, they depend on removable drive letters that disappear when the technician unplugs their drive.
+* **Autonomous Execution Handoff**: `Resolve-SuiteRunnerContext` automatically identifies if the running executable is outside `C:\Tools\WINBARS` while `C:\Tools\WINBARS\WINBARS.exe` exists:
+  * **Automated & Scheduled Invocations**: Tasks invoked via `-Action`, `-Tray`, `-AutoHeal`, or `-Unattended` silently transfer execution to `C:\Tools\WINBARS\WINBARS.exe` with all arguments intact, exiting the transient process immediately.
+  * **Interactive Invocations**: Displays a 1-click Location Shift Pivot banner offering to Shift execution to `C:\Tools\WINBARS`, Update the local installation with the USB version, or Continue portably.
+  * **Task Scheduler Anchoring**: `Install-SuiteTasks` explicitly registers tasks pointing to `C:\Tools\WINBARS\WINBARS.exe`, ensuring scheduled routines never point to removable drives.
+
+### B. Dynamic Profile Storage Destination Resolution
+* **Full Transparency on Data & Image Landings**: `Get-ProfileStorageDestinations` resolves where User Data (`Robocopy` mirror) and Bare-Metal System Images will be stored across each deployment profile:
+  * **Stored Configurations**: Any explicit paths configured in `config.json` (`DataBackupPath`, `ImageBackupPath`, `PreferredExternalDriveLetter`) are surfaced and tagged `[Configured]`.
+  * **Auto-Guessed Storage Fallback**: Unconfigured targets scan attached external drives and secondary physical partitions, displaying true free and total space with an `[Auto-Detected]` tag.
+  * **Omitted Component Flags**: System Undo (Mode 1) and single-drive configurations accurately report omitted components (`[Omitted]`).
+* **Pre-Flight Inline Customization**: The interactive profile builder (`Invoke-ProfilePreFlightMenu`) exposes direct single-key shortcuts to adjust paths prior to deployment:
+  * `[C]` Change Target Storage Drive
+  * `[D]` Adjust User Data Target Folder
+  * `[I]` Adjust Bare-Metal Image Target Folder
+  * `[F]` Launch Source Folders & User Profile Picker (`Show-FolderSelectionMenu`)
+
+### C. Unified Dual-Progress Bar & Context-Aware Morphing Quick Bar
+* **Dual-Progress Metric Synchronization**: Both the standalone dialog and the floating quick bar utilize a unified dual-progress architecture:
+  * **Overall Progress (0–100%)**: Tracks macro lifecycle phases (Preflight -> Checkpoint -> Personal Files -> App Manifests -> Hardware Diagnostics).
+  * **Step Progress (0–100%)**: Visualizes micro step throughput, active file transfer counts, and transfer rates.
+  * **Cancellation Abort (`[X] Cancel`)**: Provides an immediate safe abort mechanism setting `active_backup.json` status to `"canceled"`.
+* **Context-Aware Floating Quick-Action Bar**:
+  * **Idle Mode**: Displays 5 instant action buttons (`Backup Files`, `Restore`, `Checkpoint`, `Scam Buster`, `Remote Support`) with crisp emoji rendering (`Segoe UI Emoji` / `Segoe UI Symbol`).
+  * **Active Mode**: Transforms in real time into a live dual-progress bar monitor reading `active_backup.json` every 500ms, defensively locking out concurrent backup triggers.
+* **Tray Sentry Single vs. Double-Click Debouncing**:
+  * A 220ms timer separates single-click (toggles floating quick bar) from double-click (opens the System Health Info Card flicker-free).
+
+### 5.4 Drive Capacity Warning & Sizing Guardrails
+
+```
+[External Drive Attached]
+           │
+           ▼
+    Free Space Check
+    ├── Free Space < 2.0 GB ──────> HALT: Physical Corruption Floor Safety Stop
+    │
+    ├── Free Space >= 25.0 GB ────> PASS: Baseline Backup Guaranteed (Never 'Too Small')
+    │
+    └── New Drive (Free Space < 25 GB & < reqUserGB)
+           │
+           ├── EnableDriveCapacityWarnings == True ──> Log WARN, Drop [!] BACKUP_DRIVE_TOO_SMALL.txt, Send Toast
+           └── EnableDriveCapacityWarnings == False ─> Log INFO (Suppressed), Proceed Safely
+```
+
+* **Storage Configuration Keys** (`config.json` -> `StorageAndHardware`):
+  * `EnableDriveCapacityWarnings` (bool, default `true`): Master switch for low space toasts and capacity alarm files.
+  * `LowSpaceWarningThresholdGB` (int, default `15`): Threshold under which low space alerts are generated.
+  * `AutoSizingBufferPercent` (int, default `25`): Safety buffer percentage added to dynamic storage estimates.
+
+---
+
+## 6. B-A-R-S Modular Engine & Zero-Dependency Bundling (`v0.9.0`)
+
+Beginning in `v0.9.0`, WINBARS decomposed its legacy single-file script into a clean domain-driven architecture under `src/`:
+
+```
+src/
+├── core/                  # Suite context, privilege escalation, JSON configuration, deployment profiles
+│   ├── 00-ParamBlock.ps1
+│   ├── Suite-Context.ps1
+│   ├── Logging.ps1
+│   ├── Config.ps1
+│   ├── Deployment-Profiles.ps1
+│   └── Shortcuts-Startup.ps1
+├── backup/                # [B] Storage discovery, VSS engine, File History, System Images, manifests
+│   ├── Storage-Drive.ps1
+│   ├── FileHistory.ps1
+│   ├── Vss-Engine.ps1
+│   ├── SystemImage.ps1
+│   └── Manifest-Exporter.ps1
+├── assistance/            # [A] Sizing advisor, Quick Assist integration, diagnostics, cloud shields
+│   ├── StorageAdvisor.ps1
+│   ├── QuickAssist.ps1
+│   ├── Diagnostics.ps1
+│   └── Alerting-Webhook.ps1
+├── recovery/              # [R] VSS restore points, BCD repair, disaster recovery orchestration
+│   ├── RestorePoint.ps1
+│   └── DisasterRecovery.ps1
+├── security/              # [S] Canary guard ransomware tripwires, Scam Buster ad killer, auto-heal
+│   ├── Canary-Guard.ps1
+│   ├── ScamBuster.ps1
+│   └── AutoHeal.ps1
+├── gui/                   # Windows Forms Floppy Tray Sentry, Toast notifications, progress bars
+│   ├── TraySentry.ps1
+│   ├── tray_code.cs
+│   ├── Toasts.ps1
+│   └── ProgressWindow.ps1
+└── cli/                   # Technician interactive console, setup wizard, CLI command dispatcher
+    ├── Console-Menu.ps1
+    └── Dispatcher.ps1
+```
+
+### Key Architectural Tenets of the Modular Engine:
+1. **Zero External Runtime Dependencies**:
+   While developed modularly under `src/`, `tools/bundle.ps1` deterministically concatenates and injects embedded C# code into a single monolithic `WINBARS.ps1` with strict AST verification and UTF-8 BOM headers. This script is compiled via PS2EXE into the standalone `WINBARS.exe`.
+2. **Dual-Repository Separation**:
+   - **Private Source Repository (`remarkablepc/WINBARS-src`)**: Contains all 25 modular source files, bundlers, and regression test harnesses.
+   - **Public Release Repository (`remarkablepc/WINBARS`)**: An isolated, sterile repository generated under `dist/` containing only standalone binaries (`WINBARS.exe`), turnkey `.bat` launchers, configuration schemas, and public documentation. Enforced by an unbypassable sterility audit (`Publish-GithubRepos.ps1`).
+3. **Turnkey Launcher Wrappers**:
+   Technicians can deploy any profile with 0 to 2 keystrokes using dedicated `.bat` launchers (`Install-Mode0-ZeroFootprint.bat` through `Install-Mode4-TotalProtection.bat`), completely eliminating syntax errors or UAC friction in the field.
+

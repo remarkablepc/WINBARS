@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.7.43)
+# WINBARS Command-Line Interface (CLI) Reference (v0.9.0)
 
 ## 1. Quick Syntax Overview
 
@@ -69,8 +69,11 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
   * `[8]` Floppy Disk Notification Tray Monitor
   * `[9]` Custom Partner Branding & Organization Assets
   * `[0]` Silence Deceptive OneDrive 'Not Backed Up' Warnings
-* **Target Drive Selection (`[C]`)**: Inspect available logical drives and change the destination letter.
-* **Save as Custom Profile (`[S]`)**: Persist custom component tweaks as a named profile in `custom_profiles.json`.
+* **Target Storage Drive Selection (`[C]`)**: Inspect available logical drives and switch between storage devices (with automatic free space and volume label calculation).
+* **Adjust User Data Destination Folder (`[D]`)**: Customize the target directory for personal documents and Robocopy synchronization (stored in `config.json` as `[Configured]`).
+* **Adjust System Image Destination Folder (`[I]`)**: Designate custom folders for bare-metal DISM / wbadmin system image archives.
+* **Configure Source Folders & User Profiles (`[F]`)**: Launches the interactive folder picker (`Show-FolderSelectionMenu`) to selectively include or exclude user accounts, Public folders, or accounting databases.
+* **Save as Custom Profile (`[S]`)**: Persist custom component tweaks and destination paths as a named profile in `custom_profiles.json`.
 * **Custom Profile Manager (`[M]`)**: Submenu to Add (`[A]`), Edit (`[E]`), Delete (`[D]`), or Open in Notepad (`[O]`).
 
 ### 💡 Key Profile Distinctions:
@@ -196,3 +199,89 @@ In WINBARS v0.7.43, primary execution buttons dynamically morph to reflect the a
 When an external backup drive is detected online in Mode 1 or Mode 2, the Status Card displays:
 `[⚡ Backup Drive (D:) Ready — Click to Enable Daily Personal File Backup]`
 Clicking this badge prompts the user to enable daily personal file backups and seamlessly promotes the installation to Mode 4 (`TotalProtection`).
+
+---
+
+## 5. Intelligent Runner Location Shift & Execution Handoff
+
+WINBARS features centralized execution handoff logic to prevent common field problems where technicians or users run from a portable USB drive on a computer where WINBARS is already permanently provisioned:
+
+* **Automated & Scheduled Task Handoff**:
+  When invoked via automated switches (`-Action`, `-Tray`, `-AutoHeal`, `-Unattended`) from a removable drive (e.g. `E:\WINBARS\WINBARS.exe`), WINBARS automatically inspects `C:\Tools\WINBARS\WINBARS.exe`. If a permanent local installation exists, execution is transparently transferred to the local binary with all arguments preserved. This guarantees that background jobs and Windows Task Scheduler triggers **never fail or get stranded** when the USB drive is detached.
+
+* **Interactive Location Shift Pivot**:
+  When launched interactively from a portable drive on an already-provisioned PC, WINBARS presents an instant 1-click pivot banner:
+  1. `[1] Shift to Installed Suite at C:\Tools\WINBARS (Recommended)`: Launches the local installation and terminates the portable process.
+  2. `[2] Update Local Installation with this USB Version`: Overwrites local binaries in `C:\Tools\WINBARS` with the updated files from the USB drive and refreshes scheduled tasks.
+  3. `[3] Continue Running Portably from USB`: Operates in temporary Zero-Footprint mode without touching the local install.
+
+* **Task Scheduler Permanent Anchoring**:
+  Regardless of where `Install-SuiteTasks` is invoked from, registered scheduled tasks (`\WinRestoreBackup\`) are always anchored to the permanent local binary (`C:\Tools\WINBARS\WINBARS.exe`).
+
+---
+
+## 7. Storage Capacity Warning & Low Space Alert Controls
+
+WINBARS features flexible capacity alert controls to prevent intrusive alarms when using high-capacity external drives:
+
+* **Realistic Headroom Guard**:
+  External drives with **$\ge 25$ GB free** (such as drives with 356 GB available) are never flagged as "Too Small" or blocked from baseline file synchronization.
+* **Image-Aware Sizing Math**:
+  Drive tier recommendations dynamically check whether external system images are enabled (`EnableExternalImageBackup`). For routine personal file synchronization, multi-image DISM retention is omitted from the base calculation, preventing premature 2 TB tier recommendations.
+* **Drive Capacity Warnings Toggle (`EnableDriveCapacityWarnings`)**:
+  - **WinForms GUI**: Accessible in **Settings** (`Ctrl+Win+W`) -> **General** -> **Sentry Notifications & Audio Alarms** via the checkbox:
+    `[x] Enable external backup drive capacity & low-space warnings`
+  - **CLI Submenu**: Accessible via Setup Menu -> **`[N]` Sentry, Notifications & Security Protection Settings** -> Option **`[8]`**:
+    `[8] Backup Drive Capacity Warnings: [ENABLED / DISABLED (Suppress Alerts)]`
+  - **When Disabled**:
+    - Suppresses "Backup Drive Low on Space" Action Center toasts and balloon tips.
+    - Suppresses generation of `[!] BACKUP_DRIVE_TOO_SMALL.txt` warning notes.
+    - Allows baseline backup passes to proceed smoothly down to the physical safety corruption floor ($> 2$ GB).
+
+### Removable Media & Technician Audit Logging
+When operating from a technician USB drive, WINBARS automatically records and aggregates all audit trails:
+- **Master USB Audit Vault**: Appends all provisioning, mode changes, and execution results to:
+  `{USB_DRIVE}:\WINBARS\Logs\Audits\<COMPUTERNAME>_<USERNAME>_<YYYYMMDD>.log`
+- **Pre-Flight Menu Toggles**:
+  - `[K]` : Toggle Desktop & Start Menu Shortcuts (Clean placement vs 100% stealth suppression)
+  - `[B]` : Toggle Immediate Baseline Image Capture (`.wim`) upon deployment
+  - `[9]` : Auto-enabled Custom Partner Branding when `branding.json` is present
+- **Single-Drive Cloaking Guardrail**:
+  - Drive cloaking (`[H]`) is automatically disabled on systems without a dedicated secondary partition or external drive to protect system visibility.
+
+---
+
+## 8. Turnkey One-Click Batch Launchers (`.bat`)
+
+WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in the root and `dist/` distribution for rapid technician field deployment and USB usage without launching the full interactive menu:
+
+| Batch Launcher | Target Profile / Operation | CLI Equivalent | Interactive Questions Asked |
+| :--- | :--- | :--- | :---: |
+| `Run-WINBARS.bat` | Main Interactive Launcher & Auto-Privilege Escalation | `WINBARS.exe` | Interactive Menu |
+| `Install-Mode0-ZeroFootprint.bat` | Mode 0: Zero Footprint (100% native Windows engines) | `-SetProfile ZeroFootprint -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
+| `Install-ModeN-NearZeroFootprint.bat` | Mode N: Near-Zero Footprint (Stealth native automation) | `-SetProfile NearZeroFootprint -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
+| `Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile Minimal -Vanilla -Unattended` | **0** (Pure OS rollback) |
+| `Install-Mode2-LocalDisasterGuard.bat` | Mode 2: Local Disaster Guard (Local partition DISM image) | `-SetProfile LocalDisasterGuard -Vanilla -Unattended` | **0** (Auto-locates partition) |
+| `Install-Mode3-HeadlessFull.bat` | Mode 3: Headless Full (Silent Robocopy + images) | `-SetProfile HeadlessFull -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
+| `Install-Mode4-TotalProtection.bat` | Mode 4: Total Protection (Tray sentry + Scam Buster) | `-SetProfile TotalProtection -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
+| `Capture-Baseline.bat` | Capture Immortal Baseline System Image (`_baseline.wim`) | `-Action SystemImage -Baseline -Unattended` | Optional: Pin Restore Point |
+| `Create-RestorePoint.bat` | Immediate Atomic System Restore Point | `-Action RestorePoint -Unattended` | **0** |
+| `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** |
+| `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** |
+
+---
+
+## 9. Technician Hotkey Configuration & Dynamic Win32 Collision Probing
+
+In `v0.9.0`, hotkeys are fully customizable via Tech Mode in `config.json` (`Hotkeys` section) or via CLI Setup Menu (`[N] Sentry, Notifications & Security Protection Settings` -> Option `[K]`):
+
+### Default Hotkeys
+- **Protection Center Dashboard**: `Ctrl+Win+W`
+- **Scam Buster Emergency Break**: `Ctrl+Win+B`
+- **Quick Assist Remote Support**: `Ctrl+Shift+F12` *(Changed from `Ctrl+Win+Q` to avoid collision with Windows Quick Assist)*
+
+### Dynamic Collision Probing (`Test-HotkeyComboAvailable`)
+Before binding hotkeys, the Floppy Tray Sentry runs an unmanaged Win32 P/Invoke probe (`RegisterHotKey` / `UnregisterHotKey` against a hidden message window):
+- **Conflict Prevention**: If a key combination is already reserved by Windows or another application (e.g. `Ctrl+Win+Q` reserved by Microsoft Quick Assist), WINBARS detects the collision and prevents silent registration failures.
+- **AltGr Protection**: `Alt` and `Ctrl+Alt` combinations are strictly prohibited by policy to prevent collision with dead-key accents on European and international keyboard layouts.
+

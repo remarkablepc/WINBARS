@@ -1,0 +1,53 @@
+{
+  "Locale": "es-ES",
+  "DisplayName": "Español (Spanish)",
+  "Folders": {
+    "Desktop": [
+      "Escritorio",
+      "Desktop"
+    ],
+    "Documents": [
+      "Documentos",
+      "Mis documentos"
+    ],
+    "Pictures": [
+      "Imágenes",
+      "Imagenes",
+      "Fotos"
+    ],
+    "Music": [
+      "Música",
+      "Musica"
+    ],
+    "Videos": [
+      "Vídeos",
+      "Videos"
+    ],
+    "Downloads": [
+      "Descargas"
+    ],
+    "Favorites": [
+      "Favoritos"
+    ],
+    "Contacts": [
+      "Contactos"
+    ],
+    "SavedGames": [
+      "Juegos guardados"
+    ],
+    "Links": [
+      "Vínculos",
+      "Enlaces"
+    ]
+  },
+  "Strings": {
+    "StatusCardTitle": "WINBARS - Centro de Protección",
+    "BackupNow": "Hacer copia de seguridad ahora",
+    "CreateRestorePoint": "Crear punto de restauración",
+    "ContactSupport": "Contactar soporte técnico",
+    "DriveMissingTitle": "Falta unidad de copia de seguridad",
+    "DriveMissingMessage": "Conecte su unidad de copia de seguridad externa para garantizar la protección continua.",
+    "BackupCompleteTitle": "Copia de seguridad completada",
+    "BackupCompleteMessage": "Copia de seguridad completada con éxito."
+  }
+}

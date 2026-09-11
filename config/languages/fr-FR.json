@@ -1,0 +1,52 @@
+{
+  "Locale": "fr-FR",
+  "DisplayName": "Français (French)",
+  "Folders": {
+    "Desktop": [
+      "Bureau",
+      "Desktop"
+    ],
+    "Documents": [
+      "Documents",
+      "Mes documents"
+    ],
+    "Pictures": [
+      "Images",
+      "Mes images",
+      "Photos"
+    ],
+    "Music": [
+      "Musique"
+    ],
+    "Videos": [
+      "Vidéos",
+      "Videos"
+    ],
+    "Downloads": [
+      "Téléchargements",
+      "Telechargements"
+    ],
+    "Favorites": [
+      "Favoris"
+    ],
+    "Contacts": [
+      "Contacts"
+    ],
+    "SavedGames": [
+      "Parties enregistrées"
+    ],
+    "Links": [
+      "Liens"
+    ]
+  },
+  "Strings": {
+    "StatusCardTitle": "WINBARS - Centre de Protection",
+    "BackupNow": "Sauvegarder mes fichiers maintenant",
+    "CreateRestorePoint": "Créer un point de restauration",
+    "ContactSupport": "Contacter le support technique",
+    "DriveMissingTitle": "Lecteur de sauvegarde manquant",
+    "DriveMissingMessage": "Veuillez connecter votre disque de sauvegarde externe pour maintenir la protection.",
+    "BackupCompleteTitle": "Sauvegarde terminée",
+    "BackupCompleteMessage": "La sauvegarde s'est terminée avec succès."
+  }
+}

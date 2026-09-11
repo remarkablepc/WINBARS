@@ -7,6 +7,153 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.8.4] - 2026-09-08
+
+### Added
+- **Language Customization Architecture (`config/languages/`)**:
+  - Added extensible JSON language definition catalogs (`en-US.json`, `de-DE.json`, `es-ES.json`, `fr-FR.json`, `it-IT.json`, `pt-BR.json`) enabling technician customization of localized shell folder names and UI strings.
+  - `Get-SuiteLanguageFolders` dynamically resolves configured culture, falling back to HKCU User Shell Folders registry queries and standard multilingual catalog.
+- **Unbranded External Audit Logging for Zero & Near-Zero Footprint (Modes 0 & N)**:
+  - Mode 0 (Zero Footprint) operations write synchronization history unbranded to `<BACKUP_DRIVE>\Backup_Logs\Sync_History.log`.
+  - Enforces zero writes to host `C:` (`C:\ProgramData\WINBARS`, user `AppData`, or Windows EventLog), guaranteeing host disk remains 100% pristine.
+- **Pre-Flight Menu Toggle Suppression & Defensive Guardrails (Modes 0 & N)**:
+  - Pre-flight profile setup screen suppresses daemon and host-modifying toggles in Modes 0 and N: WinPE boot hooks (`[4]`), Drive Prompt daemon (`[5]`), Silent Sentry Hotkeys (`[6]`), ScamBuster Watchdog (`[7]`), Floppy Tray Monitor (`[8]`), Custom Partner Branding (`[9]`), Shortcuts (`[K]`), and Host Log Retention (`[L]`).
+  - Option `[3]` (Restore Points) is suppressed exclusively for Mode 0 while remaining available for Mode N.
+  - Direct keyboard input for suppressed options is intercepted with informative notices, preventing accidental host modification.
+
+## [0.8.3] - 2026-09-08
+
+### Added
+- **Silent Hotkey Sentry for Headless & Disaster Modes (Modes 1–3)**:
+  - Universal hotkey access (Ctrl+Win+W for Protection Center / Ctrl+Win+B for ScamBuster) is now supported across Modes 1, 2, and 3 via the lightweight Silent Sentry (WINBARS.exe -Tray -Silent).
+  - Runs in the background consuming < 5 MB RAM without placing a floppy disk icon in the system notification tray.
+  - Automatically registered at user logon via Register-TrayStartup -Silent whenever the Hotkeys component toggle [6] is active.
+- **Multilingual Windows Folder Discovery (Internationalization)**:
+  - Native folder localization support for non-English Windows installations (German, Spanish, French, Italian, and Portuguese).
+  - Automatically discovers, sizes, and mirrors localized user folders (Dokumente, Documentos, Bilder, Imágenes, Images, Immagini, Musik, Musique, Música, Videos, Vidéos, Descargas, Téléchargements, Scaricati, Transferências, Schreibtisch, Bureau, Escritorio).
+  - Integrated dynamic Windows Registry query against HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders to resolve custom and redirected shell folder locations.
+  - Standardized across Invoke-RobocopyFallback, Invoke-BackupDrill, Get-DynamicStorageRequirements, Get-DiscoveredBackupSources, and modules/Storage-Advisor.ps1.
+
+### Fixed
+- **Standalone Desktop Shortcut Message Pump**:
+  - Fixed an issue where launching WINBARS.exe -StatusCard (e.g. clicking the desktop shortcut on Mode 2 laptops) would instantly terminate in 5 ms.
+  - ShowStandaloneDialog now properly launches Application.Run(standaloneApp.activeStatusForm) with FormClosed thread termination to provide a robust Windows Forms message pump when running standalone.
+- **Pre-Flight CLI Hotkey Option Clarification**:
+  - Re-labeled Pre-flight Option [6] to: [6] Universal Shortcut Hotkeys (Ctrl+Win+W / Ctrl+Win+B — Silent Sentry) with default [ON ] across Modes 1–4 and [OFF] for Modes 0 and N.
+
+## [0.9.0] - 2026-09-11
+
+### Added
+- **B-A-R-S Modular Architecture**:
+  - Refactored monolithic script into discrete, high-cohesion modules under `src/`:
+    - `src/backup/`: Storage drive detection, VSS snapshot engine, manifest exporter, system image engine.
+    - `src/assistance/`: Storage advisor, Quick Assist integration, OneDrive nag defuser.
+    - `src/recovery/`: Restore point management, disaster recovery orchestration.
+    - `src/security/`: Canary guard ransomware detection, Scam Buster rogue ad killer, auto-heal engine.
+    - `src/gui/`: Windows Forms tray sentry and status card.
+    - `src/cli/`: Console interactive menu and CLI dispatcher.
+    - `src/core/`: Suite context, config engine, deployment profiles, shortcuts & startup.
+  - Automated module bundler (`tools/bundle.ps1`) with AST validation and UTF-8 BOM enforcement.
+- **Configurable Technician Hotkeys & Dynamic Win32 Collision Probing**:
+  - Hotkeys (`ProtectionCenterHotkey`, `ScamBusterHotkey`, `QuickAssistHotkey`) configurable in Tech Mode via configuration menu and `config.json`.
+  - Dynamic Win32 `ProbeComboAvailable` P/Invoke probe via dummy `RegisterHotKey` / `UnregisterHotKey` on background message-pump threads to avoid key conflicts with active Windows applications (e.g. `Ctrl+Win+Q` Quick Assist).
+  - Alt/AltGr keys strictly excluded to prevent dead-key keyboard layout collisions for European and international layouts.
+
+### Improved & Hardened
+- **Reliability & Crash Prevention**:
+  - Replaced dangerous host-killing `Stop-Process` in `Exit-Suite` with safe exit logic.
+  - Eliminated infinite recursion in `Get-SuiteLanguageFolders` via native Windows User Shell Folders registry queries + European multilingual fallback catalog.
+  - Added atomic writes (`Set-WinbarsAtomicFile`) across configuration saves, canary databases, deployment profiles, and OS tracker state files.
+  - Hardened headless/unattended execution: guarded all interactive `Read-Host` and WinForms dialogs against input redirection and non-interactive sessions.
+  - VSS snapshot retention filtering protects system restore points (`SetType -ne 7`) and persistent snapshots.
+
+## [0.8.2] - 2026-09-08
+
+### Added
+- **Master USB Audit Log Vault (`Invoke-MirrorAuditLogToUsb`)**:
+  - Automatically mirrors deployment, provisioning, and execution audit logs when operating from removable media.
+  - Logs are synchronized to `<USB_ROOT>\WINBARS\Logs\Audits\<COMPUTERNAME>_<USERNAME>_<YYYYMMDD>.log`.
+  - Fail-safe implementation: executes silently in protected `try/catch` blocks so write-protected USB media never halts deployments.
+- **Pre-Flight Zero-Question Shortcut & Baseline Toggles**:
+  - Added single-key `[K]` toggle for Desktop & Start Menu Shortcuts directly in the pre-flight profile configuration menu.
+  - Added single-key `[B]` toggle for Immediate Baseline System Image Capture (`.wim`) immediately following deployment.
+  - Eliminated sequential interactive `Read-Host` wizard prompts during provisioning.
+- **Auto-Enabled Branding Across All Profiles**:
+  - Pre-flight profile menu automatically inspects for existing partner or enterprise branding files (`branding.json` or `brands\default\branding.json`).
+  - If branding assets are detected, the `Branding` toggle `[9]` is initialized to `[ON ]` across all modes (unless explicitly run with `-Vanilla`).
+
+### Improved
+- **Robust Previous Installation Awareness in Any Mode**:
+  - `Get-SuiteDeploymentState` now prioritizes canonical local configurations (`C:\Tools\WINBARS\config\config.json`) over transient USB paths.
+  - Intelligent Task Signature Auto-Deduction: dynamically classifies active deployments even if task paths change:
+    - `hasImg -and -not hasFh` -> **`LocalDisasterGuard`** (Mode 2)
+    - `hasRp -and -not hasFh -and -not hasImg` -> **`Minimal`** (Mode 1)
+    - `hasFh -and -not state.TrayActive` -> **`HeadlessFull`** (Mode 3)
+    - `hasFh` -> **`FullInteractive`** (Mode 4)
+  - Seamlessly detects installed state (`IsInstalled = $true`) even when scheduled tasks are on-demand or inactive.
+- **Mode 2 Single-Drive Realism & Dynamic Hero Action**:
+  - Main Menu Option `[2]` dynamically presents a tailored hero action: `[2] Capture Baseline System Image & Checkpoint Now [DISM .wim -> C:\SystemImages]`.
+  - In `Show-BackupNowSubmenu`: Option `[1]` runs bare-metal .wim image, restore point, and S.M.A.R.T. health checks without triggering external drive Robocopy errors.
+  - Option `[3]` (File History & Robocopy Sync) explicitly indicates `[N/A in Mode 2 - Requires External Drive]` and safely exits if pressed.
+- **Single-Drive Cloaking Guardrail**:
+  - Explorer volume cloaking (`[H]`) is safely disabled when the system or target backup drive is `C:`: displayed as `[N/A — Single Drive System (C: cannot be cloaked)]`.
+  - Guardrail prevents technicians from accidentally cloaking the active operating system partition.
+- **Complete CLI Menu Deduplication**:
+  - Main Menu: Eliminated duplicate `[1]` by designating `[L]` to Launch Installed Suite at `C:\Tools\WINBARS`, `[U]` for USB Build Upgrade, and `[I]` for Initial Provisioning.
+  - Setup Submenu: Purged redundant `[U]` and `[I]` entries, eliminated duplicate `[H]` cloaking handlers, and wired `[S]` directly to `Invoke-StorageSizingAdvisor`.
+- **Strict Shortcut Suppression**:
+  - When the Shortcuts component toggle is disabled (`[OFF]`), `Install-WinbarDesktopShortcuts` guarantees 100% suppression: zero desktop shortcuts, zero Start Menu shortcuts, and automatically purges any pre-existing WINBARS Start Menu folders.
+
+## [0.8.1] - Storage Capacity Warning Controls & Realistic Sizing Math
+
+### Added
+- **External Drive Capacity Warning Toggle (`EnableDriveCapacityWarnings`)**:
+  - Added configuration toggle in `config.json` under `StorageAndHardware`.
+  - Added checkbox in WinForms Settings Console (`Ctrl+Win+W`) under *Sentry Notifications & Audio Alarms*.
+  - Added Option `[8]` in CLI Setup Submenu `[N]` for instant technician toggle.
+  - When disabled, suppresses low-space Action Center toasts and prevents dropping `[!] BACKUP_DRIVE_TOO_SMALL.txt` alarm files.
+- **Low Space Warning Threshold (`LowSpaceWarningThresholdGB`)**: Configurable threshold (default: 15 GB) for non-critical drive warnings.
+
+### Improved
+- **Realistic Storage Headroom Calculation**:
+  - External drives with $\ge 25$ GB free are never flagged as "Too Small" or blocked from starting baseline backup synchronization.
+  - `Get-WinbarStorageEstimate`: Sizing recommendation tiers now respect whether bare-metal system images (`EnableExternalImageBackup`) are enabled before computing multi-image retention requirements.
+  - Tier capacity ceiling relaxed from 85% to 90%, preventing premature 2 TB tier upgrade recommendations for standard 512 GB / 1 TB backup drives.
+- **Automated Regression Suite**: 20 of 20 tests passing in `Test-SuiteHardening.ps1`.
+
+## [0.8.0] - 2026-09-08
+
+### Added
+- **Intelligent Runner Location Shift & Execution Handoff**:
+  - Automatically detects when WINBARS is launched from portable media (USB flash drive or Desktop) while a canonical installation exists at `C:\Tools\WINBARS`.
+  - Seamless background execution handoff: automated, scheduled, and tray sentry tasks (`-Action`, `-Tray`, `-AutoHeal`, `-Unattended`) automatically shift execution to `C:\Tools\WINBARS\WINBARS.exe` so background jobs never depend on removable media.
+  - Interactive Location Shift Pivot banner: presents a 1-click prompt to Shift execution to `C:\Tools\WINBARS`, Update the local installation with the USB version, or Continue running portably.
+- **Accurate Profile Storage Destination Reflection & Inline Adjustment**:
+  - Displays dynamically resolved or configured paths for User Data (`Robocopy` mirror) and Bare-Metal System Images under each deployment profile (`[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]`, and Custom).
+  - Explicitly distinguishes `[Configured]` paths saved in `config.json` from `[Auto-Detected]` storage targets and `[Omitted]` components.
+  - Pre-Flight profile deployment wizard now features direct inline adjustment keys: `[C]` (Change Drive), `[D]` (Adjust Data Folder), `[I]` (Adjust Image Folder), and `[F]` (Configure Source Folders & User Profiles).
+- **Dynamic Status & Path Badges Across CLI Menus**:
+  - Added live indicators to Main Menu and Submenu items for Active Profile, Execution Location (`[Installed: C:\Tools\WINBARS]` vs `[Portable Media]`), Registered Task Counts, Target Storage Drive with Free Space, Latest System Restore Point timestamp, S.M.A.R.T. Health, Log Paths, and Cloaking status (`[Drive D: Visible]` vs `[Stealth Active]`).
+- **Unified Dual-Progress Bar Architecture**:
+  - Combined overall phase progress (0–100%) and step progress (0–100%) with real-time transfer counters, file counts, elapsed time, and immediate defensive `[X] Cancel` abort.
+- **Context-Aware Morphing Floating Quick-Action Bar**:
+  - Floppy Tray sentry quick bar morphs automatically between 5 idle action buttons and live dual-progress bar monitor reading `active_backup.json` every 500ms.
+  - Replaced missing square glyphs ("tofu" boxes) with crisp `Segoe UI Emoji` / `Segoe UI Symbol` font rendering.
+- **Tray Sentry Click Debounce**:
+  - 220ms timer separates single-click (toggles floating quick bar) from double-click (opens System Health Info Card flicker-free).
+- **Cloaked Volume Space Discovery**:
+  - Explorer `NoDrives` bitmask inspection allows viewing true free and total space for hidden/cloaked backup volumes.
+
+### Changed
+- **CLI Menu Deduplication**:
+  - Cleanly decoupled binary provisioning (`[I]` / `[U]`) from Windows Task Scheduler registration (`[1]`).
+  - Context-aware main menu hides redundant `[I] Install...` when already executing from `C:\Tools\WINBARS`.
+  - Submenu `[1]` renamed to *`Re-Register & Harden Scheduled Tasks`* when already installed.
+- **Enterprise Notification Phrasing**:
+  - Purged all informal "defuse" references in favor of enterprise standard *`OneDrive Alert Guard Active`*.
+
+---
+
 ## [0.7.44] - 2026-09-08
 
 ### Added
