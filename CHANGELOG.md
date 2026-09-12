@@ -29,6 +29,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated all batch installers (`Install-Mode*.bat`) to accept the `/Reset` flag.
 - **WinRE Boot Hooks**:
   - Integrated custom recovery hooks into the Windows Recovery Environment boot menu (`reagentc.exe` / `WinreConfig.xml`) for Managed Workstation modes.
+- **Block-Level Delta Streamer (Driverless CBT Engine)**:
+  - Pure C#/.NET in-process engine (`Winbars.Storage.BlockDeltaEngine`) — no kernel drivers, no VSAM, no WFilter. Compiles on-demand via `Add-Type`.
+  - Splits large monolithic database files (`*.pst`, `*.ost`, `*.qbw`, `*.qbb`, `*.vhdx`, `*.vhd`, `*.mdf`, `*.ldf`, `*.accdb`, `*.sqlite`) into 4 MB blocks and computes MD5 hashes for each.
+  - Writes **only changed blocks** in-place to the destination file, preserving all unchanged regions, eliminating re-transfer of entire multi-GB files when only a few bytes changed (e.g., a Outlook PST file that added 10 bytes writes only 4 MB instead of the full file).
+  - Atomic crash-safety: uses a `.delta_journal` sidecar so interrupted syncs are safely resumable without destination file corruption.
+  - Hooked into `Invoke-RobocopyWithSafetyArchive` as Step 1.5 — runs before Robocopy, which then skips delta-handled extensions via `/XF` exclusions.
 
 ---
 

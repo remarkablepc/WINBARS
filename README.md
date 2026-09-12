@@ -25,7 +25,9 @@
 
   <br>
 
-  ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping C:\Users ➔](#macos-style-safe-overlay)** &nbsp;&bull;&nbsp; 🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**
+  ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping C:\Users ➔](#macos-style-safe-overlay)**<br>
+  🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
+  ⚡ **[🧬 Block-Level Delta Streamer: Driverless CBT — Copy Only Changed Blocks in Multi-GB Files ➔](#block-delta-engine)**
 
 </div>
 
