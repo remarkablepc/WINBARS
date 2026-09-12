@@ -161,11 +161,22 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **100% Non-Destructive**: Normal OneDrive file synchronization is never disabled or broken. Users who legitimately use OneDrive for school, work, or team sharing continue to enjoy full functionality. Only deceptive upsell banners, library hijacking, and takeover prompts are silenced.
 * **Deployment Profile Rules**: **Enabled by default across ALL deployment modes (Modes 0 through 4 and Custom Profiles)**, because every mode provides complete, verified WINBARS protection. Mode 0 (`ZeroFootprint`) maintains its strict 0-file guarantee because registry policies place **0 executable files on disk**. Technicians can toggle it `[OFF]` via key `[0]` on the Pre-Flight screen if desired.
 
-### 7. Master Baseline Checkpoints & Bare-Metal Images (`_baseline.wim`)
+### 7. Master Baseline Checkpoints & Bare-Metal Images (`SystemImage_OS_and_Programs_*.wim`)
+* **Universal "OS & Programs Only" Architecture**: All system images captured by WINBARS are explicitly labeled `SystemImage_OS_and_Programs_YYYY-MM-DD_HHmm.wim` (and `..._baseline.wim`), with internal DISM metadata stating *"Windows & Programs Only (OS/Drivers/Apps)"*. This completely prevents the dangerous bench assumption that personal user data is trapped inside a monolithic WIM container.
+* **Dual-Layer Speed & Safety Split**:
+  - **The WIM Container**: Captures Windows OS, drivers, `Program Files`, `ProgramData`, and user registry hives (`NTUSER.DAT`, `AppData\Roaming`), creating a clean, bootable 15–25 GB image.
+  - **The Open File Vault**: Client personal data (Desktop, Documents, Pictures, Videos, Downloads) is mirrored 1:1 via multi-threaded Robocopy into `\Users\` on the external backup drive, uncompressed, browsable, and immediately drag-and-drop restorable on any PC, Mac, or Linux computer.
+* **Critical Technician Safeguard (Double-Confirmation WinPE Restore)**: When applying a system image in WinPE via `Apply-SystemImage_WinPE.bat`, the recovery assistant enforces a **two-step confirmation protocol**:
+  1. `STEP 1/2`: Prompts the technician to confirm they have verified or backed up existing `C:\Users` client files to external storage.
+  2. `STEP 2/2`: Requests explicit `YES` confirmation before re-formatting or applying the image to target drive `C:\`.
+* **Turnkey Offline Rescue Suite on Every Backup Drive**:
+  - `README_RECOVERY.txt`: Emergency triage "Start Here" box with step-by-step restoration procedures.
+  - `HOW_TO_RESTORE.html`: A beautifully styled, zero-dependency offline HTML guide that non-technical users can double-click on any working computer or mobile phone.
+  - `Create-RescueUSB.bat`: An automated tool sitting on the backup drive root that turns any blank 4GB+ USB drive into a UEFI-bootable Windows recovery drive in under 60 seconds.
 * **Technician Hardware & Driver Staging**: Before attempting risky hardware or driver replacements (such as conflicting I2C HID touchscreen/touchpad drivers, GPU firmware updates, or network stack overrides), technicians can capture a dedicated **Baseline System Restore Point** (`WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-I2C Driver Fix"`).
 * **`[📌 BASELINE]` Visual Badging**: Baseline checkpoints are explicitly badged across all WINBARS repair menus and the WinRE blue screen recovery console, ensuring technicians can immediately identify known-good master states before testing experimental vendor drivers.
 * **VSS Shadow Headroom Expansion**: Baseline creation automatically sizes the VSS shadow quota (15%) and instructs WINBARS retention routines to skip the baseline during FIFO pruning to maximize checkpoint longevity.
-* **Permanent Bare-Metal System Image (`_baseline.wim`)**: Capturing a bare-metal image with `-Baseline` creates `SystemImage_YYYY-MM-DD_HHmmss_baseline.wim`. These master factory setup images are permanently immune to rotation pruning on both `C:\SystemImages` and external storage, providing an indestructible rollback target even if Windows VSS is eventually purged by major OS feature updates.
+* **Permanent Master Setup Images**: Images tagged with `-Baseline` are permanently immune to automated retention pruning on both `C:\SystemImages` and external storage, providing an indestructible factory rollback target even after major Windows OS feature updates.
 
 ---
 

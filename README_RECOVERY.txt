@@ -1,8 +1,27 @@
-================================================================================
+﻿================================================================================
           WINDOWS DISASTER RECOVERY & FILE RESTORATION INSTRUCTIONS
 ================================================================================
-This backup drive uses 100% native Windows tools (Robocopy + VSS + wbadmin).
+This backup drive uses 100% native Windows tools (Robocopy + VSS + DISM + wbadmin).
 Zero proprietary software is required to access or restore your data.
+================================================================================
+
+================================================================================
+                    EMERGENCY QUICK-START (PANIC TRIAGE)
+================================================================================
+Need your personal files on another computer?
+  -> Go directly to the '\Users\' folder on this drive and drag-and-drop.
+
+Windows blue-screens, crashes, or won't start?
+  -> Follow Section 3 below to run Restore_Registry_WinPE.bat.
+
+Hard drive failed, replaced, or needs full bare-metal OS recovery?
+  -> Follow Section 5 below to run Apply-SystemImage_WinPE.bat.
+
+Need a bootable Windows Recovery USB drive on any computer?
+  -> Follow Section 6 below to run Create-RescueUSB.bat.
+
+Prefer a friendly visual guide with clickable sections?
+  -> Double-click 'HOW_TO_RESTORE.html' on the root of this backup drive!
 ================================================================================
 
 1. RESTORING USER FILES & FOLDERS (100% Native - No Software Needed):
@@ -20,7 +39,7 @@ Zero proprietary software is required to access or restore your data.
      conflict version alongside it:
        'Filename (Conflict from USB - <PC-Name> - YYYY-MM-DD_HHmmss).ext'
    - If the PC file was closed, the previous version is preserved as:
-       'Filename (Older PC Copy - <PC-Name> - YYYY-MM-DD).ext'
+     'Filename (Older PC Copy - <PC-Name> - YYYY-MM-DD).ext'
 
 3. EMERGENCY BLUE SCREEN / UNBOOTABLE REGISTRY RECOVERY:
    - If Windows fails to boot due to a corrupt driver, bad update, or registry damage:
@@ -37,22 +56,38 @@ Zero proprietary software is required to access or restore your data.
    - To roll back system files and drivers from Windows:
      Press Win+R -> type 'rstrui.exe' -> press Enter -> choose a restore point.
 
-5. BARE-METAL SYSTEM IMAGE RESTORE:
-   - Full bare-metal system images are stored in '\WindowsImageBackup\'.
-   - To perform a complete bare-metal recovery:
-     Boot from standard Windows 10/11 installation media or WinRE, select
-     'Troubleshoot' -> 'Advanced options' -> 'System Image Recovery', and select this drive.
+5. BARE-METAL SYSTEM IMAGE RESTORE (OS & Installed Programs):
+   - WIM images are stored in '\SystemImages\' (e.g. SystemImage_OS_and_Programs_*.wim).
+   - What this image restores: Windows Operating System, system drivers, and installed software.
+   - CRITICAL TECHNICIAN SAFEGUARD:
+     Applying this image will OVERWRITE and re-format drive C:\.
+     Personal user files (Docs, Desktop, Pictures) are stored separately in '\Users\'
+     on this external backup drive. If target drive C: is still readable, verify or copy
+     any un-synced client data from C:\Users before applying the image!
+   - To perform a turnkey bare-metal restore:
+     a. Boot PC from Windows Setup USB or Rescue USB (WinRE Command Prompt).
+     b. Switch to this drive: 'D:' or 'E:' -> 'cd SystemImages'.
+     c. Run 'Apply-SystemImage_WinPE.bat'.
+     d. Follow the two-step verification prompts to confirm client data is safe,
+        then apply the image to the target drive.
 
-6. BITLOCKER DISASTER RECOVERY KEYS:
+6. CREATING A BOOTABLE RESCUE USB (On Any Working PC):
+   - If the crashed computer won't boot and you lack a Windows Setup USB:
+     a. Plug this backup drive and any blank USB flash drive (4GB+) into a working PC.
+     b. Right-click 'Create-RescueUSB.bat' on the root of this drive and select
+        'Run as administrator'.
+     c. Follow the prompt to turn the flash drive into a UEFI-bootable WinRE rescue USB.
+
+7. BITLOCKER DISASTER RECOVERY KEYS:
    - If Windows prompts for a 48-digit BitLocker numerical recovery password:
      Open 'BitLocker_Recovery_Key.txt' or 'Backup_Logs\BitLocker_Recovery_Key.txt' on
      this drive to retrieve your recovery password.
 
-7. SHOWING / HIDING THIS BACKUP DRIVE IN WINDOWS EXPLORER:
+8. SHOWING / HIDING THIS BACKUP DRIVE IN WINDOWS EXPLORER:
    - To toggle whether this backup drive is visible or cloaked in 'This PC':
      Right-click 'Toggle_Backup_Drive_Visibility.bat' and select 'Run as administrator'.
 
-8. CONFIGURATION & PROFILE ADJUSTMENTS:
+9. CONFIGURATION & PROFILE ADJUSTMENTS:
    - To change backup sources, schedules, or notification modes, connect this drive
      and run 'Run-WINBARS.bat' (or 'WINBARS.exe').
 

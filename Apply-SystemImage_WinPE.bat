@@ -8,6 +8,9 @@ echo   WINBARS BARE-METAL DISASTER RECOVERY ASSISTANT (DISM / WinPE / WinRE)
 echo ==============================================================================
 echo   This native Windows utility restores a bare-metal .wim system image
 echo   onto your target Windows drive using standard Microsoft DISM and BCDBoot.
+echo.
+echo   BENCH NOTICE: This image restores Windows OS, Drivers ^& Installed Programs.
+echo   Client personal data is preserved separately in '\Users' on external backup.
 echo ==============================================================================
 echo.
 
@@ -110,18 +113,28 @@ if not exist "!TARGET_DRV!\" (
 
 echo.
 echo ==============================================================================
-echo   [!] DANGER: FINAL RESTORATION CONFIRMATION
+echo   [!] CRITICAL TECHNICIAN SAFEGUARD: DOUBLE CONFIRMATION REQUIRED
 echo ==============================================================================
 echo   Image Source:  !SELECTED_WIM!
 echo   Target Volume: !TARGET_DRV!\
 echo.
-echo   Applying this image will OVERWRITE existing Windows files on !TARGET_DRV!\.
-echo   All personal documents, apps, and registry settings on !TARGET_DRV!\ will be
-echo   reverted to the exact state captured in this image.
+echo   WARNING: Applying this image will OVERWRITE and RE-FORMAT !TARGET_DRV!\.
+echo   Any un-synced client data currently in !TARGET_DRV!\Users will be PERMANENTLY ERASED.
+echo   If !TARGET_DRV!\ is still readable, verify or copy client files to external storage FIRST!
 echo ==============================================================================
-set /p "CONFIRM=Type YES to begin bare-metal restoration: "
-if not "!CONFIRM!"=="YES" (
-    echo Restoration cancelled by user.
+echo.
+set /p "USER_CHECK=STEP 1/2: Have you verified or backed up client files from !TARGET_DRV!\Users? (Type YES to confirm): "
+if not "!USER_CHECK!"=="YES" (
+    echo.
+    echo [ABORTED] Restoration cancelled to protect un-synced client data in !TARGET_DRV!\Users.
+    pause
+    exit /b 0
+)
+echo.
+set /p "FINAL_CHECK=STEP 2/2: Are you ready to OVERWRITE and APPLY image to !TARGET_DRV!\? (Type YES to proceed): "
+if not "!FINAL_CHECK!"=="YES" (
+    echo.
+    echo [ABORTED] Restoration cancelled by user.
     pause
     exit /b 0
 )
