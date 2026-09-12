@@ -36,6 +36,8 @@
 > **WINBARS is the resilient orchestration and auto-healing layer that configures, schedules, monitors, and hardens these native Windows engines—ensuring your disaster recovery actually works when disaster strikes.**
 >
 > **WINBARS does not replace Windows recovery technologies. It makes sure they actually work when you need them.**
+>
+> 🛡️ **Zero Lock-In & Verifiable Host Footprint**: Every backup is 100% standard Windows files, native DISM `.wim` images, and raw VSS checkpoints—WINBARS is never required to restore your system. WINBARS installs 0 kernel drivers, 0 background services, and opens 0 network connections. See the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
 
 <p align="center">
   <img src="assets/screenshot.png" alt="WINBARS Protection Center and Sentry Dashboard" width="820" />
@@ -417,11 +419,12 @@ WINBARS provides a comprehensive breakdown for each of the 6 deployment styles e
 ## ❓ Frequently Asked Questions (FAQ)
 
 ### Q: Why isn't WINBARS open-source?
-Keeping **WINBARS** closed-source is fundamentally about **protecting the integrity of the project and ensuring user safety**:
-* **Official Standalone Binary Repository**: This repository distributes the pre-compiled, self-contained standalone executable releases of **WINBARS** (`WINBARS.exe`), accompanied by complete technical documentation, recovery scripts, and partner branding assets. To protect against unauthorized commercial paywalls, adware bundling, and predatory repackaging, the core monolithic source orchestrator is maintained in a private build repository. All distributed files are 100% free for personal and commercial deployment.
-* **Preventing Exploitation & Predatory Paywalls**: In the Windows recovery and utility ecosystem, high-utility tools are frequently cloned, bundled into ad-supported download wrappers, or rebranded under predatory monthly "PC Cleaner / Driver Booster" subscriptions that exploit non-technical users for free system capabilities.
-* **Not About Hiding Code**: This decision isn't about hiding how the tool works—WINBARS orchestrates transparent, standard Microsoft system components (VSS, DISM, Robocopy, WMI, and Task Scheduler). It is about preventing unauthorized third parties from commercially exploiting, paywalling, or tampering with this work.
-* **100% Private, Local & Direct Support**: Keeping it closed-source ensures WINBARS stays clean, local, and private, while allowing the core tool to remain accessible, trusted, and supported directly by the community without corporate exploitation.
+WINBARS is distributed as a pre-compiled, self-contained standalone executable (`WINBARS.exe`) for two core reasons:
+* **Preventing Predatory Exploitation**: In the Windows utility ecosystem, open-source recovery scripts are frequently cloned, bundled into ad-supported download wrappers, or repackaged into predatory monthly "driver booster" subscriptions that exploit everyday users for free native Windows capabilities. Keeping the orchestrator compiled ensures WINBARS remains clean, local, and 100% free.
+* **Tamper-Proof Reliability**: Distributing as an immutable binary prevents well-meaning users or rogue scripts from corrupting recovery logic, eliminates PowerShell `ExecutionPolicy` friction, and guarantees identical, reliable behavior across client workstations.
+
+**Can I audit what WINBARS does?**  
+Yes, completely. WINBARS operates with full host transparency: zero outbound network connections, zero kernel filter drivers, and all recurring operations run through native Windows Task Scheduler using standard Windows binaries (`robocopy.exe`, `wbadmin.exe`, `powershell.exe`). You can independently inspect every task, file, and registry key—see the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
 
 ### Q: Why is WINBARS distributed as a compiled standalone executable (`WINBARS.exe`)?
 1. **Resilience Against Accidental Modification**: Packaging as a standalone application protects mission-critical automation from well-meaning end users, family members, or tier-1 support technicians who might inadvertently right-click "Edit", introduce syntax errors, or break recovery schedules.
@@ -518,6 +521,7 @@ Power users and system administrators can understandably be skeptical of closed-
 ### 2. The "Tamper-Proof" Bench Appliance Angle
 * In bench operations, IT support shops and MSPs face a frustrating reliability problem: well-meaning clients, curious power users, or junior staff inspecting exposed `.ps1` or `.bat` script files, accidentally deleting a quotation mark or altering arguments, and silently killing automated disaster recovery schedules for months.
 * Packaging WINBARS as an immutable standalone executable (`WINBARS.exe`) provides a **tamper-proof operational appliance**. It protects the client from accidentally breaking their own disaster recovery setup, eliminates PowerShell `ExecutionPolicy` conflicts (`Restricted` / `AllSigned`), and guarantees deterministic execution across reboots.
+* **System Footprint & Verification**: For the line-item inventory of every file path, registry key, scheduled task, and a 60-second Sysinternals verification guide, see the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
 
 ---
 
@@ -758,6 +762,7 @@ Community sponsorship of **$100 (one-time)** funds continued development and ope
 For complete architectural diagrams, WinRE configuration guides, and implementation specifications, see the documentation files in [`/docs/`](docs/):
 
 * 📐 [Architecture & Data Flow Manual](docs/ARCHITECTURE.md)
+* 🔍 [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md)
 * 🔑 [BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)
 * 🛑 [Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)
 * 🚑 [WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
