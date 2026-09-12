@@ -163,16 +163,17 @@ set "IMAGE_LETTER="
 set "IMG_PATH="
 
 if defined ARG_DATA (
-    set "DATA_LETTER=!ARG_DATA!"
+    set "DATA_LETTER=!ARG_DATA:~0,1!"
     echo.
-    echo   Data backup drive specified via switch: !DATA_LETTER!
+    echo   Data backup drive specified via switch: !DATA_LETTER!:
 )
 if defined ARG_IMAGE (
-    if "!ARG_IMAGE:~1,1!"==":" (
-        set "IMG_PATH=!ARG_IMAGE!"
-    ) else (
-        set "IMAGE_LETTER=!ARG_IMAGE!"
+    set "TEST_CHAR=!ARG_IMAGE:~2,1!"
+    if "!TEST_CHAR!"=="" (
+        set "IMAGE_LETTER=!ARG_IMAGE:~0,1!"
         set "IMG_PATH=!IMAGE_LETTER!:\WindowsImageBackup"
+    ) else (
+        set "IMG_PATH=!ARG_IMAGE!"
     )
     echo   System image location specified via switch: !IMG_PATH!
 )

@@ -132,6 +132,7 @@ if defined ARG_BRAND (
         copy /y "!RESOLVED_BRAND!" "%~dp0branding.json" >nul 2>&1
         if not exist "C:\ProgramData\WINBARS" mkdir "C:\ProgramData\WINBARS" >nul 2>&1
         copy /y "!RESOLVED_BRAND!" "C:\ProgramData\WINBARS\branding.json" >nul 2>&1
+        if exist "C:\Tools\WINBARS" copy /y "!RESOLVED_BRAND!" "C:\Tools\WINBARS\branding.json" >nul 2>&1
         set "USE_BRANDED=1"
     ) else (
         echo   [WARN] Brand profile not found for '!ARG_BRAND!'. Using standard branding.
@@ -162,16 +163,17 @@ set "IMAGE_LETTER="
 set "IMG_PATH="
 
 if defined ARG_DATA (
-    set "DATA_LETTER=!ARG_DATA!"
+    set "DATA_LETTER=!ARG_DATA:~0,1!"
     echo.
-    echo   Data backup drive specified via switch: !DATA_LETTER!
+    echo   Data backup drive specified via switch: !DATA_LETTER!:
 )
 if defined ARG_IMAGE (
-    if "!ARG_IMAGE:~1,1!"==":" (
-        set "IMG_PATH=!ARG_IMAGE!"
-    ) else (
-        set "IMAGE_LETTER=!ARG_IMAGE!"
+    set "TEST_CHAR=!ARG_IMAGE:~2,1!"
+    if "!TEST_CHAR!"=="" (
+        set "IMAGE_LETTER=!ARG_IMAGE:~0,1!"
         set "IMG_PATH=!IMAGE_LETTER!:\WindowsImageBackup"
+    ) else (
+        set "IMG_PATH=!ARG_IMAGE!"
     )
     echo   System image location specified via switch: !IMG_PATH!
 )
