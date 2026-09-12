@@ -1,5 +1,5 @@
 # WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.1)
-### *WINBARS helps prevent the reasons people lose their files, lose access to their computers, lose money to scammers, and lose hours rebuilding Windows.*
+### *Built by a computer repair technician to prevent the disasters that bring customers back to the repair counter — 100% free, because peace of mind shouldn't cost a thing.*
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.1-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
@@ -96,11 +96,11 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 
 ---
 
-### 💬 A Note from the Creator: Why WINBARS Exists
+### 💬 A Note from the Creator: Dedicated to My Customers
 
-> *"I didn't build WINBARS because I wanted another utility.*
+> *"This project is dedicated to the many customers who have trusted me with their computers over the years.*
 >
-> *I built it because I got tired of watching preventable computer disasters hurt good people.*
+> *I didn't build WINBARS because I wanted another utility. I built it because I got tired of watching preventable computer disasters hurt good people.*
 >
 > *I watched customers lose family photos because a backup silently stopped working.*
 >
@@ -110,9 +110,9 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 >
 > *And I watched scammers use fear, sirens, and fake warnings to steal money from people who simply didn't know where to turn for help.*
 >
-> *After seeing the same problems year after year, I decided to build the tool I wished every customer already had installed.*
+> *After seeing the same problems year after year, I decided to build the tool I wished every customer already had installed before disaster struck.*
 >
-> *That tool became WINBARS."*
+> *That tool became WINBARS — and that is why it is 100% free for everyone. Protecting your family photos, your identity, and your life savings shouldn't come with a price tag. Real peace of mind is priceless."*
 >
 > — **David Hewitt**, Creator of WINBARS (RemarkablePC)
 
