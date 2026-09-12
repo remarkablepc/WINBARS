@@ -1,8 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
-title WINBARS - Immortal Baseline Image Capture
+title WINBARS - Permanent Baseline Image Capture
 :: ============================================================================
-::  WINBARS - CAPTURE IMMORTAL BASELINE SYSTEM IMAGE
+::  WINBARS - CAPTURE PERMANENT BASELINE SYSTEM IMAGE
 ::  Creates SystemImage_..._baseline.wim - permanently excluded from
 ::  retention rotation on both local and external storage.
 ::  If WINBARS is not set up yet, offers to run a one-click installer.
@@ -10,7 +10,7 @@ title WINBARS - Immortal Baseline Image Capture
 
 echo.
 echo ================================================================
-echo   WINBARS - CAPTURE IMMORTAL BASELINE SYSTEM IMAGE
+echo   WINBARS - CAPTURE PERMANENT BASELINE SYSTEM IMAGE
 echo ================================================================
 echo   The baseline image is the permanent Day-1 rollback target.
 echo   It is never rotated, pruned, or deleted by retention rules.
@@ -83,7 +83,7 @@ if /i "!CHOICE!"=="3" call "%~dp0Install-Mode3-HeadlessFull.bat"
 if /i "!CHOICE!"=="4" call "%~dp0Install-Mode4-TotalProtection.bat"
 echo.
 echo   Setup complete. Run Capture-Baseline.bat again to capture
-echo   your immortal baseline image.
+echo   your permanent baseline image.
 echo.
 pause
 exit /b 0
@@ -109,7 +109,7 @@ if not defined RUN_CMD (
 
 :: ---- 5. Optional pinned restore point ----
 set "RP_CHOICE="
-set /p RP_IN="   Also pin an immortal Baseline Restore Point? (Y/N) [Default: N]: "
+set /p RP_IN="   Also pin a permanent Baseline Restore Point? (Y/N) [Default: N]: "
 if /i "!RP_IN!"=="Y" set "RP_CHOICE=Y"
 set "RP_LABEL="
 if defined RP_CHOICE (
@@ -117,16 +117,16 @@ if defined RP_CHOICE (
     if not defined RP_LABEL set "RP_LABEL=Baseline Checkpoint"
 )
 
-:: ---- 6. Capture the immortal baseline system image ----
+:: ---- 6. Capture the permanent baseline system image ----
 echo.
-echo   Capturing immortal baseline system image (_baseline.wim)...
+echo   Capturing permanent baseline system image (_baseline.wim)...
 echo   This can take 30-90+ minutes depending on system size.
 echo   ----------------------------------------------------------------
 !RUN_CMD! -Action SystemImage -Baseline -Unattended
 set "IMG_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !IMG_EXIT! EQU 0 (
-    echo   [OK] Immortal baseline image captured successfully.
+    echo   [OK] Permanent baseline image captured successfully.
     echo        File: SystemImage_..._baseline.wim
     echo        It is permanently excluded from retention rotation.
 ) else (
@@ -137,11 +137,11 @@ if !IMG_EXIT! EQU 0 (
 set "RP_EXIT=0"
 if defined RP_CHOICE (
     echo.
-    echo   Pinning immortal Baseline Restore Point...
+    echo   Pinning permanent Baseline Restore Point...
     !RUN_CMD! -Action RestorePoint -Baseline -Description "!RP_LABEL!" -Unattended
     set "RP_EXIT=!errorLevel!"
     if !RP_EXIT! EQU 0 (
-        echo   [OK] Immortal Baseline Restore Point pinned: !RP_LABEL!
+        echo   [OK] Permanent Baseline Restore Point pinned: !RP_LABEL!
     ) else (
         echo   [WARN] Baseline Restore Point failed with exit code !RP_EXIT!.
     )

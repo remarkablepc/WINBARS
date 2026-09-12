@@ -81,7 +81,7 @@ if !PROFILE_EXIT! EQU 0 (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
 
-:: ---- 6. Question 1 of 1: Optional immortal baseline system image ----
+:: ---- 6. Question 1 of 1: Optional permanent baseline system image ----
 set "FREE_GB=0"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$vol = Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\" -ErrorAction SilentlyContinue; if ($vol) { $gb = [math]::Round($vol.FreeSpace / 1GB, 1); [System.IO.File]::WriteAllText($env:TEMP + '\winbars_c_free.txt', \"$gb\") }" >nul 2>&1
 if exist "%TEMP%\winbars_c_free.txt" (
@@ -92,7 +92,7 @@ if exist "%TEMP%\winbars_c_free.txt" (
 echo.
 echo   QUESTION 1 OF 1 - OPTIONAL BASELINE SYSTEM IMAGE
 echo   Drive C: has !FREE_GB! GB free space.
-set /p BASE_IN="   Capture an immortal baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
 set "IMAGE_EXIT=0"
 set "DID_CAPTURE=0"
 if /i "!BASE_IN!"=="Y" (

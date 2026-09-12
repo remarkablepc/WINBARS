@@ -198,15 +198,15 @@ if !PROFILE_EXIT! EQU 0 (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
 
-:: ---- 11. Optional: capture an immortal baseline image now ----
-set /p BASE_IN="   Capture an immortal baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+:: ---- 11. Optional: capture a permanent baseline image now ----
+set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
 if /i "!BASE_IN!"=="Y" (
     echo.
-    echo   Capturing immortal baseline image (never rotated or deleted)...
+    echo   Capturing permanent baseline image (never rotated or deleted)...
     !RUN_CMD! -Action SystemImage -Baseline -Unattended
     set "BASE_EXIT=!errorLevel!"
     if !BASE_EXIT! EQU 0 (
-        echo   [OK] Immortal baseline image captured successfully.
+        echo   [OK] Permanent baseline image captured successfully.
     ) else (
         echo   [WARN] Baseline capture failed with exit code !BASE_EXIT!.
         echo          The install itself is still complete. You can re-run
@@ -223,7 +223,7 @@ echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
     echo   [SUCCESS] Mode 4 TotalProtection installation completed.
-    echo   Tip: Run Capture-Baseline.bat to pin an immortal baseline image.
+    echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
 ) else (
     echo   [FAILED] One or more steps failed. Review the messages above.
     echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log

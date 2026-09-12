@@ -15,7 +15,7 @@ All switches can be passed with standard PowerShell syntax (-Switch) or Windows 
 | Action Switch | Description | Automated / Unattended |
 | :--- | :--- | :---: |
 | -Action FastBackup | Runs daily fast backup pass: mirrors personal files + creates System Checkpoint. [⚡ 1-Click: Backup My Files Now] | WINBARS.exe -Action FastBackup -Unattended |
-| -Action RestorePoint | Creates a hardened, atomic Windows System Restore Point checkpoint. Use `-Baseline` for immortal driver/hardware checkpoint. | WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-Driver Fix" |
+| -Action RestorePoint | Creates a hardened, atomic Windows System Restore Point checkpoint. Use `-Baseline` for permanent driver/hardware checkpoint. | WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-Driver Fix" |
 | -Action FileHistory | Runs multi-threaded unbuffered Robocopy personal file synchronization. | WINBARS.exe -Action FileHistory -Unattended |
 | -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). Use `-Baseline` to tag as permanent master (`_baseline.wim`). | WINBARS.exe -Action SystemImage -Baseline -Unattended |
 | -Action All | Runs a complete multi-pass backup (Restore Point, File Mirror, DISM Image). | WINBARS.exe -Action All -Unattended |
@@ -137,7 +137,7 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
 | -AddBackupDrive <Path> | Registers a backup destination drive letter (e.g. `E:`) or custom directory path (e.g. `E:\Backups`). |
 | -RemoveBackupDrive <Path> [-Force] | Removes a backup destination. Enforces 1-Drive Minimum Guardrail (requires `-Force` for technician override). |
 | -SetPrimaryBackupDrive <Path> | Designates a backup drive/path as Primary. |
-| -Baseline | Captures an immortal Day-1 baseline restore point or bare-metal system image (`_baseline.wim`). Excluded permanently from retention rotation. |
+| -Baseline | Captures a permanent Day-1 baseline restore point or bare-metal system image (`_baseline.wim`). Excluded permanently from retention rotation. |
 | -Description <Text> | Specifies a custom hardware or repair label for baseline restore points (e.g., `-Description "Pre-I2C Mouse Fix"`). |
 | -MaxRetentionOverride <N> | Overrides default system image retention rotation count (default: 1 on `C:`, 2 on external storage). |
 | -StatusCard / -GUI | Opens the GUI Protection Center Live Dashboard (Ctrl+Win+W). |
@@ -278,11 +278,11 @@ WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in the root and `
 | `Run-WINBARS.bat` | Main Interactive Launcher & Auto-Privilege Escalation | `WINBARS.exe` | Interactive Menu |
 | `Install-Mode0-ZeroFootprint.bat` | Mode 0: Zero Footprint (100% native Windows engines) | `-SetProfile ZeroFootprint -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
 | `Install-ModeN-NearZeroFootprint.bat` | Mode N: Near-Zero Footprint (Stealth native automation) | `-SetProfile NearZeroFootprint -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
-| `Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile Minimal -Vanilla -Unattended` | **0** (Pure OS rollback) |
+| `Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile Minimal -Vanilla -Unattended` | **1** (Optional Baseline Image) |
 | `Install-Mode2-LocalDisasterGuard.bat` | Mode 2: Local Disaster Guard (Local partition DISM image) | `-SetProfile LocalDisasterGuard -Vanilla -Unattended` | **0** (Auto-locates partition) |
 | `Install-Mode3-HeadlessFull.bat` | Mode 3: Headless Full (Silent Robocopy + images) | `-SetProfile HeadlessFull -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
 | `Install-Mode4-TotalProtection.bat` | Mode 4: Total Protection (Tray sentry + Scam Buster) | `-SetProfile TotalProtection -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
-| `Capture-Baseline.bat` | Capture Immortal Baseline System Image (`_baseline.wim`) | `-Action SystemImage -Baseline -Unattended` | Optional: Pin Restore Point |
+| `Capture-Baseline.bat` | Capture Permanent Baseline System Image (`_baseline.wim`) | `-Action SystemImage -Baseline -Unattended` | Optional: Pin Restore Point |
 | `Create-RestorePoint.bat` | Immediate Atomic System Restore Point | `-Action RestorePoint -Unattended` | **0** |
 | `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** |
 | `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** |

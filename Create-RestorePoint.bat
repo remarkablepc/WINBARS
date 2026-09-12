@@ -4,7 +4,7 @@ title WINBARS - Create System Restore Point
 :: ============================================================================
 ::  WINBARS - CREATE SYSTEM RESTORE POINT
 ::  Creates a hardened, atomic Windows System Restore Point (VSS checkpoint).
-::  Optionally pins it as an immortal Baseline Restore Point that is
+::  Optionally pins it as a permanent Baseline Restore Point that is
 ::  permanently excluded from FIFO pruning and VSS quota eviction.
 ::  No WINBARS installation is required - runs portably from USB too.
 :: ============================================================================
@@ -46,9 +46,9 @@ if not defined RUN_CMD (
     exit /b 1
 )
 
-:: ---- 4. Ask whether to pin as an immortal baseline ----
+:: ---- 4. Ask whether to pin as a permanent baseline ----
 set "BASE_CHOICE="
-set /p BASE_IN="   Pin this as an immortal Baseline Restore Point? (Y/N) [Default: N]: "
+set /p BASE_IN="   Pin this as a permanent Baseline Restore Point? (Y/N) [Default: N]: "
 if /i "!BASE_IN!"=="Y" set "BASE_CHOICE=Y"
 
 set "LABEL="
@@ -60,7 +60,7 @@ if defined BASE_CHOICE (
 :: ---- 5. Create the restore point ----
 echo.
 if defined BASE_CHOICE (
-    echo   Creating immortal BASELINE restore point: !LABEL!
+    echo   Creating permanent BASELINE restore point: !LABEL!
     echo   ----------------------------------------------------------------
     !RUN_CMD! -Action RestorePoint -Baseline -Description "!LABEL!" -Unattended
 ) else (
@@ -72,7 +72,7 @@ set "RP_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !RP_EXIT! EQU 0 (
     if defined BASE_CHOICE (
-        echo   [OK] Immortal Baseline Restore Point pinned: !LABEL!
+        echo   [OK] Permanent Baseline Restore Point pinned: !LABEL!
         echo        It is excluded from FIFO pruning and VSS quota eviction.
     ) else (
         echo   [OK] System Restore Point created successfully.

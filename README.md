@@ -163,7 +163,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **Technician Hardware & Driver Staging**: Before attempting risky hardware or driver replacements (such as conflicting I2C HID touchscreen/touchpad drivers, GPU firmware updates, or network stack overrides), technicians can capture a dedicated **Baseline System Restore Point** (`WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-I2C Driver Fix"`).
 * **`[📌 BASELINE]` Visual Badging**: Baseline checkpoints are explicitly badged across all WINBARS repair menus and the WinRE blue screen recovery console, ensuring technicians can immediately identify known-good master states before testing experimental vendor drivers.
 * **VSS Shadow Headroom Expansion**: Baseline creation automatically sizes the VSS shadow quota (15%) and instructs WINBARS retention routines to skip the baseline during FIFO pruning to maximize checkpoint longevity.
-* **Immortal Bare-Metal System Image (`_baseline.wim`)**: Capturing a bare-metal image with `-Baseline` creates `SystemImage_YYYY-MM-DD_HHmmss_baseline.wim`. These master factory setup images are permanently immune to rotation pruning on both `C:\SystemImages` and external storage, providing an indestructible rollback target even if Windows VSS is eventually purged by major OS feature updates.
+* **Permanent Bare-Metal System Image (`_baseline.wim`)**: Capturing a bare-metal image with `-Baseline` creates `SystemImage_YYYY-MM-DD_HHmmss_baseline.wim`. These master factory setup images are permanently immune to rotation pruning on both `C:\SystemImages` and external storage, providing an indestructible rollback target even if Windows VSS is eventually purged by major OS feature updates.
 
 ---
 
@@ -388,7 +388,7 @@ Need to know which profile to pick for a customer in 3 seconds? Use this cheat s
 ### 💡 Cumulative Architecture: Key Distinctions
 * **Cumulative Tiering**:
   * **Stealth Modes (0, N, 1)** require zero resident third-party binaries on `C:\`.
-  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, native Windows Task Scheduler automation, and an immortal baseline system image (`C:\SystemImages\_baseline.wim` if disk space $\ge 25$ GB).
+  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, native Windows Task Scheduler automation, and an optional permanent baseline system image (`C:\SystemImages\_baseline.wim` if disk space $\ge 25$ GB).
   * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by provisioning `WINBARS.exe` to `C:\Tools\WINBARS`, adding desktop suite access, universal hotkeys (`Ctrl+Win+B` / `Ctrl+Win+W`), and monthly bare-metal DISM system images (`.wim`).
   * **Mode 3 (`HeadlessFull`)** adds automated differential Robocopy file sync to external drives, multi-drive rotation, and missing drive connection prompts.
   * **Mode 4 (`TotalProtection`)** adds the persistent Floppy Disk Tray sentry in the notification area, active real-time ScamBuster remote tool interceptor, and organization partner branding.
@@ -565,11 +565,11 @@ For rapid field deployment from a technician flash drive, WINBARS includes stand
 | **`Run-WINBARS.bat`** | Main Interactive Technician Launcher & Self-Elevation | Interactive Menu |
 | **`Install-Mode0-ZeroFootprint.bat`** | Mode 0: Zero Footprint (100% native Windows automation) | 2 (Data & Image Drives) |
 | **`Install-ModeN-NearZeroFootprint.bat`** | Mode N: Near-Zero Footprint (Stealth native automation) | 2 (Data & Image Drives) |
-| **`Install-Mode1-SystemUndo.bat`** | Mode 1: System Undo (Daily restore points & VSS auto-heal) | **0** (Pure OS rollback) |
+| **`Install-Mode1-SystemUndo.bat`** | Mode 1: System Undo (Daily restore points & VSS auto-heal) | **1** (Optional Baseline Image) |
 | **`Install-Mode2-LocalDisasterGuard.bat`** | Mode 2: Local Disaster Guard (Local partition DISM image) | **0** (Auto-locates partition) |
 | **`Install-Mode3-HeadlessFull.bat`** | Mode 3: Headless Full (Silent Robocopy + images) | 2 (Data & Image Drives) |
 | **`Install-Mode4-TotalProtection.bat`** | Mode 4: Total Protection (Tray sentry + Scam Buster) | 2 (Data & Image Drives) |
-| **`Capture-Baseline.bat`** | Capture Immortal Baseline System Image (`_baseline.wim`) | Optional: Pin Restore Point |
+| **`Capture-Baseline.bat`** | Capture Permanent Baseline System Image (`_baseline.wim`) | Optional: Pin Restore Point |
 | **`Create-RestorePoint.bat`** | Immediate Atomic System Restore Point | **0** |
 | **`Toggle_Backup_Drive_Visibility.bat`** | Cloak or Unhide Backup Volume in File Explorer | **0** |
 | **`Uninstall.bat`** | Complete Suite & Task Removal | **0** |
