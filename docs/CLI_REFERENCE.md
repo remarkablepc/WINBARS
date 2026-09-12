@@ -273,19 +273,50 @@ When operating from a technician USB drive, WINBARS automatically records and ag
 
 WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in the root and `dist/` distribution for rapid technician field deployment and USB usage without launching the full interactive menu:
 
-| Batch Launcher | Target Profile / Operation | CLI Equivalent | Interactive Questions Asked |
-| :--- | :--- | :--- | :---: |
-| `Run-WINBARS.bat` | Main Interactive Launcher & Auto-Privilege Escalation | `WINBARS.exe` | Interactive Menu |
-| `Install-Mode0-ZeroFootprint.bat` | Mode 0: Zero Footprint (100% native Windows engines) | `-SetProfile ZeroFootprint -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
-| `Install-ModeN-NearZeroFootprint.bat` | Mode N: Near-Zero Footprint (Stealth native automation) | `-SetProfile NearZeroFootprint -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
-| `Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile Minimal -Vanilla -Unattended` | **1** (Optional Baseline Image) |
-| `Install-Mode2-LocalDisasterGuard.bat` | Mode 2: Local Disaster Guard (Local partition DISM image) | `-SetProfile LocalDisasterGuard -Vanilla -Unattended` | **0** (Auto-locates partition) |
-| `Install-Mode3-HeadlessFull.bat` | Mode 3: Headless Full (Silent Robocopy + images) | `-SetProfile HeadlessFull -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
-| `Install-Mode4-TotalProtection.bat` | Mode 4: Total Protection (Tray sentry + Scam Buster) | `-SetProfile TotalProtection -Vanilla -Unattended` | 2 (Data Drive, Image Drive) |
-| `Capture-Baseline.bat` | Capture Permanent Baseline System Image (`_baseline.wim`) | `-Action SystemImage -Baseline -Unattended` | Optional: Pin Restore Point |
-| `Create-RestorePoint.bat` | Immediate Atomic System Restore Point | `-Action RestorePoint -Unattended` | **0** |
-| `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** |
-| `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** |
+| Batch Launcher | Target Profile / Operation | CLI Equivalent | Interactive Prompts | Unattended Switches Supported |
+| :--- | :--- | :--- | :---: | :--- |
+| `Run-WINBARS.bat` | Main Interactive Launcher & Privilege Escalation | `WINBARS.exe` | Menu | N/A (Interactive Hub) |
+| `Install-Mode0-ZeroFootprint.bat` | Mode 0: Zero Footprint (100% native Windows engines) | `-SetProfile ZeroFootprint -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Data:<Path>`, `/Image:<Path>` |
+| `Install-ModeN-NearZeroFootprint.bat` | Mode N: Near-Zero Footprint (Stealth native automation) | `-SetProfile NearZeroFootprint -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Data:<Path>`, `/Image:<Path>` |
+| `Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile Minimal -Vanilla -Unattended` | **1** | `/?`, `/Quiet`, `/Vanilla`, `/Baseline:Y\|N` |
+| `Install-Mode2-LocalDisasterGuard.bat` | Mode 2: Local Disaster Guard (Local partition DISM image) | `-SetProfile LocalDisasterGuard -Vanilla -Unattended` | **0** | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"` |
+| `Install-Mode3-HeadlessFull.bat` | Mode 3: Headless Full (Silent Robocopy + images) | `-SetProfile HeadlessFull -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"`, `/Data:<Path>`, `/Image:<Path>` |
+| `Install-Mode4-TotalProtection.bat` | Mode 4: Total Protection (Tray sentry + Scam Buster) | `-SetProfile TotalProtection -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"`, `/Data:<Path>`, `/Image:<Path>` |
+| `Capture-Baseline.bat` | Capture Permanent Baseline System Image (`_baseline.wim`) | `-Action SystemImage -Baseline -Unattended` | 1 | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
+| `Create-RestorePoint.bat` | Immediate Atomic System Restore Point | `-Action RestorePoint -Unattended` | **0** | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
+| `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** | `/?` |
+| `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** | `/?`, `/Quiet` |
+
+### Batch Switch Reference Guide
+
+All batch installers accept standard Windows command syntax (case-insensitive):
+
+| Switch | Description | Example |
+| :--- | :--- | :--- |
+| **`/?`** or **`/Help`** | Displays built-in usage and parameter help banner. | `Install-Mode4-TotalProtection.bat /?` |
+| **`/Quiet`** or **`/Q`** | Non-interactive mode; suppresses pause prompts and executes unattended. | `Install-Mode1-SystemUndo.bat /Quiet` |
+| **`/Vanilla`** | Enforces unbranded deployment even if a `branding.json` token is present. | `Install-Mode3-HeadlessFull.bat /Vanilla /Quiet` |
+| **`/Brand:"Name"`** | Applies a specific branding token (e.g. `Acme`, `Acme.json`, or `"C:\Keys\shop.json"`). | `Install-Mode4-TotalProtection.bat /Brand:"Acme PC" /Quiet` |
+| **`/Data:<Path>`** | Sets target directory or drive for personal user files. Accepts drive letters (`D:`) or full paths (`"D:\Backups"`). | `Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Quiet` |
+| **`/Image:<Path>`** | Sets target directory or drive for bare-metal DISM system images. Accepts drive letters (`E:`) or full paths (`"E:\Images"`). | `Install-Mode3-HeadlessFull.bat /Image:E:\Images /Quiet` |
+| **`/Baseline:Y\|N`** | Enables (`Y`) or skips (`N`) capturing an immediate baseline system image during Mode 1 setup. | `Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet` |
+| **`/Pin:Y\|N`** | Pins the restore point permanently against rolling retention FIFO purge. | `Create-RestorePoint.bat /Pin:Y /Label:"Pre-Tuneup" /Quiet` |
+| **`/Label:"Text"`** | Attaches a custom description label to the restore point or baseline image. | `Capture-Baseline.bat /Label:"Clean_Install_Win11" /Quiet` |
+
+### 1-Line Field Automation Examples
+```cmd
+REM Unattended Mode 0 (Zero-Footprint) targeting drive D: for both data and bare-metal images:
+Install-Mode0-ZeroFootprint.bat /Data:D: /Image:D: /Quiet /Vanilla
+
+REM Silent Mode 1 (System Undo) bench warranty tune-up with permanent baseline image:
+Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet
+
+REM Branded Mode 4 deployment for client workstation with custom backup locations:
+Install-Mode4-TotalProtection.bat /Data:D:\UserData /Image:D:\Images /Brand:"TechPros" /Quiet
+
+REM Non-interactive complete uninstallation and task cleanup:
+Uninstall.bat /Quiet
+```
 
 ---
 

@@ -564,19 +564,21 @@ To prevent accidental misconfiguration or confusion when end users and novices a
 ### 0. Turnkey One-Click Batch Launchers (`.bat`)
 For rapid field deployment from a technician flash drive, WINBARS includes standalone batch scripts that execute common actions with 0–2 questions:
 
-| Batch Launcher | Target Profile / Operation | Questions Asked |
-| :--- | :--- | :---: |
-| **`Run-WINBARS.bat`** | Main Interactive Technician Launcher & Self-Elevation | Interactive Menu |
-| **`Install-Mode0-ZeroFootprint.bat`** | Mode 0: Zero Footprint (100% native Windows automation) | 2 (Data & Image Drives) |
-| **`Install-ModeN-NearZeroFootprint.bat`** | Mode N: Near-Zero Footprint (Stealth native automation) | 2 (Data & Image Drives) |
-| **`Install-Mode1-SystemUndo.bat`** | Mode 1: System Undo (Daily restore points & VSS auto-heal) | **1** (Optional Baseline Image) |
-| **`Install-Mode2-LocalDisasterGuard.bat`** | Mode 2: Local Disaster Guard (Local partition DISM image) | **0** (Auto-locates partition) |
-| **`Install-Mode3-HeadlessFull.bat`** | Mode 3: Headless Full (Silent Robocopy + images) | 2 (Data & Image Drives) |
-| **`Install-Mode4-TotalProtection.bat`** | Mode 4: Total Protection (Tray sentry + Scam Buster) | 2 (Data & Image Drives) |
-| **`Capture-Baseline.bat`** | Capture Permanent Baseline System Image (`_baseline.wim`) | Optional: Pin Restore Point |
-| **`Create-RestorePoint.bat`** | Immediate Atomic System Restore Point | **0** |
-| **`Toggle_Backup_Drive_Visibility.bat`** | Cloak or Unhide Backup Volume in File Explorer | **0** |
-| **`Uninstall.bat`** | Complete Suite & Task Removal | **0** |
+| Batch Launcher | Target Profile / Operation | Prompts | Unattended Switches |
+| :--- | :--- | :---: | :--- |
+| **`Run-WINBARS.bat`** | Main Interactive Technician Launcher & Self-Elevation | Menu | N/A (Interactive Hub) |
+| **`Install-Mode0-ZeroFootprint.bat`** | Mode 0: Zero Footprint (100% native Windows automation) | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Data:<Path>`, `/Image:<Path>` |
+| **`Install-ModeN-NearZeroFootprint.bat`** | Mode N: Near-Zero Footprint (Stealth native automation) | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Data:<Path>`, `/Image:<Path>` |
+| **`Install-Mode1-SystemUndo.bat`** | Mode 1: System Undo (Daily restore points & VSS auto-heal) | **1** | `/?`, `/Quiet`, `/Vanilla`, `/Baseline:Y\|N` |
+| **`Install-Mode2-LocalDisasterGuard.bat`** | Mode 2: Local Disaster Guard (Local partition DISM image) | **0** | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"` |
+| **`Install-Mode3-HeadlessFull.bat`** | Mode 3: Headless Full (Silent Robocopy + images) | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"`, `/Data:<Path>`, `/Image:<Path>` |
+| **`Install-Mode4-TotalProtection.bat`** | Mode 4: Total Protection (Tray sentry + Scam Buster) | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"`, `/Data:<Path>`, `/Image:<Path>` |
+| **`Capture-Baseline.bat`** | Capture Permanent Baseline System Image (`_baseline.wim`) | 1 | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
+| **`Create-RestorePoint.bat`** | Immediate Atomic System Restore Point | **0** | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
+| **`Toggle_Backup_Drive_Visibility.bat`** | Cloak or Unhide Backup Volume in File Explorer | **0** | `/?` |
+| **`Uninstall.bat`** | Complete Suite & Task Removal | **0** | `/?`, `/Quiet` |
+
+> 💡 **Batch Script CLI Syntax**: All installers support `/?` for built-in help, `/Quiet` for unattended execution, `/Vanilla` for unbranded deployment, and `/Brand:"Name"` to apply shop branding. See the [Full CLI Reference](docs/CLI_REFERENCE.md) for 1-line automation examples.
 
 ### 1. Technician Launcher Menu (`Run-WINBARS.bat`)
 When running from a USB drive or local technician directory, launch `Run-WINBARS.bat` for the streamlined 6-option operational menu:
@@ -612,13 +614,13 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 
 ```text
 ==========================================================
-   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.8.0)
+   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.0)
 ==========================================================
  Active Deployment Profile : [FullInteractive]
  Runner Execution Location : [C:\Tools\WINBARS]
 
  [P] Deployment Profile & Silent Mode Manager   [FullInteractive]
- [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.8.0]
+ [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.9.0]
  [1] Suite Setup, Auto-Heal & Task Management   [4/4 Tasks Active]
  [2] Run Backup Passes Now (On-Demand)          [Target: D:\ (207.2 GB Free)]
  [3] System Recovery & File Restoration Helpers [WINBARS_Baseline_2026-09-08_1510]
