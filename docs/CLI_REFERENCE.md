@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.9.0)
+# WINBARS Command-Line Interface (CLI) Reference (v0.9.1)
 
 ## 1. Quick Syntax Overview
 
@@ -286,6 +286,7 @@ WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in the root and `
 | `Create-RestorePoint.bat` | Immediate Atomic System Restore Point | `-Action RestorePoint -Unattended` | **0** | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
 | `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** | `/?` |
 | `Apply-SystemImage_WinPE.bat` | WinRE / WinPE Bare-Metal System Image Restore | N/A (Native DISM / BCDBoot) | Dynamic | Interactive |
+| `Create-RescueUSB.bat` | Create Dedicated UEFI Bootable Rescue USB Media | `-RescueUsb` | 1 | `/?`, `/Quiet`, `/Drive:<Letter>`, `/DryRun` |
 | `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** | `/?`, `/Quiet` |
 
 ### Batch Switch Reference Guide

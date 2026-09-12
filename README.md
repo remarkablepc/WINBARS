@@ -615,13 +615,13 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 
 ```text
 ==========================================================
-   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.0)
+   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.1)
 ==========================================================
  Active Deployment Profile : [FullInteractive]
  Runner Execution Location : [C:\Tools\WINBARS]
 
  [P] Deployment Profile & Silent Mode Manager   [FullInteractive]
- [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.9.0]
+ [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.9.1]
  [1] Suite Setup, Auto-Heal & Task Management   [4/4 Tasks Active]
  [2] Run Backup Passes Now (On-Demand)          [Target: D:\ (207.2 GB Free)]
  [3] System Recovery & File Restoration Helpers [WINBARS_Baseline_2026-09-08_1510]
@@ -659,6 +659,8 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 | **🚨 ScamBuster** | WINBARS.exe -ScamBuster | Terminates browser lockups, silences sirens, and clears crash loops (Ctrl+Win+B). |
 | **📋 Emergency Card** | WINBARS.exe -EmergencyCard | Generates printable BitLocker Disaster Recovery Emergency Card (.html). |
 | **🖥 Quick Assist** | WINBARS.exe -QuickAssist | Launches Microsoft Quick Assist with store technician branding (Ctrl+Win+Q). |
+| **🛠 Rescue USB Media** | Create-RescueUSB.bat / WINBARS.exe -RescueUsb | Formats/prepares UEFI bootable WinRE flash drive with WINBARS tools & offline drivers. |
+| **💿 Bare-Metal WinPE** | Apply-SystemImage_WinPE.bat | Interactive DISM restore in WinRE (`Shift+F10` in Setup) with auto `bcdboot` repair. |
 | **📊 Protection Center** | WINBARS.exe -GUI / -StatusCard | Opens Protection Center Live Dashboard (Ctrl+Win+W). |
 | **🧹 Complete Removal** | WINBARS.exe -Uninstall | Cleanly removes all scheduled tasks, desktop shortcuts, and tray sentry. |
 
