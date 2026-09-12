@@ -1,8 +1,8 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.1)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.5)
 ### *Built by a computer repair technician to prevent the disasters that bring customers back to the repair counter — 100% free, because peace of mind shouldn't cost a thing.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.1-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.5-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -15,13 +15,13 @@
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.1-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.5-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
 </p>
 
 <div align="center">
 
-  **[📥 Download Complete Package (`WINBARS-v0.9.1.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.1)**
+  **[📥 Download Complete Package (`WINBARS-v0.9.5.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.5)**
 
   <br>
 
@@ -229,7 +229,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 
 ## ⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites
 
-| Feature / Capability | WINBARS (v0.9.1) | Proprietary Suites (Acronis, Macrium, Veeam) | Windows Native Alone |
+| Feature / Capability | WINBARS (v0.9.5) | Proprietary Suites (Acronis, Macrium, Veeam) | Windows Native Alone |
 | :--- | :---: | :---: | :---: |
 | **Pricing & Licensing** | **100% Free** *(+$100 Lifetime Shop Branding)* | $50–$189/yr per PC (Subscription / Paid) | Included with Windows |
 | **Architectural Model** | **100% Native OS Engines** (Zero Resident) | Heavy Background Daemons & Filter Drivers | Native Windows |
@@ -670,13 +670,13 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 
 ```text
 ==========================================================
-   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.1)
+   WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.5)
 ==========================================================
  Active Deployment Profile : [FullInteractive]
  Runner Execution Location : [C:\Tools\WINBARS]
 
  [P] Deployment Profile & Silent Mode Manager   [FullInteractive]
- [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.9.1]
+ [U] Quick In-Place Suite Update & Task Refresh [C:\Tools\WINBARS • v0.9.5]
  [1] Suite Setup, Auto-Heal & Task Management   [4/4 Tasks Active]
  [2] Run Backup Passes Now (On-Demand)          [Target: D:\ (207.2 GB Free)]
  [3] System Recovery & File Restoration Helpers [WINBARS_Baseline_2026-09-08_1510]
@@ -702,12 +702,14 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 | <nobr>**🛡 Deploy Mode 2**</nobr> | WINBARS.exe -Profile LocalDisasterGuard | Mode 1 + local recovery partition bare-metal DISM image (laptops/single-drive). |
 | <nobr>**🛡 Deploy Mode 3**</nobr> | WINBARS.exe -Profile HeadlessFull | Mode 1 + daily external Robocopy file sync + image archive (silent workstations). |
 | <nobr>**🛡 Deploy Mode 4**</nobr> | WINBARS.exe -Profile TotalProtection | Mode 3 + signature Floppy Tray Sentry + ScamBuster active watchdog + GUI. |
+| <nobr>**🔄 Switch Mode**</nobr> | WINBARS.exe -SwitchMode <Profile> | Zero-drift mode transition: purges old profile tasks and applies new profile cleanly. |
+| <nobr>**🧹 Factory Reset**</nobr> | WINBARS.exe -ResetSuite / Reset-Suite.bat | Clears all scheduled tasks, sentries, and configs to factory defaults without uninstallation. |
 | <nobr>**👁 Cloak Drive**</nobr> | WINBARS.exe -ToggleDriveCloaking | Toggles backup target drive visibility in Windows Explorer (*This PC*). |
 | <nobr>**💾 Disk Destinations**</nobr> | WINBARS.exe -ListBackupDrives | Displays formatted table of registered destinations, capacity, and online health. |
 | <nobr>**➕ Add Destination**</nobr> | WINBARS.exe -AddBackupDrive E: | Registers backup destination (E: or custom directory E:\Backups). |
 | <nobr>**➖ Remove Target**</nobr> | WINBARS.exe -RemoveBackupDrive D: [-Force] | Removes target (enforces 1-drive minimum; -Force for technician override). |
 | <nobr>**🔄 Refresh Triggers**</nobr> | WINBARS.exe -Action UpdateTriggers | Dynamically updates Task Scheduler triggers to match current schedule. |
-| <nobr>**🚨 ScamBuster**</nobr> | WINBARS.exe -ScamBuster | Terminates browser lockups, silences sirens, and clears crash loops (Ctrl+Win+B). |
+| <nobr>**🚨 ScamBuster**</nobr> | WINBARS.exe -ScamBuster | Terminates browser lockups, sinkholes scam domains, and clears sirens (Ctrl+Win+B). |
 | <nobr>**📋 Emergency Card**</nobr> | WINBARS.exe -EmergencyCard | Generates printable BitLocker Disaster Recovery Emergency Card (.html). |
 | <nobr>**🖥 Remote Support**</nobr> | WINBARS.exe -QuickAssist | Displays verified technician contact card, then launches Microsoft Quick Assist (Ctrl+Win+Q). |
 | <nobr>**🛠 Rescue USB Media**</nobr> | Create-RescueUSB.bat / WINBARS.exe -RescueUsb | Formats/prepares UEFI bootable WinRE flash drive with WINBARS tools & offline drivers. |
@@ -813,6 +815,14 @@ For complete architectural diagrams, WinRE configuration guides, and implementat
 ## 📜 Recent Highlights
 
 For the full detailed release history, see [CHANGELOG.md](CHANGELOG.md).
+
+### 🚀 Feature-Complete Milestone & Triage Hardening (v0.9.5)
+- **4-Level Disaster Recovery Triage Ladder & Safe Overlay**: Interactive console and WinPE support for non-destructive macOS-style OS refresh (`dism /apply-image` preserving `C:\Users` & data) alongside System Restore, RegBack, and bare-metal imaging.
+- **ScamBuster Dynamic Sinkhole & Full-Screen Popup Interceptor**: Defuses browser lockups and automatically sinkholes offending scam domains into the local hosts file (`0.0.0.0`) so repeat visits safely fail.
+- **PUP-Guard & Push-Notification Sanitizer**: Automated auditing of rogue startup persistence, browser hijackers, and spam web push notifications.
+- **Smart Drive Warning & Ignore Engine**: Eliminates nagging prompt loops on internal drives with intelligent drive classification and "Always ignore this drive" policy.
+- **Factory Reset & Zero-Drift Mode Switching**: Dedicated `Reset-Suite.bat` and `-SwitchMode` engine cleans legacy tasks across all versions and transitions seamlessly between deployment modes without ghost jobs or drift.
+- **WinRE Boot Hooks**: Embeds technician diagnostic and recovery hooks directly into the Windows Recovery Environment boot menu.
 
 ### 🧱 B-A-R-S Modular Refactor & Technician Hotkey Engine (v0.9.0)
 - **Modular Domain Architecture**: Codebase decomposed into discrete domain modules under `src/` (Backup, Assistance, Recovery, Security, GUI, CLI, Core) with automated zero-dependency single-file bundling.

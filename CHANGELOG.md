@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.5] - 2026-09-12
+
+### Added & Enhanced (Feature-Complete Release Candidate)
+- **4-Level Disaster Recovery Triage Ladder & macOS-Style Safe Overlay Refresh**:
+  - Full interactive integration of Level 3 Non-Destructive Safe Overlay OS Refresh (`dism.exe /Apply-Image` directly over `C:\` preserving `C:\Users` user profiles & personal files, with automated `bcdboot` UEFI bootloader repair).
+  - Aligned the interactive technician console menu (`[3] System Recovery`), WinPE rescue batch (`Apply-SystemImage_WinPE.bat`), and disaster recovery documentation to follow the logical 4-tier ladder (Level 1: System Restore, Level 2: RegBack Registry Rollback, Level 3: Safe Overlay Refresh, Level 4: Bare-Metal Clean Wipe).
+- **ScamBuster Dynamic Sinkhole & Full-Screen Popup Interceptor**:
+  - Dynamically extracts malicious domains from active browser lockup loops and notification prompts.
+  - Automatically commits malicious scam domains to the local Windows `hosts` file (`0.0.0.0`) sinkhole to permanently neutralize repeat attack vectors.
+  - Defuses Chromium crash-recovery traps so browser relaunches safely without re-arming audio siren extortion.
+- **PUP-Guard & Push-Notification Sanitizer**:
+  - Automated detection and remediation of rogue browser push notification permissions across Chrome, Edge, and Brave.
+  - Deep system inspection of startup run keys, scheduled tasks, and rogue background executables.
+- **Smart Drive Warning Engine & Internal Disk Ignore Policy**:
+  - Distinguishes between internal secondary drives (e.g., `D:\` secondary SSD) and removable backup media.
+  - Eliminates nagging prompt loops on internal disks with permanent "Always ignore this drive" configuration and "Skip this time" prompt actions.
+- **Factory Reset & Zero-Drift Mode Switching**:
+  - Added `Reset-SuiteConfiguration` and double-clickable `Reset-Suite.bat` / `dist/Reset-Suite.bat` to sweep legacy scheduled tasks, purge runtime caches, and restore clean factory defaults without full uninstallation.
+  - Added `Switch-DeploymentMode` and `-SwitchMode <Profile>` to transition cleanly between deployment modes (Mode 0 through Mode 4) with zero configuration drift while honoring technician component overrides.
+  - Updated all batch installers (`Install-Mode*.bat`) to accept the `/Reset` flag.
+- **WinRE Boot Hooks**:
+  - Integrated custom recovery hooks into the Windows Recovery Environment boot menu (`reagentc.exe` / `WinreConfig.xml`) for Managed Workstation modes.
+
+---
+
 ## [0.9.1] - 2026-09-12
 
 ### Added & Hardened

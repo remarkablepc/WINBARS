@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.9.1)
+# WINBARS Command-Line Interface (CLI) Reference (v0.9.5)
 
 ## 1. Quick Syntax Overview
 
