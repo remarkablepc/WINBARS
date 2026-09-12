@@ -35,6 +35,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Writes **only changed blocks** in-place to the destination file, preserving all unchanged regions, eliminating re-transfer of entire multi-GB files when only a few bytes changed (e.g., a Outlook PST file that added 10 bytes writes only 4 MB instead of the full file).
   - Atomic crash-safety: uses a `.delta_journal` sidecar so interrupted syncs are safely resumable without destination file corruption.
   - Hooked into `Invoke-RobocopyWithSafetyArchive` as Step 1.5 — runs before Robocopy, which then skips delta-handled extensions via `/XF` exclusions.
+- **1-Click Custom Profile Standalone Batch Generator (`Export-CustomProfileInstaller`)**:
+  - Automatically exports custom deployment profiles into standalone, self-elevating `Install-Custom-<ProfileName>.bat` launchers.
+  - Enables IT technicians and MSPs to configure a profile once and distribute a 1-click zero-prompt batch file to dozens of client machines.
+  - Injects profile configuration directly into `C:\ProgramData\WINBARS\custom_profiles.json` and supports `/Quiet` and `/Reset` switches.
+- **Boot-Failure Resilience & Startup Toggles**:
+  - Silent Native WinRE Hook: Stages emergency recovery tools directly into Windows Recovery Environment via `reagentc /setcustomtarget` (always-on for protection modes, survives OS partition failures, zero client boot delay).
+  - Optional Boot Manager Display Menu (`Enable-BootManagerMenu` / `-EnableBootMenu`): Configures a 2-second boot menu timeout. Disabled by default to prevent client alarm.
+  - Optional Legacy F8 Boot Policy (`Enable-LegacyF8Boot` / `-EnableLegacyF8`): Restores Windows 7-style F8 key behavior for legacy BIOS/MBR hardware with explicit UEFI advisories.
+  - Interactive Boot Recovery Inspector (`Show-BootRecoveryMenu` / `-BootRecoveryMenu`).
 
 ---
 
