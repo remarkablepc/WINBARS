@@ -1,12 +1,12 @@
 @echo off
 setlocal EnableDelayedExpansion
-title WINBARS One-Click Installer - Mode 1 (SystemUndo - Stealth Bench Warranty)
+title WINBARS One-Click Installer - Mode 1 (SystemUndo - Service Warranty Baseline)
 :: ============================================================================
-::  WINBARS ONE-CLICK INSTALLER - MODE 1 : SYSTEM UNDO (STEALTH BENCH WARRANTY)
-::  The Universal "Bench Warranty" Mode: Deploy on 100% of customer PCs with
-::  ZERO resident EXEs, ZERO shortcuts, and ZERO customer explanation required.
+::  WINBARS ONE-CLICK INSTALLER - MODE 1 : SYSTEM UNDO (SERVICE WARRANTY BASELINE)
+::  The Universal Service Warranty Baseline: Native Windows rollback hardening
+::  with ZERO resident EXEs, ZERO shortcuts, and ZERO background daemons.
 ::  Hardens native Windows recovery (daily unthrottled System Restore points,
-::  VSS auto-healing, RegBack) and captures a local baseline system image
+::  VSS auto-healing, RegBack) with an optional baseline system image
 ::  (C:\SystemImages\_baseline.wim) if disk space >= 25 GB.
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
 :: ============================================================================
@@ -14,16 +14,16 @@ title WINBARS One-Click Installer - Mode 1 (SystemUndo - Stealth Bench Warranty)
 echo.
 echo ================================================================
 echo   WINBARS ONE-CLICK INSTALLER - MODE 1 : SYSTEM UNDO
-echo   (Stealth Local Recovery Hardener - 0 Resident EXEs)
+echo   (Service Warranty Baseline - 0 Resident EXEs)
 echo ================================================================
 echo   What Mode 1 does:
 echo     - Daily unthrottled system restore points (Native Windows)
 echo     - VSS writer auto-heal + shadow storage guard (10%% quota)
 echo     - Driver/MSI install checkpoints
-echo     - Local baseline system image (C:\SystemImages\_baseline.wim)
+echo     - Optional baseline system image (C:\SystemImages\_baseline.wim)
 echo     - Zero resident EXEs, zero shortcuts, zero tray, zero daemons
 echo.
-echo   Mode 1 is 100%% automated - zero questions will be asked.
+echo   Mode 1 deployment - exactly 1 optional question will be asked.
 echo.
 
 :: ---- 1. Request Administrator privileges if needed ----
@@ -81,40 +81,43 @@ if !PROFILE_EXIT! EQU 0 (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
 
-:: ---- 6. Check C: free space for baseline system image (>= 25 GB) ----
+:: ---- 6. Question 1 of 1: Optional immortal baseline system image ----
 set "FREE_GB=0"
-set "CAPTURE_IMAGE=0"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$vol = Get-CimInstance Win32_LogicalDisk -Filter \"DeviceID='C:'\" -ErrorAction SilentlyContinue; if ($vol) { $gb = [math]::Round($vol.FreeSpace / 1GB, 1); [System.IO.File]::WriteAllText($env:TEMP + '\winbars_c_free.txt', \"$gb\") }" >nul 2>&1
 if exist "%TEMP%\winbars_c_free.txt" (
     set /p FREE_GB=<"%TEMP%\winbars_c_free.txt"
     del /f /q "%TEMP%\winbars_c_free.txt" >nul 2>&1
 )
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "if ([double]'!FREE_GB!' -ge 25.0) { exit 0 } else { exit 1 }" >nul 2>&1
-if !errorLevel! EQU 0 (
-    set "CAPTURE_IMAGE=1"
-)
-
+echo.
+echo   QUESTION 1 OF 1 - OPTIONAL BASELINE SYSTEM IMAGE
+echo   Drive C: has !FREE_GB! GB free space.
+set /p BASE_IN="   Capture an immortal baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
 set "IMAGE_EXIT=0"
-if "!CAPTURE_IMAGE!"=="1" (
-    echo.
-    echo   Drive C: has !FREE_GB! GB free space (>= 25 GB requirement met).
-    echo   Capturing local baseline system image (C:\SystemImages\_baseline.wim)...
-    echo   ----------------------------------------------------------------
-    !RUN_CMD! -Action SystemImage -Baseline -Unattended
-    set "IMAGE_EXIT=!errorLevel!"
-    echo   ----------------------------------------------------------------
-    if !IMAGE_EXIT! EQU 0 (
-        echo   [OK] Local baseline system image captured successfully.
+set "DID_CAPTURE=0"
+if /i "!BASE_IN!"=="Y" (
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "if ([double]'!FREE_GB!' -ge 25.0) { exit 0 } else { exit 1 }" >nul 2>&1
+    if !errorLevel! EQU 0 (
+        echo.
+        echo   Capturing local baseline system image (C:\SystemImages\_baseline.wim)...
+        echo   ----------------------------------------------------------------
+        !RUN_CMD! -Action SystemImage -Baseline -Unattended
+        set "IMAGE_EXIT=!errorLevel!"
+        echo   ----------------------------------------------------------------
+        if !IMAGE_EXIT! EQU 0 (
+            echo   [OK] Local baseline system image captured successfully.
+            set "DID_CAPTURE=1"
+        ) else (
+            echo   [WARN] System image capture returned code !IMAGE_EXIT!.
+            echo          Windows restore point hardening remains fully active.
+        )
     ) else (
-        echo   [WARN] System image capture returned code !IMAGE_EXIT!.
-        echo          Windows restore point hardening remains fully active.
+        echo.
+        echo   [WARN] Drive C: has !FREE_GB! GB free space (less than 25 GB minimum required).
+        echo          Skipping baseline image to avoid exhausting customer disk space.
     )
 ) else (
-    echo.
-    echo   [i] Drive C: has !FREE_GB! GB free space (less than 25 GB threshold).
-    echo       Skipping local baseline image capture to preserve customer disk space.
-    echo       Daily System Restore & VSS hardening are active and protected.
+    echo   [i] Baseline image skipped. Restore points and VSS hardening active.
 )
 
 :: ---- 7. Final verdict ----
@@ -129,7 +132,7 @@ if !OVERALL_EXIT! EQU 0 (
     echo   * VSS Shadow Storage Quota:     10%% Headroom Hardened
     echo   * 24-Hour Creation Throttle:    Disabled (Unlimited Checkpoints)
     echo   * Resident Third-Party Files:   0 (Zero EXEs, Zero Shortcuts)
-    if "!CAPTURE_IMAGE!"=="1" if !IMAGE_EXIT! EQU 0 (
+    if "!DID_CAPTURE!"=="1" (
     echo   * Local Disaster Image:         C:\SystemImages\_baseline.wim
     )
     echo   ----------------------------------------------------------------

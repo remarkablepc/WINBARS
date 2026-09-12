@@ -13,10 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Two-Tier Deployment Spectrum (Stealth vs. Managed Architecture)**:
   - **Tier 1: Stealth / Native Windows Modes (Modes 0, N, 1)**: Leave **0 resident third-party EXEs** and 0 background processes on host `C:\`. All tasks run via 100% native Windows engines (`powershell.exe Checkpoint-Computer`, `robocopy.exe`, `wbadmin.exe`, VSS).
   - **Tier 2: Managed Suite Modes (Modes 2, 3, 4)**: Provisions `WINBARS.exe` to `C:\Tools\WINBARS` with desktop suite integration, universal hotkeys, and sentry monitoring.
-- **Mode 1 Stealth Pivot: The Universal "Bench Warranty" Hardener**:
-  - Repurposed Mode 1 (`SystemUndo`) so technicians can deploy it on 100% of customer computers with 0 questions asked, 0 shortcuts, and 0 third-party software to explain.
-  - Automatically unthrottles Windows restore point frequency (`SystemRestorePointCreationFrequency = 0`), locks 10% VSS shadow storage quota, enables native RegBack, and schedules daily restore points.
-  - Automatically captures a local baseline bare-metal system image (`C:\SystemImages\_baseline.wim`) whenever drive `C:` has $\ge 25$ GB free space.
+- **Mode 1 Stealth Pivot: Universal Service Warranty Baseline**:
+  - Repurposed Mode 1 (`SystemUndo`) as a native Windows recovery hardener with **0 resident third-party EXEs**, **0 shortcuts**, and **0 background daemons**.
+  - Unthrottles Windows restore point frequency (`SystemRestorePointCreationFrequency = 0`), locks 10% VSS shadow storage quota, enables native RegBack, and schedules daily restore points via native Windows Task Scheduler.
+  - Streamlined 1-question installer prompt: optional capture of an immortal baseline bare-metal system image (`C:\SystemImages\_baseline.wim`) when drive `C:` has $\ge 25$ GB free space.
 - **Ransomware Canary Shield Matrix**:
   - Documented threat model and honeypot placement across all 6 profiles (external canary for 0/N, shadow quota hardening for 1, local image canary for 2, scheduled pre-sync audit for 3, and real-time honeypot sentinels + Webhook alerts for 4).
 - **B-A-R-S Modular Architecture**:

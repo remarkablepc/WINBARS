@@ -337,9 +337,9 @@ WINBARS is architecturally divided into two distinct tiers: **Stealth / Native W
 │                              │ generic unbranded shortcuts   │                              │ Robocopy +    │
 │                              │                               │                              │ drive alerts  │
 ├──────────────────────────────┼───────────────────────────────┼──────────────────────────────┼───────────────┤
-│ Mode 1: SystemUndo           │ Universal "Bench Warranty"    │ Mode 4: TotalProtection      │ Full suite +  │
+│ Mode 1: SystemUndo           │ Universal Service Warranty;   │ Mode 4: TotalProtection      │ Full suite +  │
 │         (Stealth Hardener)   │ 0 EXEs, 0 shortcuts, daily    │                              │ Floppy Tray + │
-│                              │ restore points + local image  │                              │ ScamBuster    │
+│                              │ restore points + opt. image   │                              │ ScamBuster    │
 └──────────────────────────────┴───────────────────────────────┴──────────────────────────────┴───────────────┘
 ```
 
@@ -349,7 +349,7 @@ WINBARS is architecturally divided into two distinct tiers: **Stealth / Native W
 | :--- | :--- | :--- | :--- | :---: |
 | **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | Automated tasks run 100% via native Windows engines (`robocopy.exe`, `wbadmin.exe`, VSS) with zero USB required after setup | **0 Resident Files** *(0 bytes on C:)* |
 | **Mode N: `NearZeroFootprint`** 👻 | Corporate Workstations & Vendor-Neutral Deployments | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`, `Browse Backup Files`) + unbranded Start Menu (`System Backup & Recovery`) | Automated via native Task Scheduler; restores via standard Explorer, `rstrui.exe`, and WinRE | **0 Resident EXEs** *(Generic Shortcuts Only)* |
-| **Mode 1: `SystemUndo`** ⏪ | **Standard Bench Tune-Ups & Routine Warranty Service** | **The Universal "Bench Warranty"**: Daily unthrottled System Restore points, VSS writer auto-healing, 10% shadow storage headroom, driver/MSI checkpoints, and local baseline system image (`C:\SystemImages\_baseline.wim` if disk $\ge 25$ GB) | Pure native Windows Task Scheduler automation (`powershell.exe Checkpoint-Computer`, `Set-Service`, `vssadmin`); WinRE detects restore points & `.wim` image | **0 Resident EXEs** *(100% Native Windows Hardening)* |
+| **Mode 1: `SystemUndo`** ⏪ | **Service Warranty Baseline & Bench Tune-Up** | **The Universal Service Warranty**: Daily unthrottled System Restore points, VSS writer auto-healing, 10% shadow storage headroom, driver/MSI checkpoints, and optional local baseline system image (`C:\SystemImages\_baseline.wim`) | Pure native Windows Task Scheduler automation (`powershell.exe Checkpoint-Computer`, `Set-Service`, `vssadmin`); WinRE detects restore points & `.wim` image | **0 Resident EXEs** *(100% Native Windows Hardening)* |
 | **Mode 2: `LocalDisasterGuard`** 💽 | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | Start Menu `WINBARS` Suite • Desktop `Create System Image` • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks | Local Suite (`C:\Tools\WINBARS`) |
 | **Mode 3: `HeadlessFull`** 🏢 | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | Silent background Task Scheduler execution • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks | Local Suite (`C:\Tools\WINBARS`) |
 | **Mode 4: `TotalProtection`** 🛡️ | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | Full interactive real-time protection • Floppy Tray Sentry • Scam Sentry • `Ctrl+Win+W` Protection Center | Local Suite (~18 MB RAM) |
@@ -364,8 +364,8 @@ Need to know which profile to pick for a customer in 3 seconds? Use this cheat s
 | :--- | :--- | :--- |
 | **Mode 0: `ZeroFootprint`** | **Strict Corporate Audits & MSP Sterile Compliance** | Corporate clients or regulated workstations where security policy strictly forbids leaving any third-party files or scripts on `C:\`. The entire runner script and logs reside on the technician's external drive. |
 | **Mode N: `NearZeroFootprint`** | **Corporate Workstations & Vendor-Neutral Stealth Deployments** | For business and corporate clients where third-party utility branding is restricted. Uses 100% native Windows Task Scheduler and generic shortcuts (`System Backup & Recovery`) so the automation blends seamlessly into Windows as a built-in system capability. **Zero background EXEs**, native Task Scheduler jobs (`\WindowsBackup\`), generic external folder (`E:\WindowsBackup\`), and generic native tools. Restores via native Explorer, `rstrui.exe`, & WinRE. |
-| **Mode 1: `SystemUndo`** ⏪ | **Standard Bench Tune-Ups & Routine Warranty Service** | **The Universal "Bench Warranty" Mode**: Deploy on **100% of customer PCs** without asking permission or explaining software. Hardens Windows built-in recovery and captures a local baseline image with **0 resident EXEs** and **0 shortcuts**. No foreign software to explain—it purely hardens Windows' native recovery tools. |
-| **Mode 2: `LocalDisasterGuard`** 💽 | **Road Warriors, Students & Mobile Laptops** | Traveling sales reps and laptop users who rarely plug in an external drive, but *want* a desktop recovery shortcut. Backs up a monthly bare-metal DISM system image (`.wim`) to a local recovery partition with desktop suite access. |
+| **Mode 1: `SystemUndo`** ⏪ | **Standard Bench Tune-Ups & Routine Warranty Service** | **The Universal Service Warranty Baseline**: Designed for standard bench tune-ups and hardware repairs. Hardens Windows' native recovery engines (unthrottles restore point frequency, locks 10% VSS shadow storage headroom, and enables native RegBack) with an optional 1-click baseline image. Operates with **zero third-party resident binaries and zero shortcuts**, delivering dependable rollback protection without introducing software overhead. |
+| **Mode 2: `LocalDisasterGuard`** 💽 | **Road Warriors, Students & Mobile Laptops** | Traveling sales reps and laptop users who rarely plug in an external drive, but *want* on-demand desktop recovery shortcuts. Configures recurring monthly bare-metal DISM system images (`.wim`) to a local recovery partition with desktop suite integration and emergency hotkeys. |
 | **Mode 3: `HeadlessFull`** 🏢 | **Silent Workstations, Accounting & Medical Clinics** | Production office environments (CPA firms, dental clinics, law offices) with dedicated external hard drives. Runs full daily Robocopy sync and bare-metal imaging 100% silently in the background with zero desktop clutter or user prompts—alerting only if the drive is unplugged. |
 | **Mode 4: `TotalProtection`** 🛡️ | **Seniors, VIPs & Scam-Prone Non-Technical Clients** | Grandparents, non-technical clients, or high-value VIPs frequently targeted by browser pop-ups, fake virus sirens, and phone support scammers. Features the Floppy Disk Tray icon, active real-time ScamBuster and Remote Tool Interceptor (`[STOP] Disconnect & Block`), live GUI Protection Center, and your shop's emergency support hotline branding. |
 | **Mode 5+: `Custom Profiles`** | **Specialized Enterprise & Boutique Deployments** | Tailored multi-drive configurations, specialized network shares, or specific retention tiers configured via `custom_profiles.json` or the Pre-Flight interactive builder. |
@@ -708,13 +708,13 @@ WINBARS.exe -Uninstall                          REM Cleanly remove all tasks, sh
 
 ---
 
-## 🏷️ White-Labeling & The $100 Lifetime Shop Branding Perk
+## 🏷️ White-Labeling & Community Shop Sponsorship ($100 One-Time Token)
 
-### Turn WINBARS into Your Shop's Client Retention Engine
+### Custom Shop Identity & Direct Client Support Channels
 
-For independent computer repair shops, MSPs, and mobile IT technicians, customer churn is an everyday battle. When a customer takes home a repaired PC and encounters an issue six months later, they often fall victim to predatory Google search ads, call fraudulent 1-800 scam call centers, or assume their computer "wasn't fixed right."
+For independent repair shops, system integrators, and MSPs, keeping your contact information front-and-center ensures clients reach your bench when issues arise rather than falling prey to online search scams or fake tech support call centers.
 
-**The $100 Lifetime Shop Branding Perk** solves this by turning WINBARS into an in-house, white-labeled client defense asset carrying **your shop's name, telephone number, and direct remote support links**.
+Community sponsorship of **$100 (one-time)** funds continued development and open-source maintenance of the WINBARS project. As an appreciation perk for sponsoring shops, RemarkablePC issues a digitally signed, offline `branding.json` token that seamlessly integrates your shop's identity into client-facing components.
 
 ```
    ┌────────────────────────────────────────────────────────┐
@@ -726,34 +726,30 @@ For independent computer repair shops, MSPs, and mobile IT technicians, customer
    └────────────────────────────────────────────────────────┘
 ```
 
-> [!NOTE]
-> **Community Sponsorships**: Donations of any amount are gratefully accepted to support ongoing development and community maintenance of WINBARS. Commercial IT repair shops and MSPs who sponsor the project at the **$100 minimum donation tier** receive the lifetime Shop Branding Token described below.
+### 💼 Technical Integration & Architecture
 
-### 💼 Why the $100 Lifetime Perk is a Game Changer for Technicians:
+1. **Air-Gapped Cryptographic Signature (ECDSA-SHA256)**:
+   * Your branding token is cryptographically signed using an asymmetric ECDSA-SHA256 key pair and AES-256 integrity checks.
+   * Signature verification runs **100% locally and offline** via native Windows `.NET / CNG` cryptographic APIs.
+   * Zero outbound telemetry, zero licensing servers, and zero connectivity dependencies. Deployments remain fully valid indefinitely, even in isolated air-gapped environments.
 
-1. **One-Time Investment, Unlimited Lifetime Deployments**:
-   * Traditional enterprise backup suites (Acronis, Macrium, Datto) charge **$50 to $100+ PER ENDPOINT, PER YEAR** in recurring software subscriptions. White-labeling programs often require enterprise MSP tiers costing $5,000 to $10,000+ annually.
-   * With WINBARS, you pay a single **$100 lifetime fee**. You receive your cryptographically signed `branding.json` token and can deploy it across **50, 500, or 5,000 client computers forever**. No recurring fees, no seat counts, and no expiration dates.
-2. **Permanent Client Retention & Repeat Service**:
-   * Every time a client opens the Protection Center (`Ctrl + Win + W` or desktop shortcut), they see your business name: *"Protected by [Your Shop Name] • Managed Safeguards"*.
-   * If they suspect an issue, click for help, or need remote service, the **Remote Support** button dials your shop's hotline or launches Microsoft Quick Assist pre-configured with your support contact details.
-   * Prevents clients from getting conned by offshore pop-up numbers or taking their computer to a competitor.
-3. **Active Scam Defense as a Billable Service**:
-   * Traditional antivirus software intentionally permits commercial remote control tools (AnyDesk, TeamViewer) because they are digitally signed business software, creating a blindspot for phone scammers.
-   * With WINBARS Profile 4 deployed, your shop can offer an "Active Scam & Remote Access Defense" service tier. If a pop-up tries to connect, WINBARS stops it in its tracks, displaying an unmistakable warning and your shop's contact hotline.
-4. **100% Air-Gapped & Offline Cryptographic Integrity**:
-   * Your branding token (`branding.json`) is cryptographically signed using asymmetric ECDSA-SHA256 and encrypted with AES-256.
-   * WINBARS validates the signature **100% offline using native Windows cryptography**.
-   * No license validation servers, no internet requirement, no telemetry pings, and zero risk of your client's branding breaking if a remote server goes down.
+2. **Client-Facing Integration Touchpoints**:
+   * **Protection Center (`Ctrl + Win + W`)**: Displays your shop name, hotline, and emergency contact details on the main dashboard header and assistance tabs.
+   * **Direct Remote Support**: Connects the client directly to your shop's preferred remote assistance platform or Microsoft Quick Assist pre-populated with your technician instructions.
+   * **BitLocker Emergency Recovery Card**: Formatted emergency key printouts embed your shop's support contact and recovery instructions.
+   * **Scam Sentry Interceptor (Mode 4)**: Unsolicited remote access alerts instruct the user to immediately disconnect and dial your verified shop hotline.
 
-### 🛠️ How to Obtain and Deploy Your Shop Branding:
-1. **Get Your Shop Token**: Visit the [official RemarkablePC checkout portal](https://www.paypal.com/ncp/payment/EKH76RTYHH24S) and request your one-time $100 Lifetime Shop Branding Token.
-2. **Receive Your `branding.json`**: You will receive a digitally signed token file embedding your business name, hotline phone number, support website URL, and custom emergency notice.
-3. **Deploy in 15 Seconds**:
-   * Drop `branding.json` into your USB technician folder alongside `WINBARS.exe`.
-   * Run `Run-WINBARS.bat` and select Option 2 (`Launch Technician Interactive Console`).
-   * Choose to deploy branded or vanilla.
-   * Every shortcut, tray icon, and emergency screen will permanently display your shop's white-label identity.
+3. **Perpetual Technician Usage**:
+   * A single token covers all workstations serviced by your bench or shop without per-seat license counts or renewal subscriptions.
+
+### 🛠️ Obtaining and Deploying a Shop Token
+
+1. **Request a Token**: Visit the [RemarkablePC Community Sponsorship Portal](https://www.paypal.com/ncp/payment/EKH76RTYHH24S) and provide your shop name, support phone number, and helpdesk URL.
+2. **Receive `branding.json`**: You will receive a validated, digitally signed token file tailored to your organization.
+3. **Deploy via USB Bench Toolkit**:
+   * Place `branding.json` in the root folder alongside `WINBARS.exe`.
+   * When launching `Run-WINBARS.bat` or applying deployment profiles, WINBARS automatically detects, validates, and installs the shop branding token into `C:\Tools\WINBARS\branding.json`.
+   * Branded identity can also be bundled directly into standalone technician builds using the `-BrandingPath` parameter.
 
 ---
 
