@@ -8,6 +8,75 @@ title WINBARS One-Click Installer - Mode 3 (HeadlessFull)
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
 :: ============================================================================
 
+:: ---- 0. Parse Command Line Arguments ----
+set "QUIET_MODE=0"
+set "FORCE_VANILLA=0"
+set "USE_BRANDED=0"
+set "ARG_BRAND="
+set "ARG_DATA="
+set "ARG_IMAGE="
+set "ARG_BASELINE="
+
+:PARSE_LOOP
+if "%~1"=="" goto ARGS_DONE
+set "A=%~1"
+
+:: Help triggers
+if /i "!A!"=="/?" goto SHOW_HELP
+if /i "!A!"=="-?" goto SHOW_HELP
+if /i "!A!"=="/help" goto SHOW_HELP
+if /i "!A!"=="--help" goto SHOW_HELP
+if /i "!A!"=="help" goto SHOW_HELP
+
+:: Flags
+if /i "!A!"=="/quiet" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
+if /i "!A!"=="/unattended" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
+if /i "!A!"=="/vanilla" ( set "FORCE_VANILLA=1" & shift & goto PARSE_LOOP )
+
+:: Switches with values
+if /i "!A:~0,7!"=="/brand:" ( set "ARG_BRAND=!A:~7!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,6!"=="/data:" ( set "ARG_DATA=!A:~6!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,7!"=="/image:" ( set "ARG_IMAGE=!A:~7!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,10!"=="/baseline:" ( set "ARG_BASELINE=!A:~10!" & shift & goto PARSE_LOOP )
+
+shift
+goto PARSE_LOOP
+
+:SHOW_HELP
+echo.
+echo ========================================================================
+echo   WINBARS ONE-CLICK INSTALLER - MODE 3 : HEADLESS FULL
+echo ========================================================================
+echo   Headless Suite (Differential File Sync + DISM Images + Alerts).
+echo.
+echo SYNTAX:
+echo   Install-Mode3-HeadlessFull.bat [/?] [/Quiet] [/Vanilla] [/Brand:Name]
+echo                                  [/Data:Path] [/Image:Path] [/Baseline:Y^|N]
+echo.
+echo SWITCHES:
+echo   [/?] or [/Help]   Display this help screen and exit immediately.
+echo   /Quiet            Unattended mode: suppresses completion pause prompts.
+echo   /Vanilla          Enforces 100%% unbranded deployment.
+echo   /Brand:Name       Applies branding token profile from brands\ folder.
+echo                     Accepts filename, filename.json, or company name.
+echo   /Data:Path        Pre-answers Question 1: Data backup drive (e.g. E:).
+echo   /Image:Path       Pre-answers Question 2: System image drive (e.g. E:).
+echo   /Baseline:Y^|N     Pre-answers Question 3: capture permanent baseline image now?
+echo.
+echo EXAMPLES:
+echo   Install-Mode3-HeadlessFull.bat
+echo   Install-Mode3-HeadlessFull.bat /Data:D /Image:D /Baseline:Y /Quiet
+echo   Install-Mode3-HeadlessFull.bat /Brand:RemarkablePC /Quiet
+echo ========================================================================
+echo.
+exit /b 0
+
+:ARGS_DONE
+if defined ARG_BRAND set "ARG_BRAND=!ARG_BRAND:"=!"
+if defined ARG_DATA set "ARG_DATA=!ARG_DATA:"=!"
+if defined ARG_IMAGE set "ARG_IMAGE=!ARG_IMAGE:"=!"
+if defined ARG_BASELINE set "ARG_BASELINE=!ARG_BASELINE:"=!"
+
 echo.
 echo ================================================================
 echo   WINBARS ONE-CLICK INSTALLER - MODE 3 : HEADLESS FULL
@@ -23,7 +92,7 @@ echo.
 NET SESSION >nul 2>&1
 if !errorLevel! NEQ 0 (
     echo   Requesting Administrator privileges...
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath cmd.exe -ArgumentList '/c \"\"%~f0\"\"' -Verb RunAs"
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$a = if ($args.Count -gt 0) { ' ' + ($args -join ' ') } else { '' }; Start-Process -FilePath cmd.exe -ArgumentList ('/c \"\"%~f0\"\"' + $a) -Verb RunAs" %*
     exit /b 0
 )
 cd /d "%~dp0"
@@ -43,11 +112,38 @@ if not defined RUN_CMD (
     echo   [ERROR] WINBARS.exe or WINBARS.ps1 was not found next to this
     echo           installer in: %~dp0
     echo.
-    pause
+    if not "!QUIET_MODE!"=="1" pause
     exit /b 1
 )
 
-:: ---- 4. Resolve the active config file (same order the engine uses) ----
+:: ---- 4. Resolve Brand Profile if specified ----
+if defined ARG_BRAND (
+    echo.
+    echo   Resolving brand profile: "!ARG_BRAND!"...
+    set "RESOLVED_BRAND="
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$brand = '!ARG_BRAND!'; $root = '%~dp0'; $candidates = @( $brand, ($root + $brand), ($root + 'brands\' + $brand), ($root + 'brands\' + $brand + '.json') ); foreach($c in $candidates) { if (Test-Path -LiteralPath $c) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', (Resolve-Path -LiteralPath $c).Path); exit 0 } }; $files = Get-ChildItem -Path ($root + 'brands\*.json') -ErrorAction SilentlyContinue; foreach($f in $files) { try { $j = Get-Content -LiteralPath $f.FullName -Raw | ConvertFrom-Json; $comp = if ($j.SupportBranding.CompanyName) { $j.SupportBranding.CompanyName } elseif ($j.CompanyName) { $j.CompanyName } else { '' }; if ($comp -and ($comp -like ('*' + $brand + '*') -or $brand -like ('*' + $comp + '*'))) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', $f.FullName); exit 0 } } catch {} }; exit 1" >nul 2>&1
+    if exist "%TEMP%\winbars_brand_res.txt" (
+        set /p RESOLVED_BRAND=<"%TEMP%\winbars_brand_res.txt"
+        del /f /q "%TEMP%\winbars_brand_res.txt" >nul 2>&1
+    )
+    if defined RESOLVED_BRAND (
+        echo   [OK] Applied brand profile: !RESOLVED_BRAND!
+        copy /y "!RESOLVED_BRAND!" "%~dp0config\branding.json" >nul 2>&1
+        copy /y "!RESOLVED_BRAND!" "%~dp0branding.json" >nul 2>&1
+        if not exist "C:\ProgramData\WINBARS" mkdir "C:\ProgramData\WINBARS" >nul 2>&1
+        copy /y "!RESOLVED_BRAND!" "C:\ProgramData\WINBARS\branding.json" >nul 2>&1
+        if exist "C:\Tools\WINBARS" copy /y "!RESOLVED_BRAND!" "C:\Tools\WINBARS\branding.json" >nul 2>&1
+        set "USE_BRANDED=1"
+    ) else (
+        echo   [WARN] Brand profile not found for '!ARG_BRAND!'. Using standard branding.
+    )
+)
+
+set "BRAND_FLAG=-Vanilla"
+if "!USE_BRANDED!"=="1" set "BRAND_FLAG=-Branded"
+if "!FORCE_VANILLA!"=="1" set "BRAND_FLAG=-Vanilla"
+
+:: ---- 5. Resolve the active config file (same order the engine uses) ----
 set "ACTIVE_CONFIG_PATH="
 if exist "%~dp0config\config.json" (
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
@@ -61,13 +157,33 @@ if not defined ACTIVE_CONFIG_PATH (
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
 )
 
-:: ---- 5. List available drives ----
+:: ---- 6. Auto-detect and pre-check drives ----
+set "DATA_LETTER="
+set "IMAGE_LETTER="
+set "IMG_PATH="
+
+if defined ARG_DATA (
+    set "DATA_LETTER=!ARG_DATA!"
+    echo.
+    echo   Data backup drive specified via switch: !DATA_LETTER!
+)
+if defined ARG_IMAGE (
+    if "!ARG_IMAGE:~1,1!"==":" (
+        set "IMG_PATH=!ARG_IMAGE!"
+    ) else (
+        set "IMAGE_LETTER=!ARG_IMAGE!"
+        set "IMG_PATH=!IMAGE_LETTER!:\WindowsImageBackup"
+    )
+    echo   System image location specified via switch: !IMG_PATH!
+)
+
+if defined DATA_LETTER if defined IMG_PATH goto WRITE_CONFIG
+
 echo   Available backup drives (non-C):
 echo   ----------------------------------------------------------------
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-CimInstance Win32_LogicalDisk | Where-Object { $_.DriveType -in 2,3 -and $_.DeviceID -ne 'C:' } | Sort-Object DeviceID | ForEach-Object { '{0}  {1}  (Free: {2:N1} GB)' -f $_.DeviceID, $_.VolumeName, ($_.FreeSpace/1GB) }"
 echo   ----------------------------------------------------------------
 
-:: ---- 6. Auto-detect a sensible default drive ----
 set "AUTO_DRIVE="
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$d=Get-CimInstance Win32_LogicalDisk | Where-Object { $_.DriveType -eq 2 -and $_.DeviceID -ne 'C:' } | Select-Object -First 1; if($null -eq $d){ $d=Get-CimInstance Win32_LogicalDisk | Where-Object { $_.DriveType -in 2,3 -and $_.DeviceID -ne 'C:' } | Select-Object -First 1 }; if($d){ ($d.DeviceID).TrimEnd(':') | Set-Content -Path ($env:TEMP + '\winbars_auto_drive.txt') -Encoding ASCII }" >nul 2>&1
 if exist "%TEMP%\winbars_auto_drive.txt" (
@@ -76,8 +192,8 @@ if exist "%TEMP%\winbars_auto_drive.txt" (
 )
 
 :: ---- 7. Question 1 of 2: Data backup drive ----
+if defined DATA_LETTER goto SKIP_ASK_DATA
 :ASK_DATA
-set "DATA_LETTER="
 echo.
 echo   QUESTION 1 OF 2 - DATA BACKUP DRIVE
 echo   Personal files, File History and daily syncs are mirrored here.
@@ -99,10 +215,11 @@ if not defined DATA_IN (
     )
     set "DATA_LETTER=!DATA_IN!"
 )
+:SKIP_ASK_DATA
 
 :: ---- 8. Question 2 of 2: System image drive ----
+if defined IMG_PATH goto WRITE_CONFIG
 :ASK_IMAGE
-set "IMAGE_LETTER="
 set "IMG_DEFAULT=!DATA_LETTER!"
 if not defined IMG_DEFAULT set "IMG_DEFAULT=!AUTO_DRIVE!"
 echo.
@@ -124,13 +241,13 @@ if not defined IMG_IN (
         goto ASK_IMAGE
     )
     set "IMAGE_LETTER=!IMG_IN!"
+    set "IMG_PATH=!IMAGE_LETTER!:\WindowsImageBackup"
 )
 
+:WRITE_CONFIG
 :: ---- 9. Write chosen drives into the active config ----
 set "CFG_EXIT=0"
-if not defined DATA_LETTER if not defined IMAGE_LETTER goto SKIP_CFG
-set "IMG_PATH="
-if defined IMAGE_LETTER set "IMG_PATH=!IMAGE_LETTER!:\SystemImages"
+if not defined DATA_LETTER if not defined IMG_PATH goto SKIP_CFG
 echo.
 echo   Writing backup destinations to config:
 echo     !ACTIVE_CONFIG_PATH!
@@ -147,7 +264,7 @@ if !CFG_EXIT! EQU 0 (
 echo.
 echo   Installing WINBARS suite to C:\Tools\WINBARS...
 echo   ----------------------------------------------------------------
-!RUN_CMD! -InstallLocal -Vanilla
+!RUN_CMD! -InstallLocal !BRAND_FLAG!
 set "INSTALL_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !INSTALL_EXIT! EQU 0 (
@@ -161,7 +278,7 @@ if !INSTALL_EXIT! EQU 0 (
     echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log
     echo ================================================================
     echo.
-    pause
+    if not "!QUIET_MODE!"=="1" pause
     exit /b !INSTALL_EXIT!
 )
 
@@ -176,7 +293,7 @@ if exist "!INSTALLED_EXE!" (
     echo   [ERROR] Installed engine not found at C:\Tools\WINBARS after install step.
     echo          The file copy may have failed silently. Check the source folder.
     echo.
-    pause
+    if not "!QUIET_MODE!"=="1" pause
     exit /b 1
 )
 
@@ -189,7 +306,7 @@ if exist "C:\Tools\WINBARS\config\config.json" (
 echo.
 echo   Applying Mode 3 HeadlessFull defaults and scheduling tasks...
 echo   ----------------------------------------------------------------
-!RUN_CMD! -SetProfile HeadlessFull -Vanilla -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
+!RUN_CMD! -SetProfile HeadlessFull !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
 set "PROFILE_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !PROFILE_EXIT! EQU 0 (
@@ -198,8 +315,16 @@ if !PROFILE_EXIT! EQU 0 (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
 
-:: ---- 11. Optional: capture a permanent baseline image now ----
-set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+:: ---- 14. Optional: capture a permanent baseline image now ----
+set "BASE_IN="
+if defined ARG_BASELINE (
+    set "BASE_IN=!ARG_BASELINE!"
+    echo.
+    echo   Baseline capture pre-set via switch: !BASE_IN!
+) else (
+    echo.
+    set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+)
 if /i "!BASE_IN!"=="Y" (
     echo.
     echo   Capturing permanent baseline image (never rotated or deleted)...
@@ -214,7 +339,7 @@ if /i "!BASE_IN!"=="Y" (
     )
 )
 
-:: ---- 14. Final verdict ----
+:: ---- 15. Final verdict ----
 set "OVERALL_EXIT=0"
 if not !INSTALL_EXIT! EQU 0 set "OVERALL_EXIT=1"
 if not !CFG_EXIT! EQU 0 set "OVERALL_EXIT=1"
@@ -230,5 +355,5 @@ if !OVERALL_EXIT! EQU 0 (
 )
 echo ================================================================
 echo.
-pause
+if not "!QUIET_MODE!"=="1" pause
 exit /b !OVERALL_EXIT!

@@ -8,6 +8,62 @@ title WINBARS - Permanent Baseline Image Capture
 ::  If WINBARS is not set up yet, offers to run a one-click installer.
 :: ============================================================================
 
+:: ---- 0. Parse Command Line Arguments ----
+set "QUIET_MODE=0"
+set "ARG_PIN="
+set "ARG_LABEL="
+
+:PARSE_LOOP
+if "%~1"=="" goto ARGS_DONE
+set "A=%~1"
+
+:: Help triggers
+if /i "!A!"=="/?" goto SHOW_HELP
+if /i "!A!"=="-?" goto SHOW_HELP
+if /i "!A!"=="/help" goto SHOW_HELP
+if /i "!A!"=="--help" goto SHOW_HELP
+if /i "!A!"=="help" goto SHOW_HELP
+
+:: Flags
+if /i "!A!"=="/quiet" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
+if /i "!A!"=="/unattended" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
+
+:: Switches with values
+if /i "!A:~0,5!"=="/pin:" ( set "ARG_PIN=!A:~5!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,7!"=="/label:" ( set "ARG_LABEL=!A:~7!" & shift & goto PARSE_LOOP )
+
+shift
+goto PARSE_LOOP
+
+:SHOW_HELP
+echo.
+echo ========================================================================
+echo   WINBARS - CAPTURE PERMANENT BASELINE SYSTEM IMAGE
+echo ========================================================================
+echo   Creates a permanent baseline system image (_baseline.wim) excluded
+echo   from FIFO retention rotation.
+echo.
+echo SYNTAX:
+echo   Capture-Baseline.bat [/?] [/Quiet] [/Pin:Y^|N] [/Label:"Checkpoint Label"]
+echo.
+echo SWITCHES:
+echo   [/?] or [/Help]   Display this help screen and exit immediately.
+echo   /Quiet            Unattended mode: suppresses completion pause prompts.
+echo   /Pin:Y^|N         Pre-answers whether to also pin a Baseline Restore Point.
+echo   /Label:"Name"     Sets custom label for the Baseline Restore Point.
+echo.
+echo EXAMPLES:
+echo   Capture-Baseline.bat
+echo   Capture-Baseline.bat /Quiet
+echo   Capture-Baseline.bat /Pin:Y /Label:"Pre-Upgrade Master" /Quiet
+echo ========================================================================
+echo.
+exit /b 0
+
+:ARGS_DONE
+if defined ARG_PIN set "ARG_PIN=!ARG_PIN:"=!"
+if defined ARG_LABEL set "ARG_LABEL=!ARG_LABEL:"=!"
+
 echo.
 echo ================================================================
 echo   WINBARS - CAPTURE PERMANENT BASELINE SYSTEM IMAGE
@@ -20,7 +76,7 @@ echo.
 NET SESSION >nul 2>&1
 if !errorLevel! NEQ 0 (
     echo   Requesting Administrator privileges...
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath cmd.exe -ArgumentList '/c \"\"%~f0\"\"' -Verb RunAs"
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$a = if ($args.Count -gt 0) { ' ' + ($args -join ' ') } else { '' }; Start-Process -FilePath cmd.exe -ArgumentList ('/c \"\"%~f0\"\"' + $a) -Verb RunAs" %*
     exit /b 0
 )
 cd /d "%~dp0"
@@ -66,7 +122,7 @@ if /i "!CHOICE!"=="X" (
     echo.
     echo   Exiting without changes.
     echo.
-    pause
+    if not "!QUIET_MODE!"=="1" pause
     exit /b 0
 )
 for %%m in (0 N 1 2 3 4) do if /i "!CHOICE!"=="%%m" goto RUN_INSTALLER
@@ -85,7 +141,7 @@ echo.
 echo   Setup complete. Run Capture-Baseline.bat again to capture
 echo   your permanent baseline image.
 echo.
-pause
+if not "!QUIET_MODE!"=="1" pause
 exit /b 0
 
 :: ---- 4. WINBARS is set up: detect execution engine ----
@@ -103,18 +159,29 @@ if not defined RUN_CMD (
     echo   [ERROR] WINBARS.exe could not be located next to this script
     echo           or in C:\Tools\WINBARS.
     echo.
-    pause
+    if not "!QUIET_MODE!"=="1" pause
     exit /b 1
 )
 
 :: ---- 5. Optional pinned restore point ----
 set "RP_CHOICE="
-set /p RP_IN="   Also pin a permanent Baseline Restore Point? (Y/N) [Default: N]: "
-if /i "!RP_IN!"=="Y" set "RP_CHOICE=Y"
+if defined ARG_PIN (
+    if /i "!ARG_PIN!"=="Y" set "RP_CHOICE=Y"
+    echo   Pin restore point pre-set via switch: !ARG_PIN!
+) else (
+    set /p RP_IN="   Also pin a permanent Baseline Restore Point? (Y/N) [Default: N]: "
+    if /i "!RP_IN!"=="Y" set "RP_CHOICE=Y"
+)
+
 set "RP_LABEL="
 if defined RP_CHOICE (
-    set /p RP_LABEL="   Baseline label - letters, numbers, spaces, dashes only [Default: Baseline Checkpoint]: "
-    if not defined RP_LABEL set "RP_LABEL=Baseline Checkpoint"
+    if defined ARG_LABEL (
+        set "RP_LABEL=!ARG_LABEL!"
+        echo   Baseline label pre-set via switch: !RP_LABEL!
+    ) else (
+        set /p RP_LABEL="   Baseline label - letters, numbers, spaces, dashes only [Default: Baseline Checkpoint]: "
+        if not defined RP_LABEL set "RP_LABEL=Baseline Checkpoint"
+    )
 )
 
 :: ---- 6. Capture the permanent baseline system image ----
@@ -161,5 +228,5 @@ if !OVERALL_EXIT! EQU 0 (
 )
 echo ================================================================
 echo.
-pause
+if not "!QUIET_MODE!"=="1" pause
 exit /b !OVERALL_EXIT!
