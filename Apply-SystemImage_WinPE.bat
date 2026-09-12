@@ -19,10 +19,10 @@ set "IN_WINPE=0"
 if exist "X:\windows\system32" set "IN_WINPE=1"
 
 if "%IN_WINPE%"=="0" (
-    echo [!] WARNING: You are running this script inside live Windows!
+    echo [NOTICE] WARNING: You are running this script inside live Windows!
     echo     You cannot overwrite an active, running Windows installation.
     echo     To restore your system:
-    echo       1. Hold Shift and click Restart (or boot from Windows Setup USB).
+    echo       1. Hold Shift and click Restart [or boot from Windows Setup USB].
     echo       2. Navigate to Troubleshoot -^> Advanced Options -^> Command Prompt.
     echo       3. Navigate to this drive and run Apply-SystemImage_WinPE.bat.
     echo.
@@ -47,7 +47,7 @@ for %%F in ("%IMAGE_DIR%*.wim") do (
     set "IMG_!IMG_COUNT!=%%~nxF"
     set "IMG_PATH_!IMG_COUNT!=%%~fF"
     echo   [!IMG_COUNT!] %%~nxF  (%%~zF bytes)
-    if /i "%%~nxF"=="_baseline.wim" set "DEFAULT_WIM=!IMG_COUNT!"
+    echo %%~nxF | findstr /I "_baseline" >nul && set "DEFAULT_WIM=!IMG_COUNT!"
 )
 
 if "%IMG_COUNT%"=="0" (
@@ -58,7 +58,7 @@ if "%IMG_COUNT%"=="0" (
 
 echo.
 if not "!DEFAULT_WIM!"=="" (
-    set /p "PICK=Select image number [1-%IMG_COUNT%] (Default: !DEFAULT_WIM! - _baseline.wim): "
+    set /p "PICK=Select image number [1-%IMG_COUNT%] (Default: !DEFAULT_WIM! - Baseline): "
     if "!PICK!"=="" set "PICK=!DEFAULT_WIM!"
 ) else (
     set /p "PICK=Select image number [1-%IMG_COUNT%]: "
@@ -111,32 +111,91 @@ if not exist "!TARGET_DRV!\" (
     exit /b 1
 )
 
+:: 4. Restoration Strategy Selection (Safe Overlay vs Bare-Metal Clean Wipe)
+set "SRC_DRV=!SELECTED_WIM:~0,2!"
+set "SAME_DRV=0"
+if /i "!SRC_DRV!"=="!TARGET_DRV!" set "SAME_DRV=1"
+
 echo.
 echo ==============================================================================
-echo   [!] CRITICAL TECHNICIAN SAFEGUARD: DOUBLE CONFIRMATION REQUIRED
+echo   SELECT RESTORATION STRATEGY FOR TARGET VOLUME [!TARGET_DRV!\]
 echo ==============================================================================
-echo   Image Source:  !SELECTED_WIM!
-echo   Target Volume: !TARGET_DRV!\
+echo   [1] SAFE OVERLAY (In-Place OS Refresh - Preserves !TARGET_DRV!\Users) [RECOMMENDED]
+echo       - Restores Windows OS, System Drivers ^& Program Files.
+echo       - Existing personal files, photos ^& user profiles in !TARGET_DRV!\Users
+echo         are 100%% PRESERVED and untouched on the disk!
+echo       - Does NOT reformat the partition.
 echo.
-echo   WARNING: Applying this image will OVERWRITE and RE-FORMAT !TARGET_DRV!\.
-echo   Any un-synced client data currently in !TARGET_DRV!\Users will be PERMANENTLY ERASED.
-echo   If !TARGET_DRV!\ is still readable, verify or copy client files to external storage FIRST!
-echo ==============================================================================
-echo.
-set /p "USER_CHECK=STEP 1/2: Have you verified or backed up client files from !TARGET_DRV!\Users? (Type YES to confirm): "
-if not "!USER_CHECK!"=="YES" (
-    echo.
-    echo [ABORTED] Restoration cancelled to protect un-synced client data in !TARGET_DRV!\Users.
-    pause
-    exit /b 0
+if "!SAME_DRV!"=="1" (
+    echo   [2] BARE-METAL CLEAN WIPE [LOCKED]
+    echo       - DISABLED: Source image is stored on target volume (!TARGET_DRV!\).
+    echo         Reformatting would delete the .wim file you are restoring from!
+) else (
+    echo   [2] BARE-METAL CLEAN WIPE [Re-Format ^& Clean Apply]
+    echo       - Completely formats !TARGET_DRV!\ before applying image.
+    echo       - ALL existing data on !TARGET_DRV!\ will be PERMANENTLY ERASED.
 )
+echo ==============================================================================
 echo.
-set /p "FINAL_CHECK=STEP 2/2: Are you ready to OVERWRITE and APPLY image to !TARGET_DRV!\? (Type YES to proceed): "
-if not "!FINAL_CHECK!"=="YES" (
+
+if "!SAME_DRV!"=="1" (
+    echo [*] Defaulting to Option [1] (Safe Overlay) due to single-volume placement.
+    set "STRATEGY=1"
+) else (
+    set /p "STRATEGY=Select restoration strategy [1-2] (Default: 1 - Safe Overlay): "
+    if "!STRATEGY!"=="" set "STRATEGY=1"
+)
+
+if "!STRATEGY!"=="1" (
     echo.
-    echo [ABORTED] Restoration cancelled by user.
-    pause
-    exit /b 0
+    echo ==============================================================================
+    echo   SAFE OVERLAY CONFIRMATION: IN-PLACE SYSTEM REFRESH
+    echo ==============================================================================
+    echo   Image Source:  !SELECTED_WIM!
+    echo   Target Volume: !TARGET_DRV!\
+    echo.
+    echo   NOTICE: This will refresh Windows OS and Program Files.
+    echo   Your personal data in !TARGET_DRV!\Users will remain INTACT.
+    echo ==============================================================================
+    echo.
+    set /p "CONFIRM_OVERLAY=Type YES to start In-Place Safe Overlay to !TARGET_DRV!\: "
+    if not "!CONFIRM_OVERLAY!"=="YES" (
+        echo.
+        echo [ABORTED] Restoration cancelled by user.
+        pause
+        exit /b 0
+    )
+) else (
+    echo.
+    echo ==============================================================================
+    echo   [CRITICAL] TECHNICIAN SAFEGUARD: DOUBLE CONFIRMATION REQUIRED
+    echo ==============================================================================
+    echo   Image Source:  !SELECTED_WIM!
+    echo   Target Volume: !TARGET_DRV!\
+    echo.
+    echo   WARNING: Applying this option will RE-FORMAT !TARGET_DRV!\ and PERMANENTLY ERASE
+    echo   all files, including !TARGET_DRV!\Users and all personal data.
+    echo ==============================================================================
+    echo.
+    set /p "USER_CHECK=STEP 1/2: Have you verified or backed up client files from !TARGET_DRV!\Users? (Type YES): "
+    if not "!USER_CHECK!"=="YES" (
+        echo.
+        echo [ABORTED] Restoration cancelled to protect un-synced client data in !TARGET_DRV!\Users.
+        pause
+        exit /b 0
+    )
+    echo.
+    set /p "FINAL_CHECK=STEP 2/2: Confirm RE-FORMAT and bare-metal image apply to !TARGET_DRV!\ (Type YES): "
+    if not "!FINAL_CHECK!"=="YES" (
+        echo.
+        echo [ABORTED] Restoration cancelled by user.
+        pause
+        exit /b 0
+    )
+    echo.
+    echo [*] Formatting !TARGET_DRV!\ (NTFS Quick Format)...
+    set "FMT_EXE=format.com"
+    !FMT_EXE! !TARGET_DRV! /FS:NTFS /Q /Y
 )
 
 echo.

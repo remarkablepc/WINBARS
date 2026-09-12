@@ -1,4 +1,4 @@
-﻿# White-Labeling & The $100 Lifetime Shop Branding Perk
+# White-Labeling & The $100 Lifetime Shop Branding Perk
 
 ## 1. Overview & Business Model
 
@@ -24,7 +24,7 @@ When a customer picks up their repaired PC, they take home a protected system. S
 * They open the **Protection Center** (`Ctrl + Win + W` or desktop shortcut).
 * The header prominently displays: `Protected by [Your Business Name] • Managed Safeguards`.
 * A single click dials your shop's hotline or opens your helpdesk website.
-* Clicking **Remote Support** launches Microsoft Quick Assist pre-configured with your shop's technician contact info—stopping clients from searching Google and calling scam call centers.
+* Clicking **Remote Support** displays a branded verification dialog showing your shop's verified contact information and anti-fraud warning before launching Microsoft Quick Assist—stopping clients from searching Google and calling scam call centers.
 
 ---
 

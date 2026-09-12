@@ -32,6 +32,7 @@ if /i "!A!"=="help" goto SHOW_HELP
 if /i "!A!"=="/quiet" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/unattended" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/vanilla" ( set "FORCE_VANILLA=1" & shift & goto PARSE_LOOP )
+if /i "!A!"=="/reset" ( set "ARG_RESET=1" & shift & goto PARSE_LOOP )
 
 :: Switches with values
 if /i "!A:~0,7!"=="/brand:" ( set "ARG_BRAND=!A:~7!" & shift & goto PARSE_LOOP )

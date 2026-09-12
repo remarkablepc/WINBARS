@@ -19,7 +19,7 @@ All switches can be passed with standard PowerShell syntax (-Switch) or Windows 
 | -Action FileHistory | Runs multi-threaded unbuffered Robocopy personal file synchronization. | WINBARS.exe -Action FileHistory -Unattended |
 | -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). Use `-Baseline` to tag as permanent master (`_baseline.wim`). | WINBARS.exe -Action SystemImage -Baseline -Unattended |
 | -Action All | Runs a complete multi-pass backup (Restore Point, File Mirror, DISM Image). | WINBARS.exe -Action All -Unattended |
-| -Action AutoHeal | Runs a 2-second silent scan to self-heal Windows VSS & SystemProtection. | WINBARS.exe -Action AutoHeal -Unattended |
+| -Action AutoHeal | Runs a silent scan to self-heal Windows VSS & SystemProtection. | WINBARS.exe -Action AutoHeal -Unattended |
 | -Action VerifyFix | Runs full diagnostic self-test and auto-repairs broken scheduled tasks. | WINBARS.exe -VerifyFix |
 | -Action Preflight | Evaluates system storage, power state, and volume readiness. | WINBARS.exe -Preflight |
 | -Action BackupBCD | Exports atomic BCD boot hive, plaintext audit log, and WinPE rescue batch script. | WINBARS.exe -Action BackupBCD -Unattended |
@@ -46,8 +46,8 @@ WINBARS provides a unified 6-profile deployment architecture cleanly divided int
 
 ---
 
-### 🎯 Technician Customer Persona Cheat Sheet (3-Second Decision Matrix)
-Need to know which profile to pick for a customer in 3 seconds? Use this cheat sheet:
+### 🎯 Technician Customer Persona Cheat Sheet (Quick-Scan Decision Matrix)
+Need to know which profile to pick for a customer at a glance? Use this cheat sheet:
 
 | Profile | Customer / Machine Persona | Real-World Technician Scenario & Why It Fits |
 | :--- | :--- | :--- |
@@ -128,11 +128,13 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
 | Operational Switch | Purpose & Execution Details |
 | :--- | :--- |
 | -Update / -Upgrade | In-Place Suite Upgrade Engine: terminates running instances to release locks, copies updated binaries/modules, refreshes tasks, and relaunches sentry. |
-| -SetProfile <Profile> | Applies specified deployment profile (ZeroFootprint, NearZeroFootprint, Minimal, LocalDisasterGuard, HeadlessFull, FullInteractive) non-interactively. |
+| -ResetSuite / -ResetConfig | Factory Reset & Reprovisioning Engine: unregisters all scheduled tasks, sentries, run keys, and clears config.json back to pristine state without deleting application binaries or customer backups. |
+| -SwitchMode <Profile> | Seamless Mode Switch: cleans prior mode tasks and sentries to prevent drift, then applies and arms the newly chosen profile. |
+| -SetProfile <Profile> | Applies specified deployment profile (ZeroFootprint, NearZeroFootprint, Minimal, LocalDisasterGuard, HeadlessFull, FullInteractive) non-interactively (automatically routes via SwitchMode). |
 | -DefuseOneDriveNags | Surgically silences deceptive Windows / OneDrive 'Not Backed Up' scare banners & KFM takeover. |
 | -RestoreOneDriveNags | Restores standard Windows / OneDrive notification and folder defaults. |
 | -ScamBuster | Terminates rogue browser lockups, silences sirens, and clears reload traps (Ctrl+Win+B). |
-| -QuickAssist | Launches Microsoft Quick Assist with store contact branding (Ctrl+Win+Q). |
+| -QuickAssist | Displays verified shop contact & security warning dialog, then launches Microsoft Quick Assist (Ctrl+Win+Q). |
 | -ListBackupDrives | Displays formatted table of all registered backup destinations, total space, free space, roles, and online health. |
 | -AddBackupDrive <Path> | Registers a backup destination drive letter (e.g. `E:`) or custom directory path (e.g. `E:\Backups`). |
 | -RemoveBackupDrive <Path> [-Force] | Removes a backup destination. Enforces 1-Drive Minimum Guardrail (requires `-Force` for technician override). |
@@ -287,6 +289,7 @@ WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in the root and `
 | `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** | `/?` |
 | `Apply-SystemImage_WinPE.bat` | WinRE / WinPE Bare-Metal System Image Restore | N/A (Native DISM / BCDBoot) | Dynamic | Interactive |
 | `Create-RescueUSB.bat` | Create Dedicated UEFI Bootable Rescue USB Media | `-RescueUsb` | 1 | `/?`, `/Quiet`, `/Drive:<Letter>`, `/DryRun` |
+| `Reset-Suite.bat` | Factory Reset Configuration & Tasks (Re-provision PC) | `-ResetSuite -Unattended` | 1 | `/?`, `/Quiet`, `/Force` |
 | `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** | `/?`, `/Quiet` |
 
 ### Batch Switch Reference Guide
@@ -297,6 +300,7 @@ All batch installers accept standard Windows command syntax (case-insensitive):
 | :--- | :--- | :--- |
 | **`/?`** or **`/Help`** | Displays built-in usage and parameter help banner. | `Install-Mode4-TotalProtection.bat /?` |
 | **`/Quiet`** or **`/Q`** | Non-interactive mode; suppresses pause prompts and executes unattended. | `Install-Mode1-SystemUndo.bat /Quiet` |
+| **`/Reset`** | Factory resets prior tasks, drive pairings & config before applying target mode. | `Install-Mode3-HeadlessFull.bat /Reset /Quiet` |
 | **`/Vanilla`** | Enforces unbranded deployment even if a `branding.json` token is present. | `Install-Mode3-HeadlessFull.bat /Vanilla /Quiet` |
 | **`/Brand:"Name"`** | Applies a specific branding token (e.g. `Acme`, `Acme.json`, or `"C:\Keys\shop.json"`). | `Install-Mode4-TotalProtection.bat /Brand:"Acme PC" /Quiet` |
 | **`/Data:<Path>`** | Sets target directory or drive for personal user files. Accepts drive letters (`D:`) or full paths (`"D:\Backups"`). | `Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Quiet` |
@@ -329,7 +333,7 @@ In `v0.9.0`, hotkeys are fully customizable via Tech Mode in `config.json` (`Hot
 ### Default Hotkeys
 - **Protection Center Dashboard**: `Ctrl+Win+W`
 - **Scam Buster Emergency Break**: `Ctrl+Win+B`
-- **Quick Assist Remote Support**: `Ctrl+Shift+F12` *(Changed from `Ctrl+Win+Q` to avoid collision with Windows Quick Assist)*
+- **Quick Assist Remote Support**: `Ctrl+Win+Q` *(Fallback: `Ctrl+Win+A`)*
 
 ### Dynamic Collision Probing (`Test-HotkeyComboAvailable`)
 Before binding hotkeys, the Floppy Tray Sentry runs an unmanaged Win32 P/Invoke probe (`RegisterHotKey` / `UnregisterHotKey` against a hidden message window):

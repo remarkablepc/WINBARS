@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/Agentless%20Native-Mode%200%20Supported-brightgreen" alt="Agentless Zero-Footprint Mode" />
   <img src="https://img.shields.io/badge/License-100%25%20Free%20for%20Personal%20%26%20Commercial%20Use-brightgreen" alt="License" />
   <a href="https://www.paypal.com/ncp/payment/EKH76RTYHH24S"><img src="https://img.shields.io/badge/Say%20Thanks-PayPal-00457C?logo=paypal&logoColor=white" alt="Say Thanks" /></a>
-  <a href="https://github.com/sponsors/remarkablepc"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors" /></a>
+  <a href="https://github.com/sponsors/remarkablepc?utm_source=WINBARS"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors" /></a>
 </p>
 
 <p align="center">
@@ -22,6 +22,10 @@
 <div align="center">
 
   **[📥 Download Complete Package (`WINBARS-v0.9.1.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.1)**
+
+  <br>
+
+  ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping C:\Users ➔](#macos-style-safe-overlay)** &nbsp;&bull;&nbsp; 🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**
 
 </div>
 
@@ -62,19 +66,23 @@
 0. [📜 Changelog & Version History](CHANGELOG.md)
 1. [💔 Why WINBARS Was Born: 4 Real-World Nightmares](#why-winbars-was-born-4-real-world-nightmares)
 2. [🛡️ How WINBARS Solves Each Problem](#how-winbars-solves-each-problem)
+   - 🚨 **[Unique Defense: Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)**
 3. [⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites](#market-comparison-winbars-vs-legacy-backup-suites)
 4. [💾 Floppy Tray Sentry & 1-Click Desktop Shortcuts](#floppy-tray-sentry--1-click-desktop-shortcuts)
 5. [🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)](#6-deployment-profiles-including-zero--near-zero-footprint)
+   - 🍏 **[Unique Feature: Non-Destructive "macOS-Style" Windows OS Refresh (Safe Overlay)](#macos-style-safe-overlay)**
 6. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 7. [👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)](#deep-dive-the-zero-footprint-architecture-0-resident-files)
 8. [🛡️ Enterprise Auditability & Tamper-Proof Architecture](#enterprise-auditability--tamper-proof-architecture)
 9. [⌨️ Universal Global Hotkeys](#universal-global-hotkeys)
 10. [🔒 Novice Protection & Technician Mode](#novice-protection--technician-mode)
 11. [🚀 Quick Start & CLI Reference](#quick-start--cli-reference)
-12. [🏷️ White-Labeling & The \$100 Lifetime Shop Branding Perk](#white-labeling--the-100-lifetime-shop-branding-perk)
+12. [🏷️ White-Labeling & Community Shop Sponsorship ($100 One-Time Token)](#white-labeling--community-shop-sponsorship-100-one-time-token)
 13. [📚 Technical Documentation Directory](#technical-documentation-directory)
 14. [📋 Technical Requirements](#technical-requirements)
-15. [⚖️ Legal & Process Interception Disclaimer](#legal--process-interception-disclaimer)
+15. [📜 Recent Highlights](#recent-highlights)
+16. [⚖️ Legal & Process Interception Disclaimer](#legal--process-interception-disclaimer)
+17. [📄 Software License (Closed-Source Freeware)](#software-license-closed-source-freeware)
 
 ---
 
@@ -91,8 +99,8 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 ### 3. The "Surprise BitLocker" Catch-22
 > *"Modern laptops (Dell, HP, Lenovo) now turn on BitLocker encryption out of the box. Users have **zero idea their drive is encrypted** and never backed up the 48-digit numerical recovery key. When a BIOS update or crash trips the TPM chip, they are greeted by a blue recovery screen demanding 48 digits. Worse, they cannot access their Microsoft Account 2FA code because their phone needs an email confirmation code sent to the very PC that is locked!"*
 
-### 4. The $5,000 Phone Scam & Browser Trap
-> *"Every week, everyday computer users and seniors freeze in panic when a full-screen browser trap takes over their screen ('VIRUS DETECTED! CALL MICROSOFT AT 1-800...') accompanied by blaring audio sirens. Trapped by browser reload loops and hidden taskbars, they call the number on screen and let offshore scam call centers install remote control tools, drain their savings, or lock their computer. Windows provides zero proactive defense against these social engineering traps."*
+### 4. The $5,000 Phone Scam, Rogue PUPs & Notification Spam
+> *"Every week, everyday computer users and seniors freeze in panic when bombarded by relentless browser notification spam ('McAfee Expired! 5 Viruses Found!') or intrusive PUPs (like OneLaunch and PC App Store) that hijack desktop screens. Eventually, a full-screen browser trap strikes with blaring audio sirens ('VIRUS DETECTED! CALL MICROSOFT AT 1-800...'). Trapped by reload loops and hidden taskbars, they call the number on screen and let offshore scam call centers install remote control tools, drain their savings, or lock their computer. Windows provides zero proactive defense against these deceptive traps."*
 
 ---
 
@@ -117,7 +125,7 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 > — **David Hewitt**, Creator of WINBARS (RemarkablePC)
 
 > [!TIP]
-> ### 💡 The Category: A Customer Disaster Protection Suite
+> ### The Category: A Customer Disaster Protection Suite
 > **Traditional security tools focus on malware. Traditional backup tools focus on scheduled jobs. WINBARS focuses on the human side.**
 > 
 > Most computer disasters that wipe out family photos, lock users out of their PCs with BitLocker, drain life savings to phone scammers, or trap systems in blue-screen bootloops aren't solved by an antivirus scanner or a generic file sync daemon.
@@ -136,7 +144,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 ### 1. Automated System Restore Point Hardening
 * **Always Unthrottled**: Disables Microsoft's 24-hour frequency throttling so checkpoints are created whenever requested.
 * **Automatic Storage Management**: Automatically manages and allocates VSS shadow storage on `C:\` (15% capacity) so restore points are never purged prematurely.
-* **Service Self-Healing**: Automatically tests and resets stuck VSS writers (`vssadmin list writers`) in under two seconds.
+* **Service Self-Healing**: Automatically tests and resets stuck VSS writers (`vssadmin list writers`) silently without disruption.
 * **100% Personal File Safety**: System Restore reverts Windows system files, drivers, and registry hives. **Your personal documents, desktop files, photos, and downloads are never touched, overwritten, or deleted.**
 
 ### 2. Smart File Mirroring with 30-Day Accidental Deletion Protection
@@ -155,6 +163,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **AES-256 Disaster Vault**: Securely archives recovery keys to `D:\WINBARS_Backup\BitLocker_Keys\BitLocker_Vault.enc` using PBKDF2 (100,000 iterations) and HMAC-SHA256.
 * **1-Click WinRE / WinPE Unlock**: If a PC fails to boot, enter your Windows user password in the WinRE recovery console to unlock `C:\` and temporarily suspend BitLocker for one reboot, bypassing the 48-digit prompt.
 
+<a id="scambuster-rat-interceptor"></a>
 ### 5. Scam Buster & Remote Access Interceptor
 * **Instant Scam Freeze (`Ctrl + Win + B` or `Ctrl + Win + K`)**: Immediately closes rogue full-screen browser traps across 25+ browsers, silences audio sirens, and clears session crash reload loops.
 * **Real-Time Remote Access Interceptor**: Continuously monitors for 25+ remote access tools frequently weaponized by phone and pop-up scammers (AnyDesk, TeamViewer, ScreenConnect, UltraViewer, RustDesk, LogMeIn, SupRemo, etc.). When a remote tool launches, an urgent interception dialog appears with 4 user choices:
@@ -182,7 +191,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **Turnkey Offline Rescue Suite on Every Backup Drive**:
   - `README_RECOVERY.txt`: Emergency triage "Start Here" box with step-by-step restoration procedures.
   - `HOW_TO_RESTORE.html`: A beautifully styled, zero-dependency offline HTML guide that non-technical users can double-click on any working computer or mobile phone.
-  - `Create-RescueUSB.bat`: An automated tool sitting on the backup drive root that turns any blank 4GB+ USB drive into a UEFI-bootable Windows recovery drive in under 60 seconds.
+  - `Create-RescueUSB.bat`: An automated tool sitting on the backup drive root that turns any blank 4GB+ USB drive into a dedicated UEFI-bootable Windows recovery drive.
 * **Technician Hardware & Driver Staging**: Before attempting risky hardware or driver replacements (such as conflicting I2C HID touchscreen/touchpad drivers, GPU firmware updates, or network stack overrides), technicians can capture a dedicated **Baseline System Restore Point** (`WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-I2C Driver Fix"`).
 * **`[📌 BASELINE]` Visual Badging**: Baseline checkpoints are explicitly badged across all WINBARS repair menus and the WinRE blue screen recovery console, ensuring technicians can immediately identify known-good master states before testing experimental vendor drivers.
 * **VSS Shadow Headroom Expansion**: Baseline creation automatically sizes the VSS shadow quota (15%) and instructs WINBARS retention routines to skip the baseline during FIFO pruning to maximize checkpoint longevity.
@@ -248,7 +257,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 3. **The Tech-Scam Blindspot (Why WINBARS Complements, Not Replaces, Antivirus)**:
    * *Important Distinction*: **WINBARS is not an antivirus or anti-malware suite, and it does not replace Windows Defender or your existing AV software.** Instead, it defends against an entirely different threat vector that antivirus engines fundamentally cannot address: social engineering and weaponized legitimate tools.
    * *The Problem*: Modern phone scammers and pop-up boiler rooms **do not use malware or viruses**. They create full-screen browser traps with blaring audio sirens, convincing victims to call a toll-free number. The scammer instructs the victim to download legitimate, digitally signed commercial remote support tools (AnyDesk, TeamViewer, ScreenConnect, UltraViewer). Because these tools are legitimate and digitally signed, antivirus software correctly permits them.
-   * *The WINBARS Sentry Layer*: WINBARS operates as an assistive safety layer alongside your antivirus: an instant browser freeze hotkey (`Ctrl+Win+B`) that terminates full-screen traps and audio loops across 25+ browsers, and a real-time Remote Access Interceptor that catches AnyDesk/TeamViewer launches and gives the user an unmistakable **`[STOP] Disconnect & Block`** button.
+   * *The WINBARS Sentry Layer*: WINBARS operates as an assistive safety layer alongside your antivirus: an instant browser freeze hotkey (`Ctrl+Win+B`) that terminates locking browser processes, silences audio sirens across 25+ browsers, and clears Chromium crash-recovery flags to prevent reload loops on restart, plus a real-time Remote Access Interceptor that catches AnyDesk/TeamViewer launches and gives the user an unmistakable **`[STOP] Disconnect & Block`** button.
 
 ---
 
@@ -345,26 +354,14 @@ Accessible by clicking the **Gear icon** in the Floating Quick-Action Bar or sel
 
 WINBARS is architecturally divided into two distinct tiers: **Native Windows Modes (0, N, 1)** that leave **zero installed software and zero resident third-party EXEs** on the host PC, and **Managed Suite Modes (2, 3, 4)** that provision the local utility (`C:\Tools\WINBARS`) with desktop shortcuts and sentry integration:
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                       WINBARS DEPLOYMENT SPECTRUM                                           │
-├──────────────────────────────────────────────────────────────┬──────────────────────────────────────────────┤
-│         TIER 1: NATIVE WINDOWS / ZERO-SOFTWARE MODES         │          TIER 2: MANAGED SUITE MODES         │
-│               (0 Resident Third-Party EXEs)                  │         (Local Suite in C:\Tools\WINBARS)    │
-├──────────────────────────────┬───────────────────────────────┼──────────────────────────────┬───────────────┤
-│ Mode 0: ZeroFootprint        │ Strict corporate compliance;  │ Mode 2: LocalDisasterGuard   │ Local bare-   │
-│                              │ 0 resident files on C:\       │                              │ metal image + │
-│                              │                               │                              │ desktop suite │
-├──────────────────────────────┼───────────────────────────────┼──────────────────────────────┼───────────────┤
-│ Mode N: NearZeroFootprint    │ Stealth native automation;    │ Mode 3: HeadlessFull         │ Silent daily  │
-│                              │ generic unbranded shortcuts   │                              │ Robocopy +    │
-│                              │                               │                              │ drive alerts  │
-├──────────────────────────────┼───────────────────────────────┼──────────────────────────────┼───────────────┤
-│ Mode 1: SystemUndo           │ Universal Service Warranty;   │ Mode 4: TotalProtection      │ Full suite +  │
-│         (Bench Baseline)     │ 0 EXEs, 0 software, daily     │                              │ Floppy Tray + │
-│                              │ restore points + opt. image   │                              │ ScamBuster    │
-└──────────────────────────────┴───────────────────────────────┴──────────────────────────────┴───────────────┘
-```
+| Deployment Tier | Profile & Mode | Scope & Host Footprint | Key Capabilities & Targets |
+| :--- | :--- | :--- | :--- |
+| **Tier 1: Native Windows / Zero-Software**<br>*(0 Resident Third-Party EXEs)* | **Mode 0: ZeroFootprint** | Strict corporate compliance; 0 resident files on `C:\` | 100% native Windows Task Scheduler (`robocopy`, `wbadmin`, VSS) running from external backup media. |
+| ^ | **Mode N: NearZeroFootprint** | Stealth native automation; generic unbranded desktop shortcuts | Unbranded shortcuts (`Backup Personal Files`, `System Restore`); 0 resident EXEs. |
+| ^ | **Mode 1: SystemUndo** *(Bench Baseline)* | Universal Service Warranty; 0 resident EXEs | Daily unthrottled System Restore, 10% VSS quota, RegBack, and optional baseline image. |
+| **Tier 2: Managed Suite Modes**<br>*(Installed Suite in `C:\Tools\WINBARS`)* | **Mode 2: LocalDisasterGuard** | Local bare-metal image + desktop shortcuts | On-demand local `.wim` imaging for laptops without external drives; custom WinRE tile. |
+| ^ | **Mode 3: HeadlessFull** | Silent daily Robocopy + drive alerts | Automated background scheduling, multi-drive rotation, missing drive notifications. |
+| ^ | **Mode 4: TotalProtection** | Full suite + Floppy Tray Sentry + ScamBuster | Real-time monitoring, live GUI, panic hotkey (`Ctrl+Win+B`), RAT blocker & PUP shield. |
 
 ### 📊 Master Deployment Profile Decision Matrix
 
@@ -375,14 +372,34 @@ WINBARS is architecturally divided into two distinct tiers: **Native Windows Mod
 | **Mode 1: `SystemUndo`** ⏪ | **Shop Bench Tune-Ups & Routine Warranty Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, RegBack, and optional baseline image (`_baseline.wim`). | **0 Installed Software**<br>*(0 Resident EXEs — 100% Native Windows)* |
 | **Mode 2: `LocalDisasterGuard`** 💽 | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without an external drive. | **Local Suite**<br>*(C:\Tools\WINBARS)* |
 | **Mode 3: `HeadlessFull`** 🏢 | **Silent Workstations, Accounting & Medical Clinics** | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts. | **Local Suite**<br>*(C:\Tools\WINBARS)* |
-| **Mode 4: `TotalProtection`** 🛡️ | **Seniors, VIPs & Scam-Prone Non-Technical Users** | Mode 3 + Live Protection Center GUI + Floppy Tray Icon + Real-Time ScamBuster & Remote Access RAT Interceptor. | **Local Suite**<br>*(~18 MB RAM)* |
 | **Mode 5+: Custom Profiles** 🛠️ | **Specialized Enterprise & Multi-Drive Deployments** | Tailored components via `custom_profiles.json` or interactive Pre-Flight toggles (`[0-9]`). | **Configurable** |
+
+### ⚡ One-Click Batch Deployers & Zero-Drift Seamless Mode Switching
+
+WINBARS includes double-clickable batch installers in the repository root (and `dist/`) for instant bench provisioning:
+* `Install-Mode0-ZeroFootprint.bat`: 100% native Windows Task Scheduler automation; 0 resident host files.
+* `Install-ModeN-NearZeroFootprint.bat`: Mode 0 with unbranded generic shortcuts.
+* `Install-Mode1-SystemUndo.bat`: Universal Service Warranty baseline (unthrottled restore points + VSS auto-heal).
+* `Install-Mode2-LocalDisasterGuard.bat`: On-demand local bare-metal DISM `.wim` imaging for single-drive PCs/laptops.
+* `Install-Mode3-HeadlessFull.bat`: Silent daily Robocopy + monthly system image + drive alerts.
+* `Install-Mode4-TotalProtection.bat`: Full interactive Protection Center, Floppy Tray Sentry, and ScamBuster.
+* `Reset-Suite.bat`: **Factory Reset & Reprovisioning Utility**: Clears all WINBARS scheduled tasks, sentries, and drive pairings back to out-of-box state while keeping `C:\Tools\WINBARS`, branding, and customer data 100% intact.
+
+> [!TIP]
+> **Zero-Drift Mode Switching**: Switching between modes (e.g. from Mode 4 to Mode 1, or Mode 2 to Mode 3) is **completely seamless**. Every installer `.bat` and menu action automatically tears down previous background sentries and unregisters stale tasks before arming the newly chosen mode—guaranteeing zero "zombie" tasks or configuration drift. All batch deployers accept `/Reset` to perform a full factory clear before applying the mode.
 
 ---
 
 ### 💿 WinPE Disaster Recovery: Where Do the Restore Hooks Live?
+<a id="macos-style-safe-overlay"></a>
 
 Every WINBARS bare-metal capture generates `Apply-SystemImage_WinPE.bat`—an interactive DISM restore engine that discovers `.wim` images, inspects metadata, auto-detects target partitions, applies the image via `dism.exe /Apply-Image`, and repairs boot records via `bcdboot.exe`.
+
+> [!TIP]
+> ### 🍏 Have you ever wished Windows had a non-destructive OS reinstall like macOS?
+> On a Mac, booting into Recovery Mode and choosing **"Reinstall macOS"** refreshes core system files and default apps while leaving your user account, desktop files, and personal data 100% untouched. For 30 years, Windows users have been denied this simplicity—forced to choose between a destructive disk wipe or a fragile in-place upgrade that fails if Windows won't boot.
+>
+> **WINBARS brings true macOS-style non-destructive recovery to Windows**: Because WINBARS bare-metal `.wim` images cleanly capture Windows OS binaries, drivers, and Program Files while excluding `\Users`, selecting **Option [1] Safe Overlay** in `Apply-SystemImage_WinPE.bat` refreshes your entire operating system and program files safely in-place while leaving **`C:\Users\` (all personal files, documents, photos, desktop profiles, and browser data) 100% untouched and intact on disk**—no secondary data restore required!
 
 * **Mode 0 & Mode N (Zero-Footprint):**
   * Disaster recovery scripts live **exclusively on the external backup drive** (`<Drive>:\SystemImages\Apply-SystemImage_WinPE.bat`). 
@@ -394,10 +411,19 @@ Every WINBARS bare-metal capture generates `Apply-SystemImage_WinPE.bat`—an in
 * **Mode 2 (Local Disaster Guard for Laptops):**
   * Pre-staged **directly on the local disk** (`C:\SystemImages\Apply-SystemImage_WinPE.bat`) + custom WinRE recovery tile. 
   * If a laptop crashes while traveling, boot into WinRE Command Prompt (`Shift + F10`) and restore immediately—zero external media needed.
-* **Modes 3 & 4 (Managed Workstations):**
-  * Dual-location staging (external drive + local fallback) + custom WinRE recovery tile + Floppy Tray Sentry.
-* **The 30-Second Restore Step (Any PC):**
-  * Boot from any standard Windows Setup USB $\rightarrow$ Press `Shift + F10` at the first screen $\rightarrow$ Navigate to `D:\SystemImages\` $\rightarrow$ Run `Apply-SystemImage_WinPE.bat`.
+* **The 4-Level Disaster Recovery Triage Ladder (Least Invasive to Most Invasive):**
+  * **Level 1: Native Windows System Restore (WinRE Recovery Menu)**
+    * *When to use*: Boot failures after a Windows Update, driver conflict, or corrupted service.
+    * *Action*: Boot to WinRE $\rightarrow$ `Troubleshoot` $\rightarrow$ `Advanced Options` $\rightarrow$ `System Restore`. Reverts system binaries with **zero risk to personal client files**.
+  * **Level 2: Offline Registry Rollback (`Restore_Registry_WinPE.bat`)**
+    * *When to use*: Corrupted registry hives (`SYSTEM`, `SOFTWARE`, `SAM`) causing blue screens or preventing System Restore from loading.
+    * *Action*: In WinRE Command Prompt, run `Restore_Registry_WinPE.bat` to restore clean registry snapshots.
+  * **Level 3: Non-Destructive Safe Overlay OS Refresh (`Apply-SystemImage_WinPE.bat` Option [1])**
+    * *When to use*: Severely damaged Windows binaries, broken component store, or post-malware OS corruption.
+    * *Action*: Boot standard Windows USB $\rightarrow$ `Shift + F10` $\rightarrow$ run `Apply-SystemImage_WinPE.bat` $\rightarrow$ choose **Option [1] Safe Overlay**. Overlays Windows OS and Program Files from `.wim` while leaving **`C:\Users\` 100% intact on disk**.
+  * **Level 4: Bare-Metal Clean Wipe & Re-Format (`Apply-SystemImage_WinPE.bat` Option [2])**
+    * *When to use*: Drive replacement (new SSD) or catastrophic ransomware where total disk reformat is required.
+    * *Action*: Run `Apply-SystemImage_WinPE.bat` $\rightarrow$ choose **Option [2] Bare-Metal Clean Wipe** (enforces mandatory two-step confirmation before wiping).
 
 ---
 
@@ -550,7 +576,7 @@ Power users and system administrators can understandably be skeptical of closed-
 ### 2. The "Tamper-Proof" Bench Appliance Angle
 * In bench operations, IT support shops and MSPs face a frustrating reliability problem: well-meaning clients, curious power users, or junior staff inspecting exposed `.ps1` or `.bat` script files, accidentally deleting a quotation mark or altering arguments, and silently killing automated disaster recovery schedules for months.
 * Packaging WINBARS as an immutable standalone executable (`WINBARS.exe`) provides a **tamper-proof operational appliance**. It protects the client from accidentally breaking their own disaster recovery setup, eliminates PowerShell `ExecutionPolicy` conflicts (`Restricted` / `AllSigned`), and guarantees deterministic execution across reboots.
-* **System Footprint & Verification**: For the line-item inventory of every file path, registry key, scheduled task, and a 60-second Sysinternals verification guide, see the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
+* **System Footprint & Verification**: For the line-item inventory of every file path, registry key, scheduled task, and a Sysinternals verification guide, see the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
 
 ---
 
@@ -563,8 +589,8 @@ WINBARS uses the non-conflicting `Ctrl + Win` modifier family for instant emerge
   *(If another application claims this shortcut, WINBARS automatically cascades to `Ctrl + Win + P` $\rightarrow$ `Ctrl + Alt + W` without errors).*
 * **`Ctrl + Win + B` $\rightarrow$ Emergency Scam Buster**:
   Instantly closes rogue browser lockups, silences audio sirens, defuses Chromium crash loops, and terminates weaponized remote access tools across 25+ web browsers.
-* **`Ctrl + Shift + F12` $\rightarrow$ Quick Assist Remote Support**:
-  Launches native Microsoft Quick Assist (`quickassist.exe`) for fast, authorized remote screen-sharing with a trusted technician or family member. (Default updated to eliminate conflict with native Windows Quick Assist).
+* **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**:
+  Presents a verified support contact prompt and anti-scam security notice before launching native Microsoft Quick Assist (`quickassist.exe`) for authorized remote screen-sharing. *(Fallback: `Ctrl + Win + A`).*
 * **Technician Mode Configurable Hotkeys**:
   All three hotkeys can be customized in Tech Mode (`config.json` -> `Hotkeys` or CLI Setup Menu) with dynamic Win32 collision probing (`Test-HotkeyComboAvailable`). Alt/AltGr combinations are strictly barred to prevent international keyboard layout dead-key conflicts.
 * **Technician Mode & Tech Console**:
@@ -659,39 +685,35 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
  [6] Ransomware Canary Shield & Alert Guard     [Alert Guard Active]
  [H] Toggle Backup Destination Drive Cloaking   [Drive D: Visible]
  [0] Exit Suite
- [5] Log Management & Retention Utilities
- [6] Ransomware Canary Shield & Webhook Alerting
- [H] Command-Line Reference & Syntax Help
- [0] Exit Suite
 ```
 
 ### 3. Visual Quick-Scan CLI Reference
 
-| Operational Domain | Command Syntax | Description & Execution Details |
+| <nobr>Operational Domain</nobr> | Command Syntax | Description & Execution Details |
 | :--- | :--- | :--- |
-| **⚡ 1-Click Backup** | WINBARS.exe -Action FastBackup | Runs quiet fast backup (mirrors personal files + creates System Checkpoint). |
-| **📊 Visual Backup** | WINBARS.exe -Action FastBackup -ShowProgress | Launches live Dual Progress Bar showing file & byte-level sync in real-time. |
-| **🛡 System Checkpoint** | WINBARS.exe -Action RestorePoint | Creates hardened, unthrottled atomic Windows System Restore Point. |
-| **💾 Bare-Metal Image** | WINBARS.exe -Action SystemImage | Captures crash-consistent DISM .wim bare-metal image to target or C:\SystemImages. |
-| **📦 Complete Backup** | WINBARS.exe -Action All | Runs full 3-tier pass (Restore Point + Personal File Mirror + DISM Image). |
-| **🚀 Deploy Mode 0** | WINBARS.exe -Profile ZeroFootprint | Deploys 100% native Windows automation with **0 resident files on C:\**. |
-| **👻 Deploy Mode N** | WINBARS.exe -Profile NearZeroFootprint | Deploys stealth native automation with **0 background EXEs** and unbranded shortcuts. |
-| **🛡 Deploy Mode 1** | WINBARS.exe -Profile SystemUndo | Deploys daily System Restore hardening + VSS auto-heal (rapid OS rollback). |
-| **🛡 Deploy Mode 2** | WINBARS.exe -Profile LocalDisasterGuard | Mode 1 + local recovery partition bare-metal DISM image (laptops/single-drive). |
-| **🛡 Deploy Mode 3** | WINBARS.exe -Profile HeadlessFull | Mode 1 + daily external Robocopy file sync + image archive (silent workstations). |
-| **🛡 Deploy Mode 4** | WINBARS.exe -Profile TotalProtection | Mode 3 + signature Floppy Tray Sentry + ScamBuster active watchdog + GUI. |
-| **👁 Cloak Drive** | WINBARS.exe -ToggleDriveCloaking | Toggles backup target drive visibility in Windows Explorer (*This PC*). |
-| **💾 Disk Destinations** | WINBARS.exe -ListBackupDrives | Displays formatted table of registered destinations, capacity, and online health. |
-| **➕ Add Destination** | WINBARS.exe -AddBackupDrive E: | Registers backup destination (E: or custom directory E:\Backups). |
-| **➖ Remove Target** | WINBARS.exe -RemoveBackupDrive D: [-Force] | Removes target (enforces 1-drive minimum; -Force for technician override). |
-| **🔄 Refresh Triggers** | WINBARS.exe -Action UpdateTriggers | Dynamically updates Task Scheduler triggers to match current schedule. |
-| **🚨 ScamBuster** | WINBARS.exe -ScamBuster | Terminates browser lockups, silences sirens, and clears crash loops (Ctrl+Win+B). |
-| **📋 Emergency Card** | WINBARS.exe -EmergencyCard | Generates printable BitLocker Disaster Recovery Emergency Card (.html). |
-| **🖥 Quick Assist** | WINBARS.exe -QuickAssist | Launches Microsoft Quick Assist with store technician branding (Ctrl+Win+Q). |
-| **🛠 Rescue USB Media** | Create-RescueUSB.bat / WINBARS.exe -RescueUsb | Formats/prepares UEFI bootable WinRE flash drive with WINBARS tools & offline drivers. |
-| **💿 Bare-Metal WinPE** | Apply-SystemImage_WinPE.bat | Interactive DISM restore in WinRE (`Shift+F10` in Setup) with auto `bcdboot` repair. |
-| **📊 Protection Center** | WINBARS.exe -GUI / -StatusCard | Opens Protection Center Live Dashboard (Ctrl+Win+W). |
-| **🧹 Complete Removal** | WINBARS.exe -Uninstall | Cleanly removes all scheduled tasks, desktop shortcuts, and tray sentry. |
+| <nobr>**⚡ 1-Click Backup**</nobr> | WINBARS.exe -Action FastBackup | Runs quiet fast backup (mirrors personal files + creates System Checkpoint). |
+| <nobr>**📊 Visual Backup**</nobr> | WINBARS.exe -Action FastBackup -ShowProgress | Launches live Dual Progress Bar showing file & byte-level sync in real-time. |
+| <nobr>**🛡 System Checkpoint**</nobr> | WINBARS.exe -Action RestorePoint | Creates hardened, unthrottled atomic Windows System Restore Point. |
+| <nobr>**💾 Bare-Metal Image**</nobr> | WINBARS.exe -Action SystemImage | Captures crash-consistent DISM .wim bare-metal image to target or C:\SystemImages. |
+| <nobr>**📦 Complete Backup**</nobr> | WINBARS.exe -Action All | Runs full 3-tier pass (Restore Point + Personal File Mirror + DISM Image). |
+| <nobr>**🚀 Deploy Mode 0**</nobr> | WINBARS.exe -Profile ZeroFootprint | Deploys 100% native Windows automation with **0 resident files on C:\**. |
+| <nobr>**👻 Deploy Mode N**</nobr> | WINBARS.exe -Profile NearZeroFootprint | Deploys stealth native automation with **0 background EXEs** and unbranded shortcuts. |
+| <nobr>**🛡 Deploy Mode 1**</nobr> | WINBARS.exe -Profile SystemUndo | Deploys daily System Restore hardening + VSS auto-heal (rapid OS rollback). |
+| <nobr>**🛡 Deploy Mode 2**</nobr> | WINBARS.exe -Profile LocalDisasterGuard | Mode 1 + local recovery partition bare-metal DISM image (laptops/single-drive). |
+| <nobr>**🛡 Deploy Mode 3**</nobr> | WINBARS.exe -Profile HeadlessFull | Mode 1 + daily external Robocopy file sync + image archive (silent workstations). |
+| <nobr>**🛡 Deploy Mode 4**</nobr> | WINBARS.exe -Profile TotalProtection | Mode 3 + signature Floppy Tray Sentry + ScamBuster active watchdog + GUI. |
+| <nobr>**👁 Cloak Drive**</nobr> | WINBARS.exe -ToggleDriveCloaking | Toggles backup target drive visibility in Windows Explorer (*This PC*). |
+| <nobr>**💾 Disk Destinations**</nobr> | WINBARS.exe -ListBackupDrives | Displays formatted table of registered destinations, capacity, and online health. |
+| <nobr>**➕ Add Destination**</nobr> | WINBARS.exe -AddBackupDrive E: | Registers backup destination (E: or custom directory E:\Backups). |
+| <nobr>**➖ Remove Target**</nobr> | WINBARS.exe -RemoveBackupDrive D: [-Force] | Removes target (enforces 1-drive minimum; -Force for technician override). |
+| <nobr>**🔄 Refresh Triggers**</nobr> | WINBARS.exe -Action UpdateTriggers | Dynamically updates Task Scheduler triggers to match current schedule. |
+| <nobr>**🚨 ScamBuster**</nobr> | WINBARS.exe -ScamBuster | Terminates browser lockups, silences sirens, and clears crash loops (Ctrl+Win+B). |
+| <nobr>**📋 Emergency Card**</nobr> | WINBARS.exe -EmergencyCard | Generates printable BitLocker Disaster Recovery Emergency Card (.html). |
+| <nobr>**🖥 Remote Support**</nobr> | WINBARS.exe -QuickAssist | Displays verified technician contact card, then launches Microsoft Quick Assist (Ctrl+Win+Q). |
+| <nobr>**🛠 Rescue USB Media**</nobr> | Create-RescueUSB.bat / WINBARS.exe -RescueUsb | Formats/prepares UEFI bootable WinRE flash drive with WINBARS tools & offline drivers. |
+| <nobr>**💿 Bare-Metal WinPE**</nobr> | Apply-SystemImage_WinPE.bat | Interactive DISM restore in WinRE (`Shift+F10` in Setup) with auto `bcdboot` repair. |
+| <nobr>**📊 Protection Center**</nobr> | WINBARS.exe -GUI / -StatusCard | Opens Protection Center Live Dashboard (Ctrl+Win+W). |
+| <nobr>**🧹 Complete Removal**</nobr> | WINBARS.exe -Uninstall | Cleanly removes all scheduled tasks, desktop shortcuts, and tray sentry. |
 
 ### 4. Field Automation Quick-Combos (Unattended Technician Examples)
 
@@ -747,7 +769,7 @@ Community sponsorship of **$100 (one-time)** funds continued development and ope
 
 2. **Client-Facing Integration Touchpoints**:
    * **Protection Center (`Ctrl + Win + W`)**: Displays your shop name, hotline, and emergency contact details on the main dashboard header and assistance tabs.
-   * **Direct Remote Support**: Connects the client directly to your shop's preferred remote assistance platform or Microsoft Quick Assist pre-populated with your technician instructions.
+   * **Verified Remote Support Gateway**: Precedes Microsoft Quick Assist (or your shop's custom remote portal) with a branded verification dialog displaying your verified phone, website, and anti-scam warnings so clients never give codes to unsolicited callers.
    * **BitLocker Emergency Recovery Card**: Formatted emergency key printouts embed your shop's support contact and recovery instructions.
    * **Scam Sentry Interceptor (Mode 4)**: Unsolicited remote access alerts instruct the user to immediately disconnect and dial your verified shop hotline.
 
@@ -788,18 +810,37 @@ For complete architectural diagrams, WinRE configuration guides, and implementat
 
 ---
 
+## 📜 Recent Highlights
+
+For the full detailed release history, see [CHANGELOG.md](CHANGELOG.md).
+
+### 🧱 B-A-R-S Modular Refactor & Technician Hotkey Engine (v0.9.0)
+- **Modular Domain Architecture**: Codebase decomposed into discrete domain modules under `src/` (Backup, Assistance, Recovery, Security, GUI, CLI, Core) with automated zero-dependency single-file bundling.
+- **Dynamic Hotkey Collision Probing**: Tech-mode configurable hotkeys with live Win32 P/Invoke probing to guarantee zero conflicts with Windows reserved shortcuts and international AltGr layouts.
+- **Comprehensive Reliability Hardening**: Atomic state and configuration saves, headless execution guards, and recursive path protection.
+
+### 🛡️ Master USB Audit Vault & Technician Field Automation (v0.8.2)
+- **Automatic USB Audit Vault**: Automatically mirrors deployment and execution logs back to your master technician flash drive under `WINBARS\Logs\Audits\<PC>_<USER>_<YYYYMMDD>.log`.
+- **Intelligent Install Awareness**: Instantly detects pre-existing installations across all modes (`Minimal`, `LocalDisasterGuard`, `HeadlessFull`, `FullInteractive`) with automated task signature deduction.
+- **Mode 2 Single-Drive Realism**: Tailors hero action `[2]` and on-demand passes for single-drive laptops (`C:\SystemImages`), omitting irrelevant external drive checks.
+- **Zero-Question Installer**: Seamless pre-flight toggles for `[K]` Shortcuts, `[B]` Immediate Baseline Image Capture, and auto-initialized `[9]` Branding.
+- **Single-Drive Cloaking Guardrail**: Prohibits cloaking `C:` to ensure operating system drive visibility is always preserved.
+
+---
+
 ## ⚖️ Legal & Process Interception Disclaimer
 
 WINBARS is an orchestration and disaster recovery framework that automates and hardens native Windows system utilities (DISM, VSS, WMI, Robocopy, BitLocker, and WinRE). 
 
 WINBARS also provides proactive end-user defense mechanisms:
-1. **Scam Buster Emergency Kill Switch (`Ctrl+Win+B`)**: Instantly terminates active browser processes to break malicious full-screen locking scripts, audio siren loops, and tech-support scams.
+1. **Scam Buster Emergency Kill Switch (`Ctrl+Win+B`)**: Instantly terminates active browser processes to break malicious full-screen locks and looping audio sirens (process-level kill and audio mute; does not perform real-time web-content filtering or network inspection).
 2. **Remote Access Interceptor**: Detects newly launched third-party remote administration tools (such as AnyDesk, TeamViewer, UltraViewer, ScreenConnect, and RustDesk) and presents an immediate confirmation banner to the local user.
 
 ### Operation Under Explicit Human Direction
 * **Human Agency**: All process terminations and remote tool disconnects executed by WINBARS operate **strictly at the explicit direction and affirmative consent of the local user** (e.g., manually depressing hotkeys or clicking `[STOP] Disconnect & Block`), or according to policies configured by the system administrator.
 * **Audit Trail**: Every intercept event, user response (`[STOP] Disconnect & Block`, `[Allow Once]`, `[Always Whitelist]`, `[Snooze]`), and emergency browser kill action is permanently recorded with microsecond timestamps in `C:\ProgramData\WINBARS\Logs\Security_Audit.log` and on the connected backup drive (`Backup_Logs\Security_Audit.log`). This provides an immutable, tamper-evident audit record proving that any interrupted session was user-initiated rather than rogue automation.
-* **Session State Protection**: When Scam Buster terminates browser processes, it defuses the Chromium crash-recovery loop (`"exit_type": "Normal"`) and stages session state files into `%LOCALAPPDATA%\WINBARS\BrowserSessionRescue\` rather than permanently deleting them, preventing malicious scam loops from reopening while preserving legitimate work for technician recovery.
+* **Session State Protection**: When Scam Buster terminates browser processes, it defuses the Chromium crash-recovery loop (`"exit_type": "Normal"` / `"exited_cleanly": true`) so browser reload loops cannot re-arm on next launch, while staging tab session files into `%LOCALAPPDATA%\WINBARS\BrowserSessionRescue\` rather than permanently deleting them, preserving legitimate work for technician recovery.
+
 ### 🛡️ Disclaimer of Warranties & Limitation of Liability
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
@@ -818,18 +859,5 @@ WINBARS is licensed as **100% Free for Personal & Commercial Use** under proprie
 * **Freeware / Unlocked**: All backup, bare-metal imaging, registry restoration, BitLocker vaulting, canary sentinels, and emergency features are 100% unlocked and free of artificial paywalls or nagware.
 * **Closed-Source Executable Wrapper**: The compiled binary (`WINBARS.exe`) and system tray sentry are proprietary freeware. Decompilation, disassembly, reverse engineering, and standalone resale are prohibited.
 * **Transparent Host Orchestration**: All Task Scheduler jobs, WinPE rescue scripts, and backup orchestrations deployed to target systems consist of transparent, un-obfuscated scripts that IT technicians can inspect and verify.
-* **Sponsor Branding Perk** *(Minimum $100 donation)*: While donations and sponsorships of any amount are welcome, commercial IT repair shops and MSPs who sponsor the project at the $100+ tier may optionally receive a cryptographically signed Shop Branding Token (`WINBARS-TOK-...`) via the [White-Labeling checkout portal](#white-labeling--the-100-lifetime-shop-branding-perk) to display their custom shop branding in the UI across unlimited client machines. All core features remain 100% functional without a token.
+* **Sponsor Branding Perk** *(Minimum $100 donation)*: While donations and sponsorships of any amount are welcome, commercial IT repair shops and MSPs who sponsor the project at the $100+ tier may optionally receive a cryptographically signed Shop Branding Token (`WINBARS-TOK-...`) via the [White-Labeling checkout portal](#white-labeling--community-shop-sponsorship-100-one-time-token) to display their custom shop branding in the UI across unlimited client machines. All core features remain 100% functional without a token.
 * See [LICENSE.txt](LICENSE.txt) for complete legal terms.
-
-
-### 🧱 B-A-R-S Modular Refactor & Technician Hotkey Engine (v0.9.0)
-- **Modular Domain Architecture**: Codebase decomposed into discrete domain modules under `src/` (Backup, Assistance, Recovery, Security, GUI, CLI, Core) with automated zero-dependency single-file bundling.
-- **Dynamic Hotkey Collision Probing**: Tech-mode configurable hotkeys with live Win32 P/Invoke probing to guarantee zero conflicts with Windows reserved shortcuts and international AltGr layouts.
-- **Comprehensive Reliability Hardening**: Atomic state and configuration saves, headless execution guards, and recursive path protection.
-
-### 🛡️ Master USB Audit Vault & Technician Field Automation (v0.8.2)
-- **Automatic USB Audit Vault**: Automatically mirrors deployment and execution logs back to your master technician flash drive under `WINBARS\Logs\Audits\<PC>_<USER>_<YYYYMMDD>.log`.
-- **Intelligent Install Awareness**: Instantly detects pre-existing installations across all modes (`Minimal`, `LocalDisasterGuard`, `HeadlessFull`, `FullInteractive`) with automated task signature deduction.
-- **Mode 2 Single-Drive Realism**: Tailors hero action `[2]` and on-demand passes for single-drive laptops (`C:\SystemImages`), omitting irrelevant external drive checks.
-- **Zero-Question Installer**: Seamless pre-flight toggles for `[K]` Shortcuts, `[B]` Immediate Baseline Image Capture, and auto-initialized `[9]` Branding.
-- **Single-Drive Cloaking Guardrail**: Prohibits cloaking `C:` to ensure operating system drive visibility is always preserved.

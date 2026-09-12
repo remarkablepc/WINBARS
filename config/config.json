@@ -1,4 +1,4 @@
-﻿{
+{
     "SystemMigrationAdvisory":  {
                                     "ShowAdvisory":  true,
                                     "ActionUrl":  "https://github.com/jdavidhewitt",
@@ -8,6 +8,13 @@
                                     "BadgeText":  "Advanced Application Migration",
                                     "Message":  "Winget cleanly restores modern desktop applications. For complex legacy software, databases, proprietary tools, and full machine-to-machine application migrations, an advanced migration module will be supported in a future update."
                                 },
+    "SecurityShields": {
+        "EnablePupShield": true,
+        "EnableDualAvWarning": true,
+        "BrowserNotificationMode": "Smart",
+        "EnableQuietNotificationPrompts": true
+    },
+    "InstallDirectory": "C:\\Tools\\WINBARS",
     "SystemImageMonthlyDay":  1,
     "LogRetentionDays":  730,
     "CanaryGuard":  {
@@ -78,12 +85,13 @@
                             "Description":  "Uniform global shortcuts when WINBARS Tray Sentry is running: Ctrl+Win+W for Protection Center (fallback: Ctrl+Win+P), Ctrl+Win+B for Scam Buster (fallback: Ctrl+Win+K), Ctrl+Win+Q for Quick Assist (fallback: Ctrl+Win+A)."
                         },
     "StorageAndHardware":  {
-                               "BackupVolumeLabel":  "Internal Data Drive",
+                               "BackupVolumeLabel":  "",
                                "PauseOnLowBattery":  true,
                                "PromptMissingDrive":  true,
                                "EnableLocalImageBackup":  true,
                                "IgnoredDriveSerials":  [
-                                                           "8A178420"
+                                                           "8A178420",
+                                                           "5028CB66"
                                                        ],
                                "MinBatteryPercentRequired":  20,
                                "EnableLocalBackupFallback":  false,
@@ -95,7 +103,7 @@
                                                        "MinPostShrinkHostFreeSpaceGB":  35,
                                                        "HideDriveLetter":  true
                                                    },
-                               "BackupVolumeGuid":  "\\\\?\\Volume{004a00ee-0000-0000-0000-300300000000}\\",
+                               "BackupVolumeGuid":  "",
                                "EnableDriveCapacityWarnings":  true,
                                "LocalBackupFolder":  "C:\\WINBARS_Backups",
                                "ExternalImageRetentionCount":  2,
@@ -103,21 +111,14 @@
                                "LocalImageFolder":  "C:\\SystemImages",
                                "MinFreeSpaceGBRequired":  25,
                                "AutoSizingImageCompressionRatio":  0.6,
-                               "BackupVolumeSerialNumber":  "5028CB66",
+                               "BackupVolumeSerialNumber":  "",
                                "LocalImageRetentionCount":  1,
                                "MinExternalDriveSizeGB":  "AUTO",
                                "AutoSizingBufferPercent":  25,
                                "LowSpaceWarningThresholdGB":  15,
                                "LocalOnlyMode":  false,
-                               "RegisteredBackupDrives":  [
-                                                              {
-                                                                  "VolumeSerialNumber":  "",
-                                                                  "VolumeLabel":  "Backup Destination",
-                                                                  "PreferredDriveLetter":  "D:",
-                                                                  "CustomBackupPath":  "D:\\"
-                                                              }
-                                                          ],
-                               "PreferredExternalDriveLetter":  "D"
+                               "RegisteredBackupDrives":  [],
+                               "PreferredExternalDriveLetter":  ""
                            },
     "Defaults":  {
                      "DefaultLogRetentionDays":  730,

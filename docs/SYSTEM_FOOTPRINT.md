@@ -91,9 +91,9 @@ WINBARS modifies only standard, documented Windows operational flags:
 
 ---
 
-## 6. The 60-Second Sysadmin Verification Guide
+## 6. The Sysadmin Verification Guide
 
-You do not need to trust the binary—you can verify its operational integrity in under a minute using standard Microsoft and Sysinternals tools:
+You do not need to trust the binary—you can verify its operational integrity directly using standard Microsoft and Sysinternals tools:
 
 ### Step 1: Verify Zero Network Egress
 Open an elevated PowerShell prompt while `WINBARS.exe` is running:

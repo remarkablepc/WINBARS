@@ -31,7 +31,7 @@ Power users and enterprise system administrators frequently express healthy cyni
    * When deployment solutions rely on exposed raw `.ps1` or `.bat` script files stored in host directories, support benches experience high failure rates caused by well-meaning end users or junior technicians who open scripts to "tweak" a setting, accidentally damage quotation marks, corrupt variables, or encounter PowerShell `ExecutionPolicy` restrictions (`Restricted`, `AllSigned`).
    * Packaging WINBARS as a standalone compiled executable (`WINBARS.exe`) transforms the suite into an immutable appliance. It prevents accidental client tampering, guarantees that critical disaster recovery automation cannot be casually broken, and ensures uniform execution across heterogeneous Windows client environments.
 
-> 🔍 **Complete Specification**: For a line-item inventory of registered tasks, filesystem paths, registry modifications, and a 60-second verification guide, see the [System Footprint & Security Audit Blueprint](SYSTEM_FOOTPRINT.md).
+> 🔍 **Complete Specification**: For a line-item inventory of registered tasks, filesystem paths, registry modifications, and a verification guide, see the [System Footprint & Security Audit Blueprint](SYSTEM_FOOTPRINT.md).
 
 ---
 
@@ -95,7 +95,7 @@ External Backup Drive (e.g. D:\)
 │           └── Restore_Registry_WinPE.bat <-- 1-click WinRE emergency rollback script
 │
 ├── BitLocker_Recovery_Key.txt          <-- 48-digit numerical recovery passwords
-├── Create-RescueUSB.bat                <-- Turnkey 60-second bootable UEFI WinRE flash drive creator
+├── Create-RescueUSB.bat                <-- Turnkey bootable UEFI WinRE flash drive creator
 ├── HOW_TO_RESTORE.html                 <-- Interactive offline disaster recovery manual
 ├── Toggle_Backup_Drive_Visibility.bat  <-- 1-click Explorer cloaking/uncloaking script
 └── README_RECOVERY.txt                 <-- Plain-text restoration and disaster recovery guide
@@ -180,7 +180,7 @@ When selecting any profile (0–4 or 5+) in the CLI, WINBARS displays the instan
 
 ---
 
-## 6. Technician Customer Persona Cheat Sheet (3-Second Decision Matrix)
+## 6. Technician Customer Persona Cheat Sheet (Quick-Scan Decision Matrix)
 
 | Profile | Customer / Machine Persona | Real-World Technician Scenario & Why It Fits |
 | :--- | :--- | :--- |
