@@ -39,11 +39,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Automatically exports custom deployment profiles into standalone, self-elevating `Install-Custom-<ProfileName>.bat` launchers.
   - Enables IT technicians and MSPs to configure a profile once and distribute a 1-click zero-prompt batch file to dozens of client machines.
   - Injects profile configuration directly into `C:\ProgramData\WINBARS\custom_profiles.json` and supports `/Quiet` and `/Reset` switches.
-- **Boot-Failure Resilience & Startup Toggles**:
-  - Silent Native WinRE Hook: Stages emergency recovery tools directly into Windows Recovery Environment via `reagentc /setcustomtarget` (always-on for protection modes, survives OS partition failures, zero client boot delay).
-  - Optional Boot Manager Display Menu (`Enable-BootManagerMenu` / `-EnableBootMenu`): Configures a 2-second boot menu timeout. Disabled by default to prevent client alarm.
-  - Optional Legacy F8 Boot Policy (`Enable-LegacyF8Boot` / `-EnableLegacyF8`): Restores Windows 7-style F8 key behavior for legacy BIOS/MBR hardware with explicit UEFI advisories.
-  - Interactive Boot Recovery Inspector (`Show-BootRecoveryMenu` / `-BootRecoveryMenu`).
+- **Unified Emergency Recovery Triage Launcher (`EMERGENCY_RECOVERY.bat` / `RECOVERY_START_HERE.bat`)**:
+  - Auto-staged directly onto the root of external backup drives (`E:\EMERGENCY_RECOVERY.bat`) during backup runs and profile setup.
+  - Cleans up backup drive clutter by acting as the single, clear entry point for users and technicians in an emergency, keeping auxiliary restoration scripts organized inside `SystemImages\`.
+  - Built-in live Pre-Flight Diagnostic Health Patrol: checks target Windows installation, physical disk SMART predictive failure state, BCD boot configuration store integrity, and WinRE status.
+  - Dual-Context Execution:
+    - In Live Windows: Provides 1-click reboot to recovery (`reagentc /boottore` + immediate restart), BCD auto-rebuild (`bcdboot`), and BCD restoration from the backup vault.
+    - In WinPE / Offline Shell: Guides the technician through bare-metal DISM image restoration (`Apply-SystemImage_WinPE.bat`), BCD repair, CHKDSK filesystem repair, or command shell.
 
 ---
 
