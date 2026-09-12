@@ -285,6 +285,7 @@ WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in the root and `
 | `Capture-Baseline.bat` | Capture Permanent Baseline System Image (`_baseline.wim`) | `-Action SystemImage -Baseline -Unattended` | 1 | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
 | `Create-RestorePoint.bat` | Immediate Atomic System Restore Point | `-Action RestorePoint -Unattended` | **0** | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
 | `Toggle_Backup_Drive_Visibility.bat` | Cloak or Unhide Backup Volume in File Explorer | `-ToggleDriveCloaking` | **0** | `/?` |
+| `Apply-SystemImage_WinPE.bat` | WinRE / WinPE Bare-Metal System Image Restore | N/A (Native DISM / BCDBoot) | Dynamic | Interactive |
 | `Uninstall.bat` | Complete Suite & Task Removal | `-Uninstall -Unattended` | **0** | `/?`, `/Quiet` |
 
 ### Batch Switch Reference Guide

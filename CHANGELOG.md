@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.1] - 2026-09-12
+
+### Added & Hardened
+- **Grade A File Synchronization Engine**:
+  - **Smart Exclusion Filters**: Added intelligent `/XF` and `/XD` exclusions for transient lock files (`*.tmp`, `~*`), OS thumbnails & icon locks (`thumbs.db`, `desktop.ini`), virtual memory hives (`pagefile.sys`, `hiberfil.sys`, `swapfile.sys`), and heavy ephemeral web caches (`node_modules`, `AppData\Local\Temp`, `INetCache`).
+  - **Exit Code Bitmask Auditing**: Implemented granular Robocopy exit code classification and logging (codes 0–7 classified as successful mirror variants; codes $\ge 8$ logged as actionable errors).
+- **Item 4A: Windows Long Path Ceiling Guard (`LongPathsEnabled = 1`)**:
+  - Automatically verifies and configures `LongPathsEnabled = 1` in `HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem` across profile setup, AutoHeal, and repair routines to remove the legacy 260-character `MAX_PATH` limitation.
+- **Item 4B: Native Bare-Metal Restore Assistant (`Apply-SystemImage_WinPE.bat`)**:
+  - Auto-generates an interactive, zero-dependency recovery batch script inside all system image vaults (`C:\SystemImages\` and `D:\SystemImages\`).
+  - Provides WinRE/WinPE environment detection, dynamic Windows OS partition discovery (`C:`, `D:`, `E:`), interactive image selection with DISM metadata inspection, explicit confirmation safety prompts, native `dism.exe /Apply-Image`, and automated `bcdboot` bootloader rebuilding.
+- **Item 4C: Active VSS Headroom Pre-Flight Guard**:
+  - Enforces pre-flight disk free space verification before triggering VSS snapshot creation or System Restore checkpoints. Safely aborts or falls back if `C:\` has $< 2.0$ GB or $< 3.0$ GB free space, preventing VSS crash loops on full SSDs.
+- **Item 4D: 4K High-DPI Scaling (Per-Monitor v2)**:
+  - Programmatic Win32 P/Invoke `SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)` with fallback to `SetProcessDPIAware()` in `src/gui/tray_code.cs`, delivering pixel-crisp rendering of the Floppy Tray Sentry, Toast alerts, and GUI dashboard across 125%–200% displays even without external `.config` files.
+- **Batch CLI Switches & Unattended Automation**:
+  - Added built-in parameter switches across all 8 batch installers (`/?`, `/Quiet`, `/Vanilla`, `/Brand:`, `/Data:`, `/Image:`, `/Baseline:`, `/Pin:`, `/Label:`), accompanied by comprehensive CLI reference documentation.
+
+---
+
 ## [0.9.0] - 2026-09-11
 
 ### Added

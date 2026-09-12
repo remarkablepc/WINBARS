@@ -1,8 +1,8 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.0)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.1)
 ### *WINBARS helps prevent the reasons people lose their files, lose access to their computers, lose money to scammers, and lose hours rebuilding Windows.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.0-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.1-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -15,13 +15,13 @@
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.0-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.1-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
 </p>
 
 <div align="center">
 
-  **[📥 Download Complete Package (`WINBARS-v0.9.0.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.0)**
+  **[📥 Download Complete Package (`WINBARS-v0.9.1.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;&bull;&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;&bull;&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;&bull;&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.1)**
 
 </div>
 
@@ -576,6 +576,7 @@ For rapid field deployment from a technician flash drive, WINBARS includes stand
 | **`Capture-Baseline.bat`** | Capture Permanent Baseline System Image (`_baseline.wim`) | 1 | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
 | **`Create-RestorePoint.bat`** | Immediate Atomic System Restore Point | **0** | `/?`, `/Quiet`, `/Pin:Y\|N`, `/Label:"Text"` |
 | **`Toggle_Backup_Drive_Visibility.bat`** | Cloak or Unhide Backup Volume in File Explorer | **0** | `/?` |
+| **`Apply-SystemImage_WinPE.bat`** | WinRE / WinPE Bare-Metal System Image Restore | Dynamic | Interactive (DISM / BCDBoot) |
 | **`Uninstall.bat`** | Complete Suite & Task Removal | **0** | `/?`, `/Quiet` |
 
 > 💡 **Batch Script CLI Syntax**: All installers support `/?` for built-in help, `/Quiet` for unattended execution, `/Vanilla` for unbranded deployment, and `/Brand:"Name"` to apply shop branding. See the [Full CLI Reference](docs/CLI_REFERENCE.md) for 1-line automation examples.
