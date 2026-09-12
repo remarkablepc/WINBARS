@@ -40,6 +40,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Eliminated infinite recursion in `Get-SuiteLanguageFolders` via native Windows User Shell Folders registry queries + European multilingual fallback catalog.
   - Hardened multi-monitor bounds checking in Status Card and ScamBuster to prevent off-screen rendering.
   - Safe, non-throwing wrapper in tray sentry initialization preventing unhandled Win32 exceptions on headless/RDP sessions.
+- **OneDrive Cloud Backup Prompts Refinement**:
+  - Replaced alarmist "Cloud Nag Shield / Defuse" terminology with professional "OneDrive Backup Prompts: [Silenced / Windows Default]".
+  - Streamlined profile defaults: Modes 0, N, and 1 preserve native Windows defaults; Modes 2, 3, and 4 silence prompts by default to prevent client confusion.
+  - Added on-demand Ransomware Canary verification click handler in GUI Protection Center when Tech Mode is active.
 
 ---
 
