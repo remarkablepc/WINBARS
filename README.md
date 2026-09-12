@@ -235,7 +235,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 | **Architectural Model** | **100% Native OS Engines** (Zero Resident) | Heavy Background Daemons & Filter Drivers | Native Windows |
 | **Vendor File Lock-In** | **Zero Lock-In** (1:1 NTFS Mirror + `.wim`) | **Total Lock-In** (`.tibx`, `.mrimg`, `.vbk`) | None (Timestamp suffixes) |
 | **Restore Without Software** | ✅ **Drag-and-drop on any PC / Mac / Linux** | ❌ Requires proprietary software installed | ⚠️ Partial (Catalog dependent) |
-| **Resident RAM Footprint** | **0 MB** *(Modes 0–3)* / ~18 MB *(Mode 4)* | ~120 MB – 1.2 GB (Multiple background daemons) | Dynamic OS Cache |
+| **Resident RAM Footprint** | **0 MB** *(Modes 0, N, 1)* / **~15–18 MB** *(Modes 2–4 with Hotkey/Sentry)* | ~120 MB – 1.2 GB (Multiple background daemons) | Dynamic OS Cache |
 | **Kernel Drivers & BSOD Risk** | **Zero Kernel Drivers** (100% Native Win32 API) | ⚠️ High Risk (CBT filter drivers cause upgrade BSODs) | Native Windows Drivers |
 | **Agentless Zero-Footprint** | ✅ **Supported (Mode 0 & 1)**: 0 resident software on host | ❌ Impossible (Requires agent installation) | ❌ Not available |
 | **Crash & Yank Safety** | ✅ **Atomic Staging + Robocopy `/ZB` + Canary** | Proprietary Journaling (Index corruption risk) | ❌ Truncates open PST/DBs |
