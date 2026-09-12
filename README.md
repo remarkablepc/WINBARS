@@ -114,7 +114,7 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 >
 > *That tool became WINBARS."*
 >
-> — **RemarkablePC**, Creator of WINBARS
+> — **David Hewitt**, Creator of WINBARS (RemarkablePC)
 
 ---
 
@@ -199,23 +199,23 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 
 ## ⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites
 
-| Feature / Capability | WINBARS (v0.8.0) | Acronis Cyber Protect | Macrium Reflect (v8/v10) | Veeam Agent Windows | Windows Native Alone |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Pricing & Licensing** | **100% Free** *(+$100 Lifetime Shop Branding)* | $50–$189/yr per PC (Sub) | $79–$139 (Perpetual / EOL Free) | Free / $50+ annual | Included with Windows |
-| **Architectural Model** | **100% Native OS Engines** (Zero Resident) | Heavy Proprietary Daemons | Proprietary CBT Filter | Proprietary CBT Driver (`VeeamFSR`) | Native Windows |
-| **Vendor File Format Lock-In** | **Zero Lock-In** (1:1 NTFS Mirror + `.wim`) | **Total Lock-In** (`.tibx` archives) | **Total Lock-In** (`.mrimg` archives) | **Total Lock-In** (`.vbk` archives) | None (Timestamp suffixes) |
-| **Recovery Without Software** | ✅ **Drag-and-drop on any PC/Mac/Linux** | ❌ Requires Acronis installed | ❌ Requires Macrium installed | ❌ Requires Veeam installed | ⚠️ Partial (Catalog dependent) |
-| **Resident RAM & CPU Footprint** | **0 MB** *(Modes 0–3)* / ~18 MB *(Mode 4)* | ~650 MB – 1.2 GB (8-12 daemons) | ~120 MB (2 services) | ~250 MB (3 services) | Dynamic OS Cache |
-| **Kernel Drivers & BSOD Risk** | **Zero Kernel Drivers** (100% Native API) | ⚠️ High (Prone to upgrade BSODs) | ⚠️ Medium (CBT filter driver) | ⚠️ Medium (CBT filter driver) | Native Windows Drivers |
-| **Agentless / Zero-Resident Footprint** | ✅ **Supported (Mode 0)**: 0 installed binaries & 0 resident processes on host | ❌ Impossible | ❌ Impossible | ❌ Impossible | ❌ Not available |
-| **Abrupt USB Disconnect & Crash Safety**| ✅ **Atomic Staging + Robocopy `/ZB` + Canary** | Proprietary Journaling | Delta Index (can corrupt on pull) | Transaction Log | ❌ Truncates open PST/DBs |
-| **VSS Engine & COM Self-Repair** | ✅ **Frozen Snapshot Reads + In-Memory Repair** | Proprietary VSS Provider | Proprietary CBT & VSS Writer | Proprietary CBT VSS Engine | ⚠️ Fragile (Silent failure) |
-| **Target Storage Agnostic** | ✅ **USB, Internal, NAS, UNC, S3 Mounts** | Proprietary Cloud or Local | Local / NAS (Proprietary) | Local / NAS (Proprietary) | USB / Dedicated Share |
-| **Ransomware Canary Defense** | ✅ **Dual-Layer Honeypot + Remote Canary Mirror**| Active Protection (Behavioral) | Guardian (Volume Lock) | None (Relies on immutability) | None |
-| **Active Tech Scam & Siren Shield**| ✅ **Built-in ScamBuster (`Ctrl+Win+B`)** | ❌ None | ❌ None | ❌ None | ❌ None |
-| **Remote Access RAT Interceptor** | ✅ **Detects AnyDesk, TeamViewer, RustDesk** | ❌ None | ❌ None | ❌ None | ❌ **Blindspot** (Signed tools allowed) |
-| **Dynamic Drive Drift Shield** | ✅ **6-Tier Auto-Discovery (`D:` $\rightarrow$ `E:`)** | ⚠️ Often halts until reconfigured | ⚠️ Reconfiguration needed | ⚠️ Reconfiguration needed | ❌ Completely halts backups |
-| **White-Label Branding for Repair Shops** | ✅ **1-Time $100 Lifetime Token** (Unlimited PCs) | ❌ White-labeling costs $10k+ / MSP | ❌ None | ❌ None | ❌ None |
+| Feature / Capability | WINBARS (v0.9.1) | Proprietary Suites (Acronis, Macrium, Veeam) | Windows Native Alone |
+| :--- | :---: | :---: | :---: |
+| **Pricing & Licensing** | **100% Free** *(+$100 Lifetime Shop Branding)* | $50–$189/yr per PC (Subscription / Paid) | Included with Windows |
+| **Architectural Model** | **100% Native OS Engines** (Zero Resident) | Heavy Background Daemons & Filter Drivers | Native Windows |
+| **Vendor File Lock-In** | **Zero Lock-In** (1:1 NTFS Mirror + `.wim`) | **Total Lock-In** (`.tibx`, `.mrimg`, `.vbk`) | None (Timestamp suffixes) |
+| **Restore Without Software** | ✅ **Drag-and-drop on any PC / Mac / Linux** | ❌ Requires proprietary software installed | ⚠️ Partial (Catalog dependent) |
+| **Resident RAM Footprint** | **0 MB** *(Modes 0–3)* / ~18 MB *(Mode 4)* | ~120 MB – 1.2 GB (Multiple background daemons) | Dynamic OS Cache |
+| **Kernel Drivers & BSOD Risk** | **Zero Kernel Drivers** (100% Native Win32 API) | ⚠️ High Risk (CBT filter drivers cause upgrade BSODs) | Native Windows Drivers |
+| **Agentless Zero-Footprint** | ✅ **Supported (Mode 0 & 1)**: 0 resident software on host | ❌ Impossible (Requires agent installation) | ❌ Not available |
+| **Crash & Yank Safety** | ✅ **Atomic Staging + Robocopy `/ZB` + Canary** | Proprietary Journaling (Index corruption risk) | ❌ Truncates open PST/DBs |
+| **VSS Self-Healing** | ✅ **Frozen Snapshot Junctions + Auto COM Repair** | Proprietary VSS Provider (Fails silently on crash) | ⚠️ Fragile (Silent failure) |
+| **Storage Agnostic** | ✅ **USB, Internal SSD, NAS, UNC Shares, S3** | Proprietary Cloud or Local Containers | USB / Dedicated Share |
+| **Ransomware Canary Defense**| ✅ **Dual-Layer Honeypot + SHA-256 Tripwire** | Behavioral Scanner (High false positives) | None |
+| **Scam & Siren Shield** | ✅ **Built-in ScamBuster (`Ctrl + Win + B`)** | ❌ None | ❌ None |
+| **Remote RAT Interceptor** | ✅ **Detects & Blocks AnyDesk, TeamViewer, RustDesk** | ❌ None | ❌ Blindspot (Signed tools allowed) |
+| **Drive Letter Drift Shield** | ✅ **6-Tier Auto-Discovery (`D:` $\rightarrow$ `E:`)** | ⚠️ Halts until manually reconfigured | ❌ Completely halts backups |
+| **Shop Branding for Techs** | ✅ **1-Time $100 Lifetime Token** (Unlimited PCs) | ❌ MSP tiers cost $10k+ / year | ❌ None |
 
 #### 🔑 Key Takeaways:
 1. **Vs. Macrium Reflect & Acronis Cyber Protect**:
@@ -322,13 +322,13 @@ Accessible by clicking the **Gear icon** in the Floating Quick-Action Bar or sel
 
 ### 🚀 6 Deployment Profiles: The Two-Tier Architecture Split
 
-WINBARS is architecturally divided into two distinct tiers: **Stealth / Native Windows Modes (0, N, 1)** that leave **zero resident third-party EXEs** on the host machine, and **Managed Suite Modes (2, 3, 4)** that provision the local executable (`C:\Tools\WINBARS`) with desktop shortcuts and sentry integration:
+WINBARS is architecturally divided into two distinct tiers: **Native Windows Modes (0, N, 1)** that leave **zero installed software and zero resident third-party EXEs** on the host PC, and **Managed Suite Modes (2, 3, 4)** that provision the local utility (`C:\Tools\WINBARS`) with desktop shortcuts and sentry integration:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                       WINBARS DEPLOYMENT SPECTRUM                                           │
 ├──────────────────────────────────────────────────────────────┬──────────────────────────────────────────────┤
-│          TIER 1: STEALTH / NATIVE WINDOWS MODES              │          TIER 2: MANAGED SUITE MODES         │
+│         TIER 1: NATIVE WINDOWS / ZERO-SOFTWARE MODES         │          TIER 2: MANAGED SUITE MODES         │
 │               (0 Resident Third-Party EXEs)                  │         (Local Suite in C:\Tools\WINBARS)    │
 ├──────────────────────────────┬───────────────────────────────┼──────────────────────────────┬───────────────┤
 │ Mode 0: ZeroFootprint        │ Strict corporate compliance;  │ Mode 2: LocalDisasterGuard   │ Local bare-   │
@@ -340,37 +340,45 @@ WINBARS is architecturally divided into two distinct tiers: **Stealth / Native W
 │                              │                               │                              │ drive alerts  │
 ├──────────────────────────────┼───────────────────────────────┼──────────────────────────────┼───────────────┤
 │ Mode 1: SystemUndo           │ Universal Service Warranty;   │ Mode 4: TotalProtection      │ Full suite +  │
-│         (Stealth Hardener)   │ 0 EXEs, 0 shortcuts, daily    │                              │ Floppy Tray + │
+│         (Bench Baseline)     │ 0 EXEs, 0 software, daily     │                              │ Floppy Tray + │
 │                              │ restore points + opt. image   │                              │ ScamBuster    │
 └──────────────────────────────┴───────────────────────────────┴──────────────────────────────┴───────────────┘
 ```
 
-### 📊 Unified Mode Matrix
+### 📊 Master Deployment Profile Decision Matrix
 
-| Profile & Mode | Target Persona | What It Protects | Footprint & Recovery Hooks | Resident Files |
-| :--- | :--- | :--- | :--- | :---: |
-| **Mode 0: `ZeroFootprint`** ⭐ | Strict Corporate Audits & MSP Compliance | Daily System Restore Point + Robocopy File Mirror (30-day retention) + Bare-Metal Image (`wbadmin`) + BitLocker Keys | Automated tasks run 100% via native Windows engines (`robocopy.exe`, `wbadmin.exe`, VSS) with zero USB required after setup | **0 Resident Files** *(0 bytes on C:)* |
-| **Mode N: `NearZeroFootprint`** 👻 | Corporate Workstations & Vendor-Neutral Deployments | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `Windows System Restore`, `Browse Backup Files`) + unbranded Start Menu (`System Backup & Recovery`) | Automated via native Task Scheduler; restores via standard Explorer, `rstrui.exe`, and WinRE | **0 Resident EXEs** *(Generic Shortcuts Only)* |
-| **Mode 1: `SystemUndo`** ⏪ | **Service Warranty Baseline & Bench Tune-Up** | **The Universal Service Warranty**: Daily unthrottled System Restore points, VSS writer auto-healing, 10% shadow storage headroom, driver/MSI checkpoints, and optional local baseline system image (`C:\SystemImages\_baseline.wim`) | Pure native Windows Task Scheduler automation (`powershell.exe Checkpoint-Computer`, `Set-Service`, `vssadmin`); WinRE detects restore points & `.wim` image | **0 Resident EXEs** *(100% Native Windows Hardening)* |
-| **Mode 2: `LocalDisasterGuard`** 💽 | Traveling Laptops & Students (No External Drive) | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without external drive | Start Menu `WINBARS` Suite • Desktop `Create System Image` • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks | Local Suite (`C:\Tools\WINBARS`) |
-| **Mode 3: `HeadlessFull`** 🏢 | Quiet Offices, CPAs & Medical Clinics (Has Drive) | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts | Silent background Task Scheduler execution • `Ctrl+Win+W` On-Demand • Panic Hotkey (`Ctrl+Win+B`) • WinPE Boot Hooks | Local Suite (`C:\Tools\WINBARS`) |
-| **Mode 4: `TotalProtection`** 🛡️ | Seniors, VIPs & Scam-Prone Non-Technical Clients | Mode 3 + Complete Interactive Suite: Live Protection Center GUI + Floppy Tray Icon + ScamBuster Real-Time RAT Interceptor | Full interactive real-time protection • Floppy Tray Sentry • Scam Sentry • `Ctrl+Win+W` Protection Center | Local Suite (~18 MB RAM) |
-| **Mode 5+: Custom Profiles** 🛠️ | Specialized Enterprise & Boutique Deployments | Dynamically selected components via `custom_profiles.json` or Pre-Flight toggle screen (`[0-9]`) | Configurable per-profile | Configurable |
+| Profile & Mode | Best For (Target Persona) | What It Protects & Hardens | Host Footprint & Software Status |
+| :--- | :--- | :--- | :---: |
+| **Mode 0: `ZeroFootprint`** ⭐ | **Strict Corporate Audits & MSP Compliance** | Daily System Restore + Robocopy File Mirror (30-day retention) + `wbadmin` Bare-Metal Image + BitLocker Keys. | **0 Resident Files**<br>*(0 bytes on C: — runs from backup drive)* |
+| **Mode N: `NearZeroFootprint`** 👻 | **Corporate Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop shortcuts (`Backup Personal Files`, `System Restore`, `Browse Backups`). | **0 Resident EXEs**<br>*(Generic Shortcuts Only)* |
+| **Mode 1: `SystemUndo`** ⏪ | **Shop Bench Tune-Ups & Routine Warranty Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, RegBack, and optional baseline image (`_baseline.wim`). | **0 Installed Software**<br>*(0 Resident EXEs — 100% Native Windows)* |
+| **Mode 2: `LocalDisasterGuard`** 💽 | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + Local Partition Bare-Metal DISM Image (`.wim`) for offline recovery without an external drive. | **Local Suite**<br>*(C:\Tools\WINBARS)* |
+| **Mode 3: `HeadlessFull`** 🏢 | **Silent Workstations, Accounting & Medical Clinics** | Mode 1 + Daily Robocopy User File Sync + Scheduled Bare-Metal Images + Missing Drive Alerts. | **Local Suite**<br>*(C:\Tools\WINBARS)* |
+| **Mode 4: `TotalProtection`** 🛡️ | **Seniors, VIPs & Scam-Prone Non-Technical Users** | Mode 3 + Live Protection Center GUI + Floppy Tray Icon + Real-Time ScamBuster & Remote Access RAT Interceptor. | **Local Suite**<br>*(~18 MB RAM)* |
+| **Mode 5+: Custom Profiles** 🛠️ | **Specialized Enterprise & Multi-Drive Deployments** | Tailored components via `custom_profiles.json` or interactive Pre-Flight toggles (`[0-9]`). | **Configurable** |
 
 ---
 
-### 🎯 Technician Customer Persona Cheat Sheet (3-Second Decision Matrix)
-Need to know which profile to pick for a customer in 3 seconds? Use this cheat sheet:
+### 💿 WinPE Disaster Recovery: Where Do the Restore Hooks Live?
 
-| Profile Mode | Best For | Technician Rationale |
-| :--- | :--- | :--- |
-| **Mode 0: `ZeroFootprint`** | **Strict Corporate Audits & MSP Sterile Compliance** | Corporate clients or regulated workstations where security policy strictly forbids leaving any third-party files or scripts on `C:\`. The entire runner script and logs reside on the technician's external drive. |
-| **Mode N: `NearZeroFootprint`** | **Corporate Workstations & Vendor-Neutral Stealth Deployments** | For business and corporate clients where third-party utility branding is restricted. Uses 100% native Windows Task Scheduler and generic shortcuts (`System Backup & Recovery`) so the automation blends seamlessly into Windows as a built-in system capability. **Zero background EXEs**, native Task Scheduler jobs (`\WindowsBackup\`), generic external folder (`E:\WindowsBackup\`), and generic native tools. Restores via native Explorer, `rstrui.exe`, & WinRE. |
-| **Mode 1: `SystemUndo`** ⏪ | **Standard Bench Tune-Ups & Routine Warranty Service** | **The Universal Service Warranty Baseline**: Designed for standard bench tune-ups and hardware repairs. Hardens Windows' native recovery engines (unthrottles restore point frequency, locks 10% VSS shadow storage headroom, and enables native RegBack) with an optional 1-click baseline image. Operates with **zero third-party resident binaries and zero shortcuts**, delivering dependable rollback protection without introducing software overhead. |
-| **Mode 2: `LocalDisasterGuard`** 💽 | **Road Warriors, Students & Mobile Laptops** | Traveling sales reps and laptop users who rarely plug in an external drive, but *want* on-demand desktop recovery shortcuts. Configures recurring monthly bare-metal DISM system images (`.wim`) to a local recovery partition with desktop suite integration and emergency hotkeys. |
-| **Mode 3: `HeadlessFull`** 🏢 | **Silent Workstations, Accounting & Medical Clinics** | Production office environments (CPA firms, dental clinics, law offices) with dedicated external hard drives. Runs full daily Robocopy sync and bare-metal imaging 100% silently in the background with zero desktop clutter or user prompts—alerting only if the drive is unplugged. |
-| **Mode 4: `TotalProtection`** 🛡️ | **Seniors, VIPs & Scam-Prone Non-Technical Clients** | Grandparents, non-technical clients, or high-value VIPs frequently targeted by browser pop-ups, fake virus sirens, and phone support scammers. Features the Floppy Disk Tray icon, active real-time ScamBuster and Remote Tool Interceptor (`[STOP] Disconnect & Block`), live GUI Protection Center, and your shop's emergency support hotline branding. |
-| **Mode 5+: `Custom Profiles`** | **Specialized Enterprise & Boutique Deployments** | Tailored multi-drive configurations, specialized network shares, or specific retention tiers configured via `custom_profiles.json` or the Pre-Flight interactive builder. |
+Every WINBARS bare-metal capture generates `Apply-SystemImage_WinPE.bat`—an interactive DISM restore engine that discovers `.wim` images, inspects metadata, auto-detects target partitions, applies the image via `dism.exe /Apply-Image`, and repairs boot records via `bcdboot.exe`.
+
+* **Mode 0 & Mode N (Zero-Footprint):**
+  * Disaster recovery scripts live **exclusively on the external backup drive** (`<Drive>:\SystemImages\Apply-SystemImage_WinPE.bat`). 
+  * Host `C:\` remains 100% sterile.
+* **Mode 1 (SystemUndo — Bench Warranty Baseline):**
+  * **0 installed software / 0 resident EXEs.** 
+  * Primary recovery is **native Windows System Restore built directly into the WinRE blue recovery menu** (`Troubleshoot` $\rightarrow$ `Advanced Options` $\rightarrow$ `System Restore`).
+  * If a baseline image was captured, `Apply-SystemImage_WinPE.bat` sits in `C:\SystemImages\` ready for execution via Command Prompt.
+* **Mode 2 (Local Disaster Guard for Laptops):**
+  * Pre-staged **directly on the local disk** (`C:\SystemImages\Apply-SystemImage_WinPE.bat`) + custom WinRE recovery tile. 
+  * If a laptop crashes while traveling, boot into WinRE Command Prompt (`Shift + F10`) and restore immediately—zero external media needed.
+* **Modes 3 & 4 (Managed Workstations):**
+  * Dual-location staging (external drive + local fallback) + custom WinRE recovery tile + Floppy Tray Sentry.
+* **The 30-Second Restore Step (Any PC):**
+  * Boot from any standard Windows Setup USB $\rightarrow$ Press `Shift + F10` at the first screen $\rightarrow$ Navigate to `D:\SystemImages\` $\rightarrow$ Run `Apply-SystemImage_WinPE.bat`.
+
+---
 
 ---
 
@@ -664,55 +672,29 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 | **📊 Protection Center** | WINBARS.exe -GUI / -StatusCard | Opens Protection Center Live Dashboard (Ctrl+Win+W). |
 | **🧹 Complete Removal** | WINBARS.exe -Uninstall | Cleanly removes all scheduled tasks, desktop shortcuts, and tray sentry. |
 
-### 4. Raw Command-Line Terminal Reference
-
+### 4. Field Automation Quick-Combos (Unattended Technician Examples)
 
 ```cmd
-REM --- Quick Diagnostics & Status ---
-WINBARS.exe -StatusCard                         REM Open GUI Protection Center (Ctrl+Win+W)
-WINBARS.exe -Diagnose                           REM Run full system diagnostics and S.M.A.R.T. health check
-WINBARS.exe -Docs                               REM Open Interactive Technical Manual Hub
+REM --- Benchmark Warranty Baseline (Mode 1: 0 Software / 0 EXEs Installed) ---
+Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet
 
-REM --- On-Demand Backups ---
-WINBARS.exe -Action FastBackup                  REM Run quiet 1-click backup (Files + Restore Point)
-WINBARS.exe -Action FastBackup -ShowProgress    REM Run backup with visual Dual Progress Bar
-WINBARS.exe -Action All                         REM Full backup (Files + Restore Point + DISM Image)
-WINBARS.exe -Action RestorePoint                REM Create hardened System Restore Point immediately
-WINBARS.exe -Action SystemImage                 REM Capture bare-metal DISM system image (.wim)
+REM --- Strict Corporate Mode 0 (Zero-Footprint — 0 Bytes on C:\) ---
+Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Image:D:\Images /Quiet /Vanilla
 
-REM --- Deployment Profiles & Zero-Footprint ---
-WINBARS.exe -Profile ZeroFootprint              REM Deploy 100% Native Zero-Footprint (0 resident files on PC)
-WINBARS.exe -Profile NearZeroFootprint          REM Deploy Near-Zero Footprint Profile (Stealth Native Automation)
-WINBARS.exe -Install -Profile ZeroFootprint     REM Setup Zero-Footprint tasks in \WindowsBackup\
-WINBARS.exe -Install -Profile NearZeroFootprint REM Setup Near-Zero tasks with unbranded shortcuts
-WINBARS.exe -Install -Profile HeadlessFull      REM Install Managed Suite in completely silent headless mode
-WINBARS.exe -Install                            REM Install Managed Suite (FullInteractive with tray & shortcuts)
+REM --- Quiet Office Mode 3 (Headless Background Automation) ---
+Install-Mode3-HeadlessFull.bat /Data:E:\Backups /Brand:"Acme_IT" /Quiet
 
-REM --- Drive Stealth & Explorer Cloaking ---
-WINBARS.exe -ToggleDriveCloaking                REM Toggle backup drive visibility in 'This PC' (Show / Hide)
-WINBARS.exe -HideBackupDrive -Target D:          REM Cloak backup drive letter in Windows Explorer
-WINBARS.exe -ShowBackupDrive -Target D:          REM Uncloak and restore backup drive visibility in Explorer
+REM --- Senior / VIP Workstation Mode 4 (Floppy Tray + Scam Sentry) ---
+Install-Mode4-TotalProtection.bat /Brand:"TechPros" /Quiet
 
-REM --- Multi-Destination Disk Management ---
-WINBARS.exe -ListBackupDrives                   REM Display formatted table of registered destinations & health
-WINBARS.exe -AddBackupDrive E:                  REM Register a new backup drive letter
-WINBARS.exe -AddBackupDrive "E:\Backups"        REM Register a custom directory destination
-WINBARS.exe -SetPrimaryBackupDrive E:           REM Designate a drive as Primary backup destination
-WINBARS.exe -RemoveBackupDrive "E:\Backups"     REM Remove destination (enforces 1-drive minimum)
-WINBARS.exe -RemoveBackupDrive D: -Force        REM Technician override to clear all drives (decommissioning)
+REM --- Immediate Atomic System Restore Point Checkpoint ---
+Create-RestorePoint.bat /Pin:Y /Label:"Pre-Driver_Tuneup" /Quiet
 
-REM --- Dynamic Schedule Synchronization ---
-WINBARS.exe -Action UpdateTriggers              REM Refresh Task Scheduler triggers to match current config
+REM --- Dedicated UEFI Bootable WinRE Rescue USB Creator ---
+Create-RescueUSB.bat /Drive:E: /Quiet
 
-REM --- Emergency Tools ---
-WINBARS.exe -ScamBuster                         REM Kill rogue browser lockups and clear crash loops (Ctrl+Win+B)
-WINBARS.exe -EmergencyCard                      REM Open printable BitLocker recovery card
-WINBARS.exe -QuickAssist                        REM Launch native Microsoft Quick Assist remote support (Ctrl+Win+Q)
-
-REM --- System Tray & Desktop Shortcuts ---
-WINBARS.exe -Tray                               REM Launch background Floppy Tray Sentry
-WINBARS.exe -CreateShortcuts                    REM Install 4 Action Desktop Shortcuts (Managed Suite)
-WINBARS.exe -Uninstall                          REM Cleanly remove all tasks, shortcuts, and tray sentry
+REM --- Clean Suite Removal (Unregisters All Tasks & Shortcuts) ---
+Uninstall.bat /Quiet
 ```
 
 ---
