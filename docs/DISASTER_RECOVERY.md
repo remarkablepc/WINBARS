@@ -1,4 +1,4 @@
-﻿# Disaster Recovery, WinRE Blue Screen & Safe Mode Console
+# Disaster Recovery, WinRE Blue Screen & Safe Mode Console
 
 ## 1. Native Windows RE Blue Screen Integration
 
@@ -12,9 +12,11 @@ When Windows fails to boot, encounters a bootloop, or trips multiple BSODs, Wind
           +--> [ 💾 WINBARS Emergency Resurrection Tool ]
 `
 
-### Registered via WinreConfig.xml & 
-eagentc.exe:
-WINBARS auto-registers a custom recovery entry into the Windows Recovery Environment (WinRE). Clicking it instantly launches the standalone WINBARS Disaster Recovery Console.
+### Registered via WinreConfig.xml & reagentc.exe:
+In Managed Workstation profiles (Modes 2, 3, and 4), WINBARS registers a native recovery entry into the Windows Recovery Environment (WinRE). Clicking it instantly launches the standalone WINBARS Disaster Recovery Console.
+
+> [!NOTE]
+> **Strict Zero-Software Pledge (Modes 0, N, and 1)**: To preserve complete host sterility on corporate workstations and shop bench check-ins, Modes 0, N, and 1 never modify `C:\Recovery\OEM` or inject custom buttons into the Windows boot menu. Systems backed up under Modes 0, N, or 1 boot directly into standard WinRE / WinPE and execute disaster recovery via the standalone rescue scripts on the backup drive.
 
 ---
 
@@ -61,11 +63,19 @@ WINBARS automatically pre-scans all attached drives in real time to display acti
 
 ### Path 3: The 2-Step Bare-Metal Resurrection Workflow
 * **Problem**: Complete drive corruption or total replacement of a failed SSD.
-* **The 2-Step Solution**:
-  1. **Step 1 (Base or Baseline Image)**: Uses standard Microsoft `dism.exe /Apply-Image` to apply the full bootable operating system partition back to disk, followed by `bcdboot` EFI bootloader repair.
+* **The "OS & Programs Only" Standard (`SystemImage_OS_and_Programs_*.wim`)**:
+  - WINBARS deliberately separates operating system state from user data. System images capture the Windows OS, system drivers, `Program Files`, `ProgramData`, and user registry hives (`NTUSER.DAT`, `AppData\Roaming`), yielding a fast, clean 15–25 GB bootable image.
+  - Personal user files (Documents, Desktop, Pictures, Videos, Downloads) are mirrored separately via multi-threaded Robocopy directly into `\Users\` on the backup drive.
+* **Critical Technician Safeguard (Double-Confirmation Protocol)**:
+  - Applying a DISM image will **OVERWRITE and re-format** target drive `C:\`.
+  - When running `Apply-SystemImage_WinPE.bat` in WinPE, the recovery assistant enforces a mandatory two-step confirmation before touching disk:
+    1. `STEP 1/2`: Confirms that the technician has verified or backed up any un-synced client data in `C:\Users`.
+    2. `STEP 2/2`: Prompts for explicit `YES` confirmation to apply the DISM image and execute `BCDBoot`.
+* **The 2-Step Resurrection Workflow**:
+  1. **Step 1 (Base or Baseline Image)**: Uses standard Microsoft `dism.exe /Apply-Image` to lay down the OS and applications, followed by `bcdboot` UEFI bootloader reconfiguration.
      - **Master Baseline Option (`_baseline.wim`)**: Roll back to the original clean master / factory state created on Day 1. Baseline images are permanently immune to rotation pruning.
      - **Latest Rolling Image**: Roll back to the most recent daily/weekly system image.
-  2. **Step 2 (Latest User File Sync)**: After DISM finishes, WINBARS automatically detects if more recent user files exist in `UserBackups/` (from daily/hourly Robocopy mirrors) and prompts the technician/user to restore them, ensuring zero data loss between the base image date and the disaster date.
+  2. **Step 2 (Latest User File Sync)**: After DISM finishes, copy the client's verified files from `\Users\` on the backup drive back into the restored user profiles, ensuring zero data loss between the base image date and the disaster date.
 
 ### Path 4: Intel RST / VMD Storage Driver Injector
 * **Problem**: In modern 11th-14th Gen Intel laptops, Intel Volume Management Device (VMD / RST RAID) prevents standard WinPE from seeing internal NVMe SSDs (drive shows as missing).
@@ -78,3 +88,19 @@ If an option displays `[NO BACKUP DETECTED]` or `[Last Backup: Never]`:
 1. **Plug in External Drive**: Ensure your external USB hard drive or flash drive is connected.
 2. **Re-Scan**: Press **`[S]`** in the menu to refresh drive letters and scan all connected volumes.
 3. **Storage Controller Check**: If your internal SSD or external drive is not visible, press **`[6]`** to inject Intel RST / VMD storage drivers.
+
+---
+
+## 5. The Portable Backup Drive Disaster Kit (Every Mode)
+
+Regardless of whether a machine was protected via Mode 0, N, 1, 2, 3, or 4, every external backup drive is automatically provisioned with a self-contained emergency disaster recovery kit on its root directory:
+
+| File on Backup Drive | Purpose | How to Use |
+| :--- | :--- | :--- |
+| **`HOW_TO_RESTORE.html`** | Offline interactive recovery guide with triage cards | Double-click on any working PC, Mac, or mobile phone. |
+| **`README_RECOVERY.txt`** | Plain-text emergency triage and step-by-step restoration ledger | Open in Notepad on any machine. |
+| **`Create-RescueUSB.bat`** | Turnkey 60-second bootable UEFI WinRE flash drive creator | Right-click $\rightarrow$ Run as administrator on any working Windows PC. |
+| **`Toggle_Backup_Drive_Visibility.bat`** | Stealth toggle to cloak or uncloak backup drive in Explorer | Right-click $\rightarrow$ Run as administrator to toggle Explorer drive letters. |
+| **`Backup_Logs\Registry_Snapshots\Latest\Restore_Registry_WinPE.bat`** | 1-click WinRE offline registry hive rollback script | Run from WinRE Command Prompt (`Shift + F10`) to cure bootloops. |
+| **`SystemImages\Apply-SystemImage_WinPE.bat`** | Turnkey DISM bare-metal image restoration with double confirmation | Run from WinRE Command Prompt to restore entire OS & application state. |
+| **`BitLocker_Recovery_Key.txt`** | Plaintext emergency 48-digit BitLocker numerical passwords | Open to unlock BitLocker-encrypted drives. |

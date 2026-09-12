@@ -22,6 +22,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Enforces pre-flight disk free space verification before triggering VSS snapshot creation or System Restore checkpoints. Safely aborts or falls back if `C:\` has $< 2.0$ GB or $< 3.0$ GB free space, preventing VSS crash loops on full SSDs.
 - **Item 4D: 4K High-DPI Scaling (Per-Monitor v2)**:
   - Programmatic Win32 P/Invoke `SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)` with fallback to `SetProcessDPIAware()` in `src/gui/tray_code.cs`, delivering pixel-crisp rendering of the Floppy Tray Sentry, Toast alerts, and GUI dashboard across 125%–200% displays even without external `.config` files.
+- **Universal "OS & Programs Only" System Image Standard**:
+  - Re-engineered DISM image naming to `SystemImage_OS_and_Programs_YYYY-MM-DD_HHmm.wim` (and `..._baseline.wim`) across all profiles.
+  - Injected self-describing internal XML metadata into `.wim` headers (`/Name` and `/Description`) explicitly clarifying that the image restores OS, drivers, and software, while personal files are preserved separately in `\Users` on external/secondary storage.
+- **Technician Double-Confirmation Safeguard**:
+  - Implemented an unskippable two-step confirmation protocol in `Apply-SystemImage_WinPE.bat` and `Save-WinPeRestoreScript` to verify that `C:\Users` client files have been safely backed up before formatting or restoring target drive `C:`.
+- **Portable Emergency Disaster Toolkit on External Backup Drives**:
+  - Automated staging of `HOW_TO_RESTORE.html` (zero-dependency, responsive offline HTML guide with emergency panic triage cards).
+  - Automated staging of `Create-RescueUSB.bat` on the backup drive root across all modes to generate a bootable UEFI WinRE USB from any working PC.
+  - Enhanced `README_RECOVERY.txt` with an Emergency Quick-Start triage box at line 1.
 - **Batch CLI Switches & Unattended Automation**:
   - Added built-in parameter switches across all 8 batch installers (`/?`, `/Quiet`, `/Vanilla`, `/Brand:`, `/Data:`, `/Image:`, `/Baseline:`, `/Pin:`, `/Label:`), accompanied by comprehensive CLI reference documentation.
 

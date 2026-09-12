@@ -77,6 +77,10 @@ External Backup Drive (e.g. D:\)
 ├── _DeletedArchive\                    <-- 30-day safety recycle bin for modified/deleted files
 │   └── YYYY-MM-DD\
 │
+├── SystemImages\                       <-- Lean Disaster Recovery OS & Programs Images
+│   ├── SystemImage_OS_and_Programs_*.wim
+│   └── Apply-SystemImage_WinPE.bat     <-- Turnkey DISM restore script (double-confirmation)
+│
 ├── Backup_Logs\
 │   ├── Sync_History.log                <-- Historical mirror and Smart Swap execution logs
 │   ├── Run-ZeroFootprintSync.ps1       <-- Standalone native scheduled task runner
@@ -91,6 +95,8 @@ External Backup Drive (e.g. D:\)
 │           └── Restore_Registry_WinPE.bat <-- 1-click WinRE emergency rollback script
 │
 ├── BitLocker_Recovery_Key.txt          <-- 48-digit numerical recovery passwords
+├── Create-RescueUSB.bat                <-- Turnkey 60-second bootable UEFI WinRE flash drive creator
+├── HOW_TO_RESTORE.html                 <-- Interactive offline disaster recovery manual
 ├── Toggle_Backup_Drive_Visibility.bat  <-- 1-click Explorer cloaking/uncloaking script
 └── README_RECOVERY.txt                 <-- Plain-text restoration and disaster recovery guide
 ```
@@ -117,7 +123,7 @@ WINBARS structures system deployment into a 6-profile architecture (Modes 0, N, 
 graph TD
     M0["Mode 0: Zero Footprint<br>• 100% Native Windows<br>• 0 Files on PC<br>• USB-Hosted Automation"]
     MN["Mode N: Near-Zero Footprint<br>• 0 Resident EXEs / 100% Native Tasks<br>• Stealth Anti-Competitor Shield<br>• Generic System Backup & Recovery"]
-    M1["Mode 1: System Undo<br>• Daily Restore Point Hardening<br>• VSS Auto-Heal Sentry<br>• WinPE Boot Hooks<br>• Panic Hotkeys (Ctrl+Win+B)"]
+    M1["Mode 1: System Undo (Bench Standard)<br>• Daily Restore Point Hardening<br>• VSS Shadow Quota & RegBack<br>• 100% Native Windows Subsystems<br>• 0 Installed Software / 0 EXEs"]
     M2["Mode 2: Local Disaster Guard<br>• [Mode 1 +]<br>• Local Partition DISM Image (.wim)<br>• Single-Drive & Laptop Resilience"]
     M3["Mode 3: Headless Full<br>• [Mode 1 +]<br>• Differential Robocopy Sync<br>• Bare-Metal External Images<br>• Missing Drive Connection Prompt"]
     M4["Mode 4: Total Protection<br>• [Mode 3 +]<br>• Floppy Disk Tray Sentry<br>• Active ScamBuster Watchdog<br>• Protection Center GUI<br>• Custom Partner Branding"]
