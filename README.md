@@ -65,31 +65,34 @@
 ## 📑 Table of Contents
 
 0. [📜 Changelog & Version History](CHANGELOG.md)
-1. [💔 Why WINBARS Was Born: 4 Real-World Nightmares](#why-winbars-was-born-4-real-world-nightmares)
+1. [💔 Why WINBARS Was Born: 6 Real-World Nightmares](#why-winbars-was-born-6-real-world-nightmares)
 2. [🛡️ How WINBARS Solves Each Problem](#how-winbars-solves-each-problem)
    - 🚨 **[Unique Defense: Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)**
+   - 🧰 **[Unique Defense: Boot-Failure Safety Net & Emergency Recovery Triage](#boot-recovery-safety-net)**
 3. [⚖️ Market Comparison: WINBARS vs. Legacy Backup Suites](#market-comparison-winbars-vs-legacy-backup-suites)
 4. [💾 Floppy Tray Sentry & 1-Click Desktop Shortcuts](#floppy-tray-sentry--1-click-desktop-shortcuts)
 5. [🚀 6 Deployment Profiles (Including Zero & Near-Zero Footprint)](#6-deployment-profiles-including-zero--near-zero-footprint)
    - 🍏 **[Unique Feature: Non-Destructive "macOS-Style" Windows OS Refresh (Safe Overlay)](#macos-style-safe-overlay)**
-6. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
-7. [👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)](#deep-dive-the-zero-footprint-architecture-0-resident-files)
-8. [🛡️ Enterprise Auditability & Tamper-Proof Architecture](#enterprise-auditability--tamper-proof-architecture)
-9. [⌨️ Universal Global Hotkeys](#universal-global-hotkeys)
-10. [🔒 Novice Protection & Technician Mode](#novice-protection--technician-mode)
-11. [🚀 Quick Start & CLI Reference](#quick-start--cli-reference)
-12. [🏷️ White-Labeling & Community Shop Sponsorship ($100 One-Time Token)](#white-labeling--community-shop-sponsorship-100-one-time-token)
-13. [📚 Technical Documentation Directory](#technical-documentation-directory)
-14. [📋 Technical Requirements](#technical-requirements)
-15. [📜 Recent Highlights](#recent-highlights)
-16. [⚖️ Legal & Process Interception Disclaimer](#legal--process-interception-disclaimer)
-17. [📄 Software License (Closed-Source Freeware)](#software-license-closed-source-freeware)
+   - 📦 **[1-Click Custom Profile Batch Generator](#1-click-custom-profile-batch-generator)**
+6. [📁 External Backup Drive & Deployment Media File Structure](#external-backup-drive--deployment-media-file-structure)
+7. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
+8. [👻 Deep Dive: The Zero-Footprint Architecture (0 Resident Files)](#deep-dive-the-zero-footprint-architecture-0-resident-files)
+9. [🛡️ Enterprise Auditability & Tamper-Proof Architecture](#enterprise-auditability--tamper-proof-architecture)
+10. [⌨️ Universal Global Hotkeys](#universal-global-hotkeys)
+11. [🔒 Novice Protection & Technician Mode](#novice-protection--technician-mode)
+12. [🚀 Quick Start & CLI Reference](#quick-start--cli-reference)
+13. [🏷️ White-Labeling & Community Shop Sponsorship ($100 One-Time Token)](#white-labeling--community-shop-sponsorship-100-one-time-token)
+14. [📚 Technical Documentation Directory](#technical-documentation-directory)
+15. [📋 Technical Requirements](#technical-requirements)
+16. [📜 Recent Highlights](#recent-highlights)
+17. [⚖️ Legal & Process Interception Disclaimer](#legal--process-interception-disclaimer)
+18. [📄 Software License (Closed-Source Freeware)](#software-license-closed-source-freeware)
 
 ---
 
-## 💔 Why WINBARS Was Born: 4 Real-World Nightmares
+## 💔 Why WINBARS Was Born: 6 Real-World Nightmares
 
-If you have ever repaired Windows PCs for clients, friends, or family, you already know these four heartbreaking scenarios:
+If you have ever repaired Windows PCs for clients, friends, or family, you already know these six heartbreaking scenarios:
 
 ### 1. The "Windows 11 Silent File History Death"
 > *"A customer came into a repair shop whose SSD abruptly died. They had set up Windows File History years ago and faithfully left their external hard drive plugged in every day. But when the drive was inspected, the customer discovered that **the day they upgraded from Windows 10 to Windows 11, Microsoft silently disabled File History with ZERO warnings or error dialogs**. The customer lost an entire year of irreplaceable family photos and business files because Windows never said a word."*
@@ -102,6 +105,12 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 
 ### 4. The $5,000 Phone Scam, Rogue PUPs & Notification Spam
 > *"Every week, everyday computer users and seniors freeze in panic when bombarded by relentless browser notification spam ('McAfee Expired! 5 Viruses Found!') or intrusive PUPs (like OneLaunch and PC App Store) that hijack desktop screens. Eventually, a full-screen browser trap strikes with blaring audio sirens ('VIRUS DETECTED! CALL MICROSOFT AT 1-800...'). Trapped by reload loops and hidden taskbars, they call the number on screen and let offshore scam call centers install remote control tools, drain their savings, or lock their computer. Windows provides zero proactive defense against these deceptive traps."*
+
+### 5. The "No Rescue USB When Windows Won't Boot" Catch-22
+> *"When a corrupted Windows update, bad driver, or damaged BCD bootloader causes a blue-screen loop, every online guide and backup utility instructs the victim: 'Insert your Recovery USB drive to repair your computer!' But in the real world, **users never create a rescue USB when their computer is working**—or lost it in a drawer years ago. Once Windows refuses to boot, they are trapped: they cannot create a rescue drive on a PC that cannot start! Most end up paying hundreds of dollars or wiping their entire system because nobody pre-staged recovery tools before the crash."*
+
+### 6. The "Wipe & Reinstall" Trap: Losing All Your Programs, Settings & Work
+> *"When Windows becomes sluggish, corrupted, or infected, big-box repair techs deliver the standard verdict: 'We have to wipe the drive and reinstall Windows from scratch.' The customer loses all their installed programs, customized preferences, printer drivers, and software licenses. It takes weeks of frustrating effort to hunt down software installers and product keys—even though their personal documents and application settings were completely healthy."*
 
 ---
 
@@ -197,6 +206,27 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 * **`[📌 BASELINE]` Visual Badging**: Baseline checkpoints are explicitly badged across all WINBARS repair menus and the WinRE blue screen recovery console, ensuring technicians can immediately identify known-good master states before testing experimental vendor drivers.
 * **VSS Shadow Headroom Expansion**: Baseline creation automatically sizes the VSS shadow quota (15%) and instructs WINBARS retention routines to skip the baseline during FIFO pruning to maximize checkpoint longevity.
 * **Permanent Master Setup Images**: Images tagged with `-Baseline` are permanently immune to automated retention pruning on both `C:\SystemImages` and external storage, providing an indestructible factory rollback target even after major Windows OS feature updates.
+
+<a id="boot-recovery-safety-net"></a>
+### 8. Boot-Failure Safety Net & Unified Emergency Recovery Triage
+* **The Real-World Boot Failure Dilemma**: When a PC gets stuck in a blue-screen loop, online manuals instruct users to "boot from your recovery USB". But in reality, everyday users never create a recovery drive ahead of time, and once Windows refuses to boot, they cannot create one on the dead machine. Furthermore, the classic `F8` Safe Mode key was disabled by Microsoft over a decade ago in Windows 8, 10, and 11 to achieve fast boot times.
+* **Automatic Native WinRE Pre-Staging**: WINBARS guarantees that recovery tools are pre-staged directly into the Windows Recovery Environment (WinRE) on the host disk before disaster strikes. Even if Windows won't boot to the desktop, the native recovery partition already holds the tools needed to roll back.
+* **1-Click Next-Boot WinRE Trigger (`reagentc /boottore`)**:
+  * If a client reports instability, system sluggishness, or a driver glitch, a single click or command (`WINBARS.exe -BootRecoveryMenu` or `EMERGENCY_RECOVERY.bat`) arms `reagentc /boottore`.
+  * The computer reboots **directly into the Windows Recovery Environment on the very next start**, and automatically returns to normal fast boot afterward. Zero USB needed, zero BIOS menu navigation, and zero scary permanent boot menus.
+* **Boot-Failure Safety Net Toggles (Technician Control)**:
+  * **2-Second Boot Manager Menu (`-EnableBootMenu` / `-DisableBootMenu`)**: Adds a brief 2-second countdown to the Windows Boot Manager (`{bootmgr}`) offering a direct prompt to press `F8` or enter Advanced Options if Windows ever hangs.
+  * **Legacy F8 Boot Policy (`-EnableLegacyF8` / `-DisableLegacyF8`)**: Restores the classic `F8` prompt on startup (`bootmenupolicy Legacy`).
+  * **Safe-by-Default Design**: Both toggles remain **OFF by default** during standard client deployments. Everyday non-technical users are terrified by unexpected boot screens and prompt screens on morning startup. Technicians can toggle either option anytime via the CLI or Pre-Flight menu for volatile test hardware or high-risk driver experiments.
+* **Unified Emergency Recovery Triage (`EMERGENCY_RECOVERY.bat`)**:
+  * **One Unmissable Entry Point**: Instead of scattering 8 conflicting batch files on the backup drive, the drive root contains a single, guided rescue launcher: `EMERGENCY_RECOVERY.bat` (and companion `RECOVERY_START_HERE.bat`).
+  * **Live Windows & WinPE Dual-Context Support**: Whether double-clicked on a live secondary PC or launched from a WinPE Command Prompt (`Shift + F10`), the launcher dynamically adapts.
+  * **Intelligent Diagnostic Pre-Flight**:
+    1. *Windows Partition Detection*: Tests drive letters for `\Windows\System32\ntoskrnl.exe` to find the true OS drive, avoiding WinPE `X:\` or shifted drive confusion.
+    2. *S.M.A.R.T. Physical Disk Health*: Queries physical drive status (`wmic diskdrive get status` / PowerShell) to warn if the internal drive is physically dying before attempting software repairs.
+    3. *BCD Bootloader Audit & Auto-Rebuild*: Tests whether the Boot Configuration Data store is intact; if damaged or missing, offers a 1-click `bcdboot <WinDrive>:\Windows` rebuild.
+    4. *WinRE Status & Self-Healing*: Checks if WinRE is enabled; if disabled, auto-enables via `reagentc /enable` and provides the 1-click `/boottore` launch option.
+    5. *Guided Recovery Ladder*: Directs the technician or user to the least invasive fix: System Restore $\rightarrow$ Registry Rollback $\rightarrow$ BCD Rebuild $\rightarrow$ Non-Destructive Safe Overlay OS Refresh $\rightarrow$ Bare-Metal Wipe.
 
 ---
 
@@ -389,6 +419,22 @@ WINBARS includes double-clickable batch installers in the repository root (and `
 > [!TIP]
 > **Zero-Drift Mode Switching**: Switching between modes (e.g. from Mode 4 to Mode 1, or Mode 2 to Mode 3) is **completely seamless**. Every installer `.bat` and menu action automatically tears down previous background sentries and unregisters stale tasks before arming the newly chosen mode—guaranteeing zero "zombie" tasks or configuration drift. All batch deployers accept `/Reset` to perform a full factory clear before applying the mode.
 
+<a id="1-click-custom-profile-batch-generator"></a>
+#### 📦 1-Click Custom Profile Batch Generator (`Export-CustomProfileInstaller`)
+
+Need to deploy a tailored setup across 20 office PCs without re-configuring options every time? WINBARS allows technicians to design custom deployment recipes and instantly export them as standalone, self-elevating batch installers:
+
+* **Instant Export**:
+  * In the **Pre-Flight Menu (`[P]`)**: Toggle components `[0-9]` to your exact client specifications, then press **`[S]`** to save and generate `Install-Custom-<ProfileName>.bat`.
+  * In the **Custom Profile Manager (`[X]`)**: Manage, inspect, and export any saved recipe with a single keystroke.
+  * Via **CLI**: `WINBARS.exe -ExportCustomProfileInstaller "MedicalClinic"`
+* **Zero-Dependency Staging**:
+  * Automatically copies `WINBARS.exe` (and companion assets) alongside the installer.
+  * Injects the custom configuration into `C:\ProgramData\WINBARS\custom_profiles.json`.
+  * Automatically applies the profile, registers Task Scheduler routines, and configures sentries with zero technician prompts.
+* **Portable Technician Appliance**:
+  * Copy `Install-Custom-<ProfileName>.bat` and `WINBARS.exe` onto any technician USB stick. Plug into a new client machine, double-click the `.bat`, and the entire bespoke configuration is provisioned in under 15 seconds.
+
 ---
 
 ### 💿 WinPE Disaster Recovery: Where Do the Restore Hooks Live?
@@ -469,6 +515,110 @@ WINBARS provides a comprehensive breakdown for each of the 6 deployment styles e
 * **In the CLI Profile Manager (`[P]`)**:
   * Selecting any profile (0–4 and Mode N) presents the detailed capability card and prompts for explicit confirmation (`Apply Profile X to this machine? (Y/n)`) before executing changes.
   * Press **`[I]`** to inspect or compare all 6 profiles sequentially or individually without applying them.
+
+---
+
+<a id="external-backup-drive--deployment-media-file-structure"></a>
+## 📁 External Backup Drive & Deployment Media File Structure
+
+When a client or technician plugs their external backup drive into any computer or inspects a machine protected by WINBARS, what does the filesystem look like? 
+
+WINBARS is built on an uncompromising design principle: **Zero mystery files, zero cluttered roots, and zero proprietary lock-in.** 
+
+---
+
+### 1. The External Backup Drive (`E:\`)
+
+In a crisis, a panic-stricken user staring at an external drive with 10 conflicting `.bat` files will freeze or run the wrong script. WINBARS organizes the external drive with **one clear, unmissable entry point** while organizing auxiliary tools into dedicated subfolders:
+
+```text
+E:\ (External Backup Storage Drive)
+│
+├── 📄 EMERGENCY_RECOVERY.bat          <-- ⭐ THE SINGLE guided emergency recovery entry point
+├── 📄 RECOVERY_START_HERE.bat         <-- Convenient pointer directly launching EMERGENCY_RECOVERY
+├── 📄 README_RECOVERY.txt             <-- Clean plaintext offline restoration instructions
+├── 📄 HOW_TO_RESTORE.html             <-- Interactive offline HTML rescue walkthrough (opens in any browser)
+├── 📄 Toggle_Backup_Drive_Visibility.bat <-- 1-Click script to cloak or uncloak backup drive in File Explorer
+│
+├── 📁 UserBackups\                    <-- Uncompressed 1:1 file mirror (drag-and-drop on any PC / Mac / Linux)
+│   ├── Desktop\
+│   ├── Documents\
+│   ├── Pictures\
+│   ├── Videos\
+│   ├── Music\
+│   └── AppData_Local_Custom\         <-- Browser profiles (Chrome, Edge, Firefox) & Outlook PST stores
+│
+├── 📁 _DeletedArchive\                <-- 30-day safety isolation for deleted or modified files
+│   ├── 2026-09-10\
+│   ├── 2026-09-11\
+│   └── 2026-09-12\
+│
+├── 📁 BitLocker_Keys\                 <-- Offline BitLocker emergency cards & encrypted vault
+│   ├── BitLocker_Emergency_Card.html  <-- Printable card with exact 48-digit numerical recovery key
+│   └── BitLocker_Vault.enc            <-- AES-256 encrypted key vault
+│
+├── 📁 Boot_Rescue\                    <-- BCD store backups and 1-click bootloader repair
+│   ├── BCD_Backup                     <-- Binary BCD hive snapshot
+│   ├── BCD_Configuration_Audit.txt    <-- Plaintext bootloader configuration ledger
+│   └── Restore_BCD_WinPE.bat          <-- WinPE 1-click BCD import & bcdboot rebuilding assistant
+│
+├── 📁 SystemImages\                   <-- DISM Bare-Metal Images (OS, Drivers & Program Files Only)
+│   ├── SystemImage_OS_and_Programs_2026-09-12.wim
+│   ├── SystemImage_OS_and_Programs_baseline.wim
+│   └── Apply-SystemImage_WinPE.bat    <-- 2-step confirmed WinPE restore tool (Safe Overlay vs Bare-Metal)
+│
+└── 📁 Backup_Logs\                    <-- Robocopy sync logs and offline registry snapshots
+    ├── Sync_History.log               <-- Append-only Robocopy mirror ledger
+    ├── Run-ZeroFootprintSync.ps1      <-- (Used in Mode 0/N: Host C: remains 100% sterile)
+    └── Registry_Snapshots\
+        ├── Latest\ (SYSTEM, SOFTWARE, SAM, SECURITY, DEFAULT)
+        └── Restore_Registry_WinPE.bat  <-- 1-click WinPE offline registry rollback
+```
+
+#### Key Architecture Highlights:
+* **The "One-Door" Crisis Entry Point**: Non-technical users only ever need to double-click `EMERGENCY_RECOVERY.bat` (or `RECOVERY_START_HERE.bat`). The script automatically scans for the Windows partition, checks physical drive health (S.M.A.R.T.), audits BCD integrity, tests WinRE, and guides the user through the 4-level triage ladder.
+* **100% Vendor-Free Data Access**: Open `UserBackups\` on a Mac, Chromebook, or Linux box—every document, photo, and spreadsheet is sitting right there in its original format. No WINBARS software needed.
+* **Separation of Concerns**: Auxiliary WinPE tools like `Apply-SystemImage_WinPE.bat` and `Restore_Registry_WinPE.bat` live neatly alongside the data they restore (`SystemImages\` and `Registry_Snapshots\`), completely preventing root directory clutter.
+
+---
+
+### 2. The Host Machine Footprint (`C:\`)
+
+Depending on your chosen deployment tier, the target PC's internal storage is strictly organized:
+
+#### Tier 1: Native Windows / Zero-Footprint (Modes 0, N, and 1)
+```text
+C:\ (Internal System Drive)
+│
+└── 0 Resident Third-Party Executables or Background Daemons!
+    ├── Mode 0: 0 bytes and 0 resident files on C:\ (all automation executes from external drive)
+    ├── Mode N: Only 3 generic unbranded shortcuts on Desktop (points to native Windows tools)
+    └── Mode 1: 0 installed files; only registers unthrottled System Protection in Windows Task Scheduler
+```
+
+#### Tier 2: Managed Suite Modes (Modes 2, 3, and 4)
+```text
+C:\
+├── 📁 Tools\WINBARS\                  <-- Main Suite Directory (Self-Contained Executable & Assets)
+│   ├── WINBARS.exe                    <-- Standalone compiled orchestrator (< 1 MB)
+│   ├── assets\                        <-- UI floppy tray icons & branding artwork
+│   │   ├── floppy_green.png
+│   │   ├── floppy_purple.png
+│   │   └── app_icon.png
+│   └── docs\                          <-- Offline blueprints and security documentation
+│       └── SYSTEM_FOOTPRINT.md
+│
+├── 📁 ProgramData\WINBARS\            <-- Shared Local Machine Configuration & Telemetry
+│   ├── custom_profiles.json           <-- Active deployment profile definition and component toggles
+│   ├── partner_branding.json          <-- Shop white-labeling & technician branding assets
+│   ├── incidents.json                 <-- Session 0 to Desktop IPC event queue (Tray Sentry alerts)
+│   ├── deployment.log                 <-- Append-only setup and uninstallation audit ledger
+│   └── VssMount_*\                    <-- Ephemeral VSS junction mount (auto-dismounted after sync)
+│
+└── 📁 SystemImages\                   <-- (Optional: Mode 2 Local Disaster Guard or Offline Baseline)
+    ├── SystemImage_OS_and_Programs_baseline.wim
+    └── Apply-SystemImage_WinPE.bat    <-- Local offline WinPE restore tool
+```
 
 ---
 
