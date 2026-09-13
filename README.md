@@ -473,10 +473,11 @@ Every WINBARS bare-metal capture generates `Apply-SystemImage_WinPE.bat`—an in
 
 Which deployment profile is right for your machine or client? The matrix below outlines exactly what capabilities each mode activates, with zero horizontal scrolling required:
 
-| Protection Capability | M0<br>Zero | MN<br>Near | M1<br>Undo | M2<br>Local | M3<br>Headless | M4<br>Total |
+| Protection Capability | M0<br>Zero | MN<br>Near | M1<br>Undo | M2<br>Local | M3<br>Full | M4<br>Total |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Host Disk Footprint** | `0 Bytes` | `0 EXEs` | `0 EXEs` | `Local` | `Local` | `Local` |
-| **Resident Background RAM** | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `~16 MB` |
+| **Host Files on C:** | `0 Bytes` | `0 EXEs` | `0 EXEs` | `C:\Tools` | `C:\Tools` | `C:\Tools` |
+| **Background RAM** | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `~16 MB` |
+| **WINBARS App Branding** | ❌ None | ❌ None | ❌ None | ✅ Yes | ✅ Yes | ✅ Yes |
 | **Unthrottled System Restore** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **VSS Subsystem Self-Healing** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Robocopy 1:1 File Mirror** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
@@ -494,10 +495,12 @@ Which deployment profile is right for your machine or client? The matrix below o
 | **Desktop & Start Shortcuts** | ❌ | ⚡ | ❌ | ✅ | ✅ | ✅ |
 
 > [!NOTE]
-> **Legend & Operational Notes**:
+> **Legend & Operational Explanations**:
 > - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
 > - `⚡` **On-Demand / Baseline Only**: Mode 1 includes the permanent master baseline image (`_baseline.wim`); Mode N provisions generic unbranded shortcuts; Modes 0–3 execute ScamBuster on-demand via hotkey/CLI without leaving persistent background sentries.
 > - `❌` **Not Provisioned**: Omitted by design to maintain a strict zero-resident or near-zero footprint policy.
+> - **What is "Unthrottled System Restore"?**: In standard Windows, Microsoft limits System Restore checkpoint creation to once every 24 hours (`SystemRestorePointCreationFrequency = 1440`). If a computer installs an update in the morning and a bad driver in the afternoon, Windows silently refuses to create a second restore point. WINBARS unthrottles this limit (`Frequency = 0`) so checkpoints are captured whenever requested, while guaranteeing 15% shadow storage headroom so restore points are never purged prematurely.
+> - **Zero WINBARS App Branding (Modes 0, N, 1)**: Modes 0, N, and 1 leave **zero vendor branding or shop logos** on the client machine. Mode 0 is completely sterile; Mode N deploys generic unbranded shortcuts (*"Backup Personal Files"*, *"Windows System Restore"*); Mode 1 operates invisibly behind native Windows tools. Modes 2, 3, and 4 display standard WINBARS suite branding, or your shop's custom white-label branding ($100 lifetime shop token).
 > - **Malware & Ransomware Protection**: Across all modes with file mirroring (Modes 0, N, 3, 4), the **30-Day Safety Recycle Bin (`_DeletedArchive`)** and cryptographic canary tripwires guarantee that if malicious scripts attempt to alter or encrypt files, clean uncorrupted copies are safely isolated before any sync operation completes.
 
 ---
