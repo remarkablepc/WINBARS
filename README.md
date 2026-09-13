@@ -475,8 +475,8 @@ Which deployment profile is right for your machine or client? The matrix below o
 
 | Capability | M0<br>Zero | MN<br>Near | M1<br>Undo | M2<br>Local | M3<br>Full | M4<br>Total |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Host Files on C:** | <nobr>`0 Bytes`</nobr> | <nobr>`0 EXEs`</nobr> | <nobr>`0 EXEs`</nobr> | <nobr>`C:\Tools`</nobr> | <nobr>`C:\Tools`</nobr> | <nobr>`C:\Tools`</nobr> |
-| **Background RAM** | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`~16 MB`</nobr> |
+| **Host Files on C:** | <nobr>0 Bytes</nobr> | <nobr>0 EXEs</nobr> | <nobr>0 EXEs</nobr> | <nobr>C:\Tools</nobr> | <nobr>C:\Tools</nobr> | <nobr>C:\Tools</nobr> |
+| **Background RAM** | <nobr>0 MB</nobr> | <nobr>0 MB</nobr> | <nobr>0 MB</nobr> | <nobr>~12 MB</nobr> | <nobr>~12 MB</nobr> | <nobr>~16 MB</nobr> |
 | **WINBARS Branding** | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> |
 | **Desktop Shortcuts** | <nobr>❌ None</nobr> | <nobr>✅ Native</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> |
 | **Automated Daily Sync** | <nobr>✅ Daily</nobr> | <nobr>✅ Daily</nobr> | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Daily</nobr> | <nobr>✅ Daily</nobr> |
@@ -487,9 +487,11 @@ Which deployment profile is right for your machine or client? The matrix below o
 | **BitLocker Card & Vault** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Emergency Recovery Launcher** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Native WinRE Boot Hook** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Bare-Metal DISM Image** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Base</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Both</nobr> |
+| **Bare-Metal DISM Image** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Base</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
 | **macOS Safe OS Overlay** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **OneDrive Alert Shield** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Ransomware Canary** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
+| **Protection Hotkey (`Ctrl+Win+W`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Remote RAT Interceptor** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | **Floppy Tray Sentry** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
