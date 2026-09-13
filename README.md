@@ -473,31 +473,30 @@ Every WINBARS bare-metal capture generates `Apply-SystemImage_WinPE.bat`—an in
 
 Which deployment profile is right for your machine or client? The matrix below outlines exactly what capabilities each mode activates, with zero horizontal scrolling required:
 
-| Protection Capability | M0<br>Zero | MN<br>Near | M1<br>Undo | M2<br>Local | M3<br>Full | M4<br>Total |
+| Capability | M0<br>Zero | MN<br>Near | M1<br>Undo | M2<br>Local | M3<br>Full | M4<br>Total |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **Host Files on C:** | `0 Bytes` | `0 EXEs` | `0 EXEs` | `C:\Tools` | `C:\Tools` | `C:\Tools` |
-| **Background RAM** | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `~16 MB` |
-| **WINBARS App Branding** | ❌ None | ❌ None | ❌ None | ✅ Yes | ✅ Yes | ✅ Yes |
-| **Unthrottled System Restore** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **VSS Subsystem Self-Healing** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Host Files on C:** | <nobr>`0 Bytes`</nobr> | <nobr>`0 EXEs`</nobr> | <nobr>`0 EXEs`</nobr> | <nobr>`C:\Tools`</nobr> | <nobr>`C:\Tools`</nobr> | <nobr>`C:\Tools`</nobr> |
+| **Background RAM** | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`0 MB`</nobr> | <nobr>`~16 MB`</nobr> |
+| **WINBARS Branding** | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> |
+| **Desktop Shortcuts** | <nobr>❌ None</nobr> | <nobr>✅ Native</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> |
+| **Automated Daily Sync** | <nobr>✅ Daily</nobr> | <nobr>✅ Daily</nobr> | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Daily</nobr> | <nobr>✅ Daily</nobr> |
+| **System Restore (Unthrottled)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **VSS Subsystem Auto-Heal** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Robocopy 1:1 File Mirror** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **30-Day Safety Recycle Bin** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **BitLocker Card & Vault** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Emergency Recovery Launcher** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Native WinRE Boot Hook** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Bare-Metal DISM Image (`.wim`)** | ✅ | ✅ | ⚡ | ✅ | ✅ | ✅ |
-| **macOS-Style Safe OS Overlay** | ✅ | ✅ | ⚡ | ✅ | ✅ | ✅ |
+| **Bare-Metal DISM Image** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Base</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Both</nobr> |
+| **macOS Safe OS Overlay** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **OneDrive Alert Shield** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Universal Hotkeys (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **ScamBuster Browser Defuser** | ⚡ | ⚡ | ⚡ | ⚡ | ⚡ | ✅ |
+| **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Remote RAT Interceptor** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| **Floppy System Tray Sentry** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| **Desktop & Start Shortcuts** | ❌ | ⚡ | ❌ | ✅ | ✅ | ✅ |
+| **Floppy Tray Sentry** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 
 > [!NOTE]
 > **Legend & Operational Explanations**:
 > - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
-> - `⚡` **On-Demand / Baseline Only**: Mode 1 includes the permanent master baseline image (`_baseline.wim`); Mode N provisions generic unbranded shortcuts; Modes 0–3 execute ScamBuster on-demand via hotkey/CLI without leaving persistent background sentries.
 > - `❌` **Not Provisioned**: Omitted by design to maintain a strict zero-resident or near-zero footprint policy.
 > - **What is "Unthrottled System Restore"?**: In standard Windows, Microsoft limits System Restore checkpoint creation to once every 24 hours (`SystemRestorePointCreationFrequency = 1440`). If a computer installs an update in the morning and a bad driver in the afternoon, Windows silently refuses to create a second restore point. WINBARS unthrottles this limit (`Frequency = 0`) so checkpoints are captured whenever requested, while guaranteeing 15% shadow storage headroom so restore points are never purged prematurely.
 > - **Zero WINBARS App Branding (Modes 0, N, 1)**: Modes 0, N, and 1 leave **zero vendor branding or shop logos** on the client machine. Mode 0 is completely sterile; Mode N deploys generic unbranded shortcuts (*"Backup Personal Files"*, *"Windows System Restore"*); Mode 1 operates invisibly behind native Windows tools. Modes 2, 3, and 4 display standard WINBARS suite branding, or your shop's custom white-label branding ($100 lifetime shop token).
