@@ -202,7 +202,7 @@ Rather than trapping your data in fragile, proprietary backup formats, **WINBARS
 <a id="boot-recovery-safety-net"></a>
 ### 8. Boot-Failure Safety Net & Unified Emergency Recovery Triage
 * **The Real-World Boot Failure Dilemma**: When a PC gets stuck in a blue-screen loop, online manuals instruct users to "boot from your recovery USB". But in reality, everyday users never create a recovery drive ahead of time, and once Windows refuses to boot, they cannot create one on the dead machine. Furthermore, the classic `F8` Safe Mode key was disabled by Microsoft over a decade ago in Windows 8, 10, and 11 to achieve fast boot times.
-* **Automatic Native WinRE Pre-Staging**: WINBARS guarantees that recovery tools are pre-staged directly into the Windows Recovery Environment (WinRE) on the host disk before disaster strikes. Even if Windows won't boot to the desktop, the native recovery partition already holds the tools needed to roll back.
+* **Automatic Native WinRE Pre-Staging**: WINBARS guarantees that recovery tools are pre-staged directly into the Windows Recovery Environment (WinRE) on the host disk before disaster strikes. Even if Windows fails to boot, crashes in a blue-screen loop, or cannot start, the native recovery partition already holds the tools needed to roll back.
 * **1-Click Next-Boot WinRE Trigger (`reagentc /boottore`)**:
   * If a client reports instability, system sluggishness, or a driver glitch, a single click or command (`WINBARS.exe -BootRecoveryMenu` or `EMERGENCY_RECOVERY.bat`) arms `reagentc /boottore`.
   * The computer reboots **directly into the Windows Recovery Environment on the very next start**, and automatically returns to normal fast boot afterward. Zero USB needed, zero BIOS menu navigation, and zero scary permanent boot menus.
@@ -741,9 +741,25 @@ Everything needed to perform daily backups, resolve drive shifts, log history, a
 
 ---
 
-## 🛡️ Enterprise Auditability & Tamper-Proof Architecture
+## 🛡️ Enterprise Auditability & The "Third Path" Architecture
 
-Power users and system administrators can understandably be skeptical of closed-source system utilities that run with elevated privileges (`NT AUTHORITY\SYSTEM`). WINBARS disarms this concern by maintaining an uncompromising architectural boundary between its **orchestration wrapper** and the **native host operations** it registers:
+Power users, sysadmins, and enterprise security auditors can understandably be skeptical of closed-source system utilities running with elevated privileges (`NT AUTHORITY\SYSTEM`). WINBARS disarms this concern by pioneering a completely new distribution paradigm:
+
+### 💡 The "Third Path": Protecting the Work While Providing 100% Native Transparency
+
+Traditionally, developers and sysadmins have been forced into a false dichotomy:
+1. **Traditional Open Source**: The raw code is exposed, but bad actors routinely scrape, clone, and repackage scripts with adware or crypto-miners on third-party download portals. Furthermore, exposed `.ps1` and `.bat` files are frequently modified or broken by well-meaning clients, and strict PowerShell `ExecutionPolicy` settings (`Restricted` / `AllSigned`) silently kill unattended background tasks.
+2. **Traditional Closed Source**: The binary is protected against repackaging, but it introduces the "black-box" dilemma—forcing administrators to blindly trust an opaque binary running with SYSTEM rights, proprietary background services, kernel-mode filter drivers, and vendor-locked backup formats.
+
+**WINBARS pioneers a Third Path: The Auditable Appliance Model.**
+
+> *"I created this Third Path to protect years of engineering from unauthorized adware repackagers and prevent curious users from accidentally breaking exposed scripts—while simultaneously giving users, sysadmins, and security auditors 100% glass-box transparency into every single operation executed on the machine."*
+
+Under this architecture:
+* **The Binary is an Immutable Appliance**: `WINBARS.exe` protects project integrity, eliminates PowerShell execution policy blockers, and guarantees deterministic execution without code breakage or tamper risk.
+* **The Host Operations are 100% Native & Auditable**: WINBARS installs 0 proprietary services, 0 kernel filter drivers, and 0 network telemetry daemons. Every single action is executed through documented, standard Windows native binaries (`robocopy`, `dism`, `vssadmin`, `reagentc`, `bcdedit`, `bcdboot`, `wbadmin`, `schtasks`, `rstrui`).
+* **Open Command Audit Trail**: Every command string, parameter, and operational rationale is published openly in the [System Footprint & Native Command Execution Reference](docs/SYSTEM_FOOTPRINT.md#8-complete-native-windows-engine--command-execution-reference).
+* **Zero Vendor Lock-In**: Backups are standard NTFS folders, native Volume Shadow Copies, and standard `.wim` files. WINBARS is never required to restore your system or data.
 
 ### 1. Transparent Host Auditability Over Code Secrecy
 * While the compilation wrapper is packaged as a standalone binary to protect project integrity, **the operations WINBARS schedules on the target machine are completely transparent, un-obfuscated, and independently auditable**.
@@ -754,7 +770,7 @@ Power users and system administrators can understandably be skeptical of closed-
 ### 2. The "Tamper-Proof" Bench Appliance Angle
 * In bench operations, IT support shops and MSPs face a frustrating reliability problem: well-meaning clients, curious power users, or junior staff inspecting exposed `.ps1` or `.bat` script files, accidentally deleting a quotation mark or altering arguments, and silently killing automated disaster recovery schedules for months.
 * Packaging WINBARS as an immutable standalone executable (`WINBARS.exe`) provides a **tamper-proof operational appliance**. It protects the client from accidentally breaking their own disaster recovery setup, eliminates PowerShell `ExecutionPolicy` conflicts (`Restricted` / `AllSigned`), and guarantees deterministic execution across reboots.
-* **System Footprint & Verification**: For the line-item inventory of every file path, registry key, scheduled task, and a Sysinternals verification guide, see the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
+* **System Footprint & Verification**: For the line-item inventory of every file path, registry key, scheduled task, Sysinternals verification guide, and the full native command audit table, see the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
 
 ---
 
@@ -867,33 +883,40 @@ Double-click `WINBARS.exe` or select Option 2 to launch the technician console:
 
 ### 3. Visual Quick-Scan CLI Reference
 
+> 💡 **Audience & Operational Scope Legend**:
+> - 🟢 **Client-Safe / General**: Safe for non-technical users, desktop shortcuts, and routine backup automation.
+> - 🛠️ **[Tech Only]**: Advanced administrative controls (bootloader & BCD modification, factory reset, forced unregistration, baseline pinning, unattended flags).
+
 | <nobr>Operational Domain</nobr> | Command Syntax | Description & Execution Details |
 | :--- | :--- | :--- |
-| <nobr>**⚡ 1-Click Backup**</nobr> | WINBARS.exe -Action FastBackup | Runs quiet fast backup (mirrors personal files + creates System Checkpoint). |
-| <nobr>**📊 Visual Backup**</nobr> | WINBARS.exe -Action FastBackup -ShowProgress | Launches live Dual Progress Bar showing file & byte-level sync in real-time. |
-| <nobr>**🛡 System Checkpoint**</nobr> | WINBARS.exe -Action RestorePoint | Creates hardened, unthrottled atomic Windows System Restore Point. |
-| <nobr>**💾 Bare-Metal Image**</nobr> | WINBARS.exe -Action SystemImage | Captures crash-consistent DISM .wim bare-metal image to target or C:\SystemImages. |
-| <nobr>**📦 Complete Backup**</nobr> | WINBARS.exe -Action All | Runs full 3-tier pass (Restore Point + Personal File Mirror + DISM Image). |
-| <nobr>**🚀 Deploy Mode 0**</nobr> | WINBARS.exe -Profile ZeroFootprint | Deploys 100% native Windows automation with **0 resident files on C:\**. |
-| <nobr>**👻 Deploy Mode N**</nobr> | WINBARS.exe -Profile NearZeroFootprint | Deploys stealth native automation with **0 background EXEs** and unbranded shortcuts. |
-| <nobr>**🛡 Deploy Mode 1**</nobr> | WINBARS.exe -Profile SystemUndo | Deploys daily System Restore hardening + VSS auto-heal (rapid OS rollback). |
-| <nobr>**🛡 Deploy Mode 2**</nobr> | WINBARS.exe -Profile LocalDisasterGuard | Mode 1 + local recovery partition bare-metal DISM image (laptops/single-drive). |
-| <nobr>**🛡 Deploy Mode 3**</nobr> | WINBARS.exe -Profile HeadlessFull | Mode 1 + daily external Robocopy file sync + image archive (silent workstations). |
-| <nobr>**🛡 Deploy Mode 4**</nobr> | WINBARS.exe -Profile TotalProtection | Mode 3 + signature Floppy Tray Sentry + ScamBuster active watchdog + GUI. |
-| <nobr>**🔄 Switch Mode**</nobr> | WINBARS.exe -SwitchMode <Profile> | Zero-drift mode transition: purges old profile tasks and applies new profile cleanly. |
-| <nobr>**🧹 Factory Reset**</nobr> | WINBARS.exe -ResetSuite / Reset-Suite.bat | Clears all scheduled tasks, sentries, and configs to factory defaults without uninstallation. |
-| <nobr>**👁 Cloak Drive**</nobr> | WINBARS.exe -ToggleDriveCloaking | Toggles backup target drive visibility in Windows Explorer (*This PC*). |
-| <nobr>**💾 Disk Destinations**</nobr> | WINBARS.exe -ListBackupDrives | Displays formatted table of registered destinations, capacity, and online health. |
-| <nobr>**➕ Add Destination**</nobr> | WINBARS.exe -AddBackupDrive E: | Registers backup destination (E: or custom directory E:\Backups). |
-| <nobr>**➖ Remove Target**</nobr> | WINBARS.exe -RemoveBackupDrive D: [-Force] | Removes target (enforces 1-drive minimum; -Force for technician override). |
-| <nobr>**🔄 Refresh Triggers**</nobr> | WINBARS.exe -Action UpdateTriggers | Dynamically updates Task Scheduler triggers to match current schedule. |
-| <nobr>**🚨 ScamBuster**</nobr> | WINBARS.exe -ScamBuster | Terminates browser lockups, sinkholes scam domains, and clears sirens (Ctrl+Win+B). |
-| <nobr>**📋 Emergency Card**</nobr> | WINBARS.exe -EmergencyCard | Generates printable BitLocker Disaster Recovery Emergency Card (.html). |
-| <nobr>**🖥 Remote Support**</nobr> | WINBARS.exe -QuickAssist | Displays verified technician contact card, then launches Microsoft Quick Assist (Ctrl+Win+Q). |
-| <nobr>**🛠 Rescue USB Media**</nobr> | Create-RescueUSB.bat / WINBARS.exe -RescueUsb | Formats/prepares UEFI bootable WinRE flash drive with WINBARS tools & offline drivers. |
-| <nobr>**💿 Bare-Metal WinPE**</nobr> | Apply-SystemImage_WinPE.bat | Interactive DISM restore in WinRE (`Shift+F10` in Setup) with auto `bcdboot` repair. |
-| <nobr>**📊 Protection Center**</nobr> | WINBARS.exe -GUI / -StatusCard | Opens Protection Center Live Dashboard (Ctrl+Win+W). |
-| <nobr>**🧹 Complete Removal**</nobr> | WINBARS.exe -Uninstall | Cleanly removes all scheduled tasks, desktop shortcuts, and tray sentry. |
+| <nobr>**⚡ 1-Click Backup**</nobr> | `WINBARS.exe -Action FastBackup` | 🟢 Runs quiet fast backup (mirrors personal files + creates System Checkpoint). |
+| <nobr>**📊 Visual Backup**</nobr> | `WINBARS.exe -Action FastBackup -ShowProgress` | 🟢 Launches live Dual Progress Bar showing file & byte-level sync in real-time. |
+| <nobr>**🛡 System Checkpoint**</nobr> | `WINBARS.exe -Action RestorePoint` | 🟢 Creates hardened, unthrottled atomic Windows System Restore Point. |
+| <nobr>**💾 Bare-Metal Image**</nobr> | `WINBARS.exe -Action SystemImage` | 🟢 Captures crash-consistent DISM `.wim` bare-metal image to target or `C:\SystemImages`. |
+| <nobr>**📦 Complete Backup**</nobr> | `WINBARS.exe -Action All` | 🟢 Runs full 3-tier pass (Restore Point + Personal File Mirror + DISM Image). |
+| <nobr>**🚀 Deploy Mode 0**</nobr> | `WINBARS.exe -Profile ZeroFootprint` | 🟢 Deploys 100% native Windows automation with **0 resident files on C:\**. |
+| <nobr>**👻 Deploy Mode N**</nobr> | `WINBARS.exe -Profile NearZeroFootprint` | 🟢 Deploys stealth native automation with **0 background EXEs** and unbranded shortcuts. |
+| <nobr>**🛡 Deploy Mode 1**</nobr> | `WINBARS.exe -Profile SystemUndo` | 🟢 Deploys daily System Restore hardening + VSS auto-heal (rapid OS rollback). |
+| <nobr>**🛡 Deploy Mode 2**</nobr> | `WINBARS.exe -Profile LocalDisasterGuard` | 🟢 Mode 1 + local recovery partition bare-metal DISM image (laptops/single-drive). |
+| <nobr>**🛡 Deploy Mode 3**</nobr> | `WINBARS.exe -Profile HeadlessFull` | 🟢 Mode 1 + daily external Robocopy file sync + image archive (silent workstations). |
+| <nobr>**🛡 Deploy Mode 4**</nobr> | `WINBARS.exe -Profile TotalProtection` | 🟢 Mode 3 + signature Floppy Tray Sentry + ScamBuster active watchdog + GUI. |
+| <nobr>**🔄 Switch Mode**</nobr> | `WINBARS.exe -SwitchMode <Profile>` | 🛠️ **[Tech Only]** Zero-drift mode transition: purges old profile tasks and applies new profile cleanly. |
+| <nobr>**🧹 Factory Reset**</nobr> | `WINBARS.exe -ResetSuite` | 🛠️ **[Tech Only]** Clears all scheduled tasks, sentries, and configs to factory defaults without uninstallation. |
+| <nobr>**👁 Cloak Drive**</nobr> | `WINBARS.exe -ToggleDriveCloaking` | 🛠️ **[Tech Only]** Toggles backup target drive visibility in Windows Explorer (*This PC*). |
+| <nobr>**💾 Disk Destinations**</nobr> | `WINBARS.exe -ListBackupDrives` | 🟢 Displays formatted table of registered destinations, capacity, and online health. |
+| <nobr>**➕ Add Destination**</nobr> | `WINBARS.exe -AddBackupDrive E:` | 🟢 Registers backup destination (`E:` or custom directory `E:\Backups`). |
+| <nobr>**➖ Remove Target**</nobr> | `WINBARS.exe -RemoveBackupDrive D: [-Force]` | 🛠️ **[Tech Only]** Removes target (enforces 1-drive minimum; `-Force` for technician override). |
+| <nobr>**🔄 Refresh Triggers**</nobr> | `WINBARS.exe -Action UpdateTriggers` | 🛠️ **[Tech Only]** Dynamically updates Task Scheduler triggers to match current schedule. |
+| <nobr>**🚨 ScamBuster**</nobr> | `WINBARS.exe -ScamBuster` | 🟢 Terminates browser lockups, sinkholes scam domains, and clears sirens (`Ctrl+Win+B`). |
+| <nobr>**📋 Emergency Card**</nobr> | `WINBARS.exe -EmergencyCard` | 🟢 Generates printable BitLocker Disaster Recovery Emergency Card (`.html`). |
+| <nobr>**🖥 Remote Support**</nobr> | `WINBARS.exe -QuickAssist` | 🟢 Displays verified technician contact card, then launches Microsoft Quick Assist (`Ctrl+Win+Q`). |
+| <nobr>**🧰 Boot Recovery**</nobr> | `WINBARS.exe -BootRecoveryMenu` | 🛠️ **[Tech Only]** Arms `reagentc /boottore` to restart directly into the WinRE Resurrection Center on next boot. |
+| <nobr>**⏱️ 2s Boot Menu**</nobr> | `WINBARS.exe -EnableBootMenu` / `-DisableBootMenu` | 🛠️ **[Tech Only]** Enables/disables a 2-second boot manager countdown window for crash rescue. |
+| <nobr>**⌨️ Legacy F8 Menu**</nobr> | `WINBARS.exe -EnableLegacyF8` / `-DisableLegacyF8` | 🛠️ **[Tech Only]** Toggles classic Windows 7-style `F8` Safe Mode boot prompt policy (`bootmenupolicy Legacy`). |
+| <nobr>**🛠 Rescue USB Media**</nobr> | `Create-RescueUSB.bat` / `WINBARS.exe -RescueUsb` | 🛠️ **[Tech Only]** Prepares UEFI bootable WinRE flash drive with WINBARS tools & offline drivers. |
+| <nobr>**💿 Bare-Metal WinPE**</nobr> | `Apply-SystemImage_WinPE.bat` | 🛠️ **[Tech Only]** Interactive DISM restore in WinRE (`Shift+F10` in Setup) with auto `bcdboot` repair. |
+| <nobr>**📊 Protection Center**</nobr> | `WINBARS.exe -GUI` / `-StatusCard` | 🟢 Opens Protection Center Live Dashboard (`Ctrl+Win+W`). |
+| <nobr>**🧹 Complete Removal**</nobr> | `WINBARS.exe -Uninstall` | 🛠️ **[Tech Only]** Cleanly removes all scheduled tasks, desktop shortcuts, and tray sentry. |
 
 ### 4. Field Automation Quick-Combos (Unattended Technician Examples)
 
