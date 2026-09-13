@@ -298,13 +298,13 @@
 
     <!-- Section 4: Bare-Metal System Image Restore -->
     <div class=section id=section-baremetal>
-        <h2>&#128190; 4. Bare-Metal System Image Restore (OS &amp; Installed Programs)</h2>
+        <h2>&#128190; 4. System Image Restore (Safe Overlay vs. Clean Wipe)</h2>
         <p>System images captured by WINBARS are stored in <code>\SystemImages\</code> (e.g. <code>SystemImage_OS_and_Programs_*.wim</code>).</p>
         
-        <div class=alert alert-danger>
-            <strong>CRITICAL SAFEGUARD &mdash; PLEASE READ BEFORE RESTORING:</strong><br>
-            Applying a system image restores the <strong>Windows Operating System, system drivers, and installed applications</strong>. It will <strong>OVERWRITE</strong> target drive C:\.<br>
-            <em>Personal user files (Docs, Desktop, Pictures) are stored separately in <code>\Users</code> on this backup drive. If target drive C: is still readable, verify or copy any un-synced client data before applying the image!</em>
+        <div class="alert alert-info" style="margin-bottom: 16px;">
+            <strong>Two Recovery Pathways Available:</strong><br>
+            &bull; <strong>Option [1] Safe Overlay (macOS-Style Non-Destructive Refresh):</strong> Overlays Windows OS and Program Files from the <code>.wim</code> image while leaving <code>C:\Users\</code> 100% untouched on disk. Perfect when Windows is corrupted or bluescreening but client data remains on drive C:.<br>
+            &bull; <strong>Option [2] Bare-Metal Clean Wipe &amp; Re-Format:</strong> Completely wipes and re-formats drive C: before applying the image. Use for drive replacements (new SSDs) or catastrophic malware. Enforces mandatory two-step confirmation.
         </div>
 
         <ul class=step-list>
@@ -321,10 +321,10 @@ cd SystemImages
 Apply-SystemImage_WinPE.bat</pre>
             </li>
             <li>
-                <strong>Technician Double-Confirmation:</strong> The script will prompt you twice:
-                <ol style=margin-left: 24px; margin-top: 8px;>
-                    <li><code>STEP 1/2:</code> Confirm you have verified or backed up existing <code>C:\Users</code> client data.</li>
-                    <li><code>STEP 2/2:</code> Confirm you are ready to overwrite and restore target drive <code>C:</code>.</li>
+                <strong>Choose Your Restore Method:</strong>
+                <ol style="margin-left: 24px; margin-top: 8px;">
+                    <li><code>Option [1] Safe Overlay:</code> Refreshes OS &amp; Program Files while preserving all existing user folders and files on disk.</li>
+                    <li><code>Option [2] Bare-Metal Wipe:</code> Prompts for two-step confirmation, formats drive C:, and applies fresh OS image.</li>
                 </ol>
             </li>
             <li>

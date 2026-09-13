@@ -1,4 +1,4 @@
-﻿================================================================================
+================================================================================
           WINDOWS DISASTER RECOVERY & FILE RESTORATION INSTRUCTIONS
 ================================================================================
 This backup drive uses 100% native Windows tools (Robocopy + VSS + DISM + wbadmin).
@@ -59,17 +59,20 @@ Prefer a friendly visual guide with clickable sections?
 5. BARE-METAL SYSTEM IMAGE RESTORE (OS & Installed Programs):
    - WIM images are stored in '\SystemImages\' (e.g. SystemImage_OS_and_Programs_*.wim).
    - What this image restores: Windows Operating System, system drivers, and installed software.
-   - CRITICAL TECHNICIAN SAFEGUARD:
-     Applying this image will OVERWRITE and re-format drive C:\.
-     Personal user files (Docs, Desktop, Pictures) are stored separately in '\Users\'
-     on this external backup drive. If target drive C: is still readable, verify or copy
-     any un-synced client data from C:\Users before applying the image!
-   - To perform a turnkey bare-metal restore:
-     a. Boot PC from Windows Setup USB or Rescue USB (WinRE Command Prompt).
+   - Two Flexible Recovery Modes Provided:
+     * OPTION [1] Safe Overlay (macOS-Style Non-Destructive Refresh):
+       Applies Windows OS and Program Files from the .wim while leaving 'C:\Users\'
+       100% UNTOUCHED on disk! Perfect when Windows is corrupted or damaged but client
+       data is still on drive C:.
+     * OPTION [2] Bare-Metal Clean Wipe & Re-Format:
+       Completely wipes and re-formats drive C: before applying the image. Use for drive
+       replacements (new SSDs) or catastrophic malware. Enforces mandatory two-step
+       confirmation before wiping.
+   - To perform an image restore:
+     a. Boot PC from Windows Setup USB or Rescue USB (WinRE Command Prompt via Shift+F10).
      b. Switch to this drive: 'D:' or 'E:' -> 'cd SystemImages'.
      c. Run 'Apply-SystemImage_WinPE.bat'.
-     d. Follow the two-step verification prompts to confirm client data is safe,
-        then apply the image to the target drive.
+     d. Select Option [1] Safe Overlay (data safe) or Option [2] Clean Wipe.
 
 6. CREATING A BOOTABLE RESCUE USB (On Any Working PC):
    - If the crashed computer won't boot and you lack a Windows Setup USB:

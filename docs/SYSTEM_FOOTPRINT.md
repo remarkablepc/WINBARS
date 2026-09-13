@@ -57,9 +57,9 @@ WINBARS is designed with flexible operational boundaries. If strict security pol
 | **Mode 0 (`ZeroFootprint`)** | **0 bytes** (Zero files) | **0 resident processes** | Everything resides on external backup drive (`D:\Backup_Logs\`) |
 | **Mode N (`NearZeroFootprint`)** | Desktop shortcuts only | **0 resident processes** | External backup drive + native `rstrui.exe` / Explorer shortcuts |
 | **Mode 1 (`SystemUndo`)** | Optional baseline `.wim` | **0 resident processes** | `C:\SystemImages\_baseline.wim` (native DISM image); 0 EXEs |
-| **Mode 2 (`LocalDisasterGuard`)** | Local Suite (~2 MB) | Silent Hotkey Sentry (`-Tray -Silent`, ~15–18 MB RAM; registers `Ctrl+Win+B` / `Ctrl+Win+W`) | `C:\Tools\WINBARS\WINBARS.exe` |
-| **Mode 3 (`HeadlessFull`)** | Local Suite (~2 MB) | Silent Hotkey/RAT Watchdog (`-Tray -Silent`, ~15–18 MB RAM; monitors remote tools & drive alerts) | `C:\Tools\WINBARS\WINBARS.exe` |
-| **Mode 4 (`TotalProtection`)** | Local Suite (~2 MB) | Interactive Floppy Tray Sentry (`-Tray`, ~18 MB RAM; visible notification icon + GUI + ScamBuster) | `C:\Tools\WINBARS\WINBARS.exe` + Startup link |
+| **Mode 2 (`LocalDisasterGuard`)** | Local Suite (~2 MB) | Silent Hotkey Sentry (`-Tray -Silent`, ~12 MB RAM; registers `Ctrl+Win+B` / `Ctrl+Win+W`) | `C:\Tools\WINBARS\WINBARS.exe` |
+| **Mode 3 (`HeadlessFull`)** | Local Suite (~2 MB) | Silent Hotkey Sentry (`-Tray -Silent`, ~12 MB RAM; registers `Ctrl+Win+B` / `Ctrl+Win+W` & drive alerts) | `C:\Tools\WINBARS\WINBARS.exe` |
+| **Mode 4 (`TotalProtection`)** | Local Suite (~2 MB) | Interactive Floppy Tray Sentry (`-Tray`, ~16 MB RAM; visible notification icon + GUI + ScamBuster) | `C:\Tools\WINBARS\WINBARS.exe` + Startup link |
 
 ### Filesystem Paths (When Modes 2–4 Installed):
 * **Executable & Config**: `C:\Tools\WINBARS\` (`WINBARS.exe`, `config.json`, `branding.json`, `deployment.log`)
@@ -83,7 +83,7 @@ WINBARS modifies only standard, documented Windows operational flags:
 3. **Tray / Hotkey Sentry Startup (Modes 2, 3, and 4)**:
    * Path: `HKCU:\Software\Microsoft\Windows\CurrentVersion\Run`
    * Value: `WINBARSTray = "C:\Tools\WINBARS\WINBARS.exe -Tray"` (Mode 4) or `WINBARSTray = "C:\Tools\WINBARS\WINBARS.exe -Tray -Silent"` (Modes 2 & 3)
-   * *Rationale*: In Mode 4, provides the visible floppy notification area icon and real-time dashboard. In Modes 2 and 3, runs as a silent background sentry to register global panic/recovery hotkeys (`Ctrl+Win+B`, `Ctrl+Win+Q`, `Ctrl+Win+W`), missing drive connection alerts, and remote tool interceptors without showing a tray icon.
+   * *Rationale*: In Mode 4, provides the visible floppy notification area icon and real-time dashboard. In Modes 2 and 3, runs as a silent background sentry to register global panic/recovery hotkeys (`Ctrl+Win+B`, `Ctrl+Win+W`) and missing drive connection alerts without showing a tray icon.
 4. **Explorer Drive Cloaking (Optional / Technician-Toggled)**:
    * Path: `HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
    * Value: `NoDrives` (DWORD bitmask)

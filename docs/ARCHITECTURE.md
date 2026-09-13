@@ -149,18 +149,19 @@ graph TD
 3. **Mode 1 (`SystemUndo` / `Minimal`)**:
    - The rapid OS rollback foundation.
    - Configures unthrottled daily Windows System Restore checkpoints and auto-heals VSS writer errors.
-   - Injects offline WinPE boot recovery hooks and enables the emergency panic hotkey (`Ctrl+Win+B`, fallback `Ctrl+Alt+B`).
-   - Near-zero resource consumption (< 5 MB RAM, on-demand execution).
+   - Preserves offline WinPE boot recovery and native Windows System Protection.
+   - Zero resident third-party binaries or daemons on `C:\` (0 MB background RAM; 0 EXEs; operations run autonomously via native Windows Task Scheduler).
 4. **Mode 2 (`LocalDisasterGuard`)**:
    - Extends Mode 1 for computers without dedicated external backup drives (e.g. mobile laptops).
    - Captures monthly bare-metal DISM system images (`.wim`) to a local secondary drive or hidden partition.
+   - Installs local suite to `C:\Tools\WINBARS` and runs a silent background sentry (`~12 MB RAM`) registering the universal Protection Center (`Ctrl+Win+W`) and Panic (`Ctrl+Win+B`) hotkeys.
 5. **Mode 3 (`HeadlessFull`)**:
    - Extends Mode 1 for workstations with external backup drives requiring silent operation with zero desktop clutter.
-   - Performs daily differential Robocopy personal file mirrors and scheduled bare-metal images.
-   - Raises desktop alerts if the scheduled external backup drive is missing or disconnected.
+   - Performs daily differential Robocopy personal file mirrors and bare-metal DISM images (`.wim`) to both local disk and external USB.
+   - Runs a silent background sentry (`~12 MB RAM`) registering universal hotkeys (`Ctrl+Win+W` / `Ctrl+Win+B`) and missing drive connection alerts.
 6. **Mode 4 (`TotalProtection` / `FullInteractive`)**:
    - Extends Mode 3 into a complete interactive managed workstation suite.
-   - Adds the dynamic Floppy Disk Tray monitor, active ScamBuster browser trap & remote tool watchdog, Protection Center GUI (`Ctrl+Win+W`), and organization partner branding.
+   - Adds the dynamic Floppy Disk Tray monitor (`~16 MB RAM`), active real-time ScamBuster browser trap & remote tool watchdog (`[STOP] Disconnect & Block`), live GUI Protection Center (`Ctrl+Win+W`), and organization partner branding.
 
 ### B. Dynamic Profile Calculation Engine (`custom_profiles.json`)
 Custom profiles (Modes 5+) are stored in `custom_profiles.json` (at script root on USB drives or `$env:ProgramData\WINBARS\custom_profiles.json` on host machines).

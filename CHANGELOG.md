@@ -46,6 +46,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Dual-Context Execution:
     - In Live Windows: Provides 1-click reboot to recovery (`reagentc /boottore` + immediate restart), BCD auto-rebuild (`bcdboot`), and BCD restoration from the backup vault.
     - In WinPE / Offline Shell: Guides the technician through bare-metal DISM image restoration (`Apply-SystemImage_WinPE.bat`), BCD repair, CHKDSK filesystem repair, or command shell.
+- **Documentation Hub & Capability Matrix Symmetrical Polish**:
+  - Unified all documentation (`README.md`, `dist/README.md`, `docs/ARCHITECTURE.md`, `docs/CLI_REFERENCE.md`, `docs/SYSTEM_FOOTPRINT.md`, `README_RECOVERY.txt`, and `HOW_TO_RESTORE.html`) across the 6 deployment profiles.
+  - Symmetrically polished matrix wrapping (`<nobr>` tags, single-line `C:\Tools`), aligned RAM metrics (`~12 MB` for Modes 2/3, `~16 MB` for Mode 4), documented `Protection Hotkey (Ctrl+Win+W)` and `Panic Hotkey (Ctrl+Win+B)`, and detailed Option [1] Safe Overlay (macOS-Style Non-Destructive Refresh) across all user-facing recovery guides.
 
 ---
 
