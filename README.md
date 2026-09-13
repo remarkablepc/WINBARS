@@ -26,8 +26,8 @@
   <br>
 
   ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping C:\Users ➔](#macos-style-safe-overlay)**<br>
-  🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**
-
+  🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
+  🧰 **[🛠️ Boot-Failure Safety Net & Emergency Triage: 1-Click WinRE Rescue When Windows Won't Boot ➔](#boot-recovery-safety-net)**
 </div>
 
 ---
