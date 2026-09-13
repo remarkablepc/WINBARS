@@ -95,42 +95,34 @@
 If you have ever repaired Windows PCs for clients, friends, or family, you already know these six heartbreaking scenarios:
 
 ### 1. The "Windows 11 Silent File History Death"
-> *"A customer came into a repair shop whose SSD abruptly died. They had set up Windows File History years ago and faithfully left their external hard drive plugged in every day. But when the drive was inspected, the customer discovered that **the day they upgraded from Windows 10 to Windows 11, Microsoft silently disabled File History with ZERO warnings or error dialogs**. The customer lost an entire year of irreplaceable family photos and business files because Windows never said a word."*
+> *"A customer’s hard drive died a year after upgrading to Windows 11, only to discover that **Microsoft had silently turned off File History during the upgrade with zero warning**. An entire year of irreplaceable family photos and business files was lost because Windows never said a word."*
 
 ### 2. *"There is NEVER a Restore Point When You Actually Need One!"*
-> *"Every technician has lived this: a bad update or corrupted driver causes a blue screen, but System Restore is completely empty. In standard Windows, Windows Update frequently purges restore points, the Volume Shadow Copy service (VSS) silently exhausts its storage quota, and Windows limits restore points to once every 24 hours. When disaster strikes, the restore point list is a ghost town."*
+> *"A bad update causes a blue screen, but System Restore is completely empty. Between Microsoft's arbitrary 24-hour throttling, silent shadow storage exhaustion, and Windows Update wiping old checkpoints, the restore point list is almost always a ghost town when disaster strikes."*
 
 ### 3. The "Surprise BitLocker" Catch-22
-> *"Modern laptops (Dell, HP, Lenovo) now turn on BitLocker encryption out of the box. Users have **zero idea their drive is encrypted** and never backed up the 48-digit numerical recovery key. When a BIOS update or crash trips the TPM chip, they are greeted by a blue recovery screen demanding 48 digits. Worse, they cannot access their Microsoft Account 2FA code because their phone needs an email confirmation code sent to the very PC that is locked!"*
+> *"New laptops now quietly encrypt themselves out of the box without handing the owner their 48-digit recovery key. When a routine BIOS update trips the TPM chip, the user is greeted by a blue lockout screen—and can't retrieve the key online because their two-factor authentication code is sent to the locked computer."*
 
-### 4. The $5,000 Phone Scam, Rogue PUPs & Notification Spam
-> *"Every week, everyday computer users and seniors freeze in panic when bombarded by relentless browser notification spam ('McAfee Expired! 5 Viruses Found!') or intrusive PUPs (like OneLaunch and PC App Store) that hijack desktop screens. Eventually, a full-screen browser trap strikes with blaring audio sirens ('VIRUS DETECTED! CALL MICROSOFT AT 1-800...'). Trapped by reload loops and hidden taskbars, they call the number on screen and let offshore scam call centers install remote control tools, drain their savings, or lock their computer. Windows provides zero proactive defense against these deceptive traps."*
+### 4. The Phone Scam, Browser Siren & Remote Control Trap
+> *"A full-screen popup freezes the screen with blaring audio sirens: 'VIRUS DETECTED — CALL MICROSOFT.' Panicked and unable to close the browser, everyday users call the number on screen and let offshore scammers connect via **UltraViewer, ScreenConnect, or AnyDesk**—tools so pervasive in scam call centers that UltraViewer's uninstaller literally asks: 'Did a scammer tell you to install this?' Victims watch helplessly as their bank accounts are drained while traditional antivirus sits completely silent."*
 
 ### 5. The "No Rescue USB When Windows Won't Boot" Catch-22
-> *"When a corrupted Windows update, bad driver, or damaged BCD bootloader causes a blue-screen loop, every online guide and backup utility instructs the victim: 'Insert your Recovery USB drive to repair your computer!' But in the real world, **users never create a rescue USB when their computer is working**—or lost it in a drawer years ago. Once Windows refuses to boot, they are trapped: they cannot create a rescue drive on a PC that cannot start! Most end up paying hundreds of dollars or wiping their entire system because nobody pre-staged recovery tools before the crash."*
+> *"When Windows gets stuck in a bootloop, every guide says: 'Insert your Recovery USB drive.' But everyday users never make a recovery drive while their PC is working—and once Windows refuses to boot, they can't create one. They are trapped simply because recovery tools were never pre-staged before the crash."*
 
-### 6. The "Wipe & Reinstall" Trap: Losing All Your Programs, Settings & Work
-> *"When Windows becomes sluggish, corrupted, or infected, big-box repair techs deliver the standard verdict: 'We have to wipe the drive and reinstall Windows from scratch.' The customer loses all their installed programs, customized preferences, printer drivers, and software licenses. It takes weeks of frustrating effort to hunt down software installers and product keys—even though their personal documents and application settings were completely healthy."*
+### 6. The "Wipe & Reinstall" Trap: Losing Every App & Setting
+> *"When Windows gets corrupted, the standard big-box verdict is always: 'Wipe the drive and start over.' Even if personal documents are saved, the user loses every installed program, customized preference, and printer driver—spending weeks hunting down lost software licenses and reinstalling their digital life."*
 
 ---
 
 ### 💬 A Note from the Creator: Dedicated to My Customers
 
-> *"This project is dedicated to the many customers who have trusted me with their computers over the years.*
+> *"This project is dedicated to the many customers who have trusted me with their computers over the years.
 >
-> *I didn't build WINBARS because I wanted another utility. I built it because I got tired of watching preventable computer disasters hurt good people.*
+> I didn't build WINBARS to sell a subscription, push cloud storage, or start a software company. I built it because after years of running a computer repair shop, I got tired of watching preventable computer disasters hurt good people.
 >
-> *I watched customers lose family photos because a backup silently stopped working.*
+> I watched families lose decades of photos because Windows silently stopped backing up. I watched people get locked out of their own laptops by surprise BitLocker prompts without a key. I watched perfectly healthy systems get wiped clean by big-box repair benches because there was no restore plan. And I watched terrified seniors lose money to scam call centers because Windows gave them no way to break out of a browser lockup.
 >
-> *I watched people get locked out of their own computers because BitLocker was enabled and they never knew they needed a recovery key.*
->
-> *I watched perfectly usable systems get wiped and rebuilt because there was no restore point, no system image, and no recovery plan.*
->
-> *And I watched scammers use fear, sirens, and fake warnings to steal money from people who simply didn't know where to turn for help.*
->
-> *After seeing the same problems year after year, I decided to build the tool I wished every customer already had installed before disaster struck.*
->
-> *That tool became WINBARS — and that is why it is 100% free for everyone. Protecting your family photos, your identity, and your life savings shouldn't come with a price tag. Real peace of mind is priceless."*
+> WINBARS is the tool I wished every customer already had running before they walked into my shop. It is completely free, closed-source freeware, with zero cloud telemetry and zero ads. If it saves your family photos, keeps you out of a scammer's hands, or saves you an expensive repair bill, it has done its job."*
 >
 > — **David Hewitt**, Creator of WINBARS (RemarkablePC)
 
@@ -474,18 +466,36 @@ Every WINBARS bare-metal capture generates `Apply-SystemImage_WinPE.bat`—an in
 
 ---
 
----
+### 📊 Deployment Mode vs. Feature Capability Matrix
 
-### 🪤 Ransomware Canary Shield Matrix: Who Gets What Protection?
+Which deployment profile is right for your machine or client? The matrix below outlines exactly what capabilities each mode activates, with zero horizontal scrolling required:
 
-| Profile Mode | Target Storage Monitored | Canary Placement | Detection & Enforcement Mechanism |
-| :--- | :--- | :--- | :--- |
-| **Mode 0 (`ZeroFootprint`)** | External Backup Drive | `.winbar_canary.dat` on external drive root | Cryptographic hash verified before and after each Robocopy file mirror pass. |
-| **Mode N (`NearZeroFootprint`)** | External Backup Drive (`E:\WindowsBackup`) | `.winbar_canary.dat` on external drive root | Pre/post-sync integrity verification on every scheduled mirror run. |
-| **Mode 1 (`SystemUndo` - Stealth)** | Internal System Drive (`C:`) | *None (0 resident background processes)* | **VSS Shadow Storage Quota Hardening**: Locks shadow storage headroom (10%) so ransomware cannot easily exhaust System Protection capacity. |
-| **Mode 2 (`LocalDisasterGuard`)** | Local Image Archive (`C:\SystemImages`) | `C:\SystemImages\.winbar_canary.dat` | Inspected during scheduled bare-metal image capture passes and on-demand health audits. |
-| **Mode 3 (`HeadlessFull`)** | External Backup Volumes & Shares | Multi-Target `.winbar_canary.dat` + `.winbars_remote_canary.sha256` | Daily automated pre-sync audit. If canary fails, aborts file sync immediately and disconnects network share. |
-| **Mode 4 (`TotalProtection`)** | Local + All External & Network Targets | Real-time Honeypot Sentinels | **Continuous Real-Time Monitoring**: Floppy Tray Sentry actively watches tripwire tokens; triggers immediate desktop Toast alert, siren alarm, and Webhook dispatch (Discord/Slack/Teams). |
+| Protection Capability | M0<br>Zero | MN<br>Near | M1<br>Undo | M2<br>Local | M3<br>Headless | M4<br>Total |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Host Disk Footprint** | `0 Bytes` | `0 EXEs` | `0 EXEs` | `Local` | `Local` | `Local` |
+| **Resident Background RAM** | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `0 MB` | `~16 MB` |
+| **Unthrottled System Restore** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **VSS Subsystem Self-Healing** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Robocopy 1:1 File Mirror** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
+| **30-Day Safety Recycle Bin** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
+| **BitLocker Card & Vault** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Emergency Recovery Launcher** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Native WinRE Boot Hook** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Bare-Metal DISM Image (`.wim`)** | ✅ | ✅ | ⚡ | ✅ | ✅ | ✅ |
+| **macOS-Style Safe OS Overlay** | ✅ | ✅ | ⚡ | ✅ | ✅ | ✅ |
+| **OneDrive Alert Shield** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Universal Hotkeys (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| **ScamBuster Browser Defuser** | ⚡ | ⚡ | ⚡ | ⚡ | ⚡ | ✅ |
+| **Remote RAT Interceptor** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| **Floppy System Tray Sentry** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| **Desktop & Start Shortcuts** | ❌ | ⚡ | ❌ | ✅ | ✅ | ✅ |
+
+> [!NOTE]
+> **Legend & Operational Notes**:
+> - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
+> - `⚡` **On-Demand / Baseline Only**: Mode 1 includes the permanent master baseline image (`_baseline.wim`); Mode N provisions generic unbranded shortcuts; Modes 0–3 execute ScamBuster on-demand via hotkey/CLI without leaving persistent background sentries.
+> - `❌` **Not Provisioned**: Omitted by design to maintain a strict zero-resident or near-zero footprint policy.
+> - **Malware & Ransomware Protection**: Across all modes with file mirroring (Modes 0, N, 3, 4), the **30-Day Safety Recycle Bin (`_DeletedArchive`)** and cryptographic canary tripwires guarantee that if malicious scripts attempt to alter or encrypt files, clean uncorrupted copies are safely isolated before any sync operation completes.
 
 ---
 
