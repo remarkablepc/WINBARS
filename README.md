@@ -263,7 +263,7 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
 | **Agentless Zero-Footprint** | ✅ **Supported (Mode 0 & 1)**: 0 resident software on host | ❌ Impossible (Requires agent installation) | ❌ Not available |
 | **Crash & Yank Safety** | ✅ **Atomic Staging + Robocopy `/ZB` + Canary** | Proprietary Journaling (Index corruption risk) | ❌ Truncates open PST/DBs |
 | **VSS Self-Healing** | ✅ **Frozen Snapshot Junctions + Auto COM Repair** | Proprietary VSS Provider (Fails silently on crash) | ⚠️ Fragile (Silent failure) |
-| **Storage Agnostic** | ✅ **USB, Internal SSD, NAS, UNC Shares, S3** | Proprietary Cloud or Local Containers | USB / Dedicated Share |
+| **Storage Agnostic** | ✅ **USB, Internal SSD, NAS / UNC, & Cloud Folders (Dropbox/Drive)** | Proprietary Cloud or Local Containers | USB / Dedicated Share |
 | **Ransomware Canary Defense**| ✅ **Dual-Layer Honeypot + SHA-256 Tripwire** | Behavioral Scanner (High false positives) | None |
 | **Scam & Siren Shield** | ✅ **Built-in ScamBuster (`Ctrl + Win + B`)** | ❌ None | ❌ None |
 | **Remote RAT Interceptor** | ✅ **Detects & Blocks AnyDesk, TeamViewer, RustDesk** | ❌ None | ❌ Blindspot (Signed tools allowed) |
@@ -279,8 +279,11 @@ To guarantee enterprise-grade survivability without bloated third-party drivers 
    * *The WINBARS Advantage*: WINBARS acts as the intelligent conductor: it self-heals VSS writers, removes the 24-hour throttle, guarantees shadow storage headroom, auto-discovers shifted drive letters, and safely preserves deleted files in a 30-day safety recycle bin.
 3. **The Tech-Scam Blindspot (Why WINBARS Complements, Not Replaces, Antivirus)**:
    * *Important Distinction*: **WINBARS is not an antivirus or anti-malware suite, and it does not replace Windows Defender or your existing AV software.** Instead, it defends against an entirely different threat vector that antivirus engines fundamentally cannot address: social engineering and weaponized legitimate tools.
-   * *The Problem*: Modern phone scammers and pop-up boiler rooms **do not use malware or viruses**. They create full-screen browser traps with blaring audio sirens, convincing victims to call a toll-free number. The scammer instructs the victim to download legitimate, digitally signed commercial remote support tools (AnyDesk, TeamViewer, ScreenConnect, UltraViewer). Because these tools are legitimate and digitally signed, antivirus software correctly permits them.
-   * *The WINBARS Sentry Layer*: WINBARS operates as an assistive safety layer alongside your antivirus: an instant browser freeze hotkey (`Ctrl+Win+B`) that terminates locking browser processes, silences audio sirens across 25+ browsers, and clears Chromium crash-recovery flags to prevent reload loops on restart, plus a real-time Remote Access Interceptor that catches AnyDesk/TeamViewer launches and gives the user an unmistakable **`[STOP] Disconnect & Block`** button.
+   * *The Problem*: Modern phone scammers and pop-up boiler rooms **do not use malware or viruses**. They create full-screen browser traps with blaring audio sirens, convincing victims to call a toll-free number. The scammer instructs the victim to download legitimate, digitally signed commercial remote support tools (UltraViewer, ScreenConnect, AnyDesk, TeamViewer). Because these tools are legitimate and digitally signed, antivirus software correctly permits them.
+   * *The WINBARS Sentry Layer*: WINBARS operates as an assistive safety layer alongside your antivirus: an instant browser freeze hotkey (`Ctrl+Win+B`) that terminates locking browser processes, silences audio sirens across 25+ browsers, and clears Chromium crash-recovery flags to prevent reload loops on restart, plus a real-time Remote Access Interceptor that catches AnyDesk/UltraViewer launches and gives the user an unmistakable **`[STOP] Disconnect & Block`** button.
+4. **The Cloud Strategy (Zero IAM / API Key Friction)**:
+   * *The Problem*: Legacy backup tools claim "cloud backup" by forcing users through enterprise AWS S3, Wasabi, or Azure portals—demanding 40-character secret keys, complex IAM bucket permissions, and monthly billing for API requests and egress. If a credit card expires, backups stop silently.
+   * *The WINBARS Advantage*: Almost every home and business client already has **Dropbox, Google Drive, Microsoft OneDrive, or Sync.com** installed. By simply pointing a WINBARS backup destination to your local cloud sync folder (e.g. `D:\Dropbox\Backups`), the official cloud client handles encrypted off-site transport, delta chunking, and mobile access automatically. **Zero secret keys, zero IAM policies, and zero extra bills.**
 
 ---
 
@@ -663,6 +666,12 @@ WINBARS never traps your data inside proprietary container files:
 
 ### Q: Does a System Restore Point affect my personal files?
 **No, absolutely not.** System Restore Points in WINBARS use native Windows Volume Shadow Copies (`rstrui.exe`, `Checkpoint-Computer`). They function 100% like traditional Windows System Restore points: they revert Windows system files, drivers, and registry settings, but your personal documents, family photos, desktop files, downloads, and emails are **never modified or removed** by a System Restore.
+
+### Q: How does WINBARS handle cloud backups? Why not use AWS S3?
+WINBARS takes a pragmatic, client-friendly approach to the cloud:
+* **The Problem with Direct S3 / Cloud SDKs**: Proprietary backup suites require users to sign up for AWS S3, Wasabi, or Backblaze B2, configure complex IAM access keys and bucket policies, and pay monthly bills for API requests and egress. If a credit card expires or an IAM policy breaks, backups halt silently—and recovering files requires technical S3 browser tools.
+* **The Native Cloud Folder Solution**: Almost every user or business already runs **Dropbox, Microsoft OneDrive, Google Drive, or Sync.com**. In WINBARS, simply select your local cloud sync folder as a backup destination (e.g., `D:\Dropbox\Backups` or `C:\Users\<Name>\Google Drive\Backups`). 
+* **The Best of Both Worlds**: WINBARS handles the frozen VSS snapshot, unthrottled Robocopy mirror, and 30-day accidental deletion protection, while your official Dropbox or Google Drive client handles the encrypted off-site cloud transport, differential chunking, and mobile access. **Zero secret keys, zero IAM policies, and zero additional cloud bills.**
 
 ---
 
