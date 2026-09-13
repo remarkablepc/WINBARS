@@ -481,15 +481,15 @@ Which deployment profile is right for your machine or client? The matrix below o
 | **Desktop Shortcuts** | <nobr>❌ None</nobr> | <nobr>✅ Native</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> | <nobr>✅ Yes</nobr> |
 | **Automated Daily Sync** | <nobr>✅ Daily</nobr> | <nobr>✅ Daily</nobr> | <nobr>❌ None</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Daily</nobr> | <nobr>✅ Daily</nobr> |
 | **System Restore (Unthrottled)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **VSS Subsystem Auto-Heal** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Robocopy 1:1 File Mirror** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **30-Day Safety Recycle Bin** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| **BitLocker Card & Vault** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Emergency Recovery Launcher** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Native WinRE Boot Hook** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Bare-Metal DISM Image** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Base</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
-| **macOS Safe OS Overlay** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **OneDrive Alert Shield** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **BitLocker Card & Vault** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr><abbr title="Exported to local manifest only if Day-1 baseline image is captured">Local*</abbr></nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
+| **Emergency Recovery Launcher** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
+| **Native WinRE Boot Hook** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| **VSS Subsystem Auto-Heal** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| **Bare-Metal DISM Image** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr><abbr title="Optional Day-1 local baseline image (_baseline.wim) if disk space >= 25 GB">Local*</abbr></nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
+| **Safe Overlay OS Refresh** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr><abbr title="Available from Day-1 local baseline image if captured">Local*</abbr></nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
+| **Silence OneDrive Cloud Nags** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Ransomware Canary** | <nobr>✅ USB</nobr> | <nobr>✅ USB</nobr> | <nobr>❌ None</nobr> | <nobr>✅ Local</nobr> | <nobr>✅ Both</nobr> | <nobr>✅ Both</nobr> |
 | **Protection Hotkey (`Ctrl+Win+W`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
@@ -500,7 +500,11 @@ Which deployment profile is right for your machine or client? The matrix below o
 > **Legend & Operational Explanations**:
 > - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
 > - `❌` **Not Provisioned**: Omitted by design to maintain a strict zero-resident or near-zero footprint policy.
+> - `*` **Optional / On-Demand**: Feature is optional during technician setup (e.g. Mode 1 offers an optional one-time baseline image `_baseline.wim` if disk space $\ge 25\text{ GB}$; hover over tooltip for details).
 > - **What is "Unthrottled System Restore"?**: In standard Windows, Microsoft limits System Restore checkpoint creation to once every 24 hours (`SystemRestorePointCreationFrequency = 1440`). If a computer installs an update in the morning and a bad driver in the afternoon, Windows silently refuses to create a second restore point. WINBARS unthrottles this limit (`Frequency = 0`) so checkpoints are captured whenever requested, while guaranteeing 10% shadow storage headroom so restore points are never purged prematurely.
+> - **Safe Overlay OS Refresh**: Allows non-destructive restoration of the Windows OS and Program Files from a `.wim` image directly over `C:\` while leaving `C:\Users\` 100% untouched on disk (Option [1] in `Apply-SystemImage_WinPE.bat`). Available whenever a DISM image is present (USB, Local, or Both).
+> - **Silence OneDrive Cloud Nags**: Configures group policies and registry flags to silence Windows/OneDrive "Not Backed Up" nagging alerts and prevents OneDrive from hijacking known user folders without user consent. (Active in Managed Modes 2–4).
+> - **Native WinRE Boot Hook**: Registers a native recovery button into the Windows Recovery Environment boot menu (`reagentc.exe` / `WinreConfig.xml`) pointing to `C:\Tools\WINBARS\WINBARS.exe`. Stealth Modes (0, N, and 1) preserve 100% host sterility by leaving Windows boot files untouched.
 > - **Zero WINBARS App Branding (Modes 0, N, 1)**: Modes 0, N, and 1 leave **zero vendor branding or shop logos** on the client machine. Mode 0 is completely sterile; Mode N deploys generic unbranded shortcuts (*"Backup Personal Files"*, *"Windows System Restore"*); Mode 1 operates invisibly behind native Windows tools. Modes 2, 3, and 4 display standard WINBARS suite branding, or your shop's custom white-label branding ($100 lifetime shop token).
 > - **Malware & Ransomware Protection**: Across all modes with file mirroring (Modes 0, N, 3, 4), the **30-Day Safety Recycle Bin (`_DeletedArchive`)** and cryptographic canary tripwires guarantee that if malicious scripts attempt to alter or encrypt files, clean uncorrupted copies are safely isolated before any sync operation completes.
 
@@ -509,7 +513,7 @@ Which deployment profile is right for your machine or client? The matrix below o
 ### 💡 Cumulative Architecture: Key Distinctions
 * **Cumulative Tiering**:
   * **Stealth Modes (0, N, 1)** require zero resident third-party binaries on `C:\`.
-  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, automated VSS self-healing, native Windows Task Scheduler automation, and an optional permanent baseline system image (`C:\SystemImages\_baseline.wim` if disk space $\ge 25$ GB).
+  * **Mode 1 (`SystemUndo`)** establishes the rapid OS rollback foundation: unthrottled daily restore points, native Windows Task Scheduler automation, and an optional permanent baseline system image (`C:\SystemImages\_baseline.wim` if disk space $\ge 25$ GB).
   * **Mode 2 (`LocalDisasterGuard`)** builds on Mode 1 by provisioning `WINBARS.exe` to `C:\Tools\WINBARS`, adding desktop suite access, universal hotkeys (`Ctrl+Win+B` / `Ctrl+Win+W`), and monthly bare-metal DISM system images (`.wim`).
   * **Mode 3 (`HeadlessFull`)** adds automated differential Robocopy file sync to external drives, multi-drive rotation, and missing drive connection prompts.
   * **Mode 4 (`TotalProtection`)** adds the persistent Floppy Disk Tray sentry in the notification area, active real-time ScamBuster remote tool interceptor, and organization partner branding.

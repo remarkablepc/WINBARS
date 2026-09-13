@@ -88,6 +88,10 @@ WINBARS modifies only standard, documented Windows operational flags:
    * Path: `HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
    * Value: `NoDrives` (DWORD bitmask)
    * *Rationale*: Visually conceals the backup drive letter in Windows Explorer ("This PC") to prevent accidental user deletion or confusion. Tasks and Robocopy continue accessing the volume normally.
+5. **Silence OneDrive Cloud Nags (Modes 2, 3, and 4)**:
+   * Path: `HKLM:\SOFTWARE\Policies\Microsoft\OneDrive`, `HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`
+   * Values: `KFMBlockOptIn = 1`, `ShowSyncProviderNotifications = 0`
+   * *Rationale*: Suppresses deceptive "Your PC is not backed up" notification nags and prevents automatic hijacking of standard user folders into OneDrive cloud sync. Purely optional and reversible anytime via `WINBARS.exe -RestoreOneDrivePrompts`.
 
 ---
 
