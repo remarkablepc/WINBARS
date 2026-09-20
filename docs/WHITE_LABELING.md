@@ -1,26 +1,26 @@
-# White-Labeling & The $100 Lifetime Shop Branding Perk
+# White-Labeling & The Lifetime Shop Branding Token
 
 ## 1. Overview & Business Model
 
 WINBARS is distributed as a **100% free standalone executable (`WINBARS.exe`)** for individual computer users, home labs, and basic technician use.
 
-For independent computer repair shops, Managed Service Providers (MSPs), and IT consultants, WINBARS offers a **$100 One-Time Lifetime Shop Branding Perk**. This perk transforms the suite into an in-house, white-labeled client defense asset carrying your shop's business name, phone hotline, website, and direct remote support integration across unlimited customer machines.
+For independent computer repair shops, Managed Service Providers (MSPs), and IT consultants, WINBARS offers an optional **$100 One-Time Lifetime Shop Branding Token**. This token configures the suite as an in-house, white-labeled client defense asset carrying your shop's business name, phone hotline, website, and direct remote support integration across unlimited customer machines.
 
 ---
 
-## 2. Why Repair Shops Love the $100 Lifetime Perk
+## 2. Commercial IT & MSP Architecture: Fixed Cost vs. Recurring Subscriptions
 
-| Business Need | Traditional Enterprise Backup / RMM | WINBARS with $100 Lifetime Perk |
+| Operational Requirement | Traditional Enterprise Backup / RMM | WINBARS with Lifetime Shop Token |
 | :--- | :--- | :--- |
 | **Pricing Model** | $50–$100+ per machine, **every single year** | **$100 one-time flat fee**, lifetime ownership |
-| **Endpoint Limits** | Strict per-seat metering (10, 50, 100 seats) | **Unlimited client PCs forever** |
-| **White-Label Cost** | Enterprise tiers starting at $5,000–$10,000/yr | Included in the $100 one-time fee |
-| **Client Retention** | Generic software brand; client forgets who fixed it | Client sees **your shop name** and **hotline** every day |
+| **Endpoint Limits** | Strict per-seat metering (10, 50, 100 seats) | **Unlimited client PCs** |
+| **White-Label Cost** | Enterprise tiers starting at $5,000–$10,000/yr | Included with token |
+| **Direct Contact** | Generic vendor brand; client forgets who serviced the PC | Client sees **your shop name** and **hotline** directly |
 | **Connectivity** | Requires continuous cloud dashboard connection | **100% offline**, air-gapped, zero cloud dependencies |
 | **Scam Defense** | Blind to signed remote tools (AnyDesk, TeamViewer) | **Active Remote Tool Interceptor** blocks unauthorized access |
 
-### The Client Retention Engine:
-When a customer picks up their repaired PC, they take home a protected system. Six months later, when they encounter a scare, need a file restored, or want to back up their data:
+### Direct Support Verification & Anti-Fraud Protection:
+When a customer picks up their repaired PC, they take home a protected system. Months later, when they encounter a scare, need a file restored, or want to back up their data:
 * They open the **Protection Center** (`Ctrl + Win + W` or desktop shortcut).
 * The header prominently displays: `Protected by [Your Business Name] • Managed Safeguards`.
 * A single click dials your shop's hotline or opens your helpdesk website.

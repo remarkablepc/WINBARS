@@ -34,11 +34,14 @@ echo   - If a customer PC locks at the BitLocker blue screen and they don't have
 echo     their 48-digit key, you can unlock it using your Shop Key!
 echo.
 echo   * Pure native Windows cryptography (0 third-party software).
-echo   * 100%% Optional - run only once for your shop.
+echo   * 100%% Optional - run once on your shop workstation to generate your shop key.
+echo   * SECURITY NOTE: Your Shop Name is used ONLY as a display label on the certificate.
+echo     The encryption key is generated mathematically random (RSA-2048). Entering the
+echo     same name on another machine will NEVER produce the same key.
 echo ==============================================================================
 echo.
 
-set /p SHOP_NAME="Enter your Shop / Business Name [Default: WINBARS Tech Partner]: "
+set /p SHOP_NAME="Enter your Shop / Business Name (Display Label) [Default: WINBARS Tech Partner]: "
 if not defined SHOP_NAME set "SHOP_NAME=WINBARS Tech Partner"
 
 echo.

@@ -111,29 +111,38 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 <a id="how-winbars-solves-the-6-nightmares"></a>
 ## 🛡️ How WINBARS Solves the 6 Nightmares
 
-Here is how WINBARS turns each heartbreaking scenario into an effortless, guaranteed recovery:
+Here is how WINBARS turns each heartbreaking scenario into an effortless, guaranteed recovery—and exactly which deployment modes deliver them:
 
 ### 1. The "Windows 11 Silent File History Death" ➔ **Self-Healing Daily Mirror**
+* 🏷️ **Active in: Modes 0, N, 3, 4** *(Modes 0 & N run portable from USB; Modes 3 & 4 run automated daily. Modes 1 & 2 intentionally omit personal file sync to focus purely on local OS rollback without requiring an external hard drive).*
 * **The Solution**: Automatically mirrors your personal files (Documents, Desktop, Photos, Videos) to an external drive daily with a **30-Day Safety Recycle Bin (`_DeletedArchive`)**. If Windows silently disables File History or reassigns drive letters, WINBARS auto-heals the connection and alerts you. Best of all, personal files are saved with standard names—plug your drive into **any computer** (Windows, Mac, Linux) and drag-and-drop your files with zero software required.
 * 🔗 [Deep Dive: Architecture & Data Flow Manual](docs/ARCHITECTURE.md) • [Zero-Footprint Guide](docs/ZERO_FOOTPRINT.md)
 
 ### 2. "There is NEVER a Restore Point When You Need One!" ➔ **Unthrottled Checkpoints**
+* 🏷️ **Active in: Modes 1, 2, 3, 4** *(Daily automated scheduled checkpoints; also triggered on-demand in Modes 0 & N via USB).*
 * **The Solution**: Removes Microsoft's arbitrary 24-hour limit, reserves dedicated shadow storage headroom so points are never purged early, and auto-captures clean checkpoints before major system changes. When disaster strikes, you will always have clean, healthy restore points waiting.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
 ### 3. The "Surprise BitLocker" Catch-22 ➔ **Familiar Password/PIN Unlock in WinRE**
-* **The Solution**: Automatically archives your 48-digit key and generates a printable, high-contrast **Emergency Recovery Card**. More importantly, if your PC locks at the blue BitLocker screen, the WINBARS WinRE recovery wizard lets you **unlock the drive using your familiar Windows login password or PIN** (via an AES-256 encrypted vault). Once verified, WINBARS unlocks `C:` and temporarily suspends encryption for **exactly one reboot**—Windows boots straight to your normal desktop and automatically re-seals the TPM chip! For repair shops, an optional **Shop Master Key** allows technicians to rescue locked client PCs without the client needing to know what BitLocker is.
+* 🏷️ **Active in: Modes 2, 3, 4** *(Desktop Emergency Card, AES-256 Vault `BitLocker_Vault.enc`, and 1-click WinRE password/PIN unlock with 1-reboot TPM auto-reseal).*
+* **The Solution**: Automatically archives your 48-digit key and generates a printable, high-contrast **Emergency Recovery Card**. More importantly, if your PC locks at the blue BitLocker screen, the WINBARS WinRE recovery wizard lets you **unlock the drive using your familiar Windows login password or PIN** (via an AES-256 encrypted vault). Once verified, WINBARS unlocks `C:` and temporarily suspends encryption for **exactly one reboot** (`-RebootCount 1`)—Windows boots straight to your normal desktop and automatically re-seals the TPM chip!
+* *(Note on **Mode 1**: Preserves strict zero-resident software by saving the raw 48-digit key directly inside `C:\SystemRecovery\BitLocker_Recovery_Key.txt` without installing the desktop card or vault. An optional **Shop Master Key** can also be bound across any mode from technician media to let repair benches rescue locked drives without customer credentials).*
 * 🔗 [Deep Dive: BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)
 
 ### 4. The Phone Scam & Browser Siren Trap ➔ **Scam Buster & Remote Access Interceptor**
-* **The Solution**: Press **`Ctrl + Win + B`** to instantly kill full-screen browser lockups and sirens without restarting scam tabs. Meanwhile, a real-time watchdog monitors for 25+ remote support tools (AnyDesk, TeamViewer, UltraViewer) commonly abused by scammers, popping up an immediate warning with a 1-click **`[STOP] Disconnect & Block`** button.
+* 🏷️ **Active in: Modes 2, 3, 4** *(Mode 4 is the most proactive with the persistent Floppy Tray Sentry and **real-time automatic background detection** intercepting unauthorized remote access tools like AnyDesk, TeamViewer, and UltraViewer; Modes 2 & 3 provide on-demand `Ctrl + Win + B` emergency kill switch and offline domain sinkhole).*
+* **The Solution**: Press **`Ctrl + Win + B`** to instantly kill full-screen browser lockups and sirens without restarting scam tabs. In Mode 4, a real-time watchdog monitors for 25+ remote support tools commonly weaponized by offshore scam call centers, popping up an immediate warning with a 1-click **`[STOP] Disconnect & Block`** button.
+* *(Note: Modes 0, N, and 1 omit ScamBuster entirely to maintain a strict zero-resident-binary footprint).*
 * 🔗 [Deep Dive: Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)
 
-### 5. The "No Rescue USB" Catch-22 ➔ **Pre-Staged Emergency Recovery**
-* **The Solution**: Rather than hoping you made a rescue USB before disaster struck, WINBARS pre-stages emergency tools directly onto your PC (`C:\SystemRecovery`) and hooks into the native Windows Recovery Environment Troubleshoot menu (`reagentc`). Even with no USB in the house, you can roll back registry hives, rebuild bootloaders, and repair Windows.
+### 5. The "No Rescue USB" Catch-22 ➔ **Pre-Staged Emergency Recovery (+ Optional Rescue USB)**
+* 🏷️ **Active in: Modes 1, 2, 3, 4** *(Local pre-staging on internal drive); **Modes 0 & N** store 100% of recovery tools strictly on the external Backup Drive, leaving 0 files on `C:\` or `C:\SystemRecovery`.*
+* **The Solution**: Rather than hoping you made a rescue USB before disaster struck, WINBARS pre-stages emergency recovery tools directly onto your PC (`C:\SystemRecovery` in Modes 1–4) and hooks into the native Windows Recovery Environment Troubleshoot menu (`reagentc` in Modes 2–4). Even with no USB in the house, you can roll back registry hives, rebuild bootloaders, and repair Windows.
+* **Optional Bootable Rescue USB**: You can also turn any external backup drive or USB flash drive into a dedicated bootable Windows PE Rescue USB (`WINBARS.exe -RescueUsb`).
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
 ### 6. The "Wipe & Reinstall" Trap ➔ **macOS-Style Safe Overlay Refresh**
+* 🏷️ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, 4 capture monthly local images in `C:\SystemRecovery`; Mode 1\* offers an optional Day-1 baseline image `_baseline.wim` in `C:\SystemRecovery` if disk space $\ge 25$ GB; Modes 0 & N store `.wim` images **strictly on the external Backup Drive**, leaving `C:\SystemRecovery` completely empty).*
 * **The Solution**: Big-box stores wipe your entire hard drive when Windows gets corrupted, erasing all your programs and preferences. WINBARS captures bare-metal `.wim` images that exclude personal data, allowing you to reinstall a factory-clean Windows OS and your programs in under 5 minutes while leaving **all personal documents, photos, desktop profiles, and browser data 100% untouched on disk**.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
@@ -190,8 +199,8 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 
 | Profile | Best For | What It Protects & Hardens | What Sits on `C:\` | Rescue Scripts |
 | :--- | :--- | :--- | :--- | :---: |
-| **Mode 0: `ZeroFootprint`** ⭐ | **Corporate Audits & Compliance** | Daily System Restore + Robocopy file mirror (30-day retention) + bare-metal image + BitLocker keys. | **0 Files**<br>*(100% sterile)* | **Backup Drive Only** |
-| **Mode N: `NearZeroFootprint`** 👻 | **Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop & Start Menu shortcuts (*System Backup & Recovery*). | **Shortcuts Only**<br>*(Desktop & Start Menu)* | **Backup Drive Only** |
+| **Mode 0: `ZeroFootprint`** ⭐ | **Corporate Audits & Compliance** | Portable System Restore checkpoint + Robocopy file mirror (30-day retention) + bare-metal image + BitLocker keys to USB. | **0 Files on `C:\`**<br>*(100% sterile; 0 files in `C:\SystemRecovery`)* | **Backup Drive Only** |
+| **Mode N: `NearZeroFootprint`** 👻 | **Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop & Start Menu shortcuts (*System Backup & Recovery*). | **Shortcuts Only**<br>*(Desktop & Start Menu; 0 files in `C:\SystemRecovery`)* | **Backup Drive Only** |
 | **Mode 1: `SystemUndo`** ⏪ | **Shop Bench Tune-Ups & Routine Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, and RegBack. | **Emergency Scripts (+ WIM)\***<br>*(In `C:\SystemRecovery`)* | `C:\SystemRecovery` *(Local)* |
 | **Mode 2: `LocalDisasterGuard`** 💽 | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) for offline recovery while traveling without an external drive. | **Local Suite**<br>*(C:\Tools\WINBARS)* | `C:\SystemRecovery` *(Local)* |
 | **Mode 3: `HeadlessFull`** 🏢 | **Quiet Workstations, Accounting & Clinics** | Mode 1 + daily external Robocopy file sync + scheduled bare-metal images + missing drive alerts. | **Local Suite**<br>*(C:\Tools\WINBARS)* | Both Local & Backup Drive |

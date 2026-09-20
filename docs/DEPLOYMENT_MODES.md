@@ -40,7 +40,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 > - **Terminology Clarification**:
 >   - **Backup Drive (Storage Target)**: The dedicated drive/partition where user file mirrors, baseline `.wim` images, and recovery scripts live. Even in Mode 0, this can be an internal secondary drive/partition (e.g. `D:\`, `E:\`) or an external drive. 0 files touch `C:\`.
 >   - **WINBARS Util USB (Technician Flash Drive)**: The portable, bootable flash drive holding `WINBARS.exe`, batch installers, and offline WinPE recovery tools.
-> - **Rescue .BAT Scripts Placement**: In **Modes 0 and N**, exactly 0 batch scripts or binaries are placed on `C:\`. All rescue scripts (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) live exclusively on the **Backup Drive**. In **Mode 1**, emergency scripts and any baseline image sit in `C:\SystemRecovery\` (keeping `C:\` root completely clean).
+> - **Rescue .BAT Scripts Placement**: In **Modes 0 and N**, exactly 0 batch scripts or binaries are placed on `C:\`, and **0 files are placed in `C:\SystemRecovery`**. All rescue scripts (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) and system images live exclusively on the **Backup Drive**. In **Mode 1**, exactly 3 unbranded emergency files (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and any optional baseline image sit in `C:\SystemRecovery\` (keeping `C:\` root completely clean).
 > - **Running Safe Overlay from `C:\` in Mode 1**: If Windows fails to boot in Mode 1, you can boot into WinRE Command Prompt (`Shift + F10`) and run `C:\SystemRecovery\Apply-SystemImage_WinPE.bat` directly from `C:\`. The script detects that the image is stored on the target volume (`SAME_DRV = 1`), automatically locks out the destructive reformat option, and safely applies **Option [1] Safe Overlay**—refreshing Windows OS and Program Files while leaving `C:\Users\` 100% intact!
 > - **Unthrottled System Restore**: Standard Windows limits restore point creation to once every 24 hours (`SystemRestorePointCreationFrequency = 1440`). WINBARS unthrottles this limit (`Frequency = 0`) so checkpoints are captured whenever requested, while guaranteeing 10%–15% shadow storage headroom so restore points are never purged prematurely.
 > - **Safe Overlay OS Refresh**: Allows non-destructive restoration of the Windows OS and Program Files from a `.wim` image directly over `C:\` while leaving `C:\Users\` 100% untouched on disk (Option [1] in `Apply-SystemImage_WinPE.bat`). Available whenever a DISM image is present.
@@ -54,11 +54,11 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 * **What It DOES**:
   * Configures native Windows Task Scheduler to run unthrottled daily System Restore points directly under `NT AUTHORITY\SYSTEM`.
   * Runs daily 1:1 Robocopy mirroring of user profiles to the external backup drive with a 30-day safety isolation bin (`_DeletedArchive`).
-  * Runs monthly bare-metal system imaging via native `wbadmin.exe`.
-  * Archives BitLocker 48-digit recovery keys directly to the USB drive.
+  * Runs monthly bare-metal system imaging via native `wbadmin.exe` / DISM to external backup drive.
+  * Archives BitLocker 48-digit recovery keys directly to the external USB drive.
   * Dynamically auto-discovers external drive letter drift across reconnects.
 * **What It DOES NOT Do**:
-  * Places **0 files, 0 scripts, and 0 binaries on `C:\`**.
+  * Places **0 files, 0 scripts, and 0 binaries on `C:\` (and 0 files in `C:\SystemRecovery`)**.
   * Does not install any system tray icon or background sentry.
   * Does not install desktop shortcuts.
 * **Best Suited For**: Highly audited enterprise workstations, compliance-sensitive environments, or technicians working on client machines where third-party software installation is strictly prohibited.
@@ -74,6 +74,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
     3. `Browse Backup Files` (Resolves the backup drive and opens Windows File Explorer directly into the backed-up user folders).
   * Creates an unbranded Start Menu group: `System Backup & Recovery`.
 * **What It DOES NOT Do**:
+  * Places **0 files in `C:\SystemRecovery`** (all backup assets live on the external Backup Drive).
   * Leaves **0 background EXEs or running services** on the host.
   * Leaves no WINBARS vendor branding.
 * **Best Suited For**: Small business workstations, family computers, and corporate clients where users need 1-click access to backup and restore without third-party vendor branding.
@@ -85,10 +86,14 @@ The matrix below outlines exactly what capabilities each deployment profile acti
   * Provides the foundational rapid OS rollback safety net for bench tune-ups.
   * Configures daily unthrottled System Restore checkpoints and expands VSS shadow headroom to 10%.
   * Re-enables automatic registry backups (`EnableRegistryBackup = 1`).
-  * Stages generic, unbranded recovery scripts (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) in `C:\SystemRecovery\`.
-  * Optionally captures an initial offline baseline system image (`_baseline.wim`) if free disk space permits ($\ge 25\text{ GB}$).
+  * Stages exactly 3 generic, unbranded recovery files in `C:\SystemRecovery\`:
+    1. `EMERGENCY_RECOVERY.bat` (Interactive triage console: Safe Mode, WinRE, BCD repair, chkdsk).
+    2. `Restore_Registry_WinPE.bat` (Offline registry hive rollback from RegBack).
+    3. `BitLocker_Recovery_Key.txt` (48-digit plaintext recovery key).
+  * Optionally captures an initial offline baseline system image (`_baseline.wim` + `Apply-SystemImage_WinPE.bat`) if free disk space permits ($\ge 25\text{ GB}$).
 * **What It DOES NOT Do**:
   * Installs **0 software / 0 resident EXEs / 0 background daemons**.
+  * Leaves **0 files in `C:\Tools\WINBARS\`**.
   * Does not perform automated external file mirroring (designed for machines serviced without an external drive attached).
 * **Best Suited For**: Computer repair shops performing routine cleanups, virus removals, or tune-ups, guaranteeing a 30-day warranty rollback target without needing an external drive left with the client.
 
