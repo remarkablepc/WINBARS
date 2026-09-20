@@ -126,7 +126,7 @@ On a Mac, booting into Recovery Mode and choosing **"Reinstall macOS"** refreshe
 
 <a id="boot-recovery-safety-net"></a>
 ### 🧰 3. Boot-Failure Safety Net & 1-Click WinRE Rescue
-* **Native WinRE Pre-Staging**: Recovery tools are pre-staged directly into the Windows Recovery Environment on the host disk before disaster strikes—no rescue USB required.
+* **Native WinRE Troubleshoot Hook (Modes 2–4)**: An "Emergency Resurrection Tool" button is pre-staged directly into the native Windows Recovery Environment Troubleshoot menu (`reagentc.exe /setcustomtarget /path C:\Recovery\OEM`) before disaster strikes—accessible on boot crashes without needing a rescue USB. (In Modes 0, N, and 1, rescue tools run cleanly from the **Backup Drive** or via WinRE Command Prompt `Shift + F10` to maintain zero software footprint on `C:\`).
 * **1-Click Next-Boot WinRE Trigger (`reagentc /boottore`)**: If Windows behaves erratically, a single click reboots the computer directly into WinRE on the next boot, automatically returning to normal fast boot afterward.
 * **Emergency Recovery Launcher (`EMERGENCY_RECOVERY.bat`)**: A single, guided rescue entry point on the backup drive. Auto-detects the Windows drive, checks physical drive health (S.M.A.R.T.), repairs corrupted BCD bootloaders, and guides you through the least-invasive recovery ladder.
 * **BitLocker Emergency Cards**: Generates printable offline cards with your 48-digit numerical recovery key, plus AES-256 encrypted vaults on the backup drive.
@@ -159,7 +159,7 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 | Profile | Best For | What It Protects & Hardens | What Sits on `C:\` | Rescue Scripts |
 | :--- | :--- | :--- | :--- | :---: |
 | **Mode 0: `ZeroFootprint`** ⭐ | **Corporate Audits & Compliance** | Daily System Restore + Robocopy file mirror (30-day retention) + bare-metal image + BitLocker keys. | **0 Files**<br>*(100% sterile)* | **Backup Drive Only** |
-| **Mode N: `NearZeroFootprint`** 👻 | **Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop shortcuts (*Backup Files*, *System Restore*, *Browse Backups*). | **Shortcuts Only**<br>*(3 desktop `.lnk` files)* | **Backup Drive Only** |
+| **Mode N: `NearZeroFootprint`** 👻 | **Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop & Start Menu shortcuts (*System Backup & Recovery*). | **Shortcuts Only**<br>*(Desktop & Start Menu)* | **Backup Drive Only** |
 | **Mode 1: `SystemUndo`** ⏪ | **Shop Bench Tune-Ups & Routine Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, and RegBack. | **1 BAT File (+ WIM)\***<br>*(In `C:\SystemImages`)* | `C:\SystemImages`* or Backup Drive |
 | **Mode 2: `LocalDisasterGuard`** 💽 | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) for offline recovery while traveling without an external drive. | **Local Suite**<br>*(C:\Tools\WINBARS)* | `C:\SystemImages` & Backup Drive |
 | **Mode 3: `HeadlessFull`** 🏢 | **Quiet Workstations, Accounting & Clinics** | Mode 1 + daily external Robocopy file sync + scheduled bare-metal images + missing drive alerts. | **Local Suite**<br>*(C:\Tools\WINBARS)* | Both Local & Backup Drive |

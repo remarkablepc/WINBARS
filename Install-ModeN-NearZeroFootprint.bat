@@ -307,6 +307,11 @@ echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
     echo   [SUCCESS] Mode N NearZeroFootprint installation completed.
+    echo   ----------------------------------------------------------------
+    echo   * Desktop Shortcuts:  Backup Personal Files, System Restore, Browse Backups
+    echo   * Start Menu Suite:   Programs\System Backup ^& Recovery (Search-Indexed)
+    echo   * Resident Software:  0 Files (Zero resident EXEs on C:)
+    echo   ----------------------------------------------------------------
     echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
 ) else (
     echo   [FAILED] One or more steps failed. Review the messages above.
