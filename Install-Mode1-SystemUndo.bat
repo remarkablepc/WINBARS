@@ -7,7 +7,7 @@ title WINBARS One-Click Installer - Mode 1 (SystemUndo - Service Warranty Baseli
 ::  with ZERO resident EXEs, ZERO shortcuts, and ZERO background daemons.
 ::  Hardens native Windows recovery (daily unthrottled System Restore points,
 ::  VSS auto-healing, RegBack) with an optional baseline system image
-::  (C:\SystemImages\_baseline.wim) if disk space >= 25 GB.
+::  (C:\SystemRecovery\_baseline.wim) if disk space >= 25 GB.
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
 :: ============================================================================
 
@@ -94,7 +94,7 @@ echo   What Mode 1 does:
 echo     - Daily unthrottled system restore points (Native Windows)
 echo     - VSS writer auto-heal + shadow storage guard (10%% quota)
 echo     - Driver/MSI install checkpoints
-echo     - Optional baseline system image (C:\SystemImages\_baseline.wim)
+echo     - Optional baseline system image (C:\SystemRecovery\_baseline.wim)
 echo     - Zero resident EXEs, zero shortcuts, zero tray, zero daemons
 echo.
 echo   Mode 1 deployment - exactly 1 optional question will be asked.
@@ -214,7 +214,7 @@ if /i "!BASE_IN!"=="Y" (
     powershell -NoProfile -ExecutionPolicy Bypass -Command "if ([double]'!FREE_GB!' -ge 25.0) { exit 0 } else { exit 1 }" >nul 2>&1
     if !errorLevel! EQU 0 (
         echo.
-        echo   Capturing local baseline system image (C:\SystemImages\_baseline.wim)...
+        echo   Capturing local baseline system image (C:\SystemRecovery\_baseline.wim)...
         echo   ----------------------------------------------------------------
         !RUN_CMD! -Action SystemImage -Baseline -Unattended
         set "IMAGE_EXIT=!errorLevel!"
@@ -248,7 +248,7 @@ if !OVERALL_EXIT! EQU 0 (
     echo   * 24-Hour Creation Throttle:    Disabled (Unlimited Checkpoints)
     echo   * Resident Third-Party Files:   0 (Zero EXEs, Zero Shortcuts)
     if "!DID_CAPTURE!"=="1" (
-    echo   * Local Disaster Image:         C:\SystemImages\_baseline.wim
+    echo   * Local Disaster Image:         C:\SystemRecovery\_baseline.wim
     )
     echo   ----------------------------------------------------------------
     echo   Technician may safely unplug USB drive now.

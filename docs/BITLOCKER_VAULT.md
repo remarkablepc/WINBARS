@@ -78,6 +78,34 @@ When a customer's computer is locked at the blue BitLocker recovery screen, boot
 WINBARS automatically generates a printable, high-contrast HTML disaster card saved to:
 D:\WINBARS_Backup\BitLocker_Keys\BitLocker_Emergency_Card.html
 
-* Styled with CSS @media print rules for physical printing.
+* Styled with CSS `@media print` rules for physical printing.
 * Displays segmented, large-format 48-digit recovery passwords for all system drives.
 * Includes emergency phone support instructions and technician contact information.
+
+---
+
+## 5. Optional Shop Master Key & BitLocker DRA Architecture
+
+For repair benches, managed service providers (MSPs), and IT shops, WINBARS includes an **optional, 100% native Shop Master Key engine**:
+
+### A. The Challenge with Unaware Clients
+Modern Windows 11 PCs silently activate BitLocker Device Encryption by default. Everyday users are completely unaware of BitLocker until a TPM glitch, BIOS flash, or motherboard replacement stops boot with a blue recovery prompt. If the user cannot access their Microsoft account, data is mathematically lost.
+
+### B. Asymmetric Cryptography (Zero Risk to Client Security)
+WINBARS uses asymmetric public/private cryptography (`New-SelfSignedCertificate -Type DocumentEncryptionCert`):
+1. **Private Master Key (`Shop_Master_Private.pfx`)**:
+   - Password-protected and retained strictly inside the shop's safe / technician USB.
+   - **NEVER copied to customer computers.**
+2. **Public Certificate (`Shop_Public_DRA.cer`)**:
+   - Bundled into WINBARS deployments (`config/Shop_Public_DRA.cer`).
+   - Can only encrypt, never decrypt. Completely safe on client PCs.
+
+### C. Universal Dual-Engine Support
+* **Windows Pro & Enterprise**: Binds the public certificate directly to the volume as an official Data Recovery Agent (`manage-bde -protectors -add C: -Certificate ...`).
+* **Windows Home (Device Encryption)**: Asymmetrically encrypts the volume's 48-digit recovery key using the shop's RSA public certificate and stores it in:
+  - Local disk: `C:\SystemRecovery\ShopEscrow.bin`
+  - Technician USB: `<TechDrive>:\ShopVault\<Machine>_BitLocker.enc`
+
+### D. 1-Click Bench Batch Tools
+* `tools/Generate-ShopMasterKey.bat`: 1-click wizard for shop owners to generate their keypair.
+* `tools/Unlock-BitLocker-With-ShopKey.bat`: 1-click unlock tool for technicians running in WinPE, WinRE, or live Windows. Prompts for shop password and unlocks `C:\` instantly.

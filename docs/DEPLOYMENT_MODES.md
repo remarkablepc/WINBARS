@@ -19,19 +19,19 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | **System Restore (Unthrottled)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **Robocopy 1:1 File Mirror** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **30-Day Safety Recycle Bin** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| **BitLocker Card & Vault** | ✅ Backup Drive | ✅ Backup Drive | Local* | ✅ Local | ✅ Both | ✅ Both |
-| **Emergency Recovery Launcher** | ✅ Backup Drive | ✅ Backup Drive | ✅ Backup Drive | ✅ Local | ✅ Both | ✅ Both |
+| **BitLocker Card & Vault** | ✅ Backup Drive | ✅ Backup Drive | Local (C:\SystemRecovery) | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
+| **Emergency Recovery Launcher** | ✅ Backup Drive | ✅ Backup Drive | ✅ Local (C:\SystemRecovery) | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
 | **Native WinRE Boot Hook** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **VSS Subsystem Auto-Heal** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Bare-Metal DISM Image** | ✅ Backup Drive | ✅ Backup Drive | Local* | ✅ Local | ✅ Both | ✅ Both |
-| **Safe Overlay OS Refresh** | ✅ Backup Drive | ✅ Backup Drive | Local* | ✅ Local | ✅ Both | ✅ Both |
+| **Bare-Metal DISM Image** | ✅ Backup Drive | ✅ Backup Drive | Local* | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
+| **Safe Overlay OS Refresh** | ✅ Backup Drive | ✅ Backup Drive | Local* | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
 | **Silence OneDrive Cloud Nags** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Ransomware Canary** | ✅ Backup Drive | ✅ Backup Drive | ❌ None | ✅ Local | ✅ Both | ✅ Both |
+| **Ransomware Canary** | ✅ Backup Drive | ✅ Backup Drive | ❌ None | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
 | **Protection Hotkey (`Ctrl+Win+W`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Remote RAT Interceptor** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
 | **Floppy Tray Sentry** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| **Rescue .BAT Scripts** | **Backup Drive Only** | **Backup Drive Only** | `C:\SystemImages`* | `C:\SystemImages` | Both Local & Backup Drive | Both Local & Backup Drive |
+| **Rescue .BAT Scripts** | **Backup Drive Only** | **Backup Drive Only** | `C:\SystemRecovery` | `C:\SystemRecovery` | Both Local & Backup Drive | Both Local & Backup Drive |
 
 > **Notes & Operational Explanations**:
 > - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
@@ -40,8 +40,8 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 > - **Terminology Clarification**:
 >   - **Backup Drive (Storage Target)**: The dedicated drive/partition where user file mirrors, baseline `.wim` images, and recovery scripts live. Even in Mode 0, this can be an internal secondary drive/partition (e.g. `D:\`, `E:\`) or an external drive. 0 files touch `C:\`.
 >   - **WINBARS Util USB (Technician Flash Drive)**: The portable, bootable flash drive holding `WINBARS.exe`, batch installers, and offline WinPE recovery tools.
-> - **Rescue .BAT Scripts Placement**: In **Modes 0 and N**, exactly 0 batch scripts or binaries are placed on `C:\`. All rescue scripts (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) live exclusively on the **Backup Drive**. In **Mode 1**, if a Day-1 baseline image is captured, `Apply-SystemImage_WinPE.bat` is staged locally in `C:\SystemImages\`.
-> - **Running Safe Overlay from `C:\` in Mode 1**: If Windows fails to boot in Mode 1, you can boot into WinRE Command Prompt (`Shift + F10`) and run `C:\SystemImages\Apply-SystemImage_WinPE.bat` directly from `C:\`. The script detects that the image is stored on the target volume (`SAME_DRV = 1`), automatically locks out the destructive reformat option, and safely applies **Option [1] Safe Overlay**—refreshing Windows OS and Program Files while leaving `C:\Users\` 100% intact!
+> - **Rescue .BAT Scripts Placement**: In **Modes 0 and N**, exactly 0 batch scripts or binaries are placed on `C:\`. All rescue scripts (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) live exclusively on the **Backup Drive**. In **Mode 1**, emergency scripts and any baseline image sit in `C:\SystemRecovery\` (keeping `C:\` root completely clean).
+> - **Running Safe Overlay from `C:\` in Mode 1**: If Windows fails to boot in Mode 1, you can boot into WinRE Command Prompt (`Shift + F10`) and run `C:\SystemRecovery\Apply-SystemImage_WinPE.bat` directly from `C:\`. The script detects that the image is stored on the target volume (`SAME_DRV = 1`), automatically locks out the destructive reformat option, and safely applies **Option [1] Safe Overlay**—refreshing Windows OS and Program Files while leaving `C:\Users\` 100% intact!
 > - **Unthrottled System Restore**: Standard Windows limits restore point creation to once every 24 hours (`SystemRestorePointCreationFrequency = 1440`). WINBARS unthrottles this limit (`Frequency = 0`) so checkpoints are captured whenever requested, while guaranteeing 10%–15% shadow storage headroom so restore points are never purged prematurely.
 > - **Safe Overlay OS Refresh**: Allows non-destructive restoration of the Windows OS and Program Files from a `.wim` image directly over `C:\` while leaving `C:\Users\` 100% untouched on disk (Option [1] in `Apply-SystemImage_WinPE.bat`). Available whenever a DISM image is present.
 > - **Silence OneDrive Cloud Nags**: Configures group policies and registry flags to silence Windows/OneDrive "Not Backed Up" nagging alerts and prevents OneDrive from hijacking known user folders without user consent. (Active in Managed Modes 2–4).
@@ -85,9 +85,10 @@ The matrix below outlines exactly what capabilities each deployment profile acti
   * Provides the foundational rapid OS rollback safety net for bench tune-ups.
   * Configures daily unthrottled System Restore checkpoints and expands VSS shadow headroom to 10%.
   * Re-enables automatic registry backups (`EnableRegistryBackup = 1`).
+  * Stages generic, unbranded recovery scripts (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) in `C:\SystemRecovery\`.
   * Optionally captures an initial offline baseline system image (`_baseline.wim`) if free disk space permits ($\ge 25\text{ GB}$).
 * **What It DOES NOT Do**:
-  * Installs **0 software / 0 resident EXEs**.
+  * Installs **0 software / 0 resident EXEs / 0 background daemons**.
   * Does not perform automated external file mirroring (designed for machines serviced without an external drive attached).
 * **Best Suited For**: Computer repair shops performing routine cleanups, virus removals, or tune-ups, guaranteeing a 30-day warranty rollback target without needing an external drive left with the client.
 
@@ -96,7 +97,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 ### Mode 2: `LocalDisasterGuard` (Single-Drive PCs & Laptops)
 * **What It DOES**:
   * Provisions `WINBARS.exe` locally to `C:\Tools\WINBARS`.
-  * Establishes monthly bare-metal DISM system images stored safely on a dedicated local partition (`C:\SystemImages`).
+  * Establishes monthly bare-metal DISM system images stored safely on a dedicated local partition (`C:\SystemRecovery`).
   * Pre-stages `Apply-SystemImage_WinPE.bat` for 1-click offline recovery directly from the WinRE command prompt (`Shift + F10`).
   * Enables universal emergency hotkeys (`Ctrl+Win+B` for ScamBuster and `Ctrl+Win+W` for Protection Center).
   * Silences misleading OneDrive "Not Backed Up" scare banners.

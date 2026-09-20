@@ -61,7 +61,7 @@ Prefer a friendly visual guide with clickable sections?
      Press Win+R -> type 'rstrui.exe' -> press Enter -> choose a restore point.
 
 5. BARE-METAL SYSTEM IMAGE RESTORE (OS & Installed Programs):
-   - WIM images are stored in '\SystemImages\' (e.g. SystemImage_OS_and_Programs_*.wim).
+   - WIM images are stored in '\SystemRecovery\' (or legacy '\SystemImages\') (e.g. SystemImage_OS_and_Programs_*.wim).
    - What this image restores: Windows Operating System, system drivers, and installed software.
    - Two Flexible Recovery Modes Provided:
      * OPTION [1] Safe Overlay (macOS-Style Non-Destructive Refresh):
@@ -74,7 +74,7 @@ Prefer a friendly visual guide with clickable sections?
        confirmation before wiping.
    - To perform an image restore:
      a. Boot PC into WinRE/WinPE (via Windows Setup USB, Rescue USB, or Bootable Backup Drive).
-     b. Open Command Prompt (Shift + F10) and run 'D:\EMERGENCY_RECOVERY.bat' (or 'D:\SystemImages\Apply-SystemImage_WinPE.bat').
+     b. Open Command Prompt (Shift + F10) and run 'D:\EMERGENCY_RECOVERY.bat' (or 'D:\SystemRecovery\Apply-SystemImage_WinPE.bat').
      c. Select Option [1] Safe Overlay (data safe) or Option [2] Clean Wipe.
 
 6. ALL-IN-ONE BOOTABLE BACKUP DRIVE OR DEDICATED RESCUE USB:

@@ -4,7 +4,7 @@ title WINBARS One-Click Installer - Mode 2 (LocalDisasterGuard)
 :: ============================================================================
 ::  WINBARS ONE-CLICK INSTALLER - MODE 2 : LOCAL DISASTER GUARD
 ::  Applies all Mode 2 defaults automatically. Asks only 1 question:
-::    Windows system image drive (default C: = C:\SystemImages)
+::    Windows system image drive (default C: = C:\SystemRecovery)
 ::  Mode 2 is a single-drive design: no external data drive is used.
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
 :: ============================================================================
@@ -85,7 +85,7 @@ echo   What Mode 2 does:
 echo     - Monthly bare-metal DISM system image for offline recovery
 echo     - Daily restore points + VSS self-healing
 echo     - Single-drive design - no external drive required
-echo     - Default image location: C:\SystemImages
+echo     - Default image location: C:\SystemRecovery
 echo.
 
 :: ---- 1. Request Administrator privileges if needed ----
@@ -165,7 +165,7 @@ if defined ARG_IMAGE (
     set "TEST_CHAR=!ARG_IMAGE:~2,1!"
     if "!TEST_CHAR!"=="" (
         set "IMAGE_LETTER=!ARG_IMAGE:~0,1!"
-        set "IMG_PATH=!IMAGE_LETTER!:\SystemImages"
+        set "IMG_PATH=!IMAGE_LETTER!:\SystemRecovery"
     ) else (
         set "IMG_PATH=!ARG_IMAGE!"
     )
@@ -183,7 +183,7 @@ echo   ----------------------------------------------------------------
 echo.
 echo   QUESTION 1 OF 1 - WINDOWS SYSTEM IMAGE DRIVE
 echo   Mode 2 stores a monthly bare-metal image for offline recovery.
-echo   Default: C: (local folder C:\SystemImages).
+echo   Default: C: (local folder C:\SystemRecovery).
 set /p IMG_IN="   Enter drive letter or press ENTER for default [C]: "
 set "IMG_IN=!IMG_IN: =!"
 if not defined IMG_IN set "IMG_IN=C"
@@ -197,7 +197,7 @@ if not exist "!IMG_IN!:\" (
     goto ASK_IMAGE
 )
 set "IMAGE_LETTER=!IMG_IN!"
-set "IMG_PATH=!IMAGE_LETTER!:\SystemImages"
+set "IMG_PATH=!IMAGE_LETTER!:\SystemRecovery"
 
 :WRITE_CONFIG
 :: ---- 7. Write the chosen image drive into the active config ----

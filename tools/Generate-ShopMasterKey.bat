@@ -1,0 +1,68 @@
+@echo off
+setlocal EnableDelayedExpansion
+title WINBARS - 1-Click Shop BitLocker Master Key Generator
+color 0A
+
+:: ============================================================================
+::  WINBARS 1-CLICK SHOP BITLOCKER MASTER KEY GENERATOR
+::  Creates a self-signed BitLocker Data Recovery Agent (DRA) certificate pair:
+::    1. Shop_Master_Private.pfx  <-- SAVED TO YOUR SAFE / USB (NEVER DEPLOYED)
+::    2. Shop_Public_DRA.cer      <-- BUNDLED INTO WINBARS FOR CLIENT PCS
+:: ============================================================================
+
+:: Check Admin
+net session >nul 2>&1
+if !errorLevel! NEQ 0 (
+    echo.
+    echo   [ELEVATION REQUIRED] Requesting Administrator privileges...
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process -FilePath '%~f0' -Verb RunAs"
+    exit /b 0
+)
+
+cd /d "%~dp0"
+cls
+echo ==============================================================================
+echo   WINBARS - 1-CLICK SHOP BITLOCKER MASTER KEY GENERATOR
+echo ==============================================================================
+echo   This wizard creates an optional Master Recovery Certificate for your shop.
+echo.
+echo   HOW IT WORKS:
+echo   - The PUBLIC certificate (.cer) is bundled into your WINBARS setup.
+echo   - When BitLocker is active on client PCs, WINBARS binds this certificate.
+echo   - The PRIVATE key (.pfx) stays with YOU.
+echo   - If a customer PC locks at the BitLocker blue screen and they don't have
+echo     their 48-digit key, you can unlock it using your Shop Key!
+echo.
+echo   * Pure native Windows cryptography (0 third-party software).
+echo   * 100%% Optional - run only once for your shop.
+echo ==============================================================================
+echo.
+
+set /p SHOP_NAME="Enter your Shop / Business Name [Default: WINBARS Tech Partner]: "
+if not defined SHOP_NAME set "SHOP_NAME=WINBARS Tech Partner"
+
+echo.
+set "DEST_PFX=%USERPROFILE%\Desktop\Shop_Master_Private.pfx"
+set /p PFX_CHOICE="Save Private Key (.pfx) to Desktop? (Y/N) [Default: Y]: "
+if /i "!PFX_CHOICE!"=="N" (
+    set /p DEST_PFX="Enter full path to save Shop_Master_Private.pfx: "
+)
+
+echo.
+echo Generating keys... Please enter a strong password when prompted.
+echo.
+
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& { . '%~dp0..\src\security\ShopBitLocker.ps1'; New-ShopMasterKey -ShopName '!SHOP_NAME!' -ExportPfxPath '!DEST_PFX!' -ExportCerPath '%~dp0..\config\Shop_Public_DRA.cer' }"
+
+echo.
+echo ==============================================================================
+echo   GENERATION COMPLETE!
+echo.
+echo   CRITICAL SECURITY STEPS:
+echo   1. Move '!DEST_PFX!' to a secure USB drive or shop safe.
+echo   2. Delete any extra copies from public computers.
+echo   3. Re-bundle WINBARS so the public certificate is included in builds.
+echo ==============================================================================
+echo.
+pause
+exit /b 0

@@ -56,14 +56,14 @@ WINBARS is designed with flexible operational boundaries. If strict security pol
 | :--- | :--- | :--- | :--- |
 | **Mode 0 (`ZeroFootprint`)** | **0 bytes** (Zero files) | **0 resident processes** | Everything resides on external backup drive (`D:\Backup_Logs\`) |
 | **Mode N (`NearZeroFootprint`)** | Desktop shortcuts only | **0 resident processes** | External backup drive + native `rstrui.exe` / Explorer shortcuts |
-| **Mode 1 (`SystemUndo`)** | Optional baseline `.wim` | **0 resident processes** | `C:\SystemImages\_baseline.wim` (native DISM image); 0 EXEs |
+| **Mode 1 (`SystemUndo`)** | Emergency scripts (+ optional baseline `.wim`) | **0 resident processes** | `C:\SystemRecovery\` (Generic unbranded .bat scripts); 0 EXEs |
 | **Mode 2 (`LocalDisasterGuard`)** | Local Suite (~2 MB) | Silent Hotkey Sentry (`-Tray -Silent`, ~12 MB RAM; registers `Ctrl+Win+B` / `Ctrl+Win+W`) | `C:\Tools\WINBARS\WINBARS.exe` |
 | **Mode 3 (`HeadlessFull`)** | Local Suite (~2 MB) | Silent Hotkey Sentry (`-Tray -Silent`, ~12 MB RAM; registers `Ctrl+Win+B` / `Ctrl+Win+W` & drive alerts) | `C:\Tools\WINBARS\WINBARS.exe` |
 | **Mode 4 (`TotalProtection`)** | Local Suite (~2 MB) | Interactive Floppy Tray Sentry (`-Tray`, ~16 MB RAM; visible notification icon + GUI + ScamBuster) | `C:\Tools\WINBARS\WINBARS.exe` + Startup link |
 
 ### Filesystem Paths (When Modes 2–4 Installed):
 * **Executable & Config**: `C:\Tools\WINBARS\` (`WINBARS.exe`, `config.json`, `branding.json`, `deployment.log`)
-* **Local Recovery Vault**: `C:\SystemImages\` (Contains local `.wim` image captures, protected by Windows ACLs)
+* **Local Recovery Vault**: `C:\SystemRecovery\` (Contains local `.wim` image captures and emergency .bat tools, protected by Windows ACLs)
 * **VSS Snapshot Junctions**: `C:\ProgramData\WINBARS\VssMount_*` (Temporary directory junctions created *only* during active Robocopy passes, deleted immediately upon completion)
 
 ---
@@ -127,9 +127,9 @@ Navigate to **Task Scheduler Library $\rightarrow$ WindowsBackup**. Select any t
 The ultimate verification of any backup utility is whether you can recover your data if the software disappears completely:
 
 * **File Recovery**: Plug your backup drive into any computer (Windows, macOS, or Linux). Your files are stored in 100% standard, uncompressed NTFS directories under `D:\Users\<Username>\`. Drag-and-drop your files directly in standard File Explorer.
-* **System Image Recovery**: Images in `D:\SystemImages\` or `C:\SystemImages\` are standard Microsoft DISM `.wim` files. Boot any standard Windows 10/11 Installation USB to WinRE and restore via:
+* **System Image Recovery**: Images in `D:\SystemRecovery\` (or `C:\SystemRecovery\`) are standard Microsoft DISM `.wim` files. Boot any standard Windows 10/11 Installation USB to WinRE and restore via:
   ```cmd
-  dism.exe /Apply-Image /ImageFile:D:\SystemImages\_baseline.wim /Index:1 /ApplyDir:C:\
+  dism.exe /Apply-Image /ImageFile:D:\SystemRecovery\_baseline.wim /Index:1 /ApplyDir:C:\
   ```
 * **System Restore Points**: Points are native Windows Volume Shadow Copies. Revert directly via `rstrui.exe` or WinRE System Restore wizard.
 * **BitLocker Recovery**: Keys are archived as plaintext `.txt` files and offline `.html` documents readable on any smartphone, tablet, or web browser.

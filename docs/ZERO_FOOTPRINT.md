@@ -131,7 +131,7 @@ E:\ (External Backup Storage Drive)
 │   ├── BCD_Configuration_Audit.txt    <-- Plaintext bootloader configuration ledger
 │   └── Restore_BCD_WinPE.bat          <-- WinPE 1-click BCD import & bcdboot rebuilding assistant
 │
-├── 📁 SystemImages\                   <-- DISM Bare-Metal Images (OS, Drivers & Program Files Only)
+├── 📁 SystemRecovery\                 <-- DISM Bare-Metal Images (OS, Drivers & Program Files Only)
 │   ├── SystemImage_OS_and_Programs_YYYY-MM-DD.wim
 │   ├── SystemImage_OS_and_Programs_baseline.wim
 │   └── Apply-SystemImage_WinPE.bat    <-- 2-step confirmed WinPE restore tool
@@ -149,8 +149,8 @@ E:\ (External Backup Storage Drive)
   * Exactly **0 resident third-party binaries or background daemons** on `C:\`.
   * Mode 0: 0 bytes on `C:\`.
   * Mode N: 3 generic unbranded shortcuts on Desktop.
-  * Mode 1: 0 installed files; only registers unthrottled System Protection in Windows Task Scheduler.
+  * Mode 1: 0 installed EXEs; stages generic emergency `.bat` scripts in `C:\SystemRecovery\` and registers unthrottled System Protection in Windows Task Scheduler.
 * **In Modes 2, 3, 4 (Tier 2: Managed Suite)**:
   * Application binaries: `C:\Tools\WINBARS\WINBARS.exe` (< 1 MB).
   * Shared configuration & audit logs: `C:\ProgramData\WINBARS\`.
-  * Local recovery image (Mode 2): `C:\SystemImages\`.
+  * Local recovery image (Mode 2): `C:\SystemRecovery\`.

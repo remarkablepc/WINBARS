@@ -160,17 +160,17 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 | :--- | :--- | :--- | :--- | :---: |
 | **Mode 0: `ZeroFootprint`** ⭐ | **Corporate Audits & Compliance** | Daily System Restore + Robocopy file mirror (30-day retention) + bare-metal image + BitLocker keys. | **0 Files**<br>*(100% sterile)* | **Backup Drive Only** |
 | **Mode N: `NearZeroFootprint`** 👻 | **Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop & Start Menu shortcuts (*System Backup & Recovery*). | **Shortcuts Only**<br>*(Desktop & Start Menu)* | **Backup Drive Only** |
-| **Mode 1: `SystemUndo`** ⏪ | **Shop Bench Tune-Ups & Routine Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, and RegBack. | **1 BAT File (+ WIM)\***<br>*(In `C:\SystemImages`)* | `C:\SystemImages`* or Backup Drive |
-| **Mode 2: `LocalDisasterGuard`** 💽 | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) for offline recovery while traveling without an external drive. | **Local Suite**<br>*(C:\Tools\WINBARS)* | `C:\SystemImages` & Backup Drive |
+| **Mode 1: `SystemUndo`** ⏪ | **Shop Bench Tune-Ups & Routine Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, and RegBack. | **Emergency Scripts (+ WIM)\***<br>*(In `C:\SystemRecovery`)* | `C:\SystemRecovery` *(Local)* |
+| **Mode 2: `LocalDisasterGuard`** 💽 | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) for offline recovery while traveling without an external drive. | **Local Suite**<br>*(C:\Tools\WINBARS)* | `C:\SystemRecovery` *(Local)* |
 | **Mode 3: `HeadlessFull`** 🏢 | **Quiet Workstations, Accounting & Clinics** | Mode 1 + daily external Robocopy file sync + scheduled bare-metal images + missing drive alerts. | **Local Suite**<br>*(C:\Tools\WINBARS)* | Both Local & Backup Drive |
 | **Mode 4: `TotalProtection`** 🛡️ | **Everyday Users, Family & Seniors** | Mode 3 + signature Floppy Tray Sentry + active ScamBuster RAT interceptor + live GUI. | **Full Suite**<br>*(C:\Tools\WINBARS + Tray)* | Both Local & Backup Drive |
 
-> `*` **Note on Mode 1**: The baseline `.wim` and rescue `.bat` are only staged in `C:\SystemImages\` if disk space $\ge 25\text{ GB}$; otherwise, Mode 1 leaves 0 files on `C:\` and relies exclusively on native Windows System Restore.
+> `*` **Note on Mode 1**: Generic, unbranded emergency recovery scripts (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and an optional baseline `.wim` are staged locally in `C:\SystemRecovery\`. Mode 1 installs 0 resident EXEs and leaves 0 files in `C:\Tools\WINBARS`.
 >
 > 💡 **Taxonomy: "Backup Drive" vs. "WINBARS Util USB"**:
 > - **Backup Drive (Storage Destination)**: The dedicated volume where backups, baseline `.wim` images, and recovery scripts live. Even in Mode 0, this can be an internal secondary drive or dedicated partition (e.g. `D:\`, `E:\`, secondary SATA/NVMe SSD) or an external USB hard drive. In Modes 0 & N, exactly 0 backup files or persistent executables touch `C:\`.
 > - **WINBARS Util USB (Technician Flash Drive)**: The portable, bootable technician USB drive carrying `WINBARS.exe`, one-click installers, and WinPE offline recovery tools.
-> - **Where do recovery scripts live?** In **Modes 0 & N**, exactly 0 batch scripts touch `C:\`—all rescue tools (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) live exclusively on the **Backup Drive**. In **Mode 1**, if a baseline image is captured, `Apply-SystemImage_WinPE.bat` sits in `C:\SystemImages\` where you can run it directly from a WinRE Command Prompt (`Shift + F10`) to execute a non-destructive Safe Overlay OS refresh.
+> - **Where do recovery scripts live?** In **Modes 0 & N**, exactly 0 batch scripts touch `C:\`—all rescue tools (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) live exclusively on the **Backup Drive**. In **Mode 1**, emergency scripts and any baseline image sit in `C:\SystemRecovery\` where you can run them directly from a WinRE Command Prompt (`Shift + F10`) to execute a non-destructive Safe Overlay OS refresh.
 >
 > 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
@@ -179,6 +179,7 @@ Each mode includes a double-clickable batch installer for rapid deployment from 
 - `Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `Install-ModeN-NearZeroFootprint.bat`
 - `Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `Install-Mode2-LocalDisasterGuard.bat`
 - `Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `Install-Mode4-TotalProtection.bat`
+- `tools/Generate-ShopMasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-ShopKey.bat`
 - `Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
 - `Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
 
@@ -226,7 +227,7 @@ Available in Modes 2 through 4 for emergency assistance:
 | **⚡ 1-Click Backup** | `WINBARS.exe -Action FastBackup` | Mirrors personal files + creates System Checkpoint. |
 | **📊 Visual Backup** | `WINBARS.exe -Action FastBackup -ShowProgress` | Launches live Dual Progress Bar in real-time. |
 | **🛡 System Checkpoint** | `WINBARS.exe -Action RestorePoint` | Creates unthrottled atomic System Restore Point. |
-| **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemImages`. |
+| **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemRecovery`. |
 | **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
 | **🚀 Deploy Mode 0** | `WINBARS.exe -Profile ZeroFootprint` | 100% native Windows automation (0 files on `C:\`). |
 | **👻 Deploy Mode N** | `WINBARS.exe -Profile NearZeroFootprint` | Stealth native automation with unbranded shortcuts. |
