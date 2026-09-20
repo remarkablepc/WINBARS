@@ -33,6 +33,8 @@ if /i "!A!"=="/quiet" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/unattended" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/vanilla" ( set "FORCE_VANILLA=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/reset" ( set "ARG_RESET=1" & shift & goto PARSE_LOOP )
+if /i "!A!"=="/nowhitelist" ( set "ARG_WHITELIST=N" & shift & goto PARSE_LOOP )
+if /i "!A!"=="/whitelist" ( set "ARG_WHITELIST=Y" & shift & goto PARSE_LOOP )
 
 :: Switches with values
 if /i "!A:~0,7!"=="/brand:" ( set "ARG_BRAND=!A:~7!" & shift & goto PARSE_LOOP )
@@ -342,7 +344,28 @@ if /i "!BASE_IN!"=="Y" (
     )
 )
 
-:: ---- 15. Final verdict ----
+:: ---- 15. Optional: Windows Defender Whitelisting ----
+set "WL_IN="
+if defined ARG_WHITELIST (
+    set "WL_IN=!ARG_WHITELIST!"
+    echo.
+    echo   Windows Defender whitelisting pre-set via switch: !WL_IN!
+) else if not "!QUIET_MODE!"=="1" (
+    echo.
+    set /p WL_IN="   Add Windows Defender folder & process exclusions for WINBARS? (Y/N) [Default: Y]: "
+) else (
+    set "WL_IN=Y"
+)
+if not defined WL_IN set "WL_IN=Y"
+if /i "!WL_IN!"=="Y" (
+    if exist "%~dp0Whitelist-WINBARS.bat" (
+        call "%~dp0Whitelist-WINBARS.bat" /quiet
+    ) else if exist "C:\Tools\WINBARS\Whitelist-WINBARS.bat" (
+        call "C:\Tools\WINBARS\Whitelist-WINBARS.bat" /quiet
+    )
+)
+
+:: ---- 16. Final verdict ----
 set "OVERALL_EXIT=0"
 if not !INSTALL_EXIT! EQU 0 set "OVERALL_EXIT=1"
 if not !CFG_EXIT! EQU 0 set "OVERALL_EXIT=1"

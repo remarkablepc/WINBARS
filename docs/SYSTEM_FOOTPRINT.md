@@ -17,16 +17,16 @@ WINBARS operates under a strict **Zero-Egress / Air-Gapped** architecture:
 | **DNS Lookups** | **None** | No external domains resolved |
 
 > [!NOTE]
-> WINBARS contains zero web-phone hooks or remote API dependencies. Even cryptographic brand verification (`branding.json`) is computed locally using asymmetric ECDSA-SHA256 signatures via native Windows CNG APIs without contacting any license server.
+> WINBARS contains zero telemetry beacons, analytics tracking pings, or mandatory cloud accounts. Brand verification is computed locally using asymmetric ECDSA-SHA256 signatures via native Windows CNG APIs without contacting any license server. Outbound network communication occurs strictly if the administrator configures optional Webhook alert endpoints (Discord, Slack, Teams, or REST in Mode 4) or triggers Microsoft Quick Assist (`Ctrl+Win+Q`).
 
 ---
 
-## 2. Kernel & OS Integrity: Zero Drivers, Zero Services
+## 2. Kernel & OS Integrity: Zero Drivers, Zero NT Services
 
 Many commercial backup agents install low-level filter drivers to track disk writes, which can introduce kernel panics (BSODs) during major Windows feature updates.
 
-* **Kernel-Mode Drivers**: **0** (No `.sys` drivers, no filesystem mini-filters, no virtual disk drivers).
-* **Resident Windows Services**: **0** (No background Windows Services installed in `services.msc`).
+* **Kernel-Mode Drivers**: **0** (No `.sys` drivers, no filesystem mini-filters, no virtual disk drivers across all Modes 0–4).
+* **Resident Windows NT Services**: **0** (No background Windows Services installed in `services.msc`). Modes 0–1 maintain 0 resident background processes. Modes 2–4 run a lightweight user-mode desktop sentry (~12–16 MB RAM) launched via standard user Startup without system-level service overhead.
 * **Kernel Integrity**: The Windows kernel, HAL, and storage stack remain completely untouched and 100% stock.
 
 ---
