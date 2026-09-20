@@ -313,6 +313,7 @@ if !OVERALL_EXIT! EQU 0 (
     echo   * Resident Software:  0 Files (Zero resident EXEs on C:)
     echo   ----------------------------------------------------------------
     echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
+    echo   Tip: To make this backup drive directly bootable, run Create-RescueUSB.bat!
 ) else (
     echo   [FAILED] One or more steps failed. Review the messages above.
     echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log

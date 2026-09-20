@@ -249,46 +249,46 @@
         </div>
     </div>
 
-    <!-- Section 2: Bootable Rescue USB -->
+    <!-- Section 2: Bootable Rescue USB & Bootable Backup Drive -->
     <div class=section id=section-rescue-usb>
-        <h2>&#128268; 2. Creating a Bootable Rescue USB (On Any Working PC)</h2>
-        <p>If the target computer won't start and you don't have a Windows setup or recovery USB, you can create one directly from this drive:</p>
+        <h2>&#128268; 2. All-in-One Bootable Backup Drive or Dedicated Rescue USB</h2>
+        <p>If the target computer won't boot, you can turn any blank USB drive into a dedicated rescue tool, or make <strong>this backup drive itself</strong> bootable:</p>
         <ul class=step-list>
             <li>
-                Plug this backup drive <strong>AND</strong> a blank USB flash drive (4 GB or larger) into any working Windows PC.
+                <strong>Option A - Make This Backup Drive Bootable (Non-Destructive):</strong><br>
+                Plug this drive into any working Windows PC (or your own). Right-click <code>Create-RescueUSB.bat</code> on the root of this drive and select <strong>Run as administrator</strong>. Select this drive: WINBARS will non-destructively carve out a 2 GB FAT32 UEFI boot partition (<code>WINBARS_BOOT</code>). <strong>All existing user backups, system images, and files remain 100% untouched!</strong>
             </li>
             <li>
-                Locate <code>Create-RescueUSB.bat</code> on the root of this backup drive.
-            </li>
-            <li>
-                Right-click <code>Create-RescueUSB.bat</code> and select <strong>Run as administrator</strong>.
-            </li>
-            <li>
-                Follow the on-screen prompt to select your blank USB drive. It will be formatted as a dedicated UEFI-bootable Windows Recovery drive.
+                <strong>Option B - Dedicated Technician Flash Drive:</strong><br>
+                Plug in a blank USB flash drive (4 GB+) and run <code>Create-RescueUSB.bat</code> to format it as a dedicated portable UEFI WinRE recovery drive.
             </li>
         </ul>
     </div>
 
     <!-- Section 3: Blue Screen & Registry Rollback -->
     <div class=section id=section-registry>
-        <h2>&#128737;&#65039; 3. Emergency Blue Screen / Registry Rollback</h2>
+        <h2>&#128737;&#65039; 3. Emergency Blue Screen / Registry Rollback (Shift + F10)</h2>
         <p>If Windows is trapped in a reboot loop or blue screen (BSOD) after an update or driver install:</p>
         <ul class=step-list>
             <li>
-                Boot the failing computer into the <strong>Windows Recovery Environment (WinRE)</strong> (hold <code>Shift</code> while clicking Restart, or boot from a Windows Setup / Rescue USB).
+                Boot the failing computer into the <strong>Windows Recovery Environment (WinRE)</strong> (hold <code>Shift</code> while clicking Restart, tap F11/F12 at boot, or boot from a Windows Setup / Rescue USB).
             </li>
             <li>
-                Select <strong>Troubleshoot &rarr; Advanced options &rarr; Command Prompt</strong>.
+                Select <strong>Troubleshoot &rarr; Advanced options &rarr; Command Prompt</strong> (or press <strong>Shift + F10</strong> on any Windows Setup screen).
             </li>
             <li>
-                Identify the drive letter of this backup drive (e.g. type <code>D:</code> or <code>E:</code> and press Enter, then type <code>dir</code> to verify).
+                <strong>The Notepad Graphical File Manager Trick:</strong><br>
+                If you aren't sure which drive letter was assigned to your backup drive in WinRE, simply type:
+                <pre>notepad</pre>
+                Press Enter, then click <strong>File &rarr; Open</strong> and change "Files of type" to <strong>All Files (*.*)</strong>. You now have a full graphical Windows Explorer window to visually see drive letters, browse files, and right-click to run scripts!
             </li>
             <li>
-                Run the offline registry restoration script:
-                <pre>Backup_Logs\Registry_Snapshots\Latest\Restore_Registry_WinPE.bat</pre>
+                Run the emergency recovery assistant from your backup drive (typically drive <code>D:</code> or <code>E:</code>):
+                <pre>D:\EMERGENCY_RECOVERY.bat</pre>
+                <em>(Or <code>E:\EMERGENCY_RECOVERY.bat</code> if your CD/system reserved shifted the letters)</em>
             </li>
             <li>
-                Type <code>Y</code> to restore clean, uncorrupted registry hives (<code>SYSTEM</code>, <code>SOFTWARE</code>, <code>SAM</code>, <code>SECURITY</code>, <code>DEFAULT</code>).
+                Select <strong>[1] Offline Registry Rollback</strong>. WINBARS will automatically locate your Windows installation on disk, back up the corrupt hives, and restore pristine uncorrupted hives.
             </li>
             <li>
                 Type <code>exit</code> and click <strong>Continue to Windows</strong>.
@@ -309,16 +309,15 @@
 
         <ul class=step-list>
             <li>
-                Boot the target computer into WinPE/WinRE (via Windows Setup USB or our Rescue USB).
+                Boot the target computer into WinPE/WinRE (via Windows Setup USB, our Rescue USB, or Bootable Backup Drive).
             </li>
             <li>
                 Press <code>Shift + F10</code> to open the recovery Command Prompt.
             </li>
             <li>
-                Switch to this backup drive and navigate into the <code>SystemImages\</code> directory:
-                <pre>D:
-cd SystemImages
-Apply-SystemImage_WinPE.bat</pre>
+                Switch to this backup drive and launch the recovery assistant:
+                <pre>D:\EMERGENCY_RECOVERY.bat</pre>
+                <em>(Or run <code>D:\Apply-SystemImage_WinPE.bat</code> directly)</em>
             </li>
             <li>
                 <strong>Choose Your Restore Method:</strong>

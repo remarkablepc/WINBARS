@@ -12,13 +12,13 @@ Need your personal files on another computer?
   -> Go directly to the '\Users\' folder on this drive and drag-and-drop.
 
 Windows blue-screens, crashes, or won't start?
-  -> Follow Section 3 below to run Restore_Registry_WinPE.bat.
+  -> Follow Section 3 below to run EMERGENCY_RECOVERY.bat.
 
 Hard drive failed, replaced, or needs full bare-metal OS recovery?
-  -> Follow Section 5 below to run Apply-SystemImage_WinPE.bat.
+  -> Follow Section 5 below to run EMERGENCY_RECOVERY.bat or Apply-SystemImage_WinPE.bat.
 
 Need a bootable Windows Recovery USB drive on any computer?
-  -> Follow Section 6 below to run Create-RescueUSB.bat.
+  -> Follow Section 6 below to run Create-RescueUSB.bat (makes this drive bootable non-destructively).
 
 Prefer a friendly visual guide with clickable sections?
   -> Double-click 'HOW_TO_RESTORE.html' on the root of this backup drive!
@@ -43,12 +43,16 @@ Prefer a friendly visual guide with clickable sections?
 
 3. EMERGENCY BLUE SCREEN / UNBOOTABLE REGISTRY RECOVERY:
    - If Windows fails to boot due to a corrupt driver, bad update, or registry damage:
-     a. Boot your PC into the Windows Recovery Environment (WinRE / Advanced Startup).
-     b. Select 'Troubleshoot' -> 'Advanced options' -> 'Command Prompt'.
-     c. Find the drive letter assigned to this USB drive (type 'D:' or 'E:' and press Enter).
+     a. Boot your PC into the Windows Recovery Environment (WinRE / Advanced Startup)
+        or boot directly from this drive if configured as a Bootable Backup Drive.
+     b. Select 'Troubleshoot' -> 'Advanced options' -> 'Command Prompt' (or press Shift + F10).
+     c. Visual Explorer Trick: If unsure what drive letter this backup drive has,
+        type 'notepad' and press Enter. In Notepad, click File -> Open and set
+        "Files of type" to "All Files (*.*)" to graphically see all drives and letters!
      d. Run:
-          Backup_Logs\Registry_Snapshots\Latest\Restore_Registry_WinPE.bat
-     e. Press 'Y' to restore clean offline registry hives (SYSTEM, SOFTWARE, SAM, SECURITY, DEFAULT).
+          D:\EMERGENCY_RECOVERY.bat   (or E:\EMERGENCY_RECOVERY.bat)
+     e. Select Option [1] Offline Registry Rollback. WINBARS will automatically restore
+        clean offline registry hives (SYSTEM, SOFTWARE, SAM, SECURITY, DEFAULT).
      f. Type 'exit' and restart Windows.
 
 4. DAILY SYSTEM RESTORE POINTS:
@@ -69,17 +73,18 @@ Prefer a friendly visual guide with clickable sections?
        replacements (new SSDs) or catastrophic malware. Enforces mandatory two-step
        confirmation before wiping.
    - To perform an image restore:
-     a. Boot PC from Windows Setup USB or Rescue USB (WinRE Command Prompt via Shift+F10).
-     b. Switch to this drive: 'D:' or 'E:' -> 'cd SystemImages'.
-     c. Run 'Apply-SystemImage_WinPE.bat'.
-     d. Select Option [1] Safe Overlay (data safe) or Option [2] Clean Wipe.
+     a. Boot PC into WinRE/WinPE (via Windows Setup USB, Rescue USB, or Bootable Backup Drive).
+     b. Open Command Prompt (Shift + F10) and run 'D:\EMERGENCY_RECOVERY.bat' (or 'D:\SystemImages\Apply-SystemImage_WinPE.bat').
+     c. Select Option [1] Safe Overlay (data safe) or Option [2] Clean Wipe.
 
-6. CREATING A BOOTABLE RESCUE USB (On Any Working PC):
-   - If the crashed computer won't boot and you lack a Windows Setup USB:
-     a. Plug this backup drive and any blank USB flash drive (4GB+) into a working PC.
+6. ALL-IN-ONE BOOTABLE BACKUP DRIVE OR DEDICATED RESCUE USB:
+   - You can make this backup drive ITSELF bootable without losing any existing backups!
+     a. Plug this backup drive into any working PC (or your own).
      b. Right-click 'Create-RescueUSB.bat' on the root of this drive and select
         'Run as administrator'.
-     c. Follow the prompt to turn the flash drive into a UEFI-bootable WinRE rescue USB.
+     c. Select this drive: WINBARS will non-destructively carve out a 2 GB FAT32 UEFI
+        Boot Partition (WINBARS_BOOT) alongside your backups.
+     d. Or select a separate blank USB flash drive (4GB+) to create a dedicated technician tool.
 
 7. BITLOCKER DISASTER RECOVERY KEYS:
    - If Windows prompts for a 48-digit BitLocker numerical recovery password:

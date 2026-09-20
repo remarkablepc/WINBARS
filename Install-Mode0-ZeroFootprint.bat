@@ -281,6 +281,7 @@ if !OVERALL_EXIT! EQU 0 (
     echo   [SUCCESS] Mode 0 ZeroFootprint setup completed.
     echo   No files were installed to this PC.
     echo   Tasks are registered with Windows Task Scheduler.
+    echo   Tip: To make this backup drive directly bootable, run Create-RescueUSB.bat!
 ) else (
     echo   [FAILED] One or more steps failed. Review the messages above.
     echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log
