@@ -176,19 +176,23 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 >
 > 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
-### ⚡ 1-Click Batch Installers & Utilities
-Each mode includes a double-clickable batch installer located in `installers/` for rapid deployment from a technician flash drive:
-- `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
-- `installers/Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode2-LocalDisasterGuard.bat`
-- `installers/Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode4-TotalProtection.bat`
-- `installers/Uninstall.bat` *(Complete suite teardown: cleanly wipes scheduled tasks, shortcuts, and sentry)*
-
-Bench, operational, and security utilities are organized in `tools/`:
-- `tools/Generate-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Verify-MasterKey-Password.bat`
-- `tools/Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
-- `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
-- `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
-- `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
+### ⚡ Turnkey Root Launchers, Installers & Utilities
+- **Root Fast-Launchers**:
+  - `Run-WINBARS.bat` *(Main Interactive Launcher & Privilege Escalation Hub)*
+  - `Whitelist-WINBARS.bat` *(1-Click Windows Defender Whitelister: immediately silences AV false-positives right from root)*
+  - `WINBARS.exe` *(High-performance compiled binary engine)*
+- **1-Click Mode Installers (`installers/`)**:
+  - `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
+  - `installers/Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode2-LocalDisasterGuard.bat`
+  - `installers/Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode4-TotalProtection.bat`
+  - `installers/Uninstall.bat` *(Complete suite teardown: cleanly wipes scheduled tasks, shortcuts, and sentry)*
+- **BitLocker Certificate Vault (`certs/`)**:
+  - Drop public BitLocker Data Recovery Agent certificates (`*.cer`) here for automatic discovery and enrollment on client PCs.
+- **Bench, Operational & Recovery Tools (`tools/`)**:
+  - `tools/Generate-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Verify-MasterKey-Password.bat`
+  - `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
+  - `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
+  - `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
 
 ---
 
@@ -386,7 +390,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 ### 🔐 4. Bootloader Auto-Heal & BitLocker Disaster Vaults
 * **Automated BCD Bootloader Healing**: Automatically discovers EFI system partitions and rebuilds corrupted BCD records via Microsoft `bcdboot` without requiring manual `diskpart` volume hunting.
 * **BitLocker Disaster Vaults**: Discovers active BitLocker volumes, generates printable offline emergency cards with your 48-digit numerical recovery key, and exports AES-256 encrypted key vaults directly to the backup drive root.
-* **Optional Shop Master Key Certificate (`ShopMasterKey.cer`)**: Repair shops and MSPs can drop their public recovery certificate into `branding/` or `config/` (or auto-stage it via custom remote IRM). WINBARS automatically enrolls it as an authorized BitLocker Data Recovery Agent (DRA). If a client PC ever triggers a BitLocker lockout, the shop can unlock the drive using their offline private key without needing client Microsoft credentials or lost recovery keys.
+* **Optional Shop Master Key Certificate (`ShopMasterKey.cer`)**: Repair shops and MSPs can drop their public recovery certificate into `certs/` (or auto-stage it via custom remote IRM). WINBARS automatically enrolls it as an authorized BitLocker Data Recovery Agent (DRA). If a client PC ever triggers a BitLocker lockout, the shop can unlock the drive using their offline private key without needing client Microsoft credentials or lost recovery keys.
 * **Technician Arbitrary Volume Imaging (DISM .wim)**: Capture an atomic, crash-consistent bare-metal image of any fixed or removable drive on the system (secondary data drives, VM disks, SD cards, or OS partitions). Features atomic VSS shadow snapshotting (capturing locked files without stopping services), circular destination safety locks, and live real-time DISM progress displays in both GUI and CLI.
 * **12-Subsystem Feature Diagnostics & Audit Scorecard**: Run an on-demand audit of your system's defense readiness (S.M.A.R.T. storage health, VSS headroom, restore points, bare-metal images, WinRE blue-screen hooks, BitLocker vault & DRA enrollment, honeypot canaries, and scam sentry). Features intelligent, profile-aware **`[ N/A ]`** status tagging (no false alarm warnings on stealth modes) and a 1-click clipboard export for customer repair tickets.
 * **Pre-Staged Emergency Launcher (`EMERGENCY_RECOVERY.bat`)**: A standalone, guided rescue entry point pre-staged in `C:\SystemRecovery` (Modes 1–4) and on the backup drive root (Modes 0 & N). Tests physical drive health (S.M.A.R.T.), diagnoses volume errors, and guides non-technical users step-by-step through the least-invasive recovery ladder.

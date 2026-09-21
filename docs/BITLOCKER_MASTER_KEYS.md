@@ -116,7 +116,7 @@ Run `tools/Generate-MasterKey.bat` as Administrator on your technician bench or 
 - **Password Double Confirmation**: Requires entering and re-confirming the passphrase to prevent unintended lockouts.
 - **Output Files**:
   - `Shop_Master_Private.pfx` $\rightarrow$ **Store immediately in your shop's password vault, safe, or offline USB.**
-  - `Shop_Public_DRA.cer` (and `branding/ShopMasterKey.cer`) $\rightarrow$ Distributed safely with WINBARS media.
+  - `certs/Shop_Public_DRA.cer` (and `certs/ShopMasterKey.cer`) $\rightarrow$ Distributed safely in `certs/` on WINBARS media.
   - Base64 certificate string printed to console.
 
 #### Role 2: Enterprise / Client Company Keypair
@@ -125,7 +125,7 @@ Run `tools/Generate-MasterKey.bat` as Administrator on your technician bench or 
 - **Password Double Confirmation**: Entered and confirmed by business owner.
 - **Output Files**:
   - `[Company]_Master_Private.pfx` $\rightarrow$ Handed directly to business owner on an encrypted flash drive.
-  - `[Company]_Public_DRA.cer` $\rightarrow$ Placed on deployment USB or embedded in company `config.json`.
+  - `certs/[Company]_Public_DRA.cer` $\rightarrow$ Placed in `certs/` on deployment USB or embedded in company `config.json`.
   - Base64 certificate string printed to console for easy copy-pasting into JSON configurations!
 
 ---

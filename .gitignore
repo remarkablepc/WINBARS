@@ -5,3 +5,5 @@ branding*.json
 *.old
 *.log
 *.zip
+certs/*.cer
+!certs/README.txt
