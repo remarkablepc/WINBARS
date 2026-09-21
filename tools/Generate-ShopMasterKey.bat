@@ -55,7 +55,7 @@ echo.
 echo Generating keys... Please enter a strong password when prompted.
 echo.
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "& { . '%~dp0..\src\security\ShopBitLocker.ps1'; New-ShopMasterKey -ShopName '!SHOP_NAME!' -ExportPfxPath '!DEST_PFX!' -ExportCerPath '%~dp0..\config\Shop_Public_DRA.cer' }"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "& { . '%~dp0..\src\security\ShopBitLocker.ps1'; $res = New-ShopMasterKey -ShopName '!SHOP_NAME!' -ExportPfxPath '!DEST_PFX!' -ExportCerPath '%~dp0..\config\Shop_Public_DRA.cer'; if ($res.Success) { $brandDir = '%~dp0..\branding'; if (-not (Test-Path $brandDir)) { New-Item -Path $brandDir -ItemType Directory -Force | Out-Null }; Copy-Item '%~dp0..\config\Shop_Public_DRA.cer' (Join-Path $brandDir 'ShopMasterKey.cer') -Force -ErrorAction SilentlyContinue } }"
 
 echo.
 echo ==============================================================================

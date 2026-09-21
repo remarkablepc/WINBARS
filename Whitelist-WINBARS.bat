@@ -26,18 +26,19 @@ echo.
 echo ========================================================================
 echo   WINBARS - Windows Defender Whitelist Utility
 echo ========================================================================
-echo   Target Folder 1 : C:\Tools\WINBARS
-echo   Target Folder 2 : C:\ProgramData\WINBARS
+echo   Target Folder 1 : C:\SystemRecovery (Rescue Scripts)
+echo   Target Folder 2 : C:\Tools\WINBARS (Suite Binaries, if present)
+echo   Target Folder 3 : C:\ProgramData\WINBARS (Configuration & Logs)
 echo   Target Process  : WINBARS.exe
 echo.
 
-:: Ensure destination folders exist so Defender can register paths cleanly
-if not exist "C:\Tools\WINBARS" mkdir "C:\Tools\WINBARS" >nul 2>&1
+:: Ensure destination folders exist if appropriate without polluting Mode 1 hosts
 if not exist "C:\ProgramData\WINBARS" mkdir "C:\ProgramData\WINBARS" >nul 2>&1
 
 :: Execute PowerShell Whitelisting with Tamper Protection detection
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command ^
-    "$paths = @('C:\Tools\WINBARS', 'C:\ProgramData\WINBARS');" ^
+    "$paths = @('C:\SystemRecovery', 'C:\ProgramData\WINBARS');" ^
+    "if (Test-Path 'C:\Tools\WINBARS') { $paths += 'C:\Tools\WINBARS' } else { $paths += 'C:\Tools\WINBARS' };" ^
     "$proc = 'WINBARS.exe';" ^
     "$hasDefender = (Get-Command Add-MpPreference -ErrorAction SilentlyContinue) -ne $null;" ^
     "if (-not $hasDefender) {" ^

@@ -26,6 +26,23 @@ A common point of confusion is why BitLocker on external drives requires complex
 
 ---
 
+## 1.2 Blocking Silent Automatic Encryption Traps (`PreventDeviceEncryption`)
+
+Starting in Windows 11 (24H2) and on modern hardware supporting Modern Standby / HSTI, Windows automatically activates **Device Encryption** silently in the background when linking a Microsoft account or completing major setup updates.
+* **The Risk**: This encryption happens without any confirmation prompts, warning dialogs, or visible display of the 48-digit numerical recovery key. If a firmware update trips the TPM before the user prints a key, they are permanently locked out.
+* **The Native Prevention**: WINBARS configures native Windows registry policy:
+  `HKLM:\SYSTEM\CurrentControlSet\Control\BitLocker` -> `PreventDeviceEncryption = 1` (DWORD).
+  This policy prevents Windows from silently encrypting the system drive in the background, while still allowing the user or administrator to manually enable BitLocker intentionally whenever desired.
+* **Scope & Controls**:
+  * **Modes 1, 2, 3, and 4**: Enabled by default during deployment.
+  * **Modes 0 and N**: Excluded (strict 0-modification host compliance).
+  * **Interactive Pre-Flight**: Toggleable via `[E]` key in `Invoke-ProfilePreFlightMenu`.
+  * **CLI Automation**: Toggleable via `WINBARS.exe -BlockSilentBitLocker` and `WINBARS.exe -AllowSilentBitLocker`.
+  * **Console Menu**: Toggleable in Setup Menu -> `[9] Protection Shields` -> `[4] Block Silent BitLocker Device Encr.`
+  * **Clean Uninstallation**: Reverted automatically upon `Uninstall.bat` or `WINBARS.exe -ResetSuite`.
+
+---
+
 ## 2. The WINBARS Solution: Encrypted Vault & 1-Click WinPE Unlock
 
 WINBARS automates key archival at rest while providing an effortless unlock mechanism during a disaster:
@@ -96,9 +113,10 @@ WINBARS uses asymmetric public/private cryptography (`New-SelfSignedCertificate 
 1. **Private Master Key (`Shop_Master_Private.pfx`)**:
    - Password-protected and retained strictly inside the shop's safe / technician USB.
    - **NEVER copied to customer computers.**
-2. **Public Certificate (`Shop_Public_DRA.cer`)**:
-   - Bundled into WINBARS deployments (`config/Shop_Public_DRA.cer`).
-   - Can only encrypt, never decrypt. Completely safe on client PCs.
+2. **Public Certificate (`ShopMasterKey.cer` or `Shop_Public_DRA.cer`)**:
+   - Dropped into your technician USB under `branding/`, `brands/`, `tools/`, `config/`, or the USB root.
+   - Can only encrypt or act as a DRA, never decrypt. Completely safe on client PCs.
+   - **Auto-Discovery**: During deployment, WINBARS automatically checks `branding/` (keeping roots tidy), `brands/`, `tools/`, and `config/` for `ShopMasterKey.cer` and auto-enrolls it.
 
 ### C. Universal Dual-Engine Support
 * **Windows Pro & Enterprise**: Binds the public certificate directly to the volume as an official Data Recovery Agent (`manage-bde -protectors -add C: -Certificate ...`).
@@ -106,6 +124,10 @@ WINBARS uses asymmetric public/private cryptography (`New-SelfSignedCertificate 
   - Local disk: `C:\SystemRecovery\ShopEscrow.bin`
   - Technician USB: `<TechDrive>:\ShopVault\<Machine>_BitLocker.enc`
 
-### D. 1-Click Bench Batch Tools
-* `tools/Generate-ShopMasterKey.bat`: 1-click wizard for shop owners to generate their keypair.
+### D. Future-Proofing: Drives Encrypted After Deployment
+* **What if the drive is not BitLocker-encrypted on the bench?** If WINBARS is deployed on an unencrypted drive, the public certificate is staged locally (`C:\SystemRecovery\Shop_Public_DRA.cer`).
+* **AutoHeal Sentry (Modes 1–4)**: On every system boot and scheduled maintenance pass, AutoHeal checks if `C:` was recently encrypted. If BitLocker is detected and the shop key has not yet been bound, AutoHeal automatically attaches the protector and creates `ShopEscrow.bin` in the background—requiring zero customer or shop intervention!
+
+### E. 1-Click Bench Batch Tools
+* `tools/Generate-ShopMasterKey.bat`: 1-click wizard for shop owners to generate their keypair (exports to `branding/ShopMasterKey.cer` and `config/Shop_Public_DRA.cer`).
 * `tools/Unlock-BitLocker-With-ShopKey.bat`: 1-click unlock tool for technicians running in WinPE, WinRE, or live Windows. Prompts for shop password and unlocks `C:\` instantly.

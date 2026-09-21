@@ -372,7 +372,13 @@ if not !PROFILE_EXIT! EQU 0 set "OVERALL_EXIT=1"
 echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
-    echo   [SUCCESS] Mode 3 HeadlessFull installation completed.
+    echo   [SUCCESS] Mode 3 HeadlessFull installation completed!
+    echo   ----------------------------------------------------------------
+    echo   * Multi-Drive Automation:       Active (Daily Robocopy Mirror & Images)
+    echo   * Silent Scam & RAT Watchdog:   Active (Auto Siren Mute & Intercept)
+    echo   * Universal Emergency Hotkeys:  Active (Ctrl+Win+B / Ctrl+Win+W)
+    echo   * Floppy Tray Icon:             Off (Silent Headless Workstation)
+    echo   ----------------------------------------------------------------
     echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
     echo   Tip: To make this backup drive directly bootable, run Create-RescueUSB.bat!
 ) else (

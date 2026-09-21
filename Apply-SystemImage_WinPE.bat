@@ -198,6 +198,14 @@ if "!STRATEGY!"=="1" (
     !FMT_EXE! !TARGET_DRV! /FS:NTFS /Q /Y
 )
 
+:: 5. Volume Lock & Fast Startup Hibernation Safeguard
+if exist "!TARGET_DRV!\hiberfil.sys" (
+    echo [*] Detected Fast Startup hibernation file on !TARGET_DRV!\.
+    echo     Clearing stale hibernation lock to guarantee clean volume write access...
+    del /f /q /a "!TARGET_DRV!\hiberfil.sys" >nul 2>&1
+)
+chkdsk.exe !TARGET_DRV! /f /x >nul 2>&1
+
 echo.
 echo [*] Applying DISM image to !TARGET_DRV!\ (this may take 5-15 minutes)...
 dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify

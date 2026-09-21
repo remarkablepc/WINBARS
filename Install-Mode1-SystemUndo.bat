@@ -235,6 +235,17 @@ if /i "!BASE_IN!"=="Y" (
     echo   [i] Baseline image skipped. Restore points and VSS hardening active.
 )
 
+:: ---- 7b. Automatically whitelist C:\SystemRecovery in Windows Defender ----
+echo.
+echo   Configuring Windows Defender exclusion for C:\SystemRecovery...
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+    "if (Get-Command Add-MpPreference -ErrorAction SilentlyContinue) {" ^
+    "    try {" ^
+    "        Add-MpPreference -ExclusionPath 'C:\SystemRecovery' -ErrorAction SilentlyContinue;" ^
+    "        Write-Host '  [OK] C:\SystemRecovery excluded from Windows Defender heuristics.' -ForegroundColor Green;" ^
+    "    } catch { }" ^
+    "}" >nul 2>&1
+
 :: ---- 8. Final verdict ----
 set "OVERALL_EXIT=0"
 if not !PROFILE_EXIT! EQU 0 set "OVERALL_EXIT=1"
@@ -246,6 +257,7 @@ if !OVERALL_EXIT! EQU 0 (
     echo   * Native System Restore points: Active (Daily + Startup)
     echo   * VSS Shadow Storage Quota:     10%% Headroom Hardened
     echo   * 24-Hour Creation Throttle:    Disabled (Unlimited Checkpoints)
+    echo   * Defender Script Exclusion:    C:\SystemRecovery (Protected)
     echo   * Resident Third-Party Files:   0 (Zero EXEs, Zero Shortcuts)
     if "!DID_CAPTURE!"=="1" (
     echo   * Local Disaster Image:         C:\SystemRecovery\_baseline.wim

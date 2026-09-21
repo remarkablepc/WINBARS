@@ -10,13 +10,16 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 
 | Capability / Feature | Mode 0<br>ZeroFootprint | Mode N<br>NearZero | Mode 1<br>SystemUndo | Mode 2<br>LocalDisasterGuard | Mode 3<br>HeadlessFull | Mode 4<br>TotalProtection |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **What Sits on C:\** | **0 Files** | **Shortcuts Only** | **1 BAT File (+ WIM)\*** | `C:\Tools` | `C:\Tools` | `C:\Tools` |
+| **Reason for Being** | **Forensic Sterility**<br>(Nothing on `C:\`) | **Native Automation**<br>(0 background EXEs) | **Bench Warranty Baseline**<br>(Zero third-party binaries) | **Single-Drive Disaster Recovery**<br>(Local image; no external drive) | **Silent Multi-Drive Automation**<br>(Full backup; zero UI clutter) | **Visual Observability & Control**<br>(Floppy Tray, live GUI & alerts) |
+| **What Sits on C:\** | **0 Files** | **Shortcuts Only** | `C:\SystemRecovery\`<br>*(3 text scripts + key; 0 EXEs)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **Where Rescue Scripts Live** | **Backup Drive Only** | **Backup Drive Only** | `C:\SystemRecovery\` *(Local)* | `C:\SystemRecovery\` *(Local)* | **Both** Local & Backup Drive | **Both** Local & Backup Drive |
 | **Background RAM** | **0 MB** | **0 MB** | **0 MB** | ~12 MB | ~12 MB | ~16 MB |
-| **Resident Processes** | None | None | None | Hotkey Listener | Hotkey Listener | Tray Sentry + Hotkey |
+| **Resident Processes** | None | None | None | Silent Sentry (Hotkey + Watchdog) | Silent Sentry (Hotkey + Watchdog) | Tray Sentry + Hotkey + Watchdog |
 | **WINBARS Branding** | ❌ None | ❌ None | ❌ None | ✅ Yes | ✅ Yes | ✅ Yes |
-| **Desktop Shortcuts** | ❌ None | ✅ Native (Unbranded) | ❌ None | ✅ Yes | ✅ Yes | ✅ Yes |
+| **Desktop Shortcuts** | ❌ None | ✅ Native (Unbranded) | ❌ None | ✅ Mode-Aware (No Ext Backup) | ✅ Yes | ✅ Yes |
 | **Automated Daily Sync** | ✅ Daily | ✅ Daily | ❌ None | ❌ None | ✅ Daily | ✅ Daily |
 | **System Restore (Unthrottled)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Block Silent Auto-BitLocker** | ❌ None *(0 Host Reg)* | ❌ None *(0 Host Reg)* | ✅ Native Policy | ✅ Native Policy | ✅ Native Policy | ✅ Native Policy |
 | **Robocopy 1:1 File Mirror** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **30-Day Safety Recycle Bin** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **BitLocker Card & Vault** | ✅ Backup Drive | ✅ Backup Drive | Local (C:\SystemRecovery) | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
@@ -29,11 +32,11 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | **Ransomware Canary** | ✅ Backup Drive | ✅ Backup Drive | ❌ None | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
 | **Protection Hotkey (`Ctrl+Win+W`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Remote RAT Interceptor** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| **Floppy Tray Sentry** | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| **Rescue .BAT Scripts** | **Backup Drive Only** | **Backup Drive Only** | `C:\SystemRecovery` | `C:\SystemRecovery` | Both Local & Backup Drive | Both Local & Backup Drive |
+| **Remote RAT & Scam Watchdog** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ✅ Silent Shield (Default ON) | ✅ Silent Shield (Default ON) | ✅ Visual Sentry (Default ON) |
+| **Floppy Tray Sentry** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ⚪ Default OFF (Toggable) | ⚪ Default OFF (Toggable) | 🟢 Default ON (Toggable) |
 
 > **Notes & Operational Explanations**:
+> - **Zero Windows Services Architectural Guarantee**: Across **ALL** modes (0 through 4), WINBARS installs **zero Windows Services (`services.msc`)**, zero kernel drivers, and zero system daemons. Modes 0, N, and 1 run with **0 resident background processes / 0 MB RAM** via native Windows Task Scheduler. Modes 2, 3, and 4 run solely as a lightweight user-session background process (`WINBARS.exe`, ~12–16 MB RAM) via `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, which exits cleanly when the user logs off.
 > - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
 > - `❌` **Not Provisioned**: Omitted by design to maintain a strict zero-resident or near-zero footprint policy.
 > - `*` **Optional / On-Demand**: Feature is optional during setup (e.g. Mode 1 offers an optional one-time baseline image `_baseline.wim` if host disk space $\ge 25\text{ GB}$).
@@ -92,8 +95,8 @@ The matrix below outlines exactly what capabilities each deployment profile acti
     3. `BitLocker_Recovery_Key.txt` (48-digit plaintext recovery key).
   * Optionally captures an initial offline baseline system image (`_baseline.wim` + `Apply-SystemImage_WinPE.bat`) if free disk space permits ($\ge 25\text{ GB}$).
 * **What It DOES NOT Do**:
-  * Installs **0 software / 0 resident EXEs / 0 background daemons**.
-  * Leaves **0 files in `C:\Tools\WINBARS\`**.
+  * Installs **0 software / 0 resident EXEs / 0 background daemons** (only recovery scripts and an optional baseline image reside in `C:\SystemRecovery\`).
+  * **Does not install ScamBuster, hotkeys, or tray monitors**—omitted to maintain total transparency, uphold clean bench standards, and ensure the client's PC remains completely free of third-party software.
   * Does not perform automated external file mirroring (designed for machines serviced without an external drive attached).
 * **Best Suited For**: Computer repair shops performing routine cleanups, virus removals, or tune-ups, guaranteeing a 30-day warranty rollback target without needing an external drive left with the client.
 
@@ -120,15 +123,14 @@ The matrix below outlines exactly what capabilities each deployment profile acti
   * Universal emergency hotkeys (`Ctrl+Win+B` / `Ctrl+Win+W`).
   * VSS subsystem self-healing and COM provider auto-repair.
 * **What It DOES NOT Do**:
-  * Does not display a persistent Floppy Tray Sentry icon in the notification area (operates silently in the background).
-  * Does not run the continuous active ScamBuster process interceptor (runs on-demand via hotkey).
+  * Does not display a persistent Floppy Tray Sentry icon in the notification area (operates as a silent background guardian with active Scam & RAT defense).
 * **Best Suited For**: Accounting firms, medical clinics, legal offices, and quiet workstations where background protection is essential but tray icons and pop-ups are unwanted.
 
 ---
 
-### Mode 4: `TotalProtection` (Full Interactive Suite & Sentry)
+### Mode 4: `TotalProtection` (Visual Observability & Interactive Sentry)
 * **What It DOES**:
-  * Activates the signature **Floppy Tray Sentry** with dynamic color status (🟢 Green, 🟣 Purple, 🔵 Blue, 🟡 Amber, 🔴 Red).
+  * Activates the signature **Floppy Tray Sentry** with dynamic color status (🟢 Green = Protected/Idle, 🟣 Purple = Backup Active, 🟡 Amber = Warning/Notice, 🔴 Red = Attention Required). Note: 🔵 Classic Blue Floppy is the static Application Launcher and Protection Center Hub icon (`app.ico`).
   * Runs the **Real-Time Remote Access RAT Interceptor**: actively monitors for 25+ remote support tools (AnyDesk, TeamViewer, UltraViewer, ScreenConnect, RustDesk) frequently weaponized by phone scammers, presenting an instant `[STOP] Disconnect & Block` prompt.
   * Full desktop shortcuts (Protection Center, Backup Personal Data with live Dual Progress Bar, System Restore, Create System Image).
   * Supports custom shop branding ($100 lifetime shop token) on the dashboard and support cards.

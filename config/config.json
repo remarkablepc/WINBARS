@@ -12,7 +12,8 @@
         "EnablePupShield": true,
         "EnableDualAvWarning": true,
         "BrowserNotificationMode": "Smart",
-        "EnableQuietNotificationPrompts": true
+        "EnableQuietNotificationPrompts": true,
+        "BlockAutomaticBitLockerEncryption": true
     },
     "InstallDirectory": "C:\\Tools\\WINBARS",
     "SystemImageMonthlyDay":  1,

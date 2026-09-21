@@ -321,7 +321,13 @@ if not !PROFILE_EXIT! EQU 0 set "OVERALL_EXIT=1"
 echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
-    echo   [SUCCESS] Mode 2 LocalDisasterGuard installation completed.
+    echo   [SUCCESS] Mode 2 LocalDisasterGuard installation completed!
+    echo   ----------------------------------------------------------------
+    echo   * Single-Drive Bare-Metal:      Active (Local .wim & Restore Points)
+    echo   * Silent Scam & RAT Watchdog:   Active (Auto Siren Mute & Intercept)
+    echo   * Universal Emergency Hotkeys:  Active (Ctrl+Win+B / Ctrl+Win+W)
+    echo   * Floppy Tray Icon:             Off (Silent Background Sentry)
+    echo   ----------------------------------------------------------------
     echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
     echo   Tip: To make this backup drive directly bootable, run Create-RescueUSB.bat!
 ) else (
