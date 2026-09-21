@@ -179,7 +179,6 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 ### ⚡ Turnkey Root Launchers, Installers & Utilities
 - **Root Fast-Launchers**:
   - `Run-WINBARS.bat` *(Main Interactive Launcher & Privilege Escalation Hub)*
-  - `Whitelist-WINBARS.bat` *(1-Click Windows Defender Whitelister: immediately silences AV false-positives right from root)*
   - `WINBARS.exe` *(High-performance compiled binary engine)*
 - **1-Click Mode Installers (`installers/`)**:
   - `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
@@ -189,10 +188,12 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 - **BitLocker Certificate Vault (`certs/`)**:
   - Drop public BitLocker Data Recovery Agent certificates (`*.cer`) here for automatic discovery and enrollment on client PCs.
 - **Bench, Operational & Recovery Tools (`tools/`)**:
+  - `tools/Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
   - `tools/Generate-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Verify-MasterKey-Password.bat`
   - `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
   - `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
   - `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
+  - `tools/web-deploy/` *(1-line remote IRM web deployment blueprints for `winbars.remarkablepc.com` and `macpc.remarkablepc.com`)*
 
 ---
 
