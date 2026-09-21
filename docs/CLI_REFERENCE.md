@@ -18,8 +18,10 @@ All switches can be passed with standard PowerShell syntax (-Switch) or Windows 
 | -Action RestorePoint | Creates a hardened, atomic Windows System Restore Point checkpoint. Use `-Baseline` for permanent driver/hardware checkpoint. | WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-Driver Fix" |
 | -Action FileHistory | Runs multi-threaded unbuffered Robocopy personal file synchronization. | WINBARS.exe -Action FileHistory -Unattended |
 | -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). Use `-Baseline` to tag as permanent master (`_baseline.wim`). | WINBARS.exe -Action SystemImage -Baseline -Unattended |
+| -Action CaptureVolumeImage | Captures a standalone DISM image (`.wim`) of any drive or volume (secondary drives, data volumes, OS) with VSS freeze & loop guard. | WINBARS.exe -Action CaptureVolumeImage -CaptureVolume D: -ImageDestination E:\Images\Data.wim |
 | -Action All | Runs a complete multi-pass backup (Restore Point, File Mirror, DISM Image). | WINBARS.exe -Action All -Unattended |
 | -Action AutoHeal | Runs a silent scan to self-heal Windows VSS & SystemProtection. | WINBARS.exe -Action AutoHeal -Unattended |
+| -Action Diagnostics | Runs profile-aware feature diagnostics audit across 12 subsystems with structured PASS / WARN / FAIL / N/A scorecard. | WINBARS.exe -Action Diagnostics |
 | -Action VerifyFix | Runs full diagnostic self-test and auto-repairs broken scheduled tasks. | WINBARS.exe -VerifyFix |
 | -Action Preflight | Evaluates system storage, power state, and volume readiness. | WINBARS.exe -Preflight |
 | -Action BackupBCD | Exports atomic BCD boot hive, plaintext audit log, and WinPE rescue batch script. | WINBARS.exe -Action BackupBCD -Unattended |
@@ -169,9 +171,58 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
 | -CleanLogs | Enforces log retention policy and purges expired historical logs. |
 | -RebootToRecovery | Reboots directly into Windows RE Blue Screen environment. |
 | -RebootToSafeMode | Reboots directly into Windows Safe Mode. |
+| -CaptureVolumeImage | Captures a standalone DISM image (.wim) of any drive or volume with VSS snapshot freeze. |
+| -CaptureVolume <Drive> | Specifies source volume to capture (e.g. `D:`, `E:`, `C:`). Used with `-Action CaptureVolumeImage`. |
+| -ImageDestination <Path> | Specifies full destination `.wim` file path (e.g. `E:\Images\DataVolume.wim`). |
+| -Compression <fast\|max\|none> | Sets DISM image compression level (default: `fast`). |
+| -NoVss | Bypasses VSS snapshot creation during volume imaging (direct volume capture). |
+| -Diagnose / -Diagnostics / -HealthCheck | Runs feature diagnostics audit across 12 subsystems with structured PASS / WARN / FAIL / N/A scorecard. |
+| -AsJson | Emits machine-readable JSON array of subsystem diagnostic results (for GUI, monitoring, or ticketing). |
 | -Help / -? | Displays full command-line reference directly in the terminal. |
 
 ---
+
+### 🩺 System Diagnostics & Feature Audit Engine (`-Action Diagnostics`)
+
+WINBARS features a built-in diagnostic and health auditing engine designed for bench handoffs, MSP compliance, and routine verification. Running `WINBARS.exe -Action Diagnostics` evaluates 12 critical subsystems:
+
+1. **Physical Storage (S.M.A.R.T.)**: Storage controller events, bad block anomalies, and filesystem write responsiveness.
+2. **VSS Providers & Collision Guard**: Verifies Microsoft Software Shadow Copy provider is active and detects conflicting 3rd-party backup filter drivers.
+3. **System Restore Point Engine**: Checks unthrottled creation frequency (`0m`) and latest checkpoint freshness.
+4. **User Data Mirror (Robocopy)**: Profile-aware inspection of backup target media, folder structure, and file synchronization timestamps.
+5. **Bare-Metal DISM System Image**: Scans local recovery partitions and external targets for valid bare-metal `.wim` archives.
+6. **Task Scheduler Automation**: Audits registered scheduled tasks against the active deployment profile (omits optional tasks without false alarm warnings).
+7. **WinRE Blue-Screen Recovery Hook**: Validates Windows RE status and Safe Overlay recovery engine staging (`C:\SystemRecovery\Apply-SystemImage_WinPE.bat`).
+8. **BitLocker Vault & Master DRA**: Verifies 48-digit numerical recovery key vault archiving and Enterprise Data Recovery Agent (DRA) certificate enrollment.
+9. **Ransomware Canary Tripwires**: Audits cryptographic SHA-256 integrity tokens across monitored local directories and backup repository roots.
+10. **Scam Sentry & RAT Interceptor**: Scans running processes for 25+ remote control tools (ScreenConnect, AnyDesk, UltraViewer, TeamViewer) weaponized by scammers.
+11. **PUP Guard & Antivirus Sentry**: Checks for blacklisted Potentially Unwanted Programs and alerts on conflicting dual-antivirus installations.
+12. **BCD Bootloader & EFI Integrity**: Inspects Windows Boot Manager and `{current}` boot records via `bcdedit`.
+
+**Profile-Aware `[ N/A ]` Tagging:**
+Unlike generic tools that trigger false alarms on missing components, WINBARS understands the intentional omissions of each profile. For example, in **Mode 1 (`SystemUndo`)**, Robocopy file sync, external drive checks, and tray sentry daemons are cleanly tagged as **`[ N/A ] (Omitted by design)`** rather than warnings or failures.
+
+**CLI & GUI Access:**
+- **Console**: Run `WINBARS.exe -Action Diagnostics` or select Option `[4]` in the interactive CLI menu.
+- **Machine-Readable JSON**: Run `WINBARS.exe -Action Diagnostics -AsJson -Unattended`.
+- **GUI Interface**: Open via Floppy Tray Menu -> **Advanced Menu** -> `🩺 Run System Diagnostics & Feature Audit...` or through **Documentation & Technical Manuals** -> `Run System Diagnostics...`. Includes 1-click **Copy Report to Clipboard** for pasting into customer repair tickets.
+
+### 💽 Arbitrary Volume Imaging Engine (`-CaptureVolumeImage`)
+
+Technicians can capture a standalone bare-metal DISM `.wim` image of any connected drive or partition (secondary drives, database disks, SD cards, or OS partitions):
+
+```cmd
+REM Capture drive D: to an external backup drive with fast compression and VSS snapshot:
+WINBARS.exe -Action CaptureVolumeImage -CaptureVolume D: -ImageDestination E:\SystemImages\Data_D.wim
+
+REM Capture secondary drive E: with maximum compression:
+WINBARS.exe -Action CaptureVolumeImage -CaptureVolume E: -ImageDestination F:\Backups\DriveE.wim -Compression max
+```
+
+**Guardrails & Architecture:**
+- **Circular Imaging Protection**: Destination file path is strictly prohibited from residing on the volume being captured, preventing disk-exhaustion runaway loops.
+- **VSS Frozen Snapshot Mounting**: Live volumes are frozen and mounted as read-only volume shadow snapshots (`\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy...`), allowing DISM to capture open databases, locked registry hives, and active user files without corruption.
+- **Interactive GUI Integration**: Accessible via the Floppy Tray Menu (**More Backup Options** -> **Capture Custom Volume Image...**) and the Technician Advanced Menu (**Capture Volume Image of Any Drive (DISM)...**), with live DISM percentage progress bars.
 
 ## 5. Modern Tabbed Settings & Protection Console
 

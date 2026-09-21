@@ -48,8 +48,9 @@ All automated routines execute autonomously via native Windows Task Scheduler us
 * **1-Click WinRE Rescue Batch Script (`Restore_BCD_WinPE.bat`)**: Resolves BSOD bootloops, corrupted BCD stores, and missing bootloader entries directly from Windows Recovery Environment Command Prompt with dynamic drive detection and automated `bcdboot` fallback rebuilding.
 
 ### 8. Automated BitLocker Recovery Key Archival
-* Automatically discovers active BitLocker encryption keys across all fixed drives and archives the 48-digit numerical passwords to `D:\BitLocker_Recovery_Key.txt` and `D:\Backup_Logs\BitLocker_Recovery_Key.txt`.
-* If a motherboard swap, TPM glitch, or BIOS update locks the machine, the user can read their recovery password from the USB drive on any smartphone, tablet, or secondary PC.
+* Automatically discovers active BitLocker encryption keys across all fixed drives and archives the recovery keys to `D:\BitLocker_Recovery_Key.txt` (or cryptographically secured at rest as `BitLocker_Recovery_Key.enc` / `BitLocker_Recovery_Key.aes` under HIPAA § 164.312 zero-plaintext compliance).
+* On external drives, keys are encrypted using the authorized Shop/Company Master Certificate (`.enc`) or an AES-256 container (`.aes`), while local host emergency keys on `C:\SystemRecovery\` are strictly locked down with NTFS ACLs to SYSTEM and elevated Administrators.
+* If a motherboard swap, TPM glitch, or BIOS update locks the machine, authorized technicians or owners can seamlessly restore access using the archived credentials or offline master keys.
 
 ### 9. Explorer Cloaking & Drive Stealth Architecture
 * Prevents non-technical users from accidentally deleting backup files or getting confused by external drive letters by hiding the backup volume in Windows Explorer (`This PC`) via native `NoDrives` policy.

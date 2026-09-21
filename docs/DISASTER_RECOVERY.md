@@ -122,4 +122,4 @@ Regardless of whether a machine was protected via Mode 0, N, 1, 2, 3, or 4, ever
 | **`Toggle_Backup_Drive_Visibility.bat`** | Stealth toggle to cloak or uncloak backup drive in Explorer | Right-click $\rightarrow$ Run as administrator to toggle Explorer drive letters. |
 | **`Backup_Logs\Registry_Snapshots\Latest\Restore_Registry_WinPE.bat`** | 1-click WinRE offline registry hive rollback script | Run from WinRE Command Prompt (`Shift + F10`) to cure bootloops. |
 | **`SystemRecovery\Apply-SystemImage_WinPE.bat`** | Turnkey DISM bare-metal image restoration with double confirmation | Run from WinRE Command Prompt to restore entire OS & application state. *(Dual legacy support for `SystemImages\`)* |
-| **`BitLocker_Recovery_Key.txt`** | Plaintext emergency 48-digit BitLocker numerical passwords | Open to unlock BitLocker-encrypted drives. |
+| **`BitLocker_Recovery_Key.enc` / `.aes`** | Cryptographically secured BitLocker disaster recovery keys (HIPAA § 164.312 compliant) | Encrypted at rest via Shop/Company Master Key (`.enc`) or AES-256 PIN (`.aes`). Accompanied by `BitLocker_Recovery_Key.txt` compliance record. |

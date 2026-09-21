@@ -88,8 +88,9 @@ Prefer a friendly visual guide with clickable sections?
 
 7. BITLOCKER DISASTER RECOVERY KEYS:
    - If Windows prompts for a 48-digit BitLocker numerical recovery password:
-     Open 'BitLocker_Recovery_Key.txt' or 'Backup_Logs\BitLocker_Recovery_Key.txt' on
-     this drive to retrieve your recovery password.
+     Check 'BitLocker_Recovery_Key.txt' (or encrypted escrow 'BitLocker_Recovery_Key.enc' /
+     'BitLocker_Recovery_Key.aes') on this drive. If encrypted under HIPAA zero-plaintext
+     compliance, contact your technician or use your local recovery PIN to decrypt.
 
 8. SHOWING / HIDING THIS BACKUP DRIVE IN WINDOWS EXPLORER:
    - To toggle whether this backup drive is visible or cloaked in 'This PC':

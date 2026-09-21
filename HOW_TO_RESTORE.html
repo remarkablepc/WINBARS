@@ -344,10 +344,10 @@
                 Open this backup drive on any working computer or mobile phone (via USB-OTG).
             </li>
             <li>
-                Locate <code>BitLocker_Recovery_Key.txt</code> (or inside <code>Backup_Logs\BitLocker_Recovery_Key.txt</code>).
+                Locate <code>BitLocker_Recovery_Key.txt</code> (or encrypted escrow <code>BitLocker_Recovery_Key.enc</code> / <code>.aes</code> in root or <code>Backup_Logs\</code>).
             </li>
             <li>
-                Enter the 48-digit numerical password on the locked computer screen to unlock the drive.
+                If encrypted under HIPAA zero-plaintext compliance, your authorized support technician can decrypt the escrow offline using their Master Key, or you can decrypt using the local host PIN recorded at setup. Enter the 48-digit numerical password on the locked computer screen to unlock the drive.
             </li>
         </ul>
     </div>

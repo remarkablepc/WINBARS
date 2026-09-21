@@ -94,7 +94,7 @@ External Backup Drive (e.g. D:\)
 │           ├── SYSTEM, SOFTWARE, SAM... <-- Offline registry hives
 │           └── Restore_Registry_WinPE.bat <-- 1-click WinRE emergency rollback script
 │
-├── BitLocker_Recovery_Key.txt          <-- 48-digit numerical recovery passwords
+├── BitLocker_Recovery_Key.enc / .aes / .txt <-- Cryptographically secured BitLocker disaster keys (HIPAA compliant)
 ├── Create-RescueUSB.bat                <-- Turnkey bootable UEFI WinRE flash drive creator
 ├── HOW_TO_RESTORE.html                 <-- Interactive offline disaster recovery manual
 ├── Toggle_Backup_Drive_Visibility.bat  <-- 1-click Explorer cloaking/uncloaking script

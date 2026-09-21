@@ -14,9 +14,13 @@
 </p>
 
 <p align="center">
+  <sub>⚠️ <b>Field Testing Release (v0.9.x)</b>: Actively undergoing technician bench validation prior to v1.0.0 General Availability.</sub>
+  <br><br>
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
     <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.7-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
+  <br>
+  <sub><em>Recommended for supervised deployment.</em></sub>
 </p>
 
 <div align="center">
@@ -30,12 +34,10 @@
   <br>
 
   ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping personal files ➔](#macos-style-safe-overlay)**<br>
+  🚑 **[💾 Native WinRE Boot Hook: Turn the Blue "Automatic Repair" Screen into a 1-Click Rescue Console (No USB Needed) ➔](#native-winre-boot-hook)**<br>
   🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
-  🧰 **[🛠️ Boot-Failure Safety Net: 1-Click WinRE Rescue When Windows Won't Boot ➔](#boot-recovery-safety-net)**
+  🔐 **[🔑 Bootloader Auto-Heal & BitLocker Disaster Vaults: Automated BCD Repair & Printable Keycards ➔](#bootloader-bitlocker-safety-net)**
 
-  <br>
-
-  <sub>⚠️ <b>Field Testing Release (v0.9.x)</b>: Actively undergoing technician bench validation prior to v1.0.0 General Availability. Recommended for supervised deployment.</sub>
 </div>
 
 ---
@@ -67,9 +69,10 @@
 5. [🛡️ How WINBARS Solves the 6 Nightmares](#how-winbars-solves-the-6-nightmares)
 6. [🛡️ Key Protections at a Glance](#key-protections-at-a-glance)
    - 🍏 [macOS-Style Non-Destructive OS Refresh](#macos-style-safe-overlay)
+   - 🚑 [Native WinRE Boot Hook & Blue-Screen Rescue Console](#native-winre-boot-hook)
    - 🚨 [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
-   - 🧰 [Boot-Failure Safety Net & Emergency Recovery](#boot-recovery-safety-net)
-7. [💡 Why WINBARS is Different: Technical Comparison](#why-winbars-is-different-the-4-guarantees)
+   - 🔐 [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
+7. [💡 Why WINBARS is Different: The 4 Guarantees](#why-winbars-is-different-the-4-guarantees)
 8. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 9. [🏷️ Shop White-Labeling & Community Sponsorship](#shop-white-labeling--community-sponsorship)
 10. [📚 Complete Technical Documentation Directory](#technical-documentation-directory)
@@ -116,7 +119,9 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 | **📊 Visual Backup** | `WINBARS.exe -Action FastBackup -ShowProgress` | Launches live Dual Progress Bar in real-time. |
 | **🛡 System Checkpoint** | `WINBARS.exe -Action RestorePoint` | Creates unthrottled atomic System Restore Point. |
 | **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemRecovery`. |
+| **💽 Any Volume Image** | `WINBARS.exe -Action CaptureVolumeImage` | Captures standalone DISM `.wim` of any drive/partition (VSS frozen). |
 | **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
+| **🩺 Feature Diagnostics** | `WINBARS.exe -Action Diagnostics` | Runs profile-aware audit with PASS / WARN / FAIL / N/A scorecard. |
 | **🚀 Deploy Mode 0** | `WINBARS.exe -Profile ZeroFootprint` | 100% native Windows automation (0 files on `C:\`). |
 | **👻 Deploy Mode N** | `WINBARS.exe -Profile NearZeroFootprint` | Stealth native automation with unbranded shortcuts. |
 | **⏪ Deploy Mode 1** | `WINBARS.exe -Profile SystemUndo` | Daily System Restore hardening + VSS auto-heal. |
@@ -265,8 +270,9 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 * 🏷️ **Active in: Modes 2, 3, 4** *(Desktop Emergency Card, AES-256 Vault `BitLocker_Vault.enc`, and 1-click WinRE password/PIN unlock with 1-reboot TPM auto-reseal).*
 * **The Solution**: Automatically archives your 48-digit key and generates a printable, high-contrast **Emergency Recovery Card**. More importantly, if your PC locks at the blue BitLocker screen, the WINBARS WinRE recovery wizard lets you **unlock the drive using your familiar Windows login password or PIN** (via an AES-256 encrypted vault). Once verified, WINBARS unlocks `C:` and temporarily suspends encryption for **exactly one reboot** (`-RebootCount 1`)—Windows boots straight to your normal desktop and automatically re-seals the TPM chip!
 * **Silent Auto-Encryption Prevention**: Windows 11 (24H2) silently turns on background Device Encryption on modern hardware without displaying the 48-digit recovery key. WINBARS configures native registry policy (`PreventDeviceEncryption = 1`) across **Modes 1, 2, 3, and 4** to prevent this silent trap, while preserving full manual control to turn BitLocker on when desired.
-* *(Note on **Mode 1**: Stores the raw 48-digit key as a plain-text file in `C:\SystemRecovery\BitLocker_Recovery_Key.txt`—no desktop card, no encrypted vault—maintaining a strict zero-resident-software footprint).*
-* *(Note on the **Shop Master Key** *(optional, advanced)*: A repair shop can generate a single RSA-2048 key pair using `tools/Generate-ShopMasterKey.bat`. The public certificate can sit cleanly in `branding/ShopMasterKey.cer` (or `tools/` / root) on technician USB media and is auto-discovered during setup. Even if a PC's drive is unencrypted on the bench, WINBARS stages the public key so that if BitLocker is turned on later, the **AutoHeal sentry** automatically enrolls the shop key in the background. The shop's private key can then unlock any enrolled client PC without needing customer credentials. This is a **per-shop key** — one key covers all client PCs the shop has enrolled, strictly optional and never required for normal operation. See the [BitLocker Vault Guide](docs/BITLOCKER_VAULT.md) for setup details).*
+* *(Note on **Mode 1 & External Backup Media Compliance**: In accordance with HIPAA (45 CFR § 164.312), GDPR, and enterprise security standards, raw 48-digit recovery keys are **never stored as unencrypted plaintext on external backup drives**. Keys on external media are cryptographically secured at rest using the Shop Master Public Key (`BitLocker_Recovery_Key.enc` + `ShopVault\`) or AES-256 encryption (`BitLocker_Recovery_Key.aes`). Local administrative copies in `C:\SystemRecovery\` are strictly locked down with elevated NTFS ACLs (`SYSTEM` & `Administrators` only) and secured by the host's underlying BitLocker volume encryption).*
+* *(Note on the **Shop & Enterprise Master Keys** *(optional, advanced)*: A repair shop or business can generate RSA key pairs using `tools/Generate-ShopMasterKey.bat` or `tools/Generate-BusinessMasterKey.bat`. Public certificates (`.cer`) are auto-discovered from `certs/`, `branding/`, or embedded directly in JSON (`MasterCertificateBase64`). Technicians have complete granular control: toggle co-custody anytime via the Pre-Flight menu (`[M]`) or CLI (`-NoShopKey`). When enrolled, authorized private keys (`*.pfx`, kept safe offline in secure vaults) can unlock any enrolled client PC in a disaster without customer credentials. See the [BitLocker Master Key Guide](docs/BITLOCKER_MASTER_KEYS.md) and [BitLocker Vault Guide](docs/BITLOCKER_VAULT.md) for full architectural details).*
+* 🔗 [Deep Dive: BitLocker Master Key & Enterprise DRA Guide](docs/BITLOCKER_MASTER_KEYS.md)
 * 🔗 [Deep Dive: BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)
 
 ### 4. The Phone Scam & Browser Siren Trap ➔ **Scam Buster & Remote Access Interceptor**
@@ -295,7 +301,7 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 <a id="key-protections-at-a-glance"></a>
 ## 🛡️ Key Protections at a Glance
 
-WINBARS unifies **B**ackup, **A**ssistance, **R**ecovery, and **S**ecurity into a single, cohesive safety net. Here are three of its unique standout capabilities:
+WINBARS unifies **B**ackup, **A**ssistance, **R**ecovery, and **S**ecurity into a single, cohesive safety net. Here are four of its unique standout capabilities:
 
 <a id="macos-style-safe-overlay"></a>
 ### 🍏 1. Non-Destructive "macOS-Style" Safe Overlay OS Refresh
@@ -303,51 +309,100 @@ On a Mac, booting into Recovery Mode and choosing **"Reinstall macOS"** refreshe
 
 **WINBARS brings true macOS-style non-destructive recovery to Windows**: Because WINBARS bare-metal `.wim` images cleanly capture Windows OS binaries, drivers, and Program Files while excluding `\Users`, selecting **Option [1] Safe Overlay** in `Apply-SystemImage_WinPE.bat` refreshes your entire operating system and programs safely in-place while leaving **`C:\Users\` (all documents, photos, desktop profiles, and browser data) 100% untouched on disk**—no secondary data restore required!
 
+<a id="native-winre-boot-hook"></a>
+<a id="boot-recovery-safety-net"></a>
+### 🚑 2. Native WinRE Boot Hook: 1-Click Blue-Screen Resurrection (Modes 2–4)
+When a catastrophic update, corrupted driver, or boot failure prevents Windows from starting, Windows displays the blue **Windows Recovery Environment (WinRE)** screen. In standard Windows, this screen is notoriously a dead end:
+* **Startup Repair** runs for minutes before reporting *"Startup Repair couldn't repair your PC."*
+* **System Restore** frequently fails with cryptic `0x80070002` errors or VSS lock collisions.
+* **Command Prompt** drops into an intimidating black window with scrambled drive letters (`X:`, `D:`, `E:`).
+* **Reset this PC** is a destructive nuclear option that wipes installed desktop applications.
+* And if you don't already have a prepared bootable USB drive, you are completely stranded.
+
+**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `reagentc.exe /setcustomtarget /path C:\Recovery\OEM` and `WinreConfig.xml`. **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
+
+#### 🖥️ Native WinRE Boot Hook & Live Rescue Console Flow:
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                        Choose an option                                │
+│                                                                        │
+│   [ 🔲 Continue ]                 Exit and continue to Windows         │
+│   [ 🛠️ Troubleshoot ]   ────────┐ Reset your PC or see advanced options│
+│   [ ⏻ Turn off your PC ]       │                                      │
+└─────────────────────────────────┼──────────────────────────────────────┘
+                                  │
+┌─────────────────────────────────▼──────────────────────────────────────┐
+│                          Troubleshoot                                  │
+│                                                                        │
+│   [ 🔄 Reset this PC ]            (Wipes installed desktop applications)│
+│   [ ⚙️ Advanced options ]                                              │
+│                                                                        │
+│   [ 💾 WINBARS Emergency Tool ]  ◄── Pre-Staged OEM Hook (Modes 2–4)   │
+│                                       (Accessible even with NO USB!)   │
+└─────────────────────────────────┬──────────────────────────────────────┘
+                                  │
+                                  ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│      WINBARS (Windows Backup And Recovery) - WinRE Rescue Console      │
+├────────────────────────────────────────────────────────────────────────┤
+│ Target Windows OS: C:\Windows (Windows 11 Pro 64-bit)                  │
+│ Detected Vault(s): D:\WINBARS_Backup (External USB - 465 GB Free)      │
+│                                                                        │
+│ Live Diagnostic Status:                                                │
+│  • Registry Hive Snapshots    : [✅ AVAILABLE - Pristine Hives Found]  │
+│  • System Restore Checkpoints : [✅ AVAILABLE - 3 Checkpoints Detected]│
+│  • Safe Overlay OS Images     : [✅ AVAILABLE - macOS-Style Refresh]   │
+│  • User File Mirrors          : [✅ AVAILABLE - Documents/Desktop Safe]│
+├────────────────────────────────────────────────────────────────────────┤
+│ [1] STEP 1 (Safest): 1-Click Registry Hive Rollback [Instant Fix]      │
+│ [2] STEP 2: Windows System Restore (Native VSS Checkpoint)             │
+│ [3] STEP 3: Safe Overlay OS Refresh (Reinstall OS, Keep Personal Data) │
+│ [4] BitLocker Recovery: 1-Click Key Unlock & Temporary Suspension      │
+│ [5] Intel RST / VMD Drivers: 1-Click Injection for Missing NVMe Drives │
+│ [6] Personal Files: Extract & Restore Documents from Mirror            │
+│ [0] Reboot PC to Windows Normally                                      │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+* **Zero False Hope Live Triage**: Before executing any recovery action, the console pre-scans all physical disks and partitions, reporting live green/yellow/red readiness badges so you know exactly what is recoverable before you commit.
+* **1-Click Next-Boot WinRE Arming (`reagentc /boottore`)**: If Windows is unstable or acting erratically in live desktop mode, a single click from the WINBARS Protection Center arms the system to boot directly into WinRE on the next restart without requiring BIOS hotkeys (`F8`, `F11`, `F12`).
+* **Zero Overhead in Live Windows**: Because this is a static registration inside the Windows Boot Manager, it consumes **0 MB RAM and 0 background CPU cycles** while Windows is running.
+* *(Note: In Modes 0, N, and 1, to preserve total host sterility on client PCs, rescue tools run cleanly from the external **Backup Drive** or via WinRE Command Prompt `Shift + F10`, leaving `C:\Recovery\OEM` completely untouched).*
+* 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
+
 <a id="scambuster-rat-interceptor"></a>
-### 🚨 2. Scam Buster & Remote Access RAT Interceptor
+### 🚨 3. Scam Buster & Remote Access RAT Interceptor
 * **Proactive Fullscreen Trap & Audio Siren Muter (Modes 2, 3, 4)**: Continuously monitors for rogue borderless browser lockups. The moment a scam window triggers, WINBARS **instantly silences deafening audio sirens** and neutralizes the reload trap. In Mode 4, it also overlays an emergency rescue prompt over the scam tab—protecting panicked seniors without requiring them to remember keyboard shortcuts.
 * **Instant Browser Freeze Escape (`Ctrl + Win + B`)**: Instantly closes rogue full-screen browser traps across 25+ browsers, silences audio sirens, and clears Chromium/Firefox crash-recovery flags to prevent reload loops.
 * **Real-Time Remote Access Interceptor (Modes 2, 3, 4)**: Continuously watches for 25+ remote control tools frequently weaponized by phone and pop-up scammers (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.). Automatically intercepts unauthorized sessions, displaying an unmissable **`[STOP] Disconnect & Block`** button in Mode 4.
 * **OneDrive Alert Guard**: Silences deceptive Windows 10/11 "Not Backed Up" scare banners and halts Known Folder Move (KFM) hijacking of Documents, Desktop, and Pictures without breaking normal OneDrive sync.
 
-<a id="boot-recovery-safety-net"></a>
-### 🧰 3. Boot-Failure Safety Net & 1-Click WinRE Rescue
-* **Native WinRE Troubleshoot Hook (Modes 2–4)**: An "Emergency Resurrection Tool" button is pre-staged directly into the native Windows Recovery Environment Troubleshoot menu (`reagentc.exe /setcustomtarget /path C:\Recovery\OEM`) before disaster strikes—accessible on boot crashes without needing a rescue USB. (In Modes 0, N, and 1, rescue tools run cleanly from the **Backup Drive** or via WinRE Command Prompt `Shift + F10` to maintain zero software footprint on `C:\`).
-* **1-Click Next-Boot WinRE Trigger (`reagentc /boottore`)**: If Windows behaves erratically, a single click reboots the computer directly into WinRE on the next boot, automatically returning to normal fast boot afterward.
-* **Emergency Recovery Launcher (`EMERGENCY_RECOVERY.bat`)**: A single, guided rescue entry point pre-staged before disaster strikes. Auto-detects the Windows drive, checks physical drive health (S.M.A.R.T.), repairs corrupted BCD bootloaders, and guides you through the least-invasive recovery ladder. *(Lives in `C:\SystemRecovery` in Modes 1–4; on the Backup Drive root in Modes 0 & N.)*
-* **BitLocker Emergency Cards**: Generates printable offline cards with your 48-digit numerical recovery key, plus AES-256 encrypted vaults on the backup drive.
+<a id="bootloader-bitlocker-safety-net"></a>
+### 🔐 4. Bootloader Auto-Heal & BitLocker Disaster Vaults
+* **Automated BCD Bootloader Healing**: Automatically discovers EFI system partitions and rebuilds corrupted BCD records via Microsoft `bcdboot` without requiring manual `diskpart` volume hunting.
+* **BitLocker Disaster Vaults**: Discovers active BitLocker volumes, generates printable offline emergency cards with your 48-digit numerical recovery key, and exports AES-256 encrypted key vaults directly to the backup drive root.
+* **Optional Shop Master Key Certificate (`ShopMasterKey.cer`)**: Repair shops and MSPs can drop their public recovery certificate into `branding/` or `config/` (or auto-stage it via custom remote IRM). WINBARS automatically enrolls it as an authorized BitLocker Data Recovery Agent (DRA). If a client PC ever triggers a BitLocker lockout, the shop can unlock the drive using their offline private key without needing client Microsoft credentials or lost recovery keys.
+* **Technician Arbitrary Volume Imaging (DISM .wim)**: Capture an atomic, crash-consistent bare-metal image of any fixed or removable drive on the system (secondary data drives, VM disks, SD cards, or OS partitions). Features atomic VSS shadow snapshotting (capturing locked files without stopping services), circular destination safety locks, and live real-time DISM progress displays in both GUI and CLI.
+* **12-Subsystem Feature Diagnostics & Audit Scorecard**: Run an on-demand audit of your system's defense readiness (S.M.A.R.T. storage health, VSS headroom, restore points, bare-metal images, WinRE blue-screen hooks, BitLocker vault & DRA enrollment, honeypot canaries, and scam sentry). Features intelligent, profile-aware **`[ N/A ]`** status tagging (no false alarm warnings on stealth modes) and a 1-click clipboard export for customer repair tickets.
+* **Pre-Staged Emergency Launcher (`EMERGENCY_RECOVERY.bat`)**: A standalone, guided rescue entry point pre-staged in `C:\SystemRecovery` (Modes 1–4) and on the backup drive root (Modes 0 & N). Tests physical drive health (S.M.A.R.T.), diagnoses volume errors, and guides non-technical users step-by-step through the least-invasive recovery ladder.
 
 ---
 
 <a id="why-winbars-is-different-the-4-guarantees"></a>
 ## 💡 Why WINBARS is Different: The 4 Guarantees
 
-Traditional backup suites focus on complex schedules and proprietary archives. WINBARS focuses on **human-centered outcomes**:
+Traditional backup suites focus on complex schedules, proprietary archive containers, and heavy background daemons. WINBARS is built around **resilient engineering and technician-grade guarantees**:
 
-<a id="why-not-acronis-macrium"></a>
-### ⚖️ Why Not Just Use Acronis, Macrium, or Windows Backup?
-
-| Capability / Risk | Traditional Commercial Backup (Acronis, Macrium) | Native Windows Backup (`sdclt`, File History) | **WINBARS Engine** |
-| :--- | :--- | :--- | :--- |
-| **Vendor Lock-In** | ❌ Proprietary image containers (`.tibx`, `.mrimg`) — files unreadable without their software | ⚠️ Partial (VHDX or legacy ZIP containers) | ✅ **Zero Lock-In**: 1:1 Robocopy native folders readable on any Mac/PC/Linux |
-| **Pricing & Licensing** | ❌ $50–$100/yr recurring subscriptions or expensive lifetime licenses | ✅ Free (Built-in) | ✅ **100% Free Forever**: No subscriptions, no ads, open documentation |
-| **System Stability Risk** | ❌ Proprietary kernel-mode filter drivers known to BSOD during major Windows 11 upgrades | ✅ Native OS kernel drivers | ✅ **0 Kernel Drivers / 0 NT Services**: Runs 100% in user mode via native Win32 APIs |
-| **Scam / RAT Defense** | ❌ Zero scam detection (Ignores signed remote tools like ScreenConnect, UltraViewer) | ❌ Zero scam detection | ✅ **Active ScamBuster**: Blocks fullscreen traps and remote access takeovers |
-| **System Restore Reliability** | ❌ Disables or ignores native VSS restore points | ❌ Throttled to 1/day; purged silently when VSS fills up | ✅ **Unthrottled & Hardened**: Unthrottles 24-hr limit + locks 10% shadow storage |
-| **Offline Bare-Metal Restore** | ❌ Requires proprietary vendor WinPE builder ISO | ⚠️ Deprecated Windows 7 backup wizard prone to VSS errors | ✅ **Native DISM WIM**: Uses Microsoft's own enterprise imaging engine |
-| **Safe OS Reinstall** | ❌ Full image restore wipes your entire drive or requires manual file extraction | ❌ Cloud Reset often wipes apps or gets corrupted | ✅ **Safe Overlay**: Restores clean OS + apps while leaving personal files untouched |
-
-#### Four Technical Distinctions vs. Traditional Commercial Backup:
 1. **Zero Proprietary Vendor Lock-In**:
-   Your personal files are mirrored 1:1 into standard Windows folders with original filenames. Plug your backup drive into **any PC, Mac, Chromebook, or Linux computer** and immediately drag-and-drop your files without installing WINBARS or any third-party software.
+   Your personal files are mirrored 1:1 into standard Windows folders with original filenames. Plug your backup drive into **any PC, Mac, Chromebook, or Linux computer** and immediately drag-and-drop your files without installing WINBARS or any third-party software. System images are standard Microsoft DISM `.wim` files, restorable via standard Windows recovery media.
 2. **100% Free Forever (No Subscriptions)**:
-   No 30-day trials, no paywalled recovery features, and no recurring monthly invoices. Complete protection is 100% free for personal and commercial use.
+   No 30-day trials, no paywalled recovery features, and no recurring monthly invoices. Complete protection is 100% free for personal and commercial bench use.
 3. **Zero Kernel Drivers / Zero System Service Bloat**:
-   WINBARS installs 0 kernel-mode filter drivers and 0 Windows NT services (`services.msc`). Modes 0–1 maintain 0 resident background processes, while Modes 2–4 run a lightweight user-mode desktop sentry (~12–16 MB RAM) via standard Startup. Unlike proprietary backup agents that can trigger blue screens during major Windows 11 feature upgrades, WINBARS relies exclusively on native, battle-tested Windows Win32 APIs.
+   WINBARS installs 0 kernel-mode filter drivers (`.sys`) and 0 Windows NT services (`services.msc`). Modes 0–1 maintain 0 resident background processes, while Modes 2–4 run a lightweight user-mode desktop sentry (~12–16 MB RAM) via standard Startup. It completely eliminates the driver-level blue screens (BSODs) that plague proprietary backup agents during major Windows 11 feature upgrades.
 4. **Defends Where Antivirus Can't**:
-   Phone scammers and pop-up boiler rooms don't use viruses—they use social engineering and legitimate, digitally signed remote tools (ScreenConnect, UltraViewer). Because these tools are legitimate, antivirus software ignores them. WINBARS detects and stops them in real time.
+   Phone scammers and pop-up boiler rooms don't use viruses—they use social engineering and legitimate, digitally signed remote tools (ScreenConnect, UltraViewer, AnyDesk). Because these tools are legitimate, antivirus software ignores them. WINBARS detects, intercepts, and halts unauthorized remote sessions in real time.
 
-> 🔍 *Want a full technical breakdown? See the [Architectural Comparison vs. Acronis, Macrium, and Native Windows](docs/COMPARISON.md).*
+> 🔍 *Looking for a side-by-side technical breakdown vs. commercial backup suites? See the [Architectural Comparison Guide](docs/COMPARISON.md).*
 
 ---
 
@@ -415,7 +470,10 @@ In appreciation, RemarkablePC provides an offline, digitally signed `branding.js
 <a id="technical-documentation-directory"></a>
 ## 📚 Technical Documentation Directory
 
-For in-depth architectural blueprints, security audits, and WinPE restore manuals, explore the guides in [`/docs/`](docs/):
+For in-depth architectural blueprints, security audits, and WinPE restore manuals, explore the guides in [`/docs/`](docs/). All manuals are also **accessible directly inside WINBARS**:
+- 🖥️ **GUI Settings & Protection Console**: Open `⚙ Settings` ➔ `📚 Technical Manuals` tab to inspect any guide in a clean viewer or open in Notepad.
+- 💾 **Floppy Tray Sentry**: Right-click the Tray icon ➔ `Documentation & Technical Manuals` flyout menu for 1-click access to any blueprint.
+- ⌨️ **CLI & Technician Menu**: Press `[D]` in the interactive menu or run `WINBARS.exe -Docs` (`-DocTopic <Name>`).
 
 * 📐 **[Architecture & Design Philosophy](docs/ARCHITECTURE.md)**: Native engine orchestration, VSS mountpoints, and modular engine design.
 * 🚀 **[Deployment Profiles & Capability Matrix](docs/DEPLOYMENT_MODES.md)**: Granular 22-feature comparison matrix and custom profile generator.
@@ -424,6 +482,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * 🔍 **[System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md)**: Line-item verification of every task, file, registry key, and Sysinternals audit guide.
 * 🚑 **[WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)**: Step-by-step restoration procedures, BCD rebuilding, and Safe Overlay OS refresh.
 * 🛑 **[Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)**: Deep dive into browser unfreezing, domain sinkholing, and remote tool interception.
+* 🔐 **[BitLocker Master Key & Enterprise DRA Guide](docs/BITLOCKER_MASTER_KEYS.md)**: Universal Data Recovery Agent (DRA), asymmetric escrow, dual co-custody, and offline unlocking.
 * 🔑 **[BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)**: Automated key discovery, vault encryption, and printable recovery cards.
 * ⌨️ **[Command-Line CLI & Batch Reference](docs/CLI_REFERENCE.md)**: Complete parameter reference, batch launcher flags, and unattended syntax.
 * 🏷️ **[Shop White-Labeling Guide](docs/WHITE_LABELING.md)**: Customizing branding, contact cards, and deployment token staging.

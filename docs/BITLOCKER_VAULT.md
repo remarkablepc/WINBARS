@@ -101,33 +101,51 @@ D:\WINBARS_Backup\BitLocker_Keys\BitLocker_Emergency_Card.html
 
 ---
 
-## 5. Optional Shop Master Key & BitLocker DRA Architecture
+## 5. Universal Master Key Architecture: Shop Master & Enterprise Business Master (Co-Custody)
 
-For repair benches, managed service providers (MSPs), and IT shops, WINBARS includes an **optional, 100% native Shop Master Key engine**:
+For repair benches, managed service providers (MSPs), corporate IT departments, and small businesses, WINBARS includes a **100% native Universal BitLocker Master Key engine** supporting single or dual co-custody key enrollment:
 
-### A. The Challenge with Unaware Clients
-Modern Windows 11 PCs silently activate BitLocker Device Encryption by default. Everyday users are completely unaware of BitLocker until a TPM glitch, BIOS flash, or motherboard replacement stops boot with a blue recovery prompt. If the user cannot access their Microsoft account, data is mathematically lost.
+### A. The Challenge with Unaware Clients & Fleet Management
+Modern Windows 10/11 PCs silently activate BitLocker Device Encryption by default. Everyday users and small businesses are completely unaware of BitLocker until a TPM glitch, BIOS flash, or motherboard replacement stops boot with a blue recovery prompt. If the user cannot access their Microsoft account, or an ex-employee left without providing the 48-digit key, data is mathematically lost.
 
-### B. Asymmetric Cryptography (Zero Risk to Client Security)
+### B. Dual-Custody Roles (Shop vs. Company)
+BitLocker natively supports **multiple Data Recovery Agent (DRA) certificate protectors on the same volume**. WINBARS leverages this to offer two distinct master roles:
+1. **Shop Partner Key (`ShopMasterKey.cer`)**: Kept by the external IT provider/shop. Useful for bench repairs and ongoing managed service.
+2. **Company / Business Master Key (`CompanyMasterKey.cer`)**: Created for and held exclusively by the **business owner or internal IT director**. The business retains 100% independent ownership and can unlock any PC across their fleet without being dependent on an outside vendor.
+3. **Co-Custody (`[Both Active]`)**: Both the company owner and the IT provider can independently unlock the computer in a disaster. If the business ever transitions away from an IT partner, the shop protector can be cleanly unenrolled without affecting the company's master key.
+
+### C. Zero-Branding Requirement (Universal & Independent)
+**Using Master Keys does NOT require custom branding.** A 100% vanilla or Mode 0/1 setup can utilize Company or Shop Master Keys through multiple convenient discovery channels:
+* **Standalone Files**: Drop `ShopMasterKey.cer`, `CompanyMasterKey.cer`, or any `*.cer` into `certs/`, `branding/`, `config/`, `tools/`, or the USB root.
+* **General Configuration (`config/config.json`)**:
+  ```json
+  "SecurityShields": {
+      "CompanyMasterKey": "certs/AcmeMedical_Public_DRA.cer",
+      "MasterCertificateBase64": "MIIChzCCAW+gAwIBAgIQ..."
+  }
+  ```
+* **Embedded Base64 in JSON**: The entire public `.cer` can be embedded directly into `config.json` or a brand JSON as a Base64 string. WINBARS decodes and materializes the certificate automatically on the fly—enabling seamless, single-file zero-extra-asset remote deployments!
+
+### D. Asymmetric Cryptography (Zero Risk to Client Security)
 WINBARS uses asymmetric public/private cryptography (`New-SelfSignedCertificate -Type DocumentEncryptionCert`):
-1. **Private Master Key (`Shop_Master_Private.pfx`)**:
-   - Password-protected and retained strictly inside the shop's safe / technician USB.
-   - **NEVER copied to customer computers.**
-2. **Public Certificate (`ShopMasterKey.cer` or `Shop_Public_DRA.cer`)**:
-   - Dropped into your technician USB under `branding/`, `brands/`, `tools/`, `config/`, or the USB root.
-   - Can only encrypt or act as a DRA, never decrypt. Completely safe on client PCs.
-   - **Auto-Discovery**: During deployment, WINBARS automatically checks `branding/` (keeping roots tidy), `brands/`, `tools/`, and `config/` for `ShopMasterKey.cer` and auto-enrolls it.
+1. **Private Master Keys (`*_Master_Private.pfx`)**:
+   - Password-protected and retained strictly inside physical safes / secure lockboxes.
+   - **NEVER uploaded to web servers and NEVER committed to GitHub.**
+2. **Public Certificates (`*.cer`)**:
+   - Can only encrypt or act as a DRA, never decrypt. Completely safe on client PCs and public web servers.
+   - During deployment, WINBARS automatically discovers all available public certificates and binds them.
 
-### C. Universal Dual-Engine Support
-* **Windows Pro & Enterprise**: Binds the public certificate directly to the volume as an official Data Recovery Agent (`manage-bde -protectors -add C: -Certificate ...`).
-* **Windows Home (Device Encryption)**: Asymmetrically encrypts the volume's 48-digit recovery key using the shop's RSA public certificate and stores it in:
-  - Local disk: `C:\SystemRecovery\ShopEscrow.bin`
-  - Technician USB: `<TechDrive>:\ShopVault\<Machine>_BitLocker.enc`
+### E. Universal Dual-Engine Support
+* **Windows Pro & Enterprise**: Binds the public certificate(s) directly to the volume as official native Data Recovery Agents (`manage-bde -protectors -add C: -Certificate ...`).
+* **Windows Home (Device Encryption)**: Asymmetrically encrypts the volume's 48-digit recovery key using the RSA public certificate(s) and stores it in:
+  - Local disk: `C:\SystemRecovery\ShopEscrow.bin` and/or `C:\SystemRecovery\CompanyEscrow.bin`
+  - Technician USB: `<TechDrive>:\ShopVault\<Machine>_<Role>_BitLocker.enc`
 
-### D. Future-Proofing: Drives Encrypted After Deployment
-* **What if the drive is not BitLocker-encrypted on the bench?** If WINBARS is deployed on an unencrypted drive, the public certificate is staged locally (`C:\SystemRecovery\Shop_Public_DRA.cer`).
-* **AutoHeal Sentry (Modes 1–4)**: On every system boot and scheduled maintenance pass, AutoHeal checks if `C:` was recently encrypted. If BitLocker is detected and the shop key has not yet been bound, AutoHeal automatically attaches the protector and creates `ShopEscrow.bin` in the background—requiring zero customer or shop intervention!
+### F. Future-Proofing: Drives Encrypted After Deployment
+* **What if the drive is not BitLocker-encrypted on the bench?** If WINBARS is deployed on an unencrypted drive, the public certificate(s) are staged locally (`C:\SystemRecovery\`).
+* **AutoHeal Sentry (Modes 1–4)**: On every system boot and scheduled maintenance pass, AutoHeal checks if `C:` was recently encrypted. If BitLocker is detected and the master keys have not yet been bound, AutoHeal automatically attaches the protectors in the background—requiring zero customer or shop intervention!
 
-### E. 1-Click Bench Batch Tools
-* `tools/Generate-ShopMasterKey.bat`: 1-click wizard for shop owners to generate their keypair (exports to `branding/ShopMasterKey.cer` and `config/Shop_Public_DRA.cer`).
-* `tools/Unlock-BitLocker-With-ShopKey.bat`: 1-click unlock tool for technicians running in WinPE, WinRE, or live Windows. Prompts for shop password and unlocks `C:\` instantly.
+### G. 1-Click Bench Batch Wizards
+* `tools/Generate-ShopMasterKey.bat`: 1-click wizard for shop owners to generate their Shop Keypair.
+* `tools/Generate-BusinessMasterKey.bat`: 1-click wizard for business owners to generate their Enterprise Company Keypair (also prints the Base64 string for embedding in JSON).
+* `tools/Unlock-BitLocker-With-ShopKey.bat`: 1-click unlock tool for technicians running in WinPE, WinRE, or live Windows. Prompts for private passphrase and unlocks `C:\` instantly.
