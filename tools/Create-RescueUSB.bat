@@ -43,11 +43,19 @@ goto PARSE_LOOP
 :SHOW_HELP
 echo.
 echo ========================================================================
-echo   WINBARS - BOOTABLE RESCUE USB CREATOR
+echo   WINBARS - BOOTABLE RESCUE USB & BOOTABLE BACKUP DRIVE CREATOR
 echo ========================================================================
-echo   Formats or prepares a USB flash drive (4 GB+) with native UEFI boot files,
-echo   Windows Recovery Environment (WinRE), offline storage drivers, and the
-echo   offline WINBARS Bare-Metal Disaster Recovery assistant.
+echo   Configures a USB drive with native UEFI boot files, Windows Recovery
+echo   Environment (WinRE), offline storage drivers, and WINBARS disaster tools:
+echo.
+echo   1. ALL-IN-ONE BOOTABLE BACKUP DRIVE (Non-Destructive):
+echo      When targeted at your existing NTFS backup drive, WINBARS carves out
+echo      a 2 GB FAT32 UEFI boot partition (WINBARS_BOOT) without wiping or
+echo      modifying any of your client backups or system images.
+echo.
+echo   2. DEDICATED RESCUE FLASH DRIVE:
+echo      When targeted at a blank USB flash drive (4 GB+), WINBARS formats it
+echo      into a dedicated portable technician recovery tool.
 echo.
 echo SYNTAX:
 echo   Create-RescueUSB.bat [/?] [/Quiet] [/Drive:E:] [/DryRun]
@@ -84,20 +92,25 @@ if %errorLevel% neq 0 (
 )
 
 cd /d "%~dp0"
+set "ROOT_DIR=%~dp0"
+if not exist "%ROOT_DIR%WINBARS.exe" if not exist "%ROOT_DIR%WINBARS.ps1" (
+    if exist "%~dp0..\WINBARS.exe" set "ROOT_DIR=%~dp0..\"
+    if exist "%~dp0..\WINBARS.ps1" set "ROOT_DIR=%~dp0..\"
+)
 
 :: ---- 2. Unblock Files ----
-powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%~dp0*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%ROOT_DIR%*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 
 :: ---- 3. Locate Engine ----
 set "ENGINE_CMD="
-if exist "%~dp0WINBARS.exe" (
-    set ENGINE_CMD="%~dp0WINBARS.exe"
-) else if exist "%~dp0WINBARS.ps1" (
-    set ENGINE_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0WINBARS.ps1"
+if exist "%ROOT_DIR%WINBARS.exe" (
+    set ENGINE_CMD="%ROOT_DIR%WINBARS.exe"
+) else if exist "%ROOT_DIR%WINBARS.ps1" (
+    set ENGINE_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%ROOT_DIR%WINBARS.ps1"
 ) else (
     echo.
     echo [ERROR] Neither WINBARS.exe nor WINBARS.ps1 was found in:
-    echo         %~dp0
+    echo         %ROOT_DIR%
     echo.
     if "%QUIET_MODE%"=="0" pause
     exit /b 1

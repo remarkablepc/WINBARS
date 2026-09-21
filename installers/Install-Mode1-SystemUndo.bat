@@ -108,21 +108,26 @@ if !errorLevel! NEQ 0 (
     exit /b 0
 )
 cd /d "%~dp0"
+set "ROOT_DIR=%~dp0"
+if not exist "%ROOT_DIR%WINBARS.exe" if not exist "%ROOT_DIR%WINBARS.ps1" (
+    if exist "%~dp0..\WINBARS.exe" set "ROOT_DIR=%~dp0..\"
+    if exist "%~dp0..\WINBARS.ps1" set "ROOT_DIR=%~dp0..\"
+)
 
 :: ---- 2. Auto-unblock files to prevent SmartScreen blocking ----
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%~dp0*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%ROOT_DIR%*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
-if exist "%~dp0WINBARS.exe" (
+if exist "%ROOT_DIR%WINBARS.exe" (
     set "RUN_CMD=^"%~dp0WINBARS.exe^""
-) else if exist "%~dp0WINBARS.ps1" (
+) else if exist "%ROOT_DIR%WINBARS.ps1" (
     set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
 )
 if not defined RUN_CMD (
     echo.
     echo   [ERROR] WINBARS.exe or WINBARS.ps1 was not found next to this
-    echo           installer in: %~dp0
+    echo           installer in: %ROOT_DIR%
     echo.
     if not "!QUIET_MODE!"=="1" pause
     exit /b 1
@@ -133,15 +138,15 @@ if defined ARG_BRAND (
     echo.
     echo   Resolving brand profile: "!ARG_BRAND!"...
     set "RESOLVED_BRAND="
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "$brand = '!ARG_BRAND!'; $root = '%~dp0'; $candidates = @( $brand, ($root + $brand), ($root + 'brands\' + $brand), ($root + 'brands\' + $brand + '.json') ); foreach($c in $candidates) { if (Test-Path -LiteralPath $c) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', (Resolve-Path -LiteralPath $c).Path); exit 0 } }; $files = Get-ChildItem -Path ($root + 'brands\*.json') -ErrorAction SilentlyContinue; foreach($f in $files) { try { $j = Get-Content -LiteralPath $f.FullName -Raw | ConvertFrom-Json; $comp = if ($j.SupportBranding.CompanyName) { $j.SupportBranding.CompanyName } elseif ($j.CompanyName) { $j.CompanyName } else { '' }; if ($comp -and ($comp -like ('*' + $brand + '*') -or $brand -like ('*' + $comp + '*'))) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', $f.FullName); exit 0 } } catch {} }; exit 1" >nul 2>&1
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$brand = '!ARG_BRAND!'; $root = '%ROOT_DIR%'; $candidates = @( $brand, ($root + $brand), ($root + 'brands\' + $brand), ($root + 'brands\' + $brand + '.json') ); foreach($c in $candidates) { if (Test-Path -LiteralPath $c) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', (Resolve-Path -LiteralPath $c).Path); exit 0 } }; $files = Get-ChildItem -Path ($root + 'brands\*.json') -ErrorAction SilentlyContinue; foreach($f in $files) { try { $j = Get-Content -LiteralPath $f.FullName -Raw | ConvertFrom-Json; $comp = if ($j.SupportBranding.CompanyName) { $j.SupportBranding.CompanyName } elseif ($j.CompanyName) { $j.CompanyName } else { '' }; if ($comp -and ($comp -like ('*' + $brand + '*') -or $brand -like ('*' + $comp + '*'))) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', $f.FullName); exit 0 } } catch {} }; exit 1" >nul 2>&1
     if exist "%TEMP%\winbars_brand_res.txt" (
         set /p RESOLVED_BRAND=<"%TEMP%\winbars_brand_res.txt"
         del /f /q "%TEMP%\winbars_brand_res.txt" >nul 2>&1
     )
     if defined RESOLVED_BRAND (
         echo   [OK] Applied brand profile: !RESOLVED_BRAND!
-        copy /y "!RESOLVED_BRAND!" "%~dp0config\branding.json" >nul 2>&1
-        copy /y "!RESOLVED_BRAND!" "%~dp0branding.json" >nul 2>&1
+        copy /y "!RESOLVED_BRAND!" "%ROOT_DIR%config\branding.json" >nul 2>&1
+        copy /y "!RESOLVED_BRAND!" "%ROOT_DIR%branding.json" >nul 2>&1
         if not exist "C:\ProgramData\WINBARS" mkdir "C:\ProgramData\WINBARS" >nul 2>&1
         copy /y "!RESOLVED_BRAND!" "C:\ProgramData\WINBARS\branding.json" >nul 2>&1
         if exist "C:\Tools\WINBARS" copy /y "!RESOLVED_BRAND!" "C:\Tools\WINBARS\branding.json" >nul 2>&1
@@ -157,15 +162,15 @@ if "!FORCE_VANILLA!"=="1" set "BRAND_FLAG=-Vanilla"
 
 :: ---- 5. Resolve the active config file (same order the engine uses) ----
 set "ACTIVE_CONFIG_PATH="
-if exist "%~dp0config\config.json" (
+if exist "%ROOT_DIR%config\config.json" (
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
-) else if exist "%~dp0config.json" (
+) else if exist "%ROOT_DIR%config.json" (
     set "ACTIVE_CONFIG_PATH=%~dp0config.json"
 ) else if exist "C:\ProgramData\WINBARS\config.json" (
     set "ACTIVE_CONFIG_PATH=C:\ProgramData\WINBARS\config.json"
 )
 if not defined ACTIVE_CONFIG_PATH (
-    if not exist "%~dp0config" mkdir "%~dp0config" >nul 2>&1
+    if not exist "%ROOT_DIR%config" mkdir "%ROOT_DIR%config" >nul 2>&1
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
 )
 

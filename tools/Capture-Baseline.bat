@@ -80,16 +80,21 @@ if !errorLevel! NEQ 0 (
     exit /b 0
 )
 cd /d "%~dp0"
+set "ROOT_DIR=%~dp0"
+if not exist "%ROOT_DIR%WINBARS.exe" if not exist "%ROOT_DIR%WINBARS.ps1" (
+    if exist "%~dp0..\WINBARS.exe" set "ROOT_DIR=%~dp0..\"
+    if exist "%~dp0..\WINBARS.ps1" set "ROOT_DIR=%~dp0..\"
+)
 
 :: ---- 2. Auto-unblock files to prevent SmartScreen blocking ----
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%~dp0*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%ROOT_DIR%*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 
 :: ---- 3. Detect whether WINBARS is set up on this PC ----
 set "SETUP_FOUND="
 if exist "C:\Tools\WINBARS\WINBARS.exe" set "SETUP_FOUND=1"
 if not defined SETUP_FOUND if exist "C:\ProgramData\WINBARS\config.json" set "SETUP_FOUND=1"
-if not defined SETUP_FOUND if exist "%~dp0config\config.json" set "SETUP_FOUND=1"
-if not defined SETUP_FOUND if exist "%~dp0config.json" set "SETUP_FOUND=1"
+if not defined SETUP_FOUND if exist "%ROOT_DIR%config\config.json" set "SETUP_FOUND=1"
+if not defined SETUP_FOUND if exist "%ROOT_DIR%config.json" set "SETUP_FOUND=1"
 if not defined SETUP_FOUND (
     schtasks /query /tn "\WinRestoreBackup\SystemRestorePoint" >nul 2>&1
     if not errorlevel 1 set "SETUP_FOUND=1"
@@ -131,12 +136,14 @@ goto ASK_MODE
 
 :RUN_INSTALLER
 echo.
-if /i "!CHOICE!"=="0" call "%~dp0Install-Mode0-ZeroFootprint.bat"
-if /i "!CHOICE!"=="N" call "%~dp0Install-ModeN-NearZeroFootprint.bat"
-if /i "!CHOICE!"=="1" call "%~dp0Install-Mode1-SystemUndo.bat"
-if /i "!CHOICE!"=="2" call "%~dp0Install-Mode2-LocalDisasterGuard.bat"
-if /i "!CHOICE!"=="3" call "%~dp0Install-Mode3-HeadlessFull.bat"
-if /i "!CHOICE!"=="4" call "%~dp0Install-Mode4-TotalProtection.bat"
+set "INST_DIR=%ROOT_DIR%installers\"
+if not exist "%INST_DIR%" set "INST_DIR=%ROOT_DIR%"
+if /i "!CHOICE!"=="0" call "%INST_DIR%Install-Mode0-ZeroFootprint.bat"
+if /i "!CHOICE!"=="N" call "%INST_DIR%Install-ModeN-NearZeroFootprint.bat"
+if /i "!CHOICE!"=="1" call "%INST_DIR%Install-Mode1-SystemUndo.bat"
+if /i "!CHOICE!"=="2" call "%INST_DIR%Install-Mode2-LocalDisasterGuard.bat"
+if /i "!CHOICE!"=="3" call "%INST_DIR%Install-Mode3-HeadlessFull.bat"
+if /i "!CHOICE!"=="4" call "%INST_DIR%Install-Mode4-TotalProtection.bat"
 echo.
 echo   Setup complete. Run Capture-Baseline.bat again to capture
 echo   your permanent baseline image.
@@ -147,9 +154,9 @@ exit /b 0
 :: ---- 4. WINBARS is set up: detect execution engine ----
 :SETUP_OK
 set "RUN_CMD="
-if exist "%~dp0WINBARS.exe" (
+if exist "%ROOT_DIR%WINBARS.exe" (
     set "RUN_CMD=^"%~dp0WINBARS.exe^""
-) else if exist "%~dp0WINBARS.ps1" (
+) else if exist "%ROOT_DIR%WINBARS.ps1" (
     set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
 ) else if exist "C:\Tools\WINBARS\WINBARS.exe" (
     set "RUN_CMD=^"C:\Tools\WINBARS\WINBARS.exe^""

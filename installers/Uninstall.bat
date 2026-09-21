@@ -81,15 +81,20 @@ if !errorLevel! NEQ 0 (
     exit /b 0
 )
 cd /d "%~dp0"
+set "ROOT_DIR=%~dp0"
+if not exist "%ROOT_DIR%WINBARS.exe" if not exist "%ROOT_DIR%WINBARS.ps1" (
+    if exist "%~dp0..\WINBARS.exe" set "ROOT_DIR=%~dp0..\"
+    if exist "%~dp0..\WINBARS.ps1" set "ROOT_DIR=%~dp0..\"
+)
 
 :: ---- 2. Auto-unblock files to prevent SmartScreen blocking ----
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%~dp0*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%ROOT_DIR%*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
-if exist "%~dp0WINBARS.exe" (
+if exist "%ROOT_DIR%WINBARS.exe" (
     set "RUN_CMD=^"%~dp0WINBARS.exe^""
-) else if exist "%~dp0WINBARS.ps1" (
+) else if exist "%ROOT_DIR%WINBARS.ps1" (
     set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
 ) else if exist "C:\Tools\WINBARS\WINBARS.exe" (
     set "RUN_CMD=^"C:\Tools\WINBARS\WINBARS.exe^""
@@ -107,8 +112,8 @@ if not defined RUN_CMD (
 set "SETUP_FOUND="
 if exist "C:\Tools\WINBARS\WINBARS.exe" set "SETUP_FOUND=1"
 if not defined SETUP_FOUND if exist "C:\ProgramData\WINBARS\config.json" set "SETUP_FOUND=1"
-if not defined SETUP_FOUND if exist "%~dp0config\config.json" set "SETUP_FOUND=1"
-if not defined SETUP_FOUND if exist "%~dp0config.json" set "SETUP_FOUND=1"
+if not defined SETUP_FOUND if exist "%ROOT_DIR%config\config.json" set "SETUP_FOUND=1"
+if not defined SETUP_FOUND if exist "%ROOT_DIR%config.json" set "SETUP_FOUND=1"
 if not defined SETUP_FOUND (
     schtasks /query /tn "\WinRestoreBackup\SystemRestorePoint" >nul 2>&1
     if not errorlevel 1 set "SETUP_FOUND=1"

@@ -142,17 +142,17 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 
 ## ⚡ One-Click Batch Deployers & Zero-Drift Mode Switching
 
-WINBARS includes standalone batch installers in the repository root and `dist/` for rapid provisioning from a technician USB drive:
+WINBARS includes standalone batch installers in `installers/` and utilities in `tools/` for rapid provisioning from a technician USB drive:
 
 | Script | Profile Deployed | Resident Footprint | Unattended Syntax |
 | :--- | :--- | :--- | :--- |
-| `Install-Mode0-ZeroFootprint.bat` | Mode 0: ZeroFootprint | 0 resident files on `C:\` | `/Quiet /Vanilla /Data:<Path> /Image:<Path>` |
-| `Install-ModeN-NearZeroFootprint.bat` | Mode N: NearZeroFootprint | 0 resident EXEs (Unbranded shortcuts) | `/Quiet /Vanilla /Data:<Path> /Image:<Path>` |
-| `Install-Mode1-SystemUndo.bat` | Mode 1: SystemUndo | 0 resident EXEs (Native Windows tasks) | `/Quiet /Vanilla /Baseline:Y\|N` |
-| `Install-Mode2-LocalDisasterGuard.bat`| Mode 2: LocalDisasterGuard | `C:\Tools\WINBARS` (Local `.wim` image) | `/Quiet /Brand:"Name"` |
-| `Install-Mode3-HeadlessFull.bat` | Mode 3: HeadlessFull | `C:\Tools\WINBARS` (Silent automation) | `/Quiet /Brand:"Name" /Data:<Path>` |
-| `Install-Mode4-TotalProtection.bat` | Mode 4: TotalProtection | `C:\Tools\WINBARS` (Tray Sentry + Sentry) | `/Quiet /Brand:"Name" /Data:<Path>` |
-| `Reset-Suite.bat` | Factory Reset Utility | Clears tasks/sentries; keeps user data | `/Quiet` |
+| `installers/Install-Mode0-ZeroFootprint.bat` | Mode 0: ZeroFootprint | 0 resident files on `C:\` | `/Quiet /Vanilla /Data:<Path> /Image:<Path>` |
+| `installers/Install-ModeN-NearZeroFootprint.bat` | Mode N: NearZeroFootprint | 0 resident EXEs (Unbranded shortcuts) | `/Quiet /Vanilla /Data:<Path> /Image:<Path>` |
+| `installers/Install-Mode1-SystemUndo.bat` | Mode 1: SystemUndo | 0 resident EXEs (Native Windows tasks) | `/Quiet /Vanilla /Baseline:Y\|N` |
+| `installers/Install-Mode2-LocalDisasterGuard.bat`| Mode 2: LocalDisasterGuard | `C:\Tools\WINBARS` (Local `.wim` image) | `/Quiet /Brand:"Name"` |
+| `installers/Install-Mode3-HeadlessFull.bat` | Mode 3: HeadlessFull | `C:\Tools\WINBARS` (Silent automation) | `/Quiet /Brand:"Name" /Data:<Path>` |
+| `installers/Install-Mode4-TotalProtection.bat` | Mode 4: TotalProtection | `C:\Tools\WINBARS` (Tray Sentry + Sentry) | `/Quiet /Brand:"Name" /Data:<Path>` |
+| `tools/Reset-Suite.bat` | Factory Reset Utility | Clears tasks/sentries; keeps user data | `/Quiet` |
 
 ### 🔄 Zero-Drift Mode Switching
 Switching between profiles (e.g. from Mode 4 to Mode 1, or Mode 2 to Mode 3) is **completely seamless**:

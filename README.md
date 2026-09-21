@@ -105,7 +105,7 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 2. **Launch Setup**:
    Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
 3. **Select Your Mode**:
-   Choose your preferred deployment profile (e.g., press `[0]` for Zero-Footprint, or double-click `Install-Mode4-TotalProtection.bat` for full interactive protection).
+   Choose your preferred deployment profile (e.g., press `[0]` for Zero-Footprint, or double-click `installers\Install-Mode4-TotalProtection.bat` for full interactive protection).
 
 > 💡 *For unattended batch flags and command-line automation, see the [CLI Reference](docs/CLI_REFERENCE.md).*
 
@@ -139,10 +139,10 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 
 ```cmd
 REM --- Unattended Technician Batch Examples ---
-Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet
-Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Image:D:\Images /Quiet /Vanilla
-Install-Mode4-TotalProtection.bat /Brand:"TechPros" /Quiet
-Uninstall.bat /Quiet
+installers\Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet
+installers\Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Image:D:\Images /Quiet /Vanilla
+installers\Install-Mode4-TotalProtection.bat /Brand:"TechPros" /Quiet
+installers\Uninstall.bat /Quiet
 ```
 
 > 📖 *For complete command parameters and trigger switches, see the [Full CLI Reference](docs/CLI_REFERENCE.md).*
@@ -177,13 +177,18 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 > 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
 ### ⚡ 1-Click Batch Installers & Utilities
-Each mode includes a double-clickable batch installer for rapid deployment from a technician flash drive:
-- `Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `Install-ModeN-NearZeroFootprint.bat`
-- `Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `Install-Mode2-LocalDisasterGuard.bat`
-- `Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `Install-Mode4-TotalProtection.bat`
+Each mode includes a double-clickable batch installer located in `installers/` for rapid deployment from a technician flash drive:
+- `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
+- `installers/Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode2-LocalDisasterGuard.bat`
+- `installers/Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode4-TotalProtection.bat`
+- `installers/Uninstall.bat` *(Complete suite teardown: cleanly wipes scheduled tasks, shortcuts, and sentry)*
+
+Bench, operational, and security utilities are organized in `tools/`:
 - `tools/Generate-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Verify-MasterKey-Password.bat`
-- `Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
-- `Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
+- `tools/Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
+- `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
+- `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
+- `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
 
 ---
 

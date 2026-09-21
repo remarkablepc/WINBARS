@@ -1,9 +1,9 @@
 @echo off
 setlocal EnableDelayedExpansion
-title WINBARS One-Click Installer - Mode 3 (HeadlessFull)
+title WINBARS One-Click Installer - Mode N (NearZeroFootprint)
 :: ============================================================================
-::  WINBARS ONE-CLICK INSTALLER - MODE 3 : HEADLESS FULL
-::  Applies all Mode 3 defaults automatically. Asks only 2 questions:
+::  WINBARS ONE-CLICK INSTALLER - MODE N : NEAR-ZERO FOOTPRINT
+::  Applies all Mode N defaults automatically. Asks only 2 questions:
 ::    1. Data backup drive      2. Windows system image drive
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
 :: ============================================================================
@@ -33,8 +33,6 @@ if /i "!A!"=="/quiet" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/unattended" ( set "QUIET_MODE=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/vanilla" ( set "FORCE_VANILLA=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/reset" ( set "ARG_RESET=1" & shift & goto PARSE_LOOP )
-if /i "!A!"=="/nowhitelist" ( set "ARG_WHITELIST=N" & shift & goto PARSE_LOOP )
-if /i "!A!"=="/whitelist" ( set "ARG_WHITELIST=Y" & shift & goto PARSE_LOOP )
 
 :: Switches with values
 if /i "!A:~0,7!"=="/brand:" ( set "ARG_BRAND=!A:~7!" & shift & goto PARSE_LOOP )
@@ -48,13 +46,13 @@ goto PARSE_LOOP
 :SHOW_HELP
 echo.
 echo ========================================================================
-echo   WINBARS ONE-CLICK INSTALLER - MODE 3 : HEADLESS FULL
+echo   WINBARS ONE-CLICK INSTALLER - MODE N : NEAR-ZERO FOOTPRINT
 echo ========================================================================
-echo   Headless Suite (Differential File Sync + DISM Images + Alerts).
+echo   Near-Zero Footprint (Stealth Native Automation + Shortcuts).
 echo.
 echo SYNTAX:
-echo   Install-Mode3-HeadlessFull.bat [/?] [/Quiet] [/Vanilla] [/Brand:Name]
-echo                                  [/Data:Path] [/Image:Path] [/Baseline:Y^|N]
+echo   Install-ModeN-NearZeroFootprint.bat [/?] [/Quiet] [/Vanilla] [/Brand:Name]
+echo                                      [/Data:Path] [/Image:Path] [/Baseline:Y^|N]
 echo.
 echo SWITCHES:
 echo   [/?] or [/Help]   Display this help screen and exit immediately.
@@ -67,9 +65,9 @@ echo   /Image:Path       Pre-answers Question 2: System image drive (e.g. E:).
 echo   /Baseline:Y^|N     Pre-answers Question 3: capture permanent baseline image now?
 echo.
 echo EXAMPLES:
-echo   Install-Mode3-HeadlessFull.bat
-echo   Install-Mode3-HeadlessFull.bat /Data:D /Image:D /Baseline:Y /Quiet
-echo   Install-Mode3-HeadlessFull.bat /Brand:RemarkablePC /Quiet
+echo   Install-ModeN-NearZeroFootprint.bat
+echo   Install-ModeN-NearZeroFootprint.bat /Data:D /Image:D /Baseline:Y /Quiet
+echo   Install-ModeN-NearZeroFootprint.bat /Brand:RemarkablePC /Quiet
 echo ========================================================================
 echo.
 exit /b 0
@@ -82,13 +80,13 @@ if defined ARG_BASELINE set "ARG_BASELINE=!ARG_BASELINE:"=!"
 
 echo.
 echo ================================================================
-echo   WINBARS ONE-CLICK INSTALLER - MODE 3 : HEADLESS FULL
+echo   WINBARS ONE-CLICK INSTALLER - MODE N : NEAR-ZERO FOOTPRINT
 echo ================================================================
-echo   What Mode 3 does:
-echo     - Daily differential Robocopy sync to the backup drive
-echo     - Scheduled bare-metal system images + multi-drive rotation
-echo     - Missing-drive connection alerts
-echo     - Silent background operation - no tray, no GUI
+echo   What Mode N does:
+echo     - Near-Zero footprint on PC (hardened native Windows automation)
+echo     - Desktop/Start shortcuts created for user manual controls
+echo     - Daily restore points + personal file mirror to backup drive
+echo     - Bare-metal system images + BitLocker key archival
 echo.
 
 :: ---- 1. Request Administrator privileges if needed ----
@@ -99,21 +97,26 @@ if !errorLevel! NEQ 0 (
     exit /b 0
 )
 cd /d "%~dp0"
+set "ROOT_DIR=%~dp0"
+if not exist "%ROOT_DIR%WINBARS.exe" if not exist "%ROOT_DIR%WINBARS.ps1" (
+    if exist "%~dp0..\WINBARS.exe" set "ROOT_DIR=%~dp0..\"
+    if exist "%~dp0..\WINBARS.ps1" set "ROOT_DIR=%~dp0..\"
+)
 
 :: ---- 2. Auto-unblock files to prevent SmartScreen blocking ----
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%~dp0*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%ROOT_DIR%*' -Recurse | Unblock-File -ErrorAction SilentlyContinue" >nul 2>&1
 
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
-if exist "%~dp0WINBARS.exe" (
+if exist "%ROOT_DIR%WINBARS.exe" (
     set "RUN_CMD=^"%~dp0WINBARS.exe^""
-) else if exist "%~dp0WINBARS.ps1" (
+) else if exist "%ROOT_DIR%WINBARS.ps1" (
     set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
 )
 if not defined RUN_CMD (
     echo.
     echo   [ERROR] WINBARS.exe or WINBARS.ps1 was not found next to this
-    echo           installer in: %~dp0
+    echo           installer in: %ROOT_DIR%
     echo.
     if not "!QUIET_MODE!"=="1" pause
     exit /b 1
@@ -124,15 +127,15 @@ if defined ARG_BRAND (
     echo.
     echo   Resolving brand profile: "!ARG_BRAND!"...
     set "RESOLVED_BRAND="
-    powershell -NoProfile -ExecutionPolicy Bypass -Command "$brand = '!ARG_BRAND!'; $root = '%~dp0'; $candidates = @( $brand, ($root + $brand), ($root + 'brands\' + $brand), ($root + 'brands\' + $brand + '.json') ); foreach($c in $candidates) { if (Test-Path -LiteralPath $c) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', (Resolve-Path -LiteralPath $c).Path); exit 0 } }; $files = Get-ChildItem -Path ($root + 'brands\*.json') -ErrorAction SilentlyContinue; foreach($f in $files) { try { $j = Get-Content -LiteralPath $f.FullName -Raw | ConvertFrom-Json; $comp = if ($j.SupportBranding.CompanyName) { $j.SupportBranding.CompanyName } elseif ($j.CompanyName) { $j.CompanyName } else { '' }; if ($comp -and ($comp -like ('*' + $brand + '*') -or $brand -like ('*' + $comp + '*'))) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', $f.FullName); exit 0 } } catch {} }; exit 1" >nul 2>&1
+    powershell -NoProfile -ExecutionPolicy Bypass -Command "$brand = '!ARG_BRAND!'; $root = '%ROOT_DIR%'; $candidates = @( $brand, ($root + $brand), ($root + 'brands\' + $brand), ($root + 'brands\' + $brand + '.json') ); foreach($c in $candidates) { if (Test-Path -LiteralPath $c) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', (Resolve-Path -LiteralPath $c).Path); exit 0 } }; $files = Get-ChildItem -Path ($root + 'brands\*.json') -ErrorAction SilentlyContinue; foreach($f in $files) { try { $j = Get-Content -LiteralPath $f.FullName -Raw | ConvertFrom-Json; $comp = if ($j.SupportBranding.CompanyName) { $j.SupportBranding.CompanyName } elseif ($j.CompanyName) { $j.CompanyName } else { '' }; if ($comp -and ($comp -like ('*' + $brand + '*') -or $brand -like ('*' + $comp + '*'))) { [System.IO.File]::WriteAllText($env:TEMP + '\winbars_brand_res.txt', $f.FullName); exit 0 } } catch {} }; exit 1" >nul 2>&1
     if exist "%TEMP%\winbars_brand_res.txt" (
         set /p RESOLVED_BRAND=<"%TEMP%\winbars_brand_res.txt"
         del /f /q "%TEMP%\winbars_brand_res.txt" >nul 2>&1
     )
     if defined RESOLVED_BRAND (
         echo   [OK] Applied brand profile: !RESOLVED_BRAND!
-        copy /y "!RESOLVED_BRAND!" "%~dp0config\branding.json" >nul 2>&1
-        copy /y "!RESOLVED_BRAND!" "%~dp0branding.json" >nul 2>&1
+        copy /y "!RESOLVED_BRAND!" "%ROOT_DIR%config\branding.json" >nul 2>&1
+        copy /y "!RESOLVED_BRAND!" "%ROOT_DIR%branding.json" >nul 2>&1
         if not exist "C:\ProgramData\WINBARS" mkdir "C:\ProgramData\WINBARS" >nul 2>&1
         copy /y "!RESOLVED_BRAND!" "C:\ProgramData\WINBARS\branding.json" >nul 2>&1
         if exist "C:\Tools\WINBARS" copy /y "!RESOLVED_BRAND!" "C:\Tools\WINBARS\branding.json" >nul 2>&1
@@ -148,15 +151,15 @@ if "!FORCE_VANILLA!"=="1" set "BRAND_FLAG=-Vanilla"
 
 :: ---- 5. Resolve the active config file (same order the engine uses) ----
 set "ACTIVE_CONFIG_PATH="
-if exist "%~dp0config\config.json" (
+if exist "%ROOT_DIR%config\config.json" (
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
-) else if exist "%~dp0config.json" (
+) else if exist "%ROOT_DIR%config.json" (
     set "ACTIVE_CONFIG_PATH=%~dp0config.json"
 ) else if exist "C:\ProgramData\WINBARS\config.json" (
     set "ACTIVE_CONFIG_PATH=C:\ProgramData\WINBARS\config.json"
 )
 if not defined ACTIVE_CONFIG_PATH (
-    if not exist "%~dp0config" mkdir "%~dp0config" >nul 2>&1
+    if not exist "%ROOT_DIR%config" mkdir "%ROOT_DIR%config" >nul 2>&1
     set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
 )
 
@@ -264,62 +267,20 @@ if !CFG_EXIT! EQU 0 (
 )
 :SKIP_CFG
 
-:: ---- 10. Install WINBARS suite to C:\Tools\WINBARS ----
+:: ---- 10. Apply the profile (all other settings use mode defaults) ----
 echo.
-echo   Installing WINBARS suite to C:\Tools\WINBARS...
+echo   Applying Mode N NearZeroFootprint defaults and scheduling tasks...
 echo   ----------------------------------------------------------------
-!RUN_CMD! -InstallLocal !BRAND_FLAG!
-set "INSTALL_EXIT=!errorLevel!"
-echo   ----------------------------------------------------------------
-if !INSTALL_EXIT! EQU 0 (
-    echo   [OK] Suite installed to C:\Tools\WINBARS.
-) else (
-    echo   [ERROR] Installation failed with exit code !INSTALL_EXIT!.
-    echo          Cannot proceed with profile setup.
-    echo.
-    echo ================================================================
-    echo   [FAILED] Install step failed. Review the messages above.
-    echo   Logs: C:\ProgramData\WINBARS\Logs\backup.log
-    echo ================================================================
-    echo.
-    if not "!QUIET_MODE!"=="1" pause
-    exit /b !INSTALL_EXIT!
-)
-
-:: ---- 11. Switch to the installed engine for profile application ----
-set "INSTALLED_EXE=C:\Tools\WINBARS\WINBARS.exe"
-set "INSTALLED_PS1=C:\Tools\WINBARS\WINBARS.ps1"
-if exist "!INSTALLED_EXE!" (
-    set RUN_CMD="!INSTALLED_EXE!"
-) else if exist "!INSTALLED_PS1!" (
-    set RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File "!INSTALLED_PS1!"
-) else (
-    echo   [ERROR] Installed engine not found at C:\Tools\WINBARS after install step.
-    echo          The file copy may have failed silently. Check the source folder.
-    echo.
-    if not "!QUIET_MODE!"=="1" pause
-    exit /b 1
-)
-
-:: ---- 12. Resolve config path for installed location ----
-if exist "C:\Tools\WINBARS\config\config.json" (
-    set "ACTIVE_CONFIG_PATH=C:\Tools\WINBARS\config\config.json"
-)
-
-:: ---- 13. Apply the profile (all other settings use mode defaults) ----
-echo.
-echo   Applying Mode 3 HeadlessFull defaults and scheduling tasks...
-echo   ----------------------------------------------------------------
-!RUN_CMD! -SetProfile HeadlessFull !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
+!RUN_CMD! -SetProfile NearZeroFootprint !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
 set "PROFILE_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !PROFILE_EXIT! EQU 0 (
-    echo   [OK] Mode 3 HeadlessFull profile applied successfully.
+    echo   [OK] Mode N NearZeroFootprint profile applied successfully.
 ) else (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
 
-:: ---- 14. Optional: capture a permanent baseline image now ----
+:: ---- 11. Optional: capture a permanent baseline image now ----
 set "BASE_IN="
 if defined ARG_BASELINE (
     set "BASE_IN=!ARG_BASELINE!"
@@ -343,41 +304,18 @@ if /i "!BASE_IN!"=="Y" (
     )
 )
 
-:: ---- 15. Optional: Windows Defender Whitelisting ----
-set "WL_IN="
-if defined ARG_WHITELIST (
-    set "WL_IN=!ARG_WHITELIST!"
-    echo.
-    echo   Windows Defender whitelisting pre-set via switch: !WL_IN!
-) else if not "!QUIET_MODE!"=="1" (
-    echo.
-    set /p WL_IN="   Add Windows Defender folder & process exclusions for WINBARS? (Y/N) [Default: Y]: "
-) else (
-    set "WL_IN=Y"
-)
-if not defined WL_IN set "WL_IN=Y"
-if /i "!WL_IN!"=="Y" (
-    if exist "%~dp0Whitelist-WINBARS.bat" (
-        call "%~dp0Whitelist-WINBARS.bat" /quiet
-    ) else if exist "C:\Tools\WINBARS\Whitelist-WINBARS.bat" (
-        call "C:\Tools\WINBARS\Whitelist-WINBARS.bat" /quiet
-    )
-)
-
-:: ---- 16. Final verdict ----
+:: ---- 12. Final verdict ----
 set "OVERALL_EXIT=0"
-if not !INSTALL_EXIT! EQU 0 set "OVERALL_EXIT=1"
 if not !CFG_EXIT! EQU 0 set "OVERALL_EXIT=1"
 if not !PROFILE_EXIT! EQU 0 set "OVERALL_EXIT=1"
 echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
-    echo   [SUCCESS] Mode 3 HeadlessFull installation completed!
+    echo   [SUCCESS] Mode N NearZeroFootprint installation completed.
     echo   ----------------------------------------------------------------
-    echo   * Multi-Drive Automation:       Active (Daily Robocopy Mirror & Images)
-    echo   * Silent Scam & RAT Watchdog:   Active (Auto Siren Mute & Intercept)
-    echo   * Universal Emergency Hotkeys:  Active (Ctrl+Win+B / Ctrl+Win+W)
-    echo   * Floppy Tray Icon:             Off (Silent Headless Workstation)
+    echo   * Desktop Shortcuts:  Backup Personal Files, System Restore, Browse Backups
+    echo   * Start Menu Suite:   Programs\System Backup ^& Recovery (Search-Indexed)
+    echo   * Resident Software:  0 Files (Zero resident EXEs on C:)
     echo   ----------------------------------------------------------------
     echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
     echo   Tip: To make this backup drive directly bootable, run Create-RescueUSB.bat!

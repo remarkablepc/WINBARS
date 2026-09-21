@@ -34,20 +34,29 @@ if "%IN_WINPE%"=="0" (
     )
 )
 
-:: 2. Locate available .wim image files in current directory
-set "IMAGE_DIR=%~dp0"
-echo [*] Scanning for system images in: %IMAGE_DIR%
-echo.
+:: 2. Locate available .wim image files in current and root directories
+set "ROOT_DIR=%~dp0"
+if not exist "%ROOT_DIR%WINBARS.exe" if exist "%~dp0..\" set "ROOT_DIR=%~dp0..\"
 
 set "IMG_COUNT=0"
 set "DEFAULT_WIM="
 
-for %%F in ("%IMAGE_DIR%*.wim") do (
-    set /a IMG_COUNT+=1
-    set "IMG_!IMG_COUNT!=%%~nxF"
-    set "IMG_PATH_!IMG_COUNT!=%%~fF"
-    echo   [!IMG_COUNT!] %%~nxF  (%%~zF bytes)
-    echo %%~nxF | findstr /I "_baseline" >nul && set "DEFAULT_WIM=!IMG_COUNT!"
+echo [*] Scanning for system images in:
+echo     - %~dp0
+echo     - %ROOT_DIR%
+echo     - %ROOT_DIR%SystemImages\
+echo.
+
+for %%D in ("%~dp0" "%ROOT_DIR%" "%ROOT_DIR%SystemImages\") do (
+    if exist "%%~fD" (
+        for %%F in ("%%~fD*.wim") do (
+            set /a IMG_COUNT+=1
+            set "IMG_!IMG_COUNT!=%%~nxF"
+            set "IMG_PATH_!IMG_COUNT!=%%~fF"
+            echo   [!IMG_COUNT!] %%~nxF  (%%~zF bytes) [%%~dpF]
+            echo %%~nxF | findstr /I "_baseline" >nul && set "DEFAULT_WIM=!IMG_COUNT!"
+        )
+    )
 )
 
 if "%IMG_COUNT%"=="0" (
