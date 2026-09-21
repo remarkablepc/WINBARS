@@ -1,5 +1,5 @@
 # WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.7)
-### *Built by a computer repair technician to prevent the disasters that bring customers back to the repair counter — 100% free, because peace of mind shouldn't cost a thing.*
+### *Built by a computer repair technician to eliminate the recurring system and data recovery failures that bring PCs back to the bench — free for personal and commercial use.*
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.7-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
@@ -34,11 +34,11 @@
 
 > [!IMPORTANT]
 > ### 💡 The Core Principle: Orchestration & Hardening, Not Proprietary Bloat
+> **WINBARS does not reinvent wheels with proprietary code; it acts as an intelligent conductor for Microsoft’s enterprise-grade tools—coordinating, scheduling, and hardening them so disaster recovery actually works when disaster strikes.**
+> 
 > Microsoft Windows already contains 30 years of battle-tested, kernel-level recovery engines: **Robocopy, Volume Shadow Copies (VSS), DISM bare-metal imaging, and Task Scheduler**. 
 > 
 > The flaw has never been the engines—it's that Windows leaves them uncoordinated: updates quietly disable File History, restore points are throttled to once every 24 hours, and USB drive letter changes halt backups without alert.
-> 
-> **WINBARS coordinates, schedules, and hardens these native Windows tools so disaster recovery actually works when disaster strikes.**
 > 
 > 🛡️ **Zero Lock-In & Verifiable Host Footprint**: Backups are standard Windows files and native `.wim` images. WINBARS is never required to restore your system. It installs 0 kernel drivers, 0 Windows NT services, and zero unsolicited network telemetry. See the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
 
@@ -72,7 +72,7 @@
 <a id="why-winbars-was-born-6-real-world-nightmares"></a>
 ## 💔 Why WINBARS Was Born: 6 Real-World Nightmares
 
-If you have ever repaired Windows PCs for clients, friends, or family, you already know these six heartbreaking scenarios:
+If you have ever repaired Windows PCs for clients, business fleets, or family, you already know these six recurring failure points:
 
 ### 1. The "Windows 11 Silent File History Death"
 > *"A customer’s hard drive died a year after upgrading to Windows 11, only to discover that **Microsoft had silently turned off File History during the upgrade with zero warning**. An entire year of irreplaceable family photos and business files was lost because Windows never said a word."*
@@ -111,7 +111,7 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 <a id="how-winbars-solves-the-6-nightmares"></a>
 ## 🛡️ How WINBARS Solves the 6 Nightmares
 
-Here is how WINBARS turns each heartbreaking scenario into an effortless, guaranteed recovery—and exactly which deployment modes deliver them:
+How WINBARS addresses each failure scenario natively—and exactly which deployment modes deliver them:
 
 ### 1. The "Windows 11 Silent File History Death" ➔ **Self-Healing Daily Mirror**
 * 🏷️ **Active in: Modes 0, N, 3, 4** *(Modes 0 & N run portable from USB; Modes 3 & 4 run automated daily. Modes 1 & 2 intentionally omit personal file sync to focus purely on local OS rollback without requiring an external hard drive).*
@@ -200,7 +200,7 @@ Traditional backup suites focus on complex schedules and proprietary archives. W
 | **Offline Bare-Metal Restore** | ❌ Requires proprietary vendor WinPE builder ISO | ⚠️ Deprecated Windows 7 backup wizard prone to VSS errors | ✅ **Native DISM WIM**: Uses Microsoft's own enterprise imaging engine |
 | **Safe OS Reinstall** | ❌ Full image restore wipes your entire drive or requires manual file extraction | ❌ Cloud Reset often wipes apps or gets corrupted | ✅ **Safe Overlay**: Restores clean OS + apps while leaving personal files untouched |
 
-#### The Four Fatal Flaws of Traditional Backup:
+#### Four Technical Distinctions vs. Traditional Commercial Backup:
 1. **Zero Proprietary Vendor Lock-In**:
    Your personal files are mirrored 1:1 into standard Windows folders with original filenames. Plug your backup drive into **any PC, Mac, Chromebook, or Linux computer** and immediately drag-and-drop your files without installing WINBARS or any third-party software.
 2. **100% Free Forever (No Subscriptions)**:
