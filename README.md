@@ -25,6 +25,10 @@
 
   <br>
 
+  💻 **Technician Remote Launch (PowerShell Admin)**: `irm winbars.remarkablepc.com | iex`
+
+  <br>
+
   ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping personal files ➔](#macos-style-safe-overlay)**<br>
   🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
   🧰 **[🛠️ Boot-Failure Safety Net: 1-Click WinRE Rescue When Windows Won't Boot ➔](#boot-recovery-safety-net)**
@@ -286,7 +290,8 @@ Technicians can launch or deploy WINBARS directly on any bench or client PC with
 # In an elevated PowerShell prompt (Run as Administrator):
 irm winbars.remarkablepc.com | iex
 
-# Or direct via GitHub:
+# Alternate short URL / direct GitHub fallback:
+irm remarkablepc.com/winbars | iex
 irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
 ```
 > 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile SystemUndo -Quiet"`.*
