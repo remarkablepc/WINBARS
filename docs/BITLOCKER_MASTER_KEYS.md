@@ -105,24 +105,62 @@ WINBARS overcomes this limitation by automatically:
 
 ## 5. How to Generate Master Keys
 
-WINBARS includes turnkey batch wizards located in the `tools/` directory:
+WINBARS provides a consolidated turnkey wizard located in the `tools/` directory:
 
-### 1. Generating a Shop Master Keypair
-1. Run `tools/Generate-ShopMasterKey.bat` as Administrator on the shop bench PC.
-2. Enter your shop or company name (e.g., `MacPCMarket` or `RemarkablePC`).
-3. Enter a strong private key passphrase.
-4. Output files:
-   - `ShopMasterKey_Private.pfx` $\rightarrow$ **Store immediately in your shop's password vault or safe.**
-   - `ShopMasterKey.cer` $\rightarrow$ Copy to your technician USB drives or host on your IRM web server.
+### The Unified Master Key Generator (`tools/Generate-MasterKey.bat`)
+Run `tools/Generate-MasterKey.bat` as Administrator on your technician bench or client workstation. The wizard lets you choose between two roles:
 
-### 2. Generating an Enterprise Company Master Keypair
-1. Run `tools/Generate-BusinessMasterKey.bat` as Administrator on the client's corporate PC.
-2. Enter the business name (e.g., `AcmeMedical_DRA`).
-3. Enter the business owner's private passphrase.
-4. Output files:
-   - `CompanyMasterKey_Private.pfx` $\rightarrow$ Handed directly to the business owner on an encrypted flash drive.
-   - `CompanyMasterKey.cer` $\rightarrow$ Placed on the deployment USB or embedded in the company's `config.json`.
-   - **Base64 String**: The wizard automatically prints the Base64-encoded certificate string to the console for easy copy-pasting into JSON files!
+#### Role 1: Shop / Technician Keypair
+- **Target**: MSP or repair shop technician bench.
+- **Display Name**: Default is `WINBARS Generated` (vendor-neutral, customizable).
+- **Password Double Confirmation**: Requires entering and re-confirming the passphrase to prevent unintended lockouts.
+- **Output Files**:
+  - `Shop_Master_Private.pfx` $\rightarrow$ **Store immediately in your shop's password vault, safe, or offline USB.**
+  - `Shop_Public_DRA.cer` (and `branding/ShopMasterKey.cer`) $\rightarrow$ Distributed safely with WINBARS media.
+  - Base64 certificate string printed to console.
+
+#### Role 2: Enterprise / Client Company Keypair
+- **Target**: Client company (medical clinic, law firm, corporate fleet).
+- **Name**: Enter business name (e.g. `AcmeMedical_DRA`).
+- **Password Double Confirmation**: Entered and confirmed by business owner.
+- **Output Files**:
+  - `[Company]_Master_Private.pfx` $\rightarrow$ Handed directly to business owner on an encrypted flash drive.
+  - `[Company]_Public_DRA.cer` $\rightarrow$ Placed on deployment USB or embedded in company `config.json`.
+  - Base64 certificate string printed to console for easy copy-pasting into JSON configurations!
+
+---
+
+## 5.1 How to Verify / Test Your Master Key Password
+
+If you already have a `.pfx` file and want to verify that you know the correct unlock password (without unlocking or touching any drives):
+
+### Option 1: The 1-Click Verifier Tool
+Run `tools/Verify-MasterKey-Password.bat`:
+- Automatically scans your Desktop and attached USB drives for any `.pfx` private key file.
+- Prompts for your password (masked).
+- Tests cryptographic key import in memory with zero changes to disk.
+- Prints `[SUCCESS]` with certificate subject, thumbprint, and expiration date if valid, or `[FAILED]` with exact error detail.
+
+### Option 2: Direct PowerShell Command
+Run this one-liner in PowerShell (replace path and password):
+```powershell
+$pfx = "$env:USERPROFILE\Desktop\Shop_Master_Private.pfx"
+$pass = Read-Host "Enter PFX password to test" -AsSecureString
+$plain = [System.Net.NetworkCredential]::new("", $pass).Password
+try {
+    $cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($pfx, $plain, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]::DefaultKeySet)
+    Write-Host "[SUCCESS] Password verified! Subject: $($cert.Subject)" -ForegroundColor Green
+} catch {
+    Write-Host "[FAILED] Password incorrect: $($_.Exception.Message)" -ForegroundColor Red
+}
+```
+
+### Option 3: Windows Certificate Wizard (Interactive GUI)
+1. Double-click your `.pfx` file in File Explorer.
+2. The **Certificate Import Wizard** will open. Click **Next**.
+3. Type your password on the "Private key protection" screen and click **Next**.
+   - If the password is **correct**, Windows advances to the next step ("Certificate Store"). You can safely click **Cancel** so you do not install it.
+   - If the password is **incorrect**, Windows immediately halts and displays: *"The password you entered is incorrect."*
 
 ---
 
@@ -169,23 +207,23 @@ When launching WINBARS via PowerShell IRM (e.g., `irm macpc.remarkablepc.com | i
 
 If a machine is locked with a blue BitLocker recovery screen:
 
-### Unlocking Windows Pro / Enterprise with Shop PFX:
+### Unlocking Windows Pro / Enterprise with Master PFX:
 1. Boot the computer into **Windows Recovery Environment (WinRE)** or connect a **WINBARS Rescue USB**.
 2. Open Command Prompt (`Shift + F10`).
-3. Plug in the secure technician flash drive containing `ShopMasterKey_Private.pfx`.
+3. Plug in the secure flash drive containing your Master Key (`Shop_Master_Private.pfx` or `[Company]_Master_Private.pfx`).
 4. Run:
    ```cmd
-   tools\Unlock-BitLocker-With-ShopKey.bat
+   tools\Unlock-BitLocker-With-MasterKey.bat
    ```
 5. Enter the private PFX passphrase when prompted.
 6. The script imports the private DRA into the WinRE session, issues `manage-bde.exe -unlock C: -Certificate`, and unlocks the drive immediately!
 
 ### Decrypting Windows Home Asymmetric Escrow:
-1. Copy `C:\SystemRecovery\ShopEscrow.bin` (or from `<USB>:\ShopVault\`) to the technician bench.
-2. In PowerShell with the shop PFX imported:
+1. Copy `C:\SystemRecovery\ShopEscrow.bin` or `CompanyEscrow.bin` (or from `<USB>:\ShopVault\`) to the technician bench.
+2. In PowerShell with the private PFX imported:
    ```powershell
-   $pfx = Get-PfxCertificate -FilePath "ShopMasterKey_Private.pfx"
-   $cipher = [System.IO.File]::ReadAllBytes("ShopEscrow.bin")
+   $pfx = Get-PfxCertificate -FilePath "Shop_Master_Private.pfx" # or Company_Master_Private.pfx
+   $cipher = [System.IO.File]::ReadAllBytes("ShopEscrow.bin")     # or CompanyEscrow.bin
    $keyText = [System.Text.Encoding]::UTF8.GetString($pfx.PrivateKey.Decrypt($cipher, [System.Security.Cryptography.RSAEncryptionPadding]::Pkcs1))
    Write-Host "Discovered 48-Digit Recovery Key: $keyText"
    ```

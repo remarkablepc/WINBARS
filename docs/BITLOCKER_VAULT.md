@@ -146,6 +146,6 @@ WINBARS uses asymmetric public/private cryptography (`New-SelfSignedCertificate 
 * **AutoHeal Sentry (Modes 1–4)**: On every system boot and scheduled maintenance pass, AutoHeal checks if `C:` was recently encrypted. If BitLocker is detected and the master keys have not yet been bound, AutoHeal automatically attaches the protectors in the background—requiring zero customer or shop intervention!
 
 ### G. 1-Click Bench Batch Wizards
-* `tools/Generate-ShopMasterKey.bat`: 1-click wizard for shop owners to generate their Shop Keypair.
-* `tools/Generate-BusinessMasterKey.bat`: 1-click wizard for business owners to generate their Enterprise Company Keypair (also prints the Base64 string for embedding in JSON).
-* `tools/Unlock-BitLocker-With-ShopKey.bat`: 1-click unlock tool for technicians running in WinPE, WinRE, or live Windows. Prompts for private passphrase and unlocks `C:\` instantly.
+* `tools/Generate-MasterKey.bat`: Consolidated 1-click wizard to generate Shop Master Key, Business Client Key, or Custom Master Keypair (also prints Base64 string for JSON embedding).
+* `tools/Unlock-BitLocker-With-MasterKey.bat`: Consolidated 1-click unlock tool for technicians running in WinPE, WinRE, or live Windows. Auto-detects any Shop or Business `.pfx` key and unlocks `C:\` instantly.
+* `tools/Verify-MasterKey-Password.bat`: Safely tests and verifies unlock passwords against any `.pfx` file without touching system drives.
