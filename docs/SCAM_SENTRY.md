@@ -5,7 +5,7 @@
 Every week, repair shops and technicians encounter everyday computer users and seniors in tears after falling for social-engineering traps:
 1. **Full-Screen Browser Lockups**: A malicious JavaScript popup traps the cursor in fullscreen mode (F11), displays fake FBI / Microsoft warning logos, and plays loud looping speech sirens demanding the user call a 1-800 number.
 2. **Crash Tab Reload Traps**: When a panicked user force-kills the browser via Task Manager, reopening the browser triggers *"Restore tabs after unexpected shutdown"*, immediately reloading the exact same scam popup!
-3. **Remote Access Hijacking**: The phone scammer instructs the victim to download remote access software (AnyDesk, UltraViewer, ScreenConnect, TeamViewer), takes over the screen, and drains bank accounts or ransoms the PC.
+3. **Remote Access Hijacking**: The phone scammer instructs the victim to download remote access software (ScreenConnect, UltraViewer, AnyDesk, TeamViewer), takes over the screen, and drains bank accounts or ransoms the PC.
 4. **Web Push Notification Floods**: Fake McAfee/Norton Expired bottom-right notification popups bombard the screen every few minutes even when the browser appears closed.
 
 ---
@@ -23,15 +23,20 @@ WINBARS provides active defense against these predatory social engineering traps
 +-------------------------------------------------------------------------+
 | Layer 2: Proactive Fullscreen Browser Scam Sentry                       |
 |   -> Dual Engine: Process Catalog + Win32 Window Class Heuristics       |
-|   -> Automatically Mutes Blaring Audio & Displays Topmost Shield Banner |
+|   -> Automatically Mutes Blaring Audio & Defuses Reload Loop Traps      |
 +-------------------------------------------------------------------------+
                                     |
 +-------------------------------------------------------------------------+
 | Layer 3: Remote Access Interceptor & Smart Whitelist                    |
-|   -> Monitors 25+ remote access and RMM binaries (AnyDesk, TeamViewer)  |
+|   -> Monitors 25+ remote access and RMM binaries (ScreenConnect, etc.)  |
 |   -> 4-Way Action Modal: Disconnect, Allow, Whitelist, Snooze 2 Hours    |
 +-------------------------------------------------------------------------+
 ```
+
+> 🛡️ **Deployment Tier Integration (Modes 2, 3, 4)**:
+> - **Modes 2 & 3 (Silent Guardian)**: Layers 1, 2, and 3 run **continuously in the background** to automatically mute audio sirens and block unauthorized remote access sessions without displaying taskbar tray clutter or office pop-ups.
+> - **Mode 4 (Visual Sentry)**: Adds the interactive topmost prompt modal (`[STOP] Disconnect & Block`), full-screen overlay dialog, live Protection Center GUI, and the signature Floppy Tray Sentry.
+> - **Modes 0, N, and 1**: Omit Scam Buster entirely to uphold a strict zero-resident-binary footprint policy.
 
 ---
 

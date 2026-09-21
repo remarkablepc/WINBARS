@@ -133,11 +133,11 @@ Here is how WINBARS turns each heartbreaking scenario into an effortless, guaran
 * 🔗 [Deep Dive: BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)
 
 ### 4. The Phone Scam & Browser Siren Trap ➔ **Scam Buster & Remote Access Interceptor**
-* 🏷️ **Active in: Modes 2, 3, 4** *(Mode 4 provides **continuous proactive background protection** that automatically detects fullscreen browser traps, silences looping audio sirens, and intercepts unauthorized remote tools in real-time; Modes 2 & 3 provide on-demand `Ctrl + Win + B` emergency scram and offline domain sinkholing).*
+* 🏷️ **Active in: Modes 2, 3, 4** *(All three modes run **continuous real-time background protection** that monitors for 25+ weaponized remote access tools and full-screen browser traps, automatically muting audio sirens. **Modes 2 & 3** run as a **Silent Guardian** without taskbar icons or office clutter; **Mode 4** adds visual interactive prompt modals, the Floppy Tray sentry, and the live GUI).*
 * **The Solution**: 
-  * **Proactive Defense (Mode 4)**: Everyday users and seniors often freeze when deafening sirens blare. Mode 4's background sentry inspects foreground windows for borderless fullscreen browser traps with scam keywords ("Virus Detected", "Call Microsoft"). The moment one appears, it **automatically mutes the blaring audio sirens**, displays an emergency overlay asking if you want to reclaim your PC, and defuses the browser's crash-state so reopening Chrome or Edge **never reloads the scam tab**.
-  * **On-Demand Emergency Scram (`Ctrl + Win + B`)**: In Modes 2, 3, and 4, press **`Ctrl + Win + B`** at any time to instantly kill all open browser processes across 25+ browsers, silence all audio, and clear reload loops.
-  * **Real-Time Remote Access RAT Interceptor**: Mode 4 continuously monitors for 25+ remote support tools (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.) commonly weaponized by offshore scam call centers, popping up an immediate warning with a 1-click **`[STOP] Disconnect & Block`** button.
+  * **Continuous Proactive Defense (Modes 2, 3, 4)**: Everyday users and seniors often freeze when deafening sirens blare. The background sentry inspects foreground windows for borderless fullscreen browser traps with scam keywords ("Virus Detected", "Call Microsoft"). The moment one appears, it **automatically mutes the blaring audio sirens**, clears the browser's crash-state so reopening Chrome or Edge **never reloads the scam tab**, and in Mode 4 displays an emergency overlay asking if you want to reclaim your PC.
+  * **Real-Time Remote Access RAT Interceptor (Modes 2, 3, 4)**: Continuously watches for 25+ remote support tools (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.) commonly weaponized by offshore scam call centers. In Modes 2 & 3, it silences and blocks unauthorized remote takeovers in the background; in Mode 4, it pops up an immediate visual warning with a 1-click **`[STOP] Disconnect & Block`** button.
+  * **Universal Emergency Hotkey (`Ctrl + Win + B`)**: In Modes 2, 3, and 4, press **`Ctrl + Win + B`** at any time to immediately kill all running browser processes across 25+ browsers, silence all audio, and clear reload loops.
 * *(Note: Modes 0, N, and 1 omit ScamBuster entirely to maintain a strict zero-resident-binary footprint).*
 * 🔗 [Deep Dive: Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)
 
@@ -168,9 +168,9 @@ On a Mac, booting into Recovery Mode and choosing **"Reinstall macOS"** refreshe
 
 <a id="scambuster-rat-interceptor"></a>
 ### 🚨 2. Scam Buster & Remote Access RAT Interceptor
-* **Proactive Fullscreen Trap & Audio Siren Muter (Mode 4)**: Continuously monitors for rogue borderless browser lockups. The moment a scam window triggers, WINBARS **instantly silences deafening audio sirens** and overlays an emergency rescue prompt over the scam tab—protecting panicked seniors without requiring them to remember keyboard shortcuts.
+* **Proactive Fullscreen Trap & Audio Siren Muter (Modes 2, 3, 4)**: Continuously monitors for rogue borderless browser lockups. The moment a scam window triggers, WINBARS **instantly silences deafening audio sirens** and neutralizes the reload trap. In Mode 4, it also overlays an emergency rescue prompt over the scam tab—protecting panicked seniors without requiring them to remember keyboard shortcuts.
 * **Instant Browser Freeze Escape (`Ctrl + Win + B`)**: Instantly closes rogue full-screen browser traps across 25+ browsers, silences audio sirens, and clears Chromium/Firefox crash-recovery flags to prevent reload loops.
-* **Real-Time Remote Access Interceptor**: Continuously watches for 25+ remote control tools frequently weaponized by phone and pop-up scammers (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.). When an unauthorized remote tool launches, an urgent interception banner appears with an unmissable **`[STOP] Disconnect & Block`** button.
+* **Real-Time Remote Access Interceptor (Modes 2, 3, 4)**: Continuously watches for 25+ remote control tools frequently weaponized by phone and pop-up scammers (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.). Automatically intercepts unauthorized sessions, displaying an unmissable **`[STOP] Disconnect & Block`** button in Mode 4.
 * **OneDrive Alert Guard**: Silences deceptive Windows 10/11 "Not Backed Up" scare banners and halts Known Folder Move (KFM) hijacking of Documents, Desktop, and Pictures without breaking normal OneDrive sync.
 
 <a id="boot-recovery-safety-net"></a>
@@ -259,10 +259,11 @@ In **Mode 4 (`TotalProtection`)**, WINBARS places a classic floppy disk icon in 
 | :---: | :--- | :--- | :--- |
 | <img src="assets/floppy_green.png" width="18" height="18" valign="middle" alt="Green Floppy" /> 🟢 | **Emerald Green** | **All Systems Protected**: Daily restore points active, file backups up to date. | `WINBARS: All Systems Protected` |
 | <img src="assets/floppy_purple.png" width="18" height="18" valign="middle" alt="Purple Floppy" /> 🟣 | **Signature Purple** | **Backup in Progress**: Active file mirror, restore point, or image creation. | `WINBARS: Backup in Progress (45%)...` |
-| <img src="assets/floppy_blue.png" width="18" height="18" valign="middle" alt="Blue Floppy" /> 🔵 | **Classic Blue** | **Protection Center Ready**: Idle, healthy system state. | `WINBARS: Protection Center Ready` |
 | <img src="assets/floppy_yellow.png" width="18" height="18" valign="middle" alt="Amber Floppy" /> 🟡 | **Amber Gold** | **Notice / Local Mode**: External backup drive unplugged or backup due. | `WINBARS: External Backup Drive Unplugged`<br>*(or: `System Restore Point Needed`)* |
 | <img src="assets/floppy_red.png" width="18" height="18" valign="middle" alt="Red Floppy" /> 🔴 | **Crimson Red** | **Attention Required**: S.M.A.R.T. disk degradation or backup task issue. | `WINBARS: Attention Required (Check Logs)` |
 
+> 🔵 **Classic Blue Floppy (`app.ico`)**: The static application icon embedded into `WINBARS.exe` and the desktop/Start Menu shortcut for **WINBARS Protection Center** / **Windows System Restore**. The active notification tray sentry strictly uses 🟢 Green, 🟣 Purple, 🟡 Amber, and 🔴 Red to reflect live operational health.
+>
 > 💡 **Instant Observability**: Simply hover your mouse over the floppy icon at any time to see the exact real-time system condition without opening a single dashboard or menu.
 
 ### ⌨️ Universal Global Hotkeys
@@ -299,9 +300,9 @@ Available in Modes 2 through 4 for emergency assistance:
 | **🚀 Deploy Mode 0** | `WINBARS.exe -Profile ZeroFootprint` | 100% native Windows automation (0 files on `C:\`). |
 | **👻 Deploy Mode N** | `WINBARS.exe -Profile NearZeroFootprint` | Stealth native automation with unbranded shortcuts. |
 | **⏪ Deploy Mode 1** | `WINBARS.exe -Profile SystemUndo` | Daily System Restore hardening + VSS auto-heal. |
-| **💽 Deploy Mode 2** | `WINBARS.exe -Profile LocalDisasterGuard` | Mode 1 + local recovery partition DISM image (`.wim`). |
-| **🏢 Deploy Mode 3** | `WINBARS.exe -Profile HeadlessFull` | Mode 1 + daily external Robocopy file sync + image archive. |
-| **🛡️ Deploy Mode 4** | `WINBARS.exe -Profile TotalProtection` | Mode 3 + Floppy Tray Sentry + ScamBuster watchdog + GUI. |
+| **💽 Deploy Mode 2** | `WINBARS.exe -Profile LocalDisasterGuard` | Mode 1 + local DISM image (.wim) + silent Scam/RAT watchdog + hotkeys. |
+| **🏢 Deploy Mode 3** | `WINBARS.exe -Profile HeadlessFull` | Mode 2 + daily external Robocopy file sync + scheduled images. |
+| **🛡️ Deploy Mode 4** | `WINBARS.exe -Profile TotalProtection` | Mode 3 + Floppy Tray Sentry (dynamic health status) + live GUI dashboard. |
 | **🔄 Switch Mode** | `WINBARS.exe -SwitchMode <Profile>` | Zero-drift transition: tears down old tasks cleanly. |
 | **🧹 Factory Reset** | `WINBARS.exe -ResetSuite` | Clears scheduled tasks and configs to factory defaults. |
 | **🚨 ScamBuster** | `WINBARS.exe -ScamBuster` | Terminates browser lockups and clears sirens (`Ctrl+Win+B`). |
