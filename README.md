@@ -28,6 +28,10 @@
   ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping personal files ➔](#macos-style-safe-overlay)**<br>
   🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
   🧰 **[🛠️ Boot-Failure Safety Net: 1-Click WinRE Rescue When Windows Won't Boot ➔](#boot-recovery-safety-net)**
+
+  <br>
+
+  <sub>⚠️ <b>Field Testing Release (v0.9.x)</b>: Actively undergoing technician bench validation prior to v1.0.0 General Availability. Recommended for supervised deployment.</sub>
 </div>
 
 ---
@@ -274,8 +278,22 @@ Available in Modes 2 through 4 for emergency assistance:
 
 ---
 
-<a id="quick-start-in-3-steps"></a>
-## ⚡ Quick Start (3 Steps)
+## ⚡ Quick Start
+
+### 🌐 1-Click Remote Web Launch (PowerShell)
+Technicians can launch or deploy WINBARS directly on any bench or client PC without downloading ZIP archives manually:
+```powershell
+# In an elevated PowerShell prompt (Run as Administrator):
+irm winbars.remarkablepc.com | iex
+
+# Or direct via GitHub:
+irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
+```
+> 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile SystemUndo -Quiet"`.*
+>
+> ⚠️ **Field Testing Notice**: *WINBARS v0.9.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
+
+### 💾 Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
    Download the latest [`WINBARS-v0.9.7.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
