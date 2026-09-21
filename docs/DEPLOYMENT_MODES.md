@@ -131,7 +131,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 ### Mode 4: `TotalProtection` (Visual Observability & Interactive Sentry)
 * **What It DOES**:
   * Activates the signature **Floppy Tray Sentry** with dynamic color status (🟢 Green = Protected/Idle, 🟣 Purple = Backup Active, 🟡 Amber = Warning/Notice, 🔴 Red = Attention Required). Note: 🔵 Classic Blue Floppy is the static Application Launcher and Protection Center Hub icon (`app.ico`).
-  * Runs the **Real-Time Remote Access RAT Interceptor**: actively monitors for 25+ remote support tools (AnyDesk, TeamViewer, UltraViewer, ScreenConnect, RustDesk) frequently weaponized by phone scammers, presenting an instant `[STOP] Disconnect & Block` prompt.
+  * Runs the **Real-Time Remote Access RAT Interceptor**: actively monitors for 25+ remote support tools (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk) frequently weaponized by phone scammers, presenting an instant `[STOP] Disconnect & Block` prompt.
   * Full desktop shortcuts (Protection Center, Backup Personal Data with live Dual Progress Bar, System Restore, Create System Image).
   * Supports custom shop branding ($100 lifetime shop token) on the dashboard and support cards.
 * **What It DOES NOT Do**:

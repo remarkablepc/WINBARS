@@ -84,7 +84,7 @@ If you have ever repaired Windows PCs for clients, friends, or family, you alrea
 > *"New laptops now quietly encrypt themselves out of the box without handing the owner their 48-digit recovery key. When a routine BIOS update trips the TPM chip, the user is greeted by a blue lockout screen—and can't retrieve the key online because their two-factor authentication code is sent to the locked computer."*
 
 ### 4. The Phone Scam, Browser Siren & Remote Control Trap
-> *"A full-screen popup freezes the screen with blaring audio sirens: 'VIRUS DETECTED — CALL MICROSOFT.' Panicked and unable to close the browser, everyday users call the number on screen and let offshore scammers connect via **UltraViewer, ScreenConnect, or AnyDesk**—tools so pervasive in scam call centers that UltraViewer's uninstaller literally asks: 'Did a scammer tell you to install this?' Victims watch helplessly as their bank accounts are drained while traditional antivirus sits completely silent."*
+> *"A full-screen popup freezes the screen with blaring audio sirens: 'VIRUS DETECTED — CALL MICROSOFT.' Panicked and unable to close the browser, everyday users call the number on screen and let offshore scammers connect via **ScreenConnect or UltraViewer**—tools so pervasive in scam call centers that UltraViewer's uninstaller literally asks: 'Did a scammer tell you to install this?' Victims watch helplessly as their bank accounts are drained while traditional antivirus sits completely silent."*
 
 ### 5. The "No Rescue USB When Windows Won't Boot" Catch-22
 > *"When Windows gets stuck in a bootloop, every guide says: 'Insert your Recovery USB drive.' But everyday users never make a recovery drive while their PC is working—and once Windows refuses to boot, they can't create one. They are trapped simply because recovery tools were never pre-staged before the crash."*
@@ -137,7 +137,7 @@ Here is how WINBARS turns each heartbreaking scenario into an effortless, guaran
 * **The Solution**: 
   * **Proactive Defense (Mode 4)**: Everyday users and seniors often freeze when deafening sirens blare. Mode 4's background sentry inspects foreground windows for borderless fullscreen browser traps with scam keywords ("Virus Detected", "Call Microsoft"). The moment one appears, it **automatically mutes the blaring audio sirens**, displays an emergency overlay asking if you want to reclaim your PC, and defuses the browser's crash-state so reopening Chrome or Edge **never reloads the scam tab**.
   * **On-Demand Emergency Scram (`Ctrl + Win + B`)**: In Modes 2, 3, and 4, press **`Ctrl + Win + B`** at any time to instantly kill all open browser processes across 25+ browsers, silence all audio, and clear reload loops.
-  * **Real-Time Remote Access RAT Interceptor**: Mode 4 continuously monitors for 25+ remote support tools (AnyDesk, TeamViewer, UltraViewer, ScreenConnect, RustDesk, etc.) commonly weaponized by offshore scam call centers, popping up an immediate warning with a 1-click **`[STOP] Disconnect & Block`** button.
+  * **Real-Time Remote Access RAT Interceptor**: Mode 4 continuously monitors for 25+ remote support tools (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.) commonly weaponized by offshore scam call centers, popping up an immediate warning with a 1-click **`[STOP] Disconnect & Block`** button.
 * *(Note: Modes 0, N, and 1 omit ScamBuster entirely to maintain a strict zero-resident-binary footprint).*
 * 🔗 [Deep Dive: Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)
 
@@ -170,7 +170,7 @@ On a Mac, booting into Recovery Mode and choosing **"Reinstall macOS"** refreshe
 ### 🚨 2. Scam Buster & Remote Access RAT Interceptor
 * **Proactive Fullscreen Trap & Audio Siren Muter (Mode 4)**: Continuously monitors for rogue borderless browser lockups. The moment a scam window triggers, WINBARS **instantly silences deafening audio sirens** and overlays an emergency rescue prompt over the scam tab—protecting panicked seniors without requiring them to remember keyboard shortcuts.
 * **Instant Browser Freeze Escape (`Ctrl + Win + B`)**: Instantly closes rogue full-screen browser traps across 25+ browsers, silences audio sirens, and clears Chromium/Firefox crash-recovery flags to prevent reload loops.
-* **Real-Time Remote Access Interceptor**: Continuously watches for 25+ remote control tools frequently weaponized by phone and pop-up scammers (AnyDesk, TeamViewer, UltraViewer, ScreenConnect, RustDesk, etc.). When an unauthorized remote tool launches, an urgent interception banner appears with an unmissable **`[STOP] Disconnect & Block`** button.
+* **Real-Time Remote Access Interceptor**: Continuously watches for 25+ remote control tools frequently weaponized by phone and pop-up scammers (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, etc.). When an unauthorized remote tool launches, an urgent interception banner appears with an unmissable **`[STOP] Disconnect & Block`** button.
 * **OneDrive Alert Guard**: Silences deceptive Windows 10/11 "Not Backed Up" scare banners and halts Known Folder Move (KFM) hijacking of Documents, Desktop, and Pictures without breaking normal OneDrive sync.
 
 <a id="boot-recovery-safety-net"></a>
@@ -187,6 +187,20 @@ On a Mac, booting into Recovery Mode and choosing **"Reinstall macOS"** refreshe
 
 Traditional backup suites focus on complex schedules and proprietary archives. WINBARS focuses on **human-centered outcomes**:
 
+<a id="why-not-acronis-macrium"></a>
+### ⚖️ 3. Why Not Just Use Acronis, Macrium, or Windows Backup?
+
+| Capability / Risk | Traditional Commercial Backup (Acronis, Macrium) | Native Windows Backup (`sdclt`, File History) | **WINBARS Engine** |
+| :--- | :--- | :--- | :--- |
+| **Vendor Lock-In** | ❌ Proprietary image containers (`.tibx`, `.mrimg`) — files unreadable without their software | ⚠️ Partial (VHDX or legacy ZIP containers) | ✅ **Zero Lock-In**: 1:1 Robocopy native folders readable on any Mac/PC/Linux |
+| **Pricing & Licensing** | ❌ $50–$100/yr recurring subscriptions or expensive lifetime licenses | ✅ Free (Built-in) | ✅ **100% Free Forever**: No subscriptions, no ads, open documentation |
+| **System Stability Risk** | ❌ Proprietary kernel-mode filter drivers known to BSOD during major Windows 11 upgrades | ✅ Native OS kernel drivers | ✅ **0 Kernel Drivers / 0 NT Services**: Runs 100% in user mode via native Win32 APIs |
+| **Scam / RAT Defense** | ❌ Zero scam detection (Ignores signed remote tools like ScreenConnect, UltraViewer) | ❌ Zero scam detection | ✅ **Active ScamBuster**: Blocks fullscreen traps and remote access takeovers |
+| **System Restore Reliability** | ❌ Disables or ignores native VSS restore points | ❌ Throttled to 1/day; purged silently when VSS fills up | ✅ **Unthrottled & Hardened**: Unthrottles 24-hr limit + locks 10% shadow storage |
+| **Offline Bare-Metal Restore** | ❌ Requires proprietary vendor WinPE builder ISO | ⚠️ Deprecated Windows 7 backup wizard prone to VSS errors | ✅ **Native DISM WIM**: Uses Microsoft's own enterprise imaging engine |
+| **Safe OS Reinstall** | ❌ Full image restore wipes your entire drive or requires manual file extraction | ❌ Cloud Reset often wipes apps or gets corrupted | ✅ **Safe Overlay**: Restores clean OS + apps while leaving personal files untouched |
+
+#### The Four Fatal Flaws of Traditional Backup:
 1. **Zero Proprietary Vendor Lock-In**:
    Your personal files are mirrored 1:1 into standard Windows folders with original filenames. Plug your backup drive into **any PC, Mac, Chromebook, or Linux computer** and immediately drag-and-drop your files without installing WINBARS or any third-party software.
 2. **100% Free Forever (No Subscriptions)**:
@@ -194,7 +208,7 @@ Traditional backup suites focus on complex schedules and proprietary archives. W
 3. **Zero Kernel Drivers / Zero System Service Bloat**:
    WINBARS installs 0 kernel-mode filter drivers and 0 Windows NT services (`services.msc`). Modes 0–1 maintain 0 resident background processes, while Modes 2–4 run a lightweight user-mode desktop sentry (~12–16 MB RAM) via standard Startup. Unlike proprietary backup agents that can trigger blue screens during major Windows 11 feature upgrades, WINBARS relies exclusively on native, battle-tested Windows Win32 APIs.
 4. **Defends Where Antivirus Can't**:
-   Phone scammers and pop-up boiler rooms don't use viruses—they use social engineering and legitimate, digitally signed remote tools (AnyDesk, UltraViewer). Because these tools are legitimate, antivirus software ignores them. WINBARS detects and stops them in real time.
+   Phone scammers and pop-up boiler rooms don't use viruses—they use social engineering and legitimate, digitally signed remote tools (ScreenConnect, UltraViewer). Because these tools are legitimate, antivirus software ignores them. WINBARS detects and stops them in real time.
 
 > 🔍 *Want a full technical breakdown? See the [Architectural Comparison vs. Acronis, Macrium, and Native Windows](docs/COMPARISON.md).*
 
