@@ -108,7 +108,8 @@
 8. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 9. [🏷️ Shop White-Labeling & Community Sponsorship](#shop-white-labeling--community-sponsorship)
 10. [📚 Complete Technical Documentation Directory](#technical-documentation-directory)
-11. [📋 Requirements & License](#requirements--license)
+11. [⚖️ Disclaimer & Legal Notice](#disclaimer-and-legal)
+12. [📋 Requirements & License](#requirements--license)
 
 ---
 
@@ -556,6 +557,16 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * 🩺 **[Windows Health Check & Auto-Repair Guide](docs/WINDOWS_HEALTH_CHECK.md)**: Proactive SFC/DISM file integrity audits, Event ID 1010–1015 schema, and scheduled maintenance.
 * ⌨️ **[Command-Line CLI & Batch Reference](docs/CLI_REFERENCE.md)**: Complete parameter reference, batch launcher flags, and unattended syntax.
 * 🏷️ **[Shop White-Labeling Guide](docs/WHITE_LABELING.md)**: Customizing branding, contact cards, and deployment token staging.
+
+---
+
+<a id="disclaimer-and-legal"></a>
+## ⚖️ Disclaimer & Legal Notice
+
+* **"As-Is" Software Provision & Limitation of Liability**: WINBARS is provided "as is" and "as available", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement. In no event shall the author or RemarkablePC be liable for any claim, damages, loss of data, system downtime, corruption, or hardware failure arising from the use of or inability to use this software.
+* **Administrator & User Responsibility**: All backup operations, image restorations, registry hive rollbacks, and recovery drills are executed at the user's and deploying technician's own discretion and risk. Deploying administrators are solely responsible for testing archive integrity, validating restore points, and verifying hardware readiness before relying on backups. Users should always maintain independent, secondary backups adhering to the industry-standard 3-2-1 backup strategy.
+* **Emergency Defense & Defensive Process Actions**: WINBARS contains proactive emergency safeguards, including the Scam Buster browser freeze termination hotkey (`Ctrl + Win + B`), automated background watchdog sentries, and the Remote Access Tool (RAT) interceptor. These features aggressively defuse browser lockups and sever unauthorized remote access sessions by terminating target browser processes and closing network connections. The author assumes no responsibility for unsaved work, lost browser tabs, or interrupted remote workflows resulting from these defensive actions.
+* **Trademark & Non-Affiliation Notice**: Microsoft, Windows, Windows 10, Windows 11, BitLocker, PowerShell, DISM, and Robocopy are registered trademarks or trademarks of Microsoft Corporation in the United States and other countries. WINBARS is an independent software utility created by RemarkablePC and is **not affiliated with, endorsed by, sponsored by, or produced by Microsoft Corporation**. All other third-party trademarks, product names, company names, and logos mentioned herein (e.g. AnyDesk, TeamViewer, ScreenConnect, UltraViewer, RustDesk, Acronis, Macrium) are the intellectual property of their respective owners and are referenced solely for descriptive, defensive, comparative, and compatibility purposes.
 
 ---
 
