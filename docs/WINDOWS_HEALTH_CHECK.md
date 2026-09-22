@@ -13,7 +13,16 @@ WINBARS includes a proactive **Windows System File Integrity scanner** that auto
                     └──────────────┬──────────────┘
                                    │
                     ┌──────────────▼──────────────┐
-                    │ STEP 0: Safety Checkpoint   │
+                    │ STEP 0: Hardware Safety     │
+                    │ S.M.A.R.T. / Degraded Disk? │
+                    └──────┬───────────────┬──────┘
+                          YES              NO
+                           │               │
+                 🛑 PAUSE FOR SAFETY       │
+                 EV: 1016 (Clone First!)   │
+                                           │
+                    ┌──────────────────────▼──────┐
+                    │ STEP 1: Safety Checkpoint   │
                     │ (Atomic System Restore Pt)  │
                     └──────────────┬──────────────┘
                                    │
@@ -51,9 +60,10 @@ All health check events are written to the **Windows Application Event Log** und
 | **1013** | Warning | SFC found corruption it could NOT repair — escalating to DISM |
 | **1014** | Information | DISM RestoreHealth completed successfully |
 | **1015** | Error | DISM RestoreHealth FAILED — technician action required |
+| **1016** | Critical | **Health Check PAUSED** — Physical drive degradation or S.M.A.R.T. predictive failure detected (clone drive before repair) |
 
 > [!TIP]
-> Filter the Application log in Event Viewer by Source = `WINBARS` (or your shop name) and Event IDs `1010–1015` to audit all health check runs across a fleet of managed PCs.
+> Filter the Application log in Event Viewer by Source = `WINBARS` (or your shop name) and Event IDs `1010–1016` to audit all health check runs and drive safety halts across a fleet of managed PCs.
 
 ---
 

@@ -220,7 +220,8 @@
                                 "SkipIfMissed":              true,
                                 "IdleMinutesBeforeRun":      30,
                                 "CreatePreScanRestorePoint": true,
-                                "EscalateToDismOnFailure":   true
+                                "EscalateToDismOnFailure":   true,
+                                "PauseOnDiskDegradation":    true
                             },
     "EventLog":  {
                      "Enabled":    true,
