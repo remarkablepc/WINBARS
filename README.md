@@ -1,5 +1,5 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.8-beta)
-### *Built by a computer repair technician to eliminate the recurring system and data recovery failures that bring PCs back to the bench — free for personal and commercial use.*
+# WINBARS - Zero-Footprint Autonomous Windows Disaster Recovery Suite (v0.9.8-beta)
+### *Zero-footprint autonomous Windows disaster recovery: bare-metal DISM imaging, native personal file mirroring, instant baseline rollbacks, and anti-scam sentry protection — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.8--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
@@ -198,10 +198,12 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 > 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
 ### ⚡ Turnkey Root Launchers, Installers & Utilities
-- **Root Fast-Launchers**:
-  - `Run-WINBARS.bat` *(Main Interactive Launcher & Privilege Escalation Hub)*
-  - `WINBARS.exe` *(High-performance compiled binary engine)*
-- **1-Click Mode Installers (`installers/`)**:
+- **Root Fast-Launchers (`Run-WINBARS.bat`)**:
+  - `[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]` &mdash; **Instant Unattended Deployment** for each mode in 1 click.
+  - `0S`, `NS`, `1S`, `2S`, `3S`, `4S` &mdash; **Deploy + Immediate Baseline System Image** (Bare-metal image on external drive for 0/N; DISM `.wim` checkpoint for 1–4).
+  - `0E`, `NE`, `1E`, `2E`, `3E`, `4E` &mdash; **Pre-Flight Customization** (inspect capability cards, change target drives, toggle tasks).
+  - `[S]` &mdash; **Capture Baseline System Image Now** (instant standalone DISM `.wim` capture).
+- **1-Click Mode Batch Installers (`installers/`)**:
   - `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
   - `installers/Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode2-LocalDisasterGuard.bat`
   - `installers/Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode4-TotalProtection.bat`

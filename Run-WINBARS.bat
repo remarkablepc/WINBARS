@@ -161,7 +161,8 @@ if not "!ACTIVE_CONFIG_PATH!"=="" (
 if not "!DETECTED_PROFILE!"=="" set "DEFAULT_PROFILE=!DETECTED_PROFILE!"
 cls
 echo ============================================================
-echo   WINBARS - WINDOWS BACKUP, ASSISTANCE, RECOVERY ^& SECURITY
+echo   WINBARS - ZERO-FOOTPRINT WINDOWS DISASTER RECOVERY
+echo   Windows Backup, Assistance, Recovery ^& Security Suite
 echo ============================================================
 echo  Location:       %~dp0
 echo  Active Brand:   !CHOSEN_BRAND_NAME! [!BRAND_ARG!]
