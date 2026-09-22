@@ -16,7 +16,8 @@
         "BlockAutomaticBitLockerEncryption": true
     },
     "Diagnostics": {
-        "EchoNativeCommands": true
+        "EchoNativeCommands": true,
+        "EnableWinReIntegration": true
     },
     "InstallDirectory": "C:\\Tools\\WINBARS",
     "SystemImageMonthlyDay":  1,

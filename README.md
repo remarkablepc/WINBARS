@@ -47,10 +47,17 @@
 > **WINBARS v0.9.7-beta is feature complete and available for community and bench testing.** Production fleet deployment experience has not yet been established. Use at your own discretion and always maintain independent secondary backups.
 
 > [!TIP]
-> ### 🔍 Radical Command Transparency in Beta (CLI Mode Only)
-> During the community beta period, **Live Command Transparency** is active by default in CLI / terminal mode. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
+> ### 🔍 Radical Command Transparency & Configurable Recovery in Beta (CLI Mode Only)
+> During the community beta period, **Live Command Transparency** is active by default in CLI / terminal mode. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
 > 
-> *The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.* Command echoing can be toggled via `[T]` in the CLI menu, passing `-NoEcho`, or setting `"EchoNativeCommands": false` in `config/config.json`.
+> *The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.* Both command echoing and WinRE recovery hooks can be inspected and changed together under the `"Diagnostics"` block in `config/config.json`:
+> ```json
+> "Diagnostics": {
+>     "EchoNativeCommands": true,
+>     "EnableWinReIntegration": true
+> }
+> ```
+> Command echoing can also be toggled via `[T]` in the CLI menu or with `-NoEcho` / `-EchoCommands`. WinRE integration can also be controlled via `-NoWinRE` / `-EnableWinRE` or toggled under custom profile component `[4]`.
 
 > [!IMPORTANT]
 > ### 💡 The Core Principle: Orchestration & Hardening, Not Proprietary Bloat
