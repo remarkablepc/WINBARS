@@ -368,7 +368,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 * **Reset this PC** is a destructive nuclear option that wipes installed desktop applications.
 * And if you don't already have a prepared bootable USB drive, you are completely stranded.
 
-**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `reagentc.exe /setcustomtarget /path C:\Recovery\OEM` and `WinreConfig.xml`. **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
+**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `C:\Recovery\OEM\WinreConfig.xml` and `reagentc.exe /enable`. **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
 
 #### 🖥️ Native WinRE Boot Hook & Live Rescue Console Flow:
 ```text
@@ -581,7 +581,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
 * **Binary Size & Checksum (v0.9.8)**:
   - Binary: `WINBARS.exe` (1.49 MB)
-  - SHA-256: `8A325C5FF7E1FA15E594BC057AB3C0D2C63841317A8BA6BFED3DB253D024A713`
+  - SHA-256: `45645DA90B0BCA5BD782082809EFF4EF2945ADAAAE5251B61A15247D99D35BFA`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 

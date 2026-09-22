@@ -150,7 +150,7 @@ To guarantee 100% transparency and provide a verifiable audit trail for security
 | **`dism.exe`** | `/Capture-Image /ImageFile:"$wim" /CaptureDir:C:\ /Name:"$tag" /Compress:fast /CheckIntegrity /Verify` | Captures crash-consistent, non-proprietary Microsoft `.wim` bare-metal images with multi-pass SHA-256 integrity hashing and block-level verification. |
 | **`dism.exe`** | `/Apply-Image /ImageFile:"$wim" /Index:1 /ApplyDir:C:\ /CheckIntegrity /Verify` | Restores standard `.wim` images to internal target partitions during bare-metal disaster recovery or Safe Overlay OS Refreshes. |
 | **`reagentc.exe`** | `/enable`<br>`/info` | Audits and automatically re-enables the Windows Recovery Environment (WinRE) if Windows Update or a third-party tool disabled it. |
-| **`reagentc.exe`** | `/setcustomtarget /path C:\Recovery\OEM` | Stages the WinRE GUI boot hook (`WinreConfig.xml`), adding a native "Emergency Resurrection Tool" button inside the Troubleshoot menu for Modes 2, 3, and 4. |
+| **`WinreConfig.xml`** | `C:\Recovery\OEM\WinreConfig.xml` | Stages the WinRE GUI boot hook configuration, adding a native "Emergency Resurrection Tool" button inside the Troubleshoot menu for Modes 2, 3, and 4. |
 | **`reagentc.exe`** | `/boottore` | Configures Windows Boot Manager to restart directly into the Windows Recovery Environment on the very next boot without requiring BIOS navigation. |
 | **`bcdedit.exe`** | `/set {bootmgr} displaybootmenu yes /timeout 2` | *[Tech Only]* Configures an optional 2-second boot manager countdown window to allow entering recovery mode during startup hangs. |
 | **`bcdedit.exe`** | `/set {default} bootmenupolicy Legacy` | *[Tech Only]* Restores the classic Windows 7-style `F8` Safe Mode boot prompt policy on Windows 10 and 11. |
