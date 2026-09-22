@@ -60,176 +60,6 @@
 
 ---
 
-## 📑 Table of Contents
-
-1. [⚡ Quick Start & Remote Web Launch](#quick-start)
-2. [🚀 Choose Your Protection Profile (Decision Matrix)](#choose-your-protection-profile)
-3. [💾 Floppy Tray Sentry & Global Hotkeys](#floppy-tray-sentry--global-hotkeys)
-4. [💔 Why WINBARS Was Born: 6 Real-World Nightmares](#why-winbars-was-born-6-real-world-nightmares)
-5. [🛡️ How WINBARS Solves the 6 Nightmares](#how-winbars-solves-the-6-nightmares)
-6. [🛡️ Key Protections at a Glance](#key-protections-at-a-glance)
-   - 🍏 [macOS-Style Non-Destructive OS Refresh](#macos-style-safe-overlay)
-   - 🚑 [Native WinRE Boot Hook & Blue-Screen Rescue Console](#native-winre-boot-hook)
-   - 🚨 [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
-   - 🔐 [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
-   - 🩺 [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
-   - 🔍 [Radical Command Transparency (CLI & Offline Tools)](#command-transparency)
-7. [💡 Why WINBARS is Different: The 4 Guarantees](#why-winbars-is-different-the-4-guarantees)
-8. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
-9. [🏷️ Shop White-Labeling & Community Sponsorship](#shop-white-labeling--community-sponsorship)
-10. [📚 Complete Technical Documentation Directory](#technical-documentation-directory)
-11. [⚖️ Disclaimer & Legal Notice](#disclaimer-and-legal)
-12. [📋 Requirements & License](#requirements--license)
-
----
-
-
-<a id="quick-start"></a>
-## ⚡ Quick Start
-
-### 🌐 Option A: 1-Click Remote Web Launch (PowerShell)
-Technicians can launch or deploy WINBARS directly on any bench or client PC without downloading ZIP archives manually:
-```powershell
-# In an elevated PowerShell prompt (Run as Administrator):
-irm winbars.remarkablepc.com | iex
-
-# Direct GitHub raw fallback (if custom domain is unreachable):
-irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
-```
-> 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile SystemUndo -Quiet"`.*
->
-> ⚠️ **Field Testing Notice**: *WINBARS v0.9.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
-
-### 💾 Option B: Offline Flash Drive Setup (3 Steps)
-
-1. **Download & Extract**:
-   Download the latest [`WINBARS-v0.9.8-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
-2. **Launch Setup**:
-   Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
-3. **Select Your Mode**:
-   Choose your preferred deployment profile (e.g., press `[0]` for Zero-Footprint, or double-click `installers\Install-Mode4-TotalProtection.bat` for full interactive protection).
-
-> 💡 *For unattended batch flags and command-line automation, see the [CLI Reference](docs/CLI_REFERENCE.md).*
-
-<details>
-<summary><b>🛠️ Click to expand Quick CLI & Automation Reference</b></summary>
-<br>
-
-| Operational Domain | Command Syntax | Description |
-| :--- | :--- | :--- |
-| **⚡ 1-Click Backup** | `WINBARS.exe -Action FastBackup` | Mirrors personal files + creates System Checkpoint. |
-| **📊 Visual Backup** | `WINBARS.exe -Action FastBackup -ShowProgress` | Launches live Dual Progress Bar in real-time. |
-| **🛡 System Checkpoint** | `WINBARS.exe -Action RestorePoint` | Creates unthrottled atomic System Restore Point. |
-| **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemRecovery`. |
-| **💽 Any Volume Image** | `WINBARS.exe -Action CaptureVolumeImage` | Captures standalone DISM `.wim` of any drive/partition (VSS frozen). |
-| **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
-| **🩺 Feature Diagnostics** | `WINBARS.exe -Action Diagnostics` | Runs profile-aware audit with PASS / WARN / FAIL / N/A scorecard. |
-| **🩹 Windows Health Check** | `WINBARS.exe -WindowsHealthCheck` | On-demand SFC + DISM scan with live progress bars. Results logged to Windows Event Viewer. |
-| **⚙️ Configure Health Check** | `WINBARS.exe -ConfigureHealthCheck -Interval 14 -Time 02:00 -IdleMinutes 45` | Set scan interval (days), scheduled time (Modes N/1), or idle threshold (Modes 2–4). |
-| **🗂️ Toggle Health Check** | `WINBARS.exe -EnableHealthCheck` / `-DisableHealthCheck` | Enable or disable the scheduled SFC/DISM health scan task. |
-| **📋 Event Log Toggle** | `WINBARS.exe -EnableEventLog` / `-DisableEventLog` | Enable or disable Windows Event Viewer integration (Application log). |
-| **🏷️ Event Log Branding** | `WINBARS.exe -ConfigureEventLog -SourceName "TechPros PC Care"` | Override the Event Log source name for white-label deployments. |
-| **🚀 Deploy Mode 0** | `WINBARS.exe -Profile ZeroFootprint` | 100% native Windows automation (0 files on `C:\`). |
-| **👻 Deploy Mode N** | `WINBARS.exe -Profile NearZeroFootprint` | Stealth native automation with unbranded shortcuts. |
-| **⏪ Deploy Mode 1** | `WINBARS.exe -Profile SystemUndo` | Daily System Restore hardening + VSS auto-heal. |
-| **💽 Deploy Mode 2** | `WINBARS.exe -Profile LocalDisasterGuard` | Mode 1 + local DISM image (.wim) + silent Scam/RAT watchdog + hotkeys. |
-| **🏢 Deploy Mode 3** | `WINBARS.exe -Profile HeadlessFull` | Mode 2 + daily external Robocopy file sync + scheduled images. |
-| **🛡️ Deploy Mode 4** | `WINBARS.exe -Profile TotalProtection` | Mode 3 + Floppy Tray Sentry (dynamic health status) + live GUI dashboard. |
-| **🔄 Switch Mode** | `WINBARS.exe -SwitchMode <Profile>` | Zero-drift transition: tears down old tasks cleanly. |
-| **🧹 Factory Reset** | `WINBARS.exe -ResetSuite` | Clears scheduled tasks and configs to factory defaults. |
-| **🚨 ScamBuster** | `WINBARS.exe -ScamBuster` | Terminates browser lockups and clears sirens (`Ctrl+Win+B`). |
-| **📋 Emergency Card** | `WINBARS.exe -EmergencyCard` | Generates printable BitLocker Emergency Card (`.html`). |
-| **🔒 Block Auto-BitLocker** | `WINBARS.exe -BlockSilentBitLocker` | Sets `PreventDeviceEncryption=1` to block silent 24H2 encryption trap. |
-| **🔓 Allow Auto-BitLocker** | `WINBARS.exe -AllowSilentBitLocker` | Removes `PreventDeviceEncryption` policy (allows automatic BitLocker). |
-| **🧰 Boot Recovery** | `WINBARS.exe -BootRecoveryMenu` | Reboots directly into WinRE on next startup. |
-| **🧹 Complete Removal** | `WINBARS.exe -Uninstall` | Cleanly removes all scheduled tasks, shortcuts, and sentry. |
-
-```cmd
-REM --- Unattended Technician Batch Examples ---
-installers\Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet
-installers\Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Image:D:\Images /Quiet /Vanilla
-installers\Install-Mode4-TotalProtection.bat /Brand:"TechPros" /Quiet
-installers\Uninstall.bat /Quiet
-```
-
-> 📖 *For complete command parameters and trigger switches, see the [Full CLI Reference](docs/CLI_REFERENCE.md).*
-
-</details>
-
----
-
-<a id="choose-your-protection-profile"></a>
-## 🚀 Choose Your Protection Profile
-
-WINBARS provides 6 tailored deployment profiles to fit any home, business, or repair bench workflow:
-
-| Profile & Reason for Being | Best For | What It Protects & Hardens | Windows Health Check (SFC/DISM) | What Sits on `C:\` | Where Rescue Scripts Live |
-| :--- | :--- | :--- | :---: | :--- | :---: |
-| **Mode 0: `ZeroFootprint`** ⭐<br>*(Forensic sterility — nothing on `C:\`)* | **Corporate Audits & Compliance** | Portable System Restore checkpoint + Robocopy file mirror (30-day retention) + bare-metal image + BitLocker keys to USB. | ❌ *Omitted*<br>*(0 host tasks)* | **0 Files on `C:\`**<br>*(0 files in `C:\SystemRecovery`)* | **Backup Drive Only** |
-| **Mode N: `NearZeroFootprint`** 👻<br>*(Native Windows automation — 0 background EXEs)* | **Workstations & Vendor-Neutral Setups** | Mode 0 + generic unbranded desktop & Start Menu shortcuts (*System Backup & Recovery*). | ✅ **Daily (03:00 AM)**<br>*(fully adjustable)* | **Shortcuts Only**<br>*(0 files in `C:\SystemRecovery`)* | **Backup Drive Only** |
-| **Mode 1: `SystemUndo`** ⏪<br>*(Zero third-party binaries — pure native OS recovery hardening)* | **Shop Bench Tune-Ups & Routine Service** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, and RegBack. | ✅ **Daily (03:00 AM)**<br>*(fully adjustable)* | `C:\SystemRecovery\`<br>*(3 text scripts + key; 0 EXEs)* | `C:\SystemRecovery` *(Local)* |
-| **Mode 2: `LocalDisasterGuard`** 💽<br>*(Single-drive disaster recovery — no external drive)* | **Mobile Laptops, Students & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) + silent background Scam & RAT Watchdog (auto-mute sirens) + hotkeys. | ✅ **Weekly (on 30m idle)**<br>*(fully adjustable)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\SystemRecovery` *(Local)* |
-| **Mode 3: `HeadlessFull`** 🏢<br>*(Silent multi-drive automation — zero UI clutter)* | **Quiet Workstations, Accounting & Clinics** | Mode 2 + daily external Robocopy file sync + scheduled bare-metal images + silent office Scam/RAT defense. | ✅ **Weekly (on 30m idle)**<br>*(fully adjustable)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | **Both** Local & Backup Drive |
-| **Mode 4: `TotalProtection`** 🛡️<br>*(Visual observability & interactive control)* | **Everyday Users, Family & Seniors** | Mode 3 + signature Floppy Tray Sentry (dynamic health colors & live tooltips) + live interactive GUI dashboard. | ✅ **Weekly (on 30m idle)**<br>*(fully adjustable)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | **Both** Local & Backup Drive |
-
-> `*` **Note on Mode 1**: Only unbranded emergency recovery scripts (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and an optional baseline `.wim` reside in `C:\SystemRecovery\`. Mode 1 installs **0 resident EXEs and 0 background processes**—permanently locking out ScamBuster daemons, tray sentries, and hotkeys to maintain total transparency, uphold clean bench standards, and ensure the client's PC remains completely free of third-party software.
->
-> 🩺 **Fully Adjustable Health Check Schedules**: The default Windows Health Check cadence (Weekly on 30m idle for desktop modes 2–4, Daily at 03:00 AM for stealth modes N & 1) is **100% customizable**. Technicians can change trigger modes (`Daily`, `Weekly`, or `Idle`), execution times, frequency intervals, or idle threshold minutes anytime in `config/config.json` or on the fly via CLI: `WINBARS.exe -ConfigureHealthCheck -Interval 14 -Time 02:00` (or toggle on/off with `-EnableHealthCheck` / `-DisableHealthCheck`).
->
-> 🛡️ **Zero Windows Services Guarantee**: Across ALL modes (0 through 4), WINBARS installs **zero Windows Services (`services.msc`)**, zero kernel drivers, and zero system daemons. Modes 0, N, and 1 operate with **0 resident background processes / 0 MB RAM** using pure native Windows Task Scheduler. Modes 2, 3, and 4 run solely as a lightweight user-session background process (`WINBARS.exe`, ~12–16 MB RAM) via `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, which exits cleanly whenever the user logs off.
->
-> 💡 **Additive Feature Progression & Tailored 1-Click Actions**:
-> - **Monotonic Hierarchy**: Moving up the ladder (1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ 4) strictly adds capabilities. Modes 2, 3, and 4 all feature active Scam & RAT Watchdog defense (instantly muting audio sirens and blocking unauthorized remote tools). Modes 2 & 3 run this as a **Silent Guardian** (no taskbar clutter), while Mode 4 adds the iconic **Floppy Tray Sentry** and full interactive dashboard.
-> - **Mode-Aware Actions & Shortcuts**: Every 1-click action button and desktop shortcut strictly reflects what is available in the current mode. For example, in **Mode 2 (Single-Drive)**, the primary action button captures a local bare-metal System Image and System Restore Point—automatically omitting external file mirror prompts since no secondary drive exists.
-> - **Floppy Tray Toggle**: The Floppy Tray Sentry is **Default ON** in Mode 4, **Default OFF** in Modes 2 & 3 (toggable via Pre-Flight `[8]`), and **Hard-Locked OFF** in Modes 0, N, and 1.
->
-> 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
-
-### ⚡ Turnkey Root Launchers, Installers & Utilities
-- **Root Fast-Launchers**:
-  - `Run-WINBARS.bat` *(Main Interactive Launcher & Privilege Escalation Hub)*
-  - `WINBARS.exe` *(High-performance compiled binary engine)*
-- **1-Click Mode Installers (`installers/`)**:
-  - `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
-  - `installers/Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode2-LocalDisasterGuard.bat`
-  - `installers/Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode4-TotalProtection.bat`
-  - `installers/Uninstall.bat` *(Complete suite teardown: cleanly wipes scheduled tasks, shortcuts, and sentry)*
-- **BitLocker Certificate Vault (`certs/`)**:
-  - Drop public BitLocker Data Recovery Agent certificates (`*.cer`) here for automatic discovery and enrollment on client PCs.
-- **Bench, Operational & Recovery Tools (`tools/`)**:
-  - `tools/Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
-  - `tools/Generate-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Verify-MasterKey-Password.bat`
-  - `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
-  - `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
-  - `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
-  - `tools/web-deploy/` *(1-line remote IRM web deployment blueprints for `winbars.remarkablepc.com` and `macpc.remarkablepc.com`)*
-
----
-
-<a id="floppy-tray-sentry--global-hotkeys"></a>
-## 💾 Floppy Tray Sentry & Global Hotkeys
-
-In **Mode 4 (`TotalProtection`)**, WINBARS places a classic floppy disk icon in the system notification area that dynamically reflects system health at a glance:
-
-| Tray Floppy | Status | Meaning | Live Hover Tooltip |
-| :---: | :--- | :--- | :--- |
-| <img src="assets/floppy_green.png" width="18" height="18" valign="middle" alt="Green Floppy" /> 🟢 | **Emerald Green** | **All Systems Protected**: Daily restore points active, file backups up to date. | `WINBARS: All Systems Protected` |
-| <img src="assets/floppy_purple.png" width="18" height="18" valign="middle" alt="Purple Floppy" /> 🟣 | **Signature Purple** | **Backup in Progress**: Active file mirror, restore point, or image creation. | `WINBARS: Backup in Progress (45%)...` |
-| <img src="assets/floppy_yellow.png" width="18" height="18" valign="middle" alt="Amber Floppy" /> 🟡 | **Amber Gold** | **Notice / Local Mode**: External backup drive unplugged or backup due. | `WINBARS: External Backup Drive Unplugged`<br>*(or: `System Restore Point Needed`)* |
-| <img src="assets/floppy_red.png" width="18" height="18" valign="middle" alt="Red Floppy" /> 🔴 | **Crimson Red** | **Attention Required**: S.M.A.R.T. disk degradation or backup task issue. | `WINBARS: Attention Required (Check Logs)` |
-
-> 🔵 **Classic Blue Floppy (`app.ico`)**: The static application icon embedded into `WINBARS.exe` and the desktop/Start Menu shortcut for **WINBARS Protection Center** / **Windows System Restore**. The active notification tray sentry strictly uses 🟢 Green, 🟣 Purple, 🟡 Amber, and 🔴 Red to reflect live operational health.
->
-> 💡 **Instant Observability**: Simply hover your mouse over the floppy icon at any time to see the exact real-time system condition without opening a single dashboard or menu.
-
-### ⌨️ Universal Global Hotkeys
-Available in Modes 2 through 4 for emergency assistance:
-* **`Ctrl + Win + W` $\rightarrow$ WINBARS Protection Center**: Opens the live System Health dashboard, backup status, and 1-click tools.
-* **`Ctrl + Win + B` $\rightarrow$ Emergency Scam Buster**: Instantly closes frozen full-screen browsers, kills audio sirens, and clears crash-reload loops.
-* **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**: Displays verified support details before launching Microsoft Quick Assist for remote screen sharing.
-
----
-
 <a id="why-winbars-was-born-6-real-world-nightmares"></a>
 ## 💔 Why WINBARS Was Born: 6 Real-World Nightmares
 
@@ -314,6 +144,175 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 * 🏷️ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, 4 capture monthly local images in `C:\SystemRecovery`; Mode 1\* offers an optional Day-1 baseline image `_baseline.wim` in `C:\SystemRecovery` if disk space $\ge 25$ GB; Modes 0 & N store `.wim` images **strictly on the external Backup Drive**, leaving `C:\SystemRecovery` completely empty).*
 * **The Solution**: Big-box stores wipe your entire hard drive when Windows gets corrupted, erasing all your programs and preferences. WINBARS captures bare-metal `.wim` images that exclude personal data, allowing you to reinstall a factory-clean Windows OS and your programs in under 5 minutes while leaving **all personal documents, photos, desktop profiles, and browser data 100% untouched on disk**.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
+
+---
+
+## 📑 Table of Contents
+
+1. [💔 Why WINBARS Was Born: 6 Real-World Nightmares](#why-winbars-was-born-6-real-world-nightmares)
+2. [🛡️ How WINBARS Solves the 6 Nightmares](#how-winbars-solves-the-6-nightmares)
+3. [🚀 Choose Your Protection Profile (Decision Matrix)](#choose-your-protection-profile)
+4. [⚡ Quick Start & Remote Web Launch](#quick-start)
+5. [💾 Floppy Tray Sentry & Global Hotkeys](#floppy-tray-sentry--global-hotkeys)
+6. [🛡️ Key Protections at a Glance](#key-protections-at-a-glance)
+   - 🍏 [macOS-Style Non-Destructive OS Refresh](#macos-style-safe-overlay)
+   - 🚑 [Native WinRE Boot Hook & Blue-Screen Rescue Console](#native-winre-boot-hook)
+   - 🚨 [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
+   - 🔐 [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
+   - 🩺 [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
+   - 🔍 [Radical Command Transparency (CLI & Offline Tools)](#command-transparency)
+7. [💡 Why WINBARS is Different: The 4 Guarantees](#why-winbars-is-different-the-4-guarantees)
+8. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
+9. [🏷️ Shop White-Labeling & Community Sponsorship](#shop-white-labeling--community-sponsorship)
+10. [📚 Complete Technical Documentation Directory](#technical-documentation-directory)
+11. [⚖️ Disclaimer & Legal Notice](#disclaimer-and-legal)
+12. [📋 Requirements & License](#requirements--license)
+
+---
+
+<a id="choose-your-protection-profile"></a>
+## 🚀 Choose Your Protection Profile
+
+WINBARS provides 6 tailored deployment profiles to fit any home, business, or repair bench workflow:
+
+| Profile & Purpose | Best For | Core Protections & Hardening | Footprint on `C:\` |
+| :--- | :--- | :--- | :--- |
+| **Mode 0: `ZeroFootprint`** ⭐<br>*(Forensic sterility)* | **Audits & Compliance** | Portable System Restore checkpoint + Robocopy file mirror (30-day safety retention) + bare-metal image + BitLocker keys to USB. | **0 Files on `C:\`**<br>*(Rescue tools live on USB only)* |
+| **Mode N: `NearZeroFootprint`** 👻<br>*(Native Windows automation)* | **Workstations & Vendor-Neutral** | Mode 0 + unbranded desktop shortcuts + scheduled automated file sync & daily health check. | **Shortcuts Only**<br>*(0 files in `C:\SystemRecovery`)* |
+| **Mode 1: `SystemUndo`** ⏪<br>*(Zero third-party binaries)* | **Shop Bench Service & Tune-Ups** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, RegBack, and local recovery scripts. | `C:\SystemRecovery\`<br>*(3 text scripts; 0 resident EXEs)* |
+| **Mode 2: `LocalDisasterGuard`** 💽<br>*(Single-drive disaster recovery)* | **Laptops & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) + silent background Scam & RAT Watchdog (auto-mute sirens) + hotkeys. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **Mode 3: `HeadlessFull`** 🏢<br>*(Silent multi-drive automation)* | **Workstations, Accounting & Clinics** | Mode 2 + daily external Robocopy file sync + scheduled bare-metal images + silent office Scam/RAT defense. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **Mode 4: `TotalProtection`** 🛡️<br>*(Visual observability & control)* | **Everyday Users, Family & Seniors** | Mode 3 + Floppy Tray Sentry (dynamic health colors & live tooltips) + interactive GUI dashboard. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+
+> `*` **Note on Mode 1**: Only unbranded emergency recovery scripts (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and an optional baseline `.wim` reside in `C:\SystemRecovery\`. Mode 1 installs **0 resident EXEs and 0 background processes**—permanently locking out ScamBuster daemons, tray sentries, and hotkeys to maintain total transparency, uphold clean bench standards, and ensure the client's PC remains completely free of third-party software.
+>
+> 🩺 **Fully Adjustable Health Check Schedules**: The default Windows Health Check cadence (Weekly on 30m idle for desktop modes 2–4, Daily at 03:00 AM for stealth modes N & 1) is **100% customizable**. Technicians can change trigger modes (`Daily`, `Weekly`, or `Idle`), execution times, frequency intervals, or idle threshold minutes anytime in `config/config.json` or on the fly via CLI: `WINBARS.exe -ConfigureHealthCheck -Interval 14 -Time 02:00` (or toggle on/off with `-EnableHealthCheck` / `-DisableHealthCheck`).
+>
+> 🛡️ **Zero Windows Services Guarantee**: Across ALL modes (0 through 4), WINBARS installs **zero Windows Services (`services.msc`)**, zero kernel drivers, and zero system daemons. Modes 0, N, and 1 operate with **0 resident background processes / 0 MB RAM** using pure native Windows Task Scheduler. Modes 2, 3, and 4 run solely as a lightweight user-session background process (`WINBARS.exe`, ~12–16 MB RAM) via `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, which exits cleanly whenever the user logs off.
+>
+> 💡 **Additive Feature Progression & Tailored 1-Click Actions**:
+> - **Monotonic Hierarchy**: Moving up the ladder (1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ 4) strictly adds capabilities. Modes 2, 3, and 4 all feature active Scam & RAT Watchdog defense (instantly muting audio sirens and blocking unauthorized remote tools). Modes 2 & 3 run this as a **Silent Guardian** (no taskbar clutter), while Mode 4 adds the iconic **Floppy Tray Sentry** and full interactive dashboard.
+> - **Mode-Aware Actions & Shortcuts**: Every 1-click action button and desktop shortcut strictly reflects what is available in the current mode. For example, in **Mode 2 (Single-Drive)**, the primary action button captures a local bare-metal System Image and System Restore Point—automatically omitting external file mirror prompts since no secondary drive exists.
+> - **Floppy Tray Toggle**: The Floppy Tray Sentry is **Default ON** in Mode 4, **Default OFF** in Modes 2 & 3 (toggable via Pre-Flight `[8]`), and **Hard-Locked OFF** in Modes 0, N, and 1.
+>
+> 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
+
+### ⚡ Turnkey Root Launchers, Installers & Utilities
+- **Root Fast-Launchers**:
+  - `Run-WINBARS.bat` *(Main Interactive Launcher & Privilege Escalation Hub)*
+  - `WINBARS.exe` *(High-performance compiled binary engine)*
+- **1-Click Mode Installers (`installers/`)**:
+  - `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`
+  - `installers/Install-Mode1-SystemUndo.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode2-LocalDisasterGuard.bat`
+  - `installers/Install-Mode3-HeadlessFull.bat` &nbsp;&bull;&nbsp; `installers/Install-Mode4-TotalProtection.bat`
+  - `installers/Uninstall.bat` *(Complete suite teardown: cleanly wipes scheduled tasks, shortcuts, and sentry)*
+- **BitLocker Certificate Vault (`certs/`)**:
+  - Drop public BitLocker Data Recovery Agent certificates (`*.cer`) here for automatic discovery and enrollment on client PCs.
+- **Bench, Operational & Recovery Tools (`tools/`)**:
+  - `tools/Whitelist-WINBARS.bat` *(Windows Defender Whitelist Utility: adds folder & process exclusions to prevent false alerts)*
+  - `tools/Generate-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Unlock-BitLocker-With-MasterKey.bat` &nbsp;&bull;&nbsp; `tools/Verify-MasterKey-Password.bat`
+  - `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
+  - `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
+  - `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
+  - `tools/web-deploy/` *(1-line remote IRM web deployment blueprints for `winbars.remarkablepc.com` and `macpc.remarkablepc.com`)*
+
+---
+
+<a id="quick-start"></a>
+## ⚡ Quick Start
+
+### 🌐 Option A: 1-Click Remote Web Launch (PowerShell)
+Technicians can launch or deploy WINBARS directly on any bench or client PC without downloading ZIP archives manually:
+```powershell
+# In an elevated PowerShell prompt (Run as Administrator):
+irm winbars.remarkablepc.com | iex
+
+# Direct GitHub raw fallback (if custom domain is unreachable):
+irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
+```
+> 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile SystemUndo -Quiet"`.*
+>
+> ⚠️ **Field Testing Notice**: *WINBARS v0.9.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
+
+### 💾 Option B: Offline Flash Drive Setup (3 Steps)
+
+1. **Download & Extract**:
+   Download the latest [`WINBARS-v0.9.8-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
+2. **Launch Setup**:
+   Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
+3. **Select Your Mode**:
+   Choose your preferred deployment profile (e.g., press `[0]` for Zero-Footprint, or double-click `installers\Install-Mode4-TotalProtection.bat` for full interactive protection).
+
+> 💡 *For unattended batch flags and command-line automation, see the [CLI Reference](docs/CLI_REFERENCE.md).*
+
+<details>
+<summary><b>🛠️ Click to expand Quick CLI & Automation Reference</b></summary>
+<br>
+
+| Operational Domain | Command Syntax | Description |
+| :--- | :--- | :--- |
+| **⚡ 1-Click Backup** | `WINBARS.exe -Action FastBackup` | Mirrors personal files + creates System Checkpoint. |
+| **📊 Visual Backup** | `WINBARS.exe -Action FastBackup -ShowProgress` | Launches live Dual Progress Bar in real-time. |
+| **🛡 System Checkpoint** | `WINBARS.exe -Action RestorePoint` | Creates unthrottled atomic System Restore Point. |
+| **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemRecovery`. |
+| **💽 Any Volume Image** | `WINBARS.exe -Action CaptureVolumeImage` | Captures standalone DISM `.wim` of any drive/partition (VSS frozen). |
+| **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
+| **🩺 Feature Diagnostics** | `WINBARS.exe -Action Diagnostics` | Runs profile-aware audit with PASS / WARN / FAIL / N/A scorecard. |
+| **🩹 Windows Health Check** | `WINBARS.exe -WindowsHealthCheck` | On-demand SFC + DISM scan with live progress bars. Results logged to Windows Event Viewer. |
+| **⚙️ Configure Health Check** | `WINBARS.exe -ConfigureHealthCheck`<br>`-Interval 14 -Time 02:00` | Set scan interval (days), scheduled time (Modes N/1), or idle threshold (Modes 2–4). |
+| **🗂️ Toggle Health Check** | `WINBARS.exe -EnableHealthCheck` / `-DisableHealthCheck` | Enable or disable the scheduled SFC/DISM health scan task. |
+| **📋 Event Log Toggle** | `WINBARS.exe -EnableEventLog` / `-DisableEventLog` | Enable or disable Windows Event Viewer integration (Application log). |
+| **🏷️ Event Log Branding** | `WINBARS.exe -ConfigureEventLog`<br>`-SourceName "TechPros PC Care"` | Override the Event Log source name for white-label deployments. |
+| **🚀 Deploy Mode 0** | `WINBARS.exe -Profile ZeroFootprint` | 100% native Windows automation (0 files on `C:\`). |
+| **👻 Deploy Mode N** | `WINBARS.exe -Profile NearZeroFootprint` | Stealth native automation with unbranded shortcuts. |
+| **⏪ Deploy Mode 1** | `WINBARS.exe -Profile SystemUndo` | Daily System Restore hardening + VSS auto-heal. |
+| **💽 Deploy Mode 2** | `WINBARS.exe -Profile LocalDisasterGuard` | Mode 1 + local DISM image (.wim) + silent Scam/RAT watchdog + hotkeys. |
+| **🏢 Deploy Mode 3** | `WINBARS.exe -Profile HeadlessFull` | Mode 2 + daily external Robocopy file sync + scheduled images. |
+| **🛡️ Deploy Mode 4** | `WINBARS.exe -Profile TotalProtection` | Mode 3 + Floppy Tray Sentry (dynamic health status) + live GUI dashboard. |
+| **🔄 Switch Mode** | `WINBARS.exe -SwitchMode <Profile>` | Zero-drift transition: tears down old tasks cleanly. |
+| **🧹 Factory Reset** | `WINBARS.exe -ResetSuite` | Clears scheduled tasks and configs to factory defaults. |
+| **🚨 ScamBuster** | `WINBARS.exe -ScamBuster` | Terminates browser lockups and clears sirens (`Ctrl+Win+B`). |
+| **📋 Emergency Card** | `WINBARS.exe -EmergencyCard` | Generates printable BitLocker Emergency Card (`.html`). |
+| **🔒 Block Auto-BitLocker** | `WINBARS.exe -BlockSilentBitLocker` | Sets `PreventDeviceEncryption=1` to block silent 24H2 encryption trap. |
+| **🔓 Allow Auto-BitLocker** | `WINBARS.exe -AllowSilentBitLocker` | Removes `PreventDeviceEncryption` policy (allows automatic BitLocker). |
+| **🧰 Boot Recovery** | `WINBARS.exe -BootRecoveryMenu` | Reboots directly into WinRE on next startup. |
+| **🧹 Complete Removal** | `WINBARS.exe -Uninstall` | Cleanly removes all scheduled tasks, shortcuts, and sentry. |
+
+```cmd
+REM --- Unattended Technician Batch Examples ---
+installers\Install-Mode1-SystemUndo.bat /Baseline:Y /Quiet
+installers\Install-Mode0-ZeroFootprint.bat /Data:D:\UserData /Quiet
+installers\Install-Mode4-TotalProtection.bat /Brand:"TechPros" /Quiet
+installers\Uninstall.bat /Quiet
+```
+
+> 📖 *For complete command parameters and trigger switches, see the [Full CLI Reference](docs/CLI_REFERENCE.md).*
+
+</details>
+
+---
+
+<a id="floppy-tray-sentry--global-hotkeys"></a>
+## 💾 Floppy Tray Sentry & Global Hotkeys
+
+In **Mode 4 (`TotalProtection`)**, WINBARS places a classic floppy disk icon in the system notification area that dynamically reflects system health at a glance:
+
+| Tray Floppy | Status | Meaning | Live Hover Tooltip |
+| :---: | :--- | :--- | :--- |
+| <img src="assets/floppy_green.png" width="18" height="18" valign="middle" alt="Green Floppy" /> 🟢 | **Emerald Green** | **All Systems Protected**: Daily restore points active, file backups up to date. | `WINBARS: All Systems Protected` |
+| <img src="assets/floppy_purple.png" width="18" height="18" valign="middle" alt="Purple Floppy" /> 🟣 | **Signature Purple** | **Backup in Progress**: Active file mirror, restore point, or image creation. | `WINBARS: Backup in Progress (45%)...` |
+| <img src="assets/floppy_yellow.png" width="18" height="18" valign="middle" alt="Amber Floppy" /> 🟡 | **Amber Gold** | **Notice / Local Mode**: External backup drive unplugged or backup due. | `WINBARS: External Backup Drive Unplugged`<br>*(or: `System Restore Point Needed`)* |
+| <img src="assets/floppy_red.png" width="18" height="18" valign="middle" alt="Red Floppy" /> 🔴 | **Crimson Red** | **Attention Required**: S.M.A.R.T. disk degradation or backup task issue. | `WINBARS: Attention Required (Check Logs)` |
+
+> 🔵 **Classic Blue Floppy (`app.ico`)**: The static application icon embedded into `WINBARS.exe` and the desktop/Start Menu shortcut for **WINBARS Protection Center** / **Windows System Restore**. The active notification tray sentry strictly uses 🟢 Green, 🟣 Purple, 🟡 Amber, and 🔴 Red to reflect live operational health.
+>
+> 💡 **Instant Observability**: Simply hover your mouse over the floppy icon at any time to see the exact real-time system condition without opening a single dashboard or menu.
+
+### ⌨️ Universal Global Hotkeys
+Available in Modes 2 through 4 for emergency assistance:
+* **`Ctrl + Win + W` $\rightarrow$ WINBARS Protection Center**: Opens the live System Health dashboard, backup status, and 1-click tools.
+* **`Ctrl + Win + B` $\rightarrow$ Emergency Scam Buster**: Instantly closes frozen full-screen browsers, kills audio sirens, and clears crash-reload loops.
+* **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**: Displays verified support details before launching Microsoft Quick Assist for remote screen sharing.
 
 ---
 
@@ -580,7 +579,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
 * **Binary Size & Checksum (v0.9.8-beta)**:
   - Binary: `WINBARS.exe` (1.49 MB)
-  - SHA-256: `99EC95F31E6CA3B1B314D4ED817C80BE59FF8FB7EFC19AEA61649F294DC9C989`
+  - SHA-256: `6836B26230D9FAA02132180994EEC5C2FFF411076F7D84A1E7025B94439C5D93`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 
