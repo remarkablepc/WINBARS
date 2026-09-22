@@ -35,6 +35,7 @@
 
   ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping personal files ➔](#macos-style-safe-overlay)**<br>
   🚑 **[💾 Native WinRE Boot Hook: Turn the Blue "Automatic Repair" Screen into a 1-Click Rescue Console (No USB Needed) ➔](#native-winre-boot-hook)**<br>
+  🩺 **[🛠️ Automated Windows Health Check: Proactive SFC & DISM Auto-Repair with Safety Checkpoints ➔](#windows-health-check)**<br>
   🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
   🔐 **[🔑 Bootloader Auto-Heal & BitLocker Disaster Vaults: Automated BCD Repair & Printable Keycards ➔](#bootloader-bitlocker-safety-net)**
 
@@ -100,6 +101,7 @@
 6. [🛡️ Key Protections at a Glance](#key-protections-at-a-glance)
    - 🍏 [macOS-Style Non-Destructive OS Refresh](#macos-style-safe-overlay)
    - 🚑 [Native WinRE Boot Hook & Blue-Screen Rescue Console](#native-winre-boot-hook)
+   - 🩺 [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
    - 🚨 [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
    - 🔐 [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
 7. [💡 Why WINBARS is Different: The 4 Guarantees](#why-winbars-is-different-the-4-guarantees)
@@ -430,6 +432,16 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 * **12-Subsystem Feature Diagnostics & Audit Scorecard**: Run an on-demand audit of your system's defense readiness (S.M.A.R.T. storage health, VSS headroom, restore points, bare-metal images, WinRE blue-screen hooks, BitLocker vault & DRA enrollment, honeypot canaries, and scam sentry). Features intelligent, profile-aware **`[ N/A ]`** status tagging (no false alarm warnings on stealth modes) and a 1-click clipboard export for customer repair tickets.
 * **Pre-Staged Emergency Launcher (`EMERGENCY_RECOVERY.bat`)**: A standalone, guided rescue entry point pre-staged in `C:\SystemRecovery` (Modes 1–4) and on the backup drive root (Modes 0 & N). Tests physical drive health (S.M.A.R.T.), diagnoses volume errors, and guides non-technical users step-by-step through the least-invasive recovery ladder.
 
+<a id="windows-health-check"></a>
+### 🩺 5. Automated Windows Health Check (SFC & DISM Auto-Repair)
+* **Proactive System File Integrity Scanner**: Continuously defends against silent system corruption, bad Windows Updates, and file degradation by orchestrating native Microsoft `sfc.exe` (System File Checker) and `dism.exe` (Deployment Image Servicing and Management).
+* **Atomic Pre-Scan Safety Checkpoint**: Before modifying or replacing any system files, WINBARS automatically creates a fresh Windows System Restore Point rollback checkpoint (`CreatePreScanRestorePoint`), guaranteeing any system repair can be immediately reversed if needed.
+* **Intelligent Auto-Escalation Ladder**: Automatically executes `sfc /scannow`. If SFC detects system file corruption it cannot repair on its own (Exit Code 2), WINBARS automatically escalates to `DISM /Online /Cleanup-Image /RestoreHealth` to pull pristine component store payloads directly from Microsoft Update servers.
+* **Structured Windows Event IDs (1010–1015)**: Every run writes structured telemetry directly to the Windows Application Event Log under the `WINBARS` source (`1010` = Started, `1011` = Healthy, `1012` = Repaired by SFC, `1013` = SFC Escalating to DISM, `1014` = DISM Repaired, `1015` = Repair Failed / Tech Needed). Fleet administrators and MSPs can monitor these event IDs via RMM agents with zero software overhead.
+* **Mode-Aware Scheduling & Idle Guard**: Operates on a 30-minute system idle trigger in desktop modes (Modes 2–4) to prevent CPU or disk contention while users work, or daily at 03:00 AM on headless/stealth profiles (Modes N & 1).
+* **Technician On-Demand CLI**: Run an instant scan & repair anytime via `WINBARS.exe -WindowsHealthCheck` or reconfigure schedules with `WINBARS.exe -ConfigureHealthCheck -Interval 14 -Time 02:00`.
+* 🔗 [Deep Dive: Windows Health Check & Auto-Repair Guide](docs/WINDOWS_HEALTH_CHECK.md)
+
 ---
 
 <a id="why-winbars-is-different-the-4-guarantees"></a>
@@ -465,6 +477,7 @@ Rather than forcing a false choice between an opaque black-box (with proprietary
 * **Zero Windows Services**: WINBARS never installs a background NT service in `services.msc`. Modes 0–1 maintain 0 resident processes. Modes 2–4 run a lightweight user-mode desktop sentry (~12–16 MB RAM) loaded via standard user Startup without system-level service overhead.
 * **Transparent Host Orchestration**: Every scheduled task, personal file mirror, and WinPE disaster recovery script executes standard, verifiable native Windows utilities (`robocopy.exe`, `dism.exe`, `vssadmin.exe`, `reagentc.exe`).
 * **Line-by-Line Native Command Audit**: Every command and syntax pattern WINBARS executes is published in our [Native Windows Command Audit Reference (docs/SYSTEM_FOOTPRINT.md#8)](docs/SYSTEM_FOOTPRINT.md#8-complete-native-windows-engine--command-execution-reference). Technicians and enterprise auditors can independently verify every single operation in real time using Microsoft Sysinternals Process Monitor (`procmon.exe`).
+* **Real-Time Command Echoing & Offline Script Transparency**: Unlike opaque black-box utilities, WINBARS exposes its underlying operations with live command echoing. In CLI and bench operations, every native command string (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) is displayed in real time with exact flags before execution. Furthermore, every standalone offline rescue script generated on external backup drives (`Apply-SystemImage_WinPE.bat`, `Restore_BCD_WinPE.bat`, etc.) includes an open `SHOW_COMMAND_ECHO=1` header switch, allowing field technicians in raw WinPE environments to review every single disk and BCD command before it runs.
 
 ### Q: Where are the Ransomware Canary honeypot files located, and can I delete them?
 * **Locations**: When Canary Guard is active, WINBARS places a small, hidden honeypot decoy file (`.winbar_canary.dat`) in the roots of standard user libraries (`Desktop`, `Documents`, `Pictures`, `Music`, `Videos`, `Downloads`), `C:\Users\Public\Documents`, and at the root of the **Backup Drive**. On remote network shares, it deploys `.winbars_remote_canary.sha256`.
@@ -528,6 +541,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * 🛑 **[Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)**: Deep dive into browser unfreezing, domain sinkholing, and remote tool interception.
 * 🔐 **[BitLocker Master Key & Enterprise DRA Guide](docs/BITLOCKER_MASTER_KEYS.md)**: Universal Data Recovery Agent (DRA), asymmetric escrow, dual co-custody, and offline unlocking.
 * 🔑 **[BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)**: Automated key discovery, vault encryption, and printable recovery cards.
+* 🩺 **[Windows Health Check & Auto-Repair Guide](docs/WINDOWS_HEALTH_CHECK.md)**: Proactive SFC/DISM file integrity audits, Event ID 1010–1015 schema, and scheduled maintenance.
 * ⌨️ **[Command-Line CLI & Batch Reference](docs/CLI_REFERENCE.md)**: Complete parameter reference, batch launcher flags, and unattended syntax.
 * 🏷️ **[Shop White-Labeling Guide](docs/WHITE_LABELING.md)**: Customizing branding, contact cards, and deployment token staging.
 
