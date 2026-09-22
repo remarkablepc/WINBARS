@@ -47,17 +47,30 @@
 > **WINBARS v0.9.7-beta is feature complete and available for community and bench testing.** Production fleet deployment experience has not yet been established. Use at your own discretion and always maintain independent secondary backups.
 
 > [!TIP]
-> ### 🔍 Radical Command Transparency & Configurable Recovery in Beta (CLI Mode Only)
-> During the community beta period, **Live Command Transparency** is active by default in CLI / terminal mode. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
+> ### 🔍 Radical Command Transparency & Configurable Recovery (CLI & Offline Tools)
+> During the community beta period, **Live Command Transparency** is active by default across all command-line and offline recovery interfaces. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
 > 
-> *The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.* Both command echoing and WinRE recovery hooks can be inspected and changed together under the `"Diagnostics"` block in `config/config.json`:
-> ```json
-> "Diagnostics": {
->     "EchoNativeCommands": true,
->     "EnableWinReIntegration": true
-> }
-> ```
-> Command echoing can also be toggled via `[T]` in the CLI menu or with `-NoEcho` / `-EchoCommands`. WinRE integration can also be controlled via `-NoWinRE` / `-EnableWinRE` or toggled under custom profile component `[4]`.
+> * **Live Windows Suite Configuration (`config/config.json`)**:
+>   Both command transparency and WinRE bootloader hooks can be inspected and toggled together in the unified `"Diagnostics"` block:
+>   ```json
+>   "Diagnostics": {
+>       "EchoNativeCommands": true,
+>       "EnableWinReIntegration": true
+>   }
+>   ```
+>   *Command echoing can also be toggled anytime in the CLI interactive menu via `[T]` or bypassed via `-NoEcho` / `-EchoCommands`. WinRE integration can be bypassed with `-NoWinRE` or configured under profile component `[4]`.*
+> 
+> * **Offline USB & WinPE Rescue Tools (`.bat`)**:
+>   All standalone recovery batch files generated on external backup drives (`Apply-SystemImage_WinPE.bat`, `Restore_BCD_WinPE.bat`, `Restore_Registry_WinPE.bat`, `Restore_WiFi.bat`) feature a transparent header toggle:
+>   ```cmd
+>   set "SHOW_COMMAND_ECHO=1"
+>   ```
+>   *Technicians can toggle this to `0` in Notepad for quiet scripts or pass `/NoEcho` on the command line. When enabled, every BCD, registry hive copy, and DISM overlay command echoes with non-destructive verification tags.*
+> 
+> * **Zero-Footprint File Sync (Modes 0 & N)**:
+>   Manual sync passes run from desktop shortcuts display the live Robocopy command parameters in cyan, while background Task Scheduler passes record full command audits silently to `Daily_Sync_Audit.log`.
+> 
+> *The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.*
 
 > [!IMPORTANT]
 > ### 💡 The Core Principle: Orchestration & Hardening, Not Proprietary Bloat
