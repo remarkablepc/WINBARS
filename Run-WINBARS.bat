@@ -169,19 +169,26 @@ echo  Default Mode:   !DEFAULT_PROFILE! Profile
 echo  Log Retention:  !DEFAULT_LOG_RETENTION! Days (Forensic Trail)
 if !BRAND_COUNT! GTR 1 echo  Brand Profiles: !BRAND_COUNT! found - Press [B] to switch shop brand
 echo ============================================================
-echo  SELECT ACTION:
+echo  1-CLICK DEPLOYMENT PROFILES:
 echo ============================================================
-echo  [1] Deploy !DEFAULT_PROFILE! Profile [Default Preset]
-echo  [N] Deploy Near-Zero Footprint Profile [Stealth Native Automation]
-echo  [2] Launch Technician Interactive Console ^& Setup Wizard
-echo  [3] Backup My Files (1-Click File Mirror ^& Safety Checkpoint)
-echo  [4] Disaster Recovery Center (WinPE / Blue Screen / File Restore)
-echo  [5] Toggle Backup Drive Visibility (Explorer Cloak)
-echo  [6] Open WINBARS Protection Center (GUI Dashboard)
+echo  [0] Mode 0: Zero-Footprint (100%% Native Windows, 0 Files on PC)
+echo  [N] Mode N: Near-Zero Footprint (Stealth Native Automation, 0 EXEs)
+echo  [1] Mode 1: System Undo (OS Rapid Rollback, Text Scripts) [Default Preset]
+echo  [2] Mode 2: Local Disaster Guard (Single Drive / Laptop)
+echo  [3] Mode 3: Headless Full (Silent Scheduled Protection)
+echo  [4] Mode 4: Total Protection (Interactive Managed Suite)
+echo ============================================================
+echo  TECHNICIAN TOOLS & CONSOLE:
+echo ============================================================
+echo  [C] Launch Full Technician Interactive Console ^& Setup Wizard
+echo  [M] Backup My Files Now (1-Click File Mirror ^& Safety Checkpoint)
+echo  [R] Disaster Recovery Center (WinPE / Blue Screen / File Restore)
+echo  [H] Toggle Backup Drive Visibility (Explorer Cloak)
+echo  [G] Open WINBARS Protection Center (GUI Dashboard)
 echo  [I] Install / Provision Suite to C:\Tools\WINBARS
 echo  [U] In-Place Upgrade / Refresh Installed Suite
 if !BRAND_COUNT! GTR 1 echo  [B] Switch Shop Branding Profile
-echo  [0] Exit
+echo  [X] Exit
 echo ============================================================
 set "ACT_CHOICE=!DEFAULT_MENU_CHOICE!"
 if not "!ACTIVE_CONFIG_PATH!"=="" (
@@ -194,17 +201,26 @@ if not "!ACTIVE_CONFIG_PATH!"=="" (
 )
 if defined DEFAULT_MENU_CHOICE set "ACT_CHOICE=!DEFAULT_MENU_CHOICE!"
 set /p "ACT_CHOICE=Select an option [Default: !ACT_CHOICE!]: "
-if "!ACT_CHOICE!"=="0" exit /b
+if /i "!ACT_CHOICE!"=="X" exit /b
+if /i "!ACT_CHOICE!"=="Q" exit /b
+if /i "!ACT_CHOICE!"=="EXIT" exit /b
+if /i "!ACT_CHOICE!"=="QUIT" exit /b
 if /i "!ACT_CHOICE!"=="B" goto DO_BRAND
 if /i "!ACT_CHOICE!"=="I" goto DO_INSTALL_LOCAL
 if /i "!ACT_CHOICE!"=="U" goto DO_UPGRADE
+if "!ACT_CHOICE!"=="0" goto DO_CHOICE_0
 if /i "!ACT_CHOICE!"=="N" goto DO_CHOICE_N
 if "!ACT_CHOICE!"=="1" goto DO_CHOICE_1
 if "!ACT_CHOICE!"=="2" goto DO_CHOICE_2
 if "!ACT_CHOICE!"=="3" goto DO_CHOICE_3
 if "!ACT_CHOICE!"=="4" goto DO_CHOICE_4
-if "!ACT_CHOICE!"=="5" goto DO_CHOICE_5
-if "!ACT_CHOICE!"=="6" goto DO_CHOICE_6
+if /i "!ACT_CHOICE!"=="C" goto DO_CHOICE_CONSOLE
+if /i "!ACT_CHOICE!"=="M" goto DO_CHOICE_BACKUP
+if /i "!ACT_CHOICE!"=="R" goto DO_CHOICE_RECOVERY
+if /i "!ACT_CHOICE!"=="H" goto DO_CHOICE_CLOAK
+if /i "!ACT_CHOICE!"=="G" goto DO_CHOICE_GUI
+if "!ACT_CHOICE!"=="5" goto DO_CHOICE_CLOAK
+if "!ACT_CHOICE!"=="6" goto DO_CHOICE_GUI
 echo.
 echo [ERROR] Invalid selection: !ACT_CHOICE!
 timeout /t 1 >nul
@@ -248,31 +264,79 @@ for /l %%i in (1,1,!BRAND_COUNT!) do (
     )
 )
 goto MENU_LOOP
-:DO_CHOICE_N
+:DO_CHOICE_0
 echo.
-echo  --^> Deploying Near-Zero Footprint Profile (Stealth Native Automation)...
+echo  --^> Deploying Mode 0: Zero-Footprint Profile (100%% Native Windows)...
 if not defined RUN_CMD (
     echo [ERROR] Execution engine not found in %~dp0
     pause
     goto MENU_LOOP
 )
-!RUN_CMD! -SetProfile NearZeroFootprint -Vanilla -Unattended
+!RUN_CMD! -Mode 0 -Vanilla -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_N
+echo.
+echo  --^> Deploying Mode N: Near-Zero Footprint Profile (Stealth Native Automation)...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode N -Vanilla -Unattended
 echo.
 pause
 goto MENU_LOOP
 :DO_CHOICE_1
 echo.
-echo  --^> Deploying !DEFAULT_PROFILE! Profile...
+echo  --^> Deploying Mode 1: System Undo Profile (OS Rapid Rollback)...
 if not defined RUN_CMD (
     echo [ERROR] Execution engine not found in %~dp0
     pause
     goto MENU_LOOP
 )
-!RUN_CMD! -SetProfile !DEFAULT_PROFILE! !BRAND_ARG! -Unattended
+!RUN_CMD! -Mode 1 -Vanilla -Unattended
 echo.
 pause
 goto MENU_LOOP
 :DO_CHOICE_2
+echo.
+echo  --^> Deploying Mode 2: Local Disaster Guard Profile (Single Drive / Laptop)...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 2 !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_3
+echo.
+echo  --^> Deploying Mode 3: Headless Full Profile (Silent Scheduled Protection)...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 3 !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_4
+echo.
+echo  --^> Deploying Mode 4: Total Protection Profile (Interactive Managed Suite)...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 4 !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_CONSOLE
 echo.
 echo  --^> Launching Technician Console ^& Setup Wizard...
 if not defined RUN_CMD (
@@ -284,7 +348,7 @@ if not defined RUN_CMD (
 echo.
 pause
 goto MENU_LOOP
-:DO_CHOICE_3
+:DO_CHOICE_BACKUP
 echo.
 echo  --^> Initiating Backup My Files...
 if not defined RUN_CMD (
@@ -296,7 +360,7 @@ if not defined RUN_CMD (
 echo.
 pause
 goto MENU_LOOP
-:DO_CHOICE_4
+:DO_CHOICE_RECOVERY
 echo.
 echo  --^> Launching Disaster Recovery Center...
 if not defined RUN_CMD (
@@ -308,7 +372,7 @@ if not defined RUN_CMD (
 echo.
 pause
 goto MENU_LOOP
-:DO_CHOICE_5
+:DO_CHOICE_CLOAK
 if exist "%~dp0Toggle_Backup_Drive_Visibility.bat" (
     call "%~dp0Toggle_Backup_Drive_Visibility.bat"
 ) else if defined RUN_CMD (
@@ -317,6 +381,18 @@ if exist "%~dp0Toggle_Backup_Drive_Visibility.bat" (
     echo [ERROR] Utility not found.
     pause
 )
+goto MENU_LOOP
+:DO_CHOICE_GUI
+echo.
+echo  --^> Launching WINBARS Protection Center GUI...
+if defined RUN_CMD (
+    start "" !RUN_CMD! -GUI !BRAND_ARG!
+    echo  [OK] Launched WINBARS Protection Center Dashboard.
+) else (
+    echo [ERROR] Execution engine not found.
+    pause
+)
+timeout /t 2 >nul
 goto MENU_LOOP
 :DO_UPGRADE
 echo.
@@ -359,16 +435,4 @@ if %errorlevel% EQU 0 (
 )
 echo.
 pause
-goto MENU_LOOP
-:DO_CHOICE_6
-echo.
-echo  --^> Launching WINBARS Protection Center GUI...
-if defined RUN_CMD (
-    start "" !RUN_CMD! -GUI !BRAND_ARG!
-    echo  [OK] Launched WINBARS Protection Center Dashboard.
-) else (
-    echo [ERROR] Execution engine not found.
-    pause
-)
-timeout /t 2 >nul
-goto MENU_LOOP
+goto MENU_LOOP
