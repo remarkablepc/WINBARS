@@ -170,16 +170,35 @@ echo  Log Retention:  !DEFAULT_LOG_RETENTION! Days (Forensic Trail)
 if !BRAND_COUNT! GTR 1 echo  Brand Profiles: !BRAND_COUNT! found - Press [B] to switch shop brand
 echo ============================================================
 echo  1-CLICK DEPLOYMENT PROFILES:
+echo  (Enter number to deploy, add 'S' for baseline System Image, or 'E' to edit/customize)
 echo ============================================================
 echo  [0] Mode 0: Zero-Footprint (100%% Native Windows, 0 Files on PC)
+echo      Target: External Drive only ^| Footprint: 0 bytes ^| Tasks: \WindowsBackup\
+echo      Native wbadmin, Robocopy, System Restore. No suite EXEs or scripts on C:.
+echo.
 echo  [N] Mode N: Near-Zero Footprint (Stealth Native Automation, 0 EXEs)
+echo      Target: External Drive only ^| Footprint: ~20 KB (External USB only)
+echo      Adds desktop status/manual-sync launcher without installing suite to PC.
+echo.
 echo  [1] Mode 1: System Undo (OS Rapid Rollback, Text Scripts) [Default Preset]
+echo      Target: Local C:\SystemRecovery\ ^| Footprint: ~15 KB text scripts
+echo      Daily restore points, VSS auto-heal, boot-level text recovery in WinRE.
+echo.
 echo  [2] Mode 2: Local Disaster Guard (Single Drive / Laptop)
+echo      Target: Local C:\SystemRecovery\ ^| Footprint: ~15 MB compiled engine
+echo      For road warriors without external drive. Scheduled WIM imaging ^& self-heal.
+echo.
 echo  [3] Mode 3: Headless Full (Silent Scheduled Protection)
+echo      Target: Dedicated Secondary / External Backup Drive
+echo      Fully automated headless backups, File History, DISM imaging, Canary Guard.
+echo.
 echo  [4] Mode 4: Total Protection (Interactive Managed Suite)
+echo      Target: Dedicated Secondary / External Backup Drive
+echo      Floppy Tray Sentry, Toast notifications, hotkeys, Scam Buster ^& GUI dashboard.
 echo ============================================================
-echo  TECHNICIAN TOOLS & CONSOLE:
+echo  TECHNICIAN TOOLS & ACTIONS:
 echo ============================================================
+echo  [S] Capture System Image Now (DISM .wim Baseline Checkpoint)
 echo  [C] Launch Full Technician Interactive Console ^& Setup Wizard
 echo  [M] Backup My Files Now (1-Click File Mirror ^& Safety Checkpoint)
 echo  [R] Disaster Recovery Center (WinPE / Blue Screen / File Restore)
@@ -208,12 +227,25 @@ if /i "!ACT_CHOICE!"=="QUIT" exit /b
 if /i "!ACT_CHOICE!"=="B" goto DO_BRAND
 if /i "!ACT_CHOICE!"=="I" goto DO_INSTALL_LOCAL
 if /i "!ACT_CHOICE!"=="U" goto DO_UPGRADE
-if "!ACT_CHOICE!"=="0" goto DO_CHOICE_0
+if /i "!ACT_CHOICE!"=="0" goto DO_CHOICE_0
+if /i "!ACT_CHOICE!"=="0S" goto DO_CHOICE_0S
+if /i "!ACT_CHOICE!"=="0E" goto DO_CHOICE_0E
 if /i "!ACT_CHOICE!"=="N" goto DO_CHOICE_N
-if "!ACT_CHOICE!"=="1" goto DO_CHOICE_1
-if "!ACT_CHOICE!"=="2" goto DO_CHOICE_2
-if "!ACT_CHOICE!"=="3" goto DO_CHOICE_3
-if "!ACT_CHOICE!"=="4" goto DO_CHOICE_4
+if /i "!ACT_CHOICE!"=="NS" goto DO_CHOICE_NS
+if /i "!ACT_CHOICE!"=="NE" goto DO_CHOICE_NE
+if /i "!ACT_CHOICE!"=="1" goto DO_CHOICE_1
+if /i "!ACT_CHOICE!"=="1S" goto DO_CHOICE_1S
+if /i "!ACT_CHOICE!"=="1E" goto DO_CHOICE_1E
+if /i "!ACT_CHOICE!"=="2" goto DO_CHOICE_2
+if /i "!ACT_CHOICE!"=="2S" goto DO_CHOICE_2S
+if /i "!ACT_CHOICE!"=="2E" goto DO_CHOICE_2E
+if /i "!ACT_CHOICE!"=="3" goto DO_CHOICE_3
+if /i "!ACT_CHOICE!"=="3S" goto DO_CHOICE_3S
+if /i "!ACT_CHOICE!"=="3E" goto DO_CHOICE_3E
+if /i "!ACT_CHOICE!"=="4" goto DO_CHOICE_4
+if /i "!ACT_CHOICE!"=="4S" goto DO_CHOICE_4S
+if /i "!ACT_CHOICE!"=="4E" goto DO_CHOICE_4E
+if /i "!ACT_CHOICE!"=="S" goto DO_CHOICE_IMAGE
 if /i "!ACT_CHOICE!"=="C" goto DO_CHOICE_CONSOLE
 if /i "!ACT_CHOICE!"=="M" goto DO_CHOICE_BACKUP
 if /i "!ACT_CHOICE!"=="R" goto DO_CHOICE_RECOVERY
@@ -276,6 +308,30 @@ if not defined RUN_CMD (
 echo.
 pause
 goto MENU_LOOP
+:DO_CHOICE_0S
+echo.
+echo  --^> Deploying Mode 0 + Capturing Bare-Metal System Image to External Drive...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 0 -CaptureBaselineNow -Vanilla -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_0E
+echo.
+echo  --^> Opening Mode 0 Pre-Flight Customization ^& Capability Card...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 0 -PreFlight -Vanilla
+echo.
+pause
+goto MENU_LOOP
 :DO_CHOICE_N
 echo.
 echo  --^> Deploying Mode N: Near-Zero Footprint Profile (Stealth Native Automation)...
@@ -285,6 +341,30 @@ if not defined RUN_CMD (
     goto MENU_LOOP
 )
 !RUN_CMD! -Mode N -Vanilla -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_NS
+echo.
+echo  --^> Deploying Mode N + Capturing Bare-Metal System Image to External Drive...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode N -CaptureBaselineNow -Vanilla -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_NE
+echo.
+echo  --^> Opening Mode N Pre-Flight Customization ^& Capability Card...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode N -PreFlight -Vanilla
 echo.
 pause
 goto MENU_LOOP
@@ -300,6 +380,30 @@ if not defined RUN_CMD (
 echo.
 pause
 goto MENU_LOOP
+:DO_CHOICE_1S
+echo.
+echo  --^> Deploying Mode 1 + Capturing Baseline System Image Checkpoint...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 1 -CaptureBaselineNow -Vanilla -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_1E
+echo.
+echo  --^> Opening Mode 1 Pre-Flight Customization ^& Capability Card...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 1 -PreFlight -Vanilla
+echo.
+pause
+goto MENU_LOOP
 :DO_CHOICE_2
 echo.
 echo  --^> Deploying Mode 2: Local Disaster Guard Profile (Single Drive / Laptop)...
@@ -309,6 +413,30 @@ if not defined RUN_CMD (
     goto MENU_LOOP
 )
 !RUN_CMD! -Mode 2 !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_2S
+echo.
+echo  --^> Deploying Mode 2 + Capturing Baseline System Image Checkpoint...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 2 -CaptureBaselineNow !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_2E
+echo.
+echo  --^> Opening Mode 2 Pre-Flight Customization ^& Capability Card...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 2 -PreFlight !BRAND_ARG!
 echo.
 pause
 goto MENU_LOOP
@@ -324,6 +452,30 @@ if not defined RUN_CMD (
 echo.
 pause
 goto MENU_LOOP
+:DO_CHOICE_3S
+echo.
+echo  --^> Deploying Mode 3 + Capturing Baseline System Image Checkpoint...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 3 -CaptureBaselineNow !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_3E
+echo.
+echo  --^> Opening Mode 3 Pre-Flight Customization ^& Capability Card...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 3 -PreFlight !BRAND_ARG!
+echo.
+pause
+goto MENU_LOOP
 :DO_CHOICE_4
 echo.
 echo  --^> Deploying Mode 4: Total Protection Profile (Interactive Managed Suite)...
@@ -333,6 +485,42 @@ if not defined RUN_CMD (
     goto MENU_LOOP
 )
 !RUN_CMD! -Mode 4 !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_4S
+echo.
+echo  --^> Deploying Mode 4 + Capturing Baseline System Image Checkpoint...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 4 -CaptureBaselineNow !BRAND_ARG! -Unattended
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_4E
+echo.
+echo  --^> Opening Mode 4 Pre-Flight Customization ^& Capability Card...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Mode 4 -PreFlight !BRAND_ARG!
+echo.
+pause
+goto MENU_LOOP
+:DO_CHOICE_IMAGE
+echo.
+echo  --^> Capturing DISM Bare-Metal System Image Baseline Checkpoint...
+if not defined RUN_CMD (
+    echo [ERROR] Execution engine not found in %~dp0
+    pause
+    goto MENU_LOOP
+)
+!RUN_CMD! -Action SystemImage -Baseline -ShowProgress !BRAND_ARG!
 echo.
 pause
 goto MENU_LOOP
