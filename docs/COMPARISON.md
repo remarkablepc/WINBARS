@@ -1,12 +1,12 @@
 # Architectural Comparison: WINBARS vs. Legacy Suites vs. Native Windows
 
-This document provides a technical comparison between **WINBARS (v0.9.5)**, **Proprietary Backup Suites** (such as Acronis Cyber Protect, Macrium Reflect, and Veeam Agent), and **Windows Native Engines alone** (File History, System Restore, and `wbadmin`).
+This document provides a technical comparison between **WINBARS (v0.9.7-beta)**, **Proprietary Backup Suites** (such as Acronis Cyber Protect, Macrium Reflect, and Veeam Agent), and **Windows Native Engines alone** (File History, System Restore, and `wbadmin`).
 
 ---
 
 ## 📊 Comprehensive Feature Comparison
 
-| Feature / Architectural Dimension | WINBARS (v0.9.5) | Proprietary Suites (Acronis, Macrium, Veeam) | Native Windows Alone |
+| Feature / Architectural Dimension | WINBARS (v0.9.7-beta) | Proprietary Suites (Acronis, Macrium, Veeam) | Native Windows Alone |
 | :--- | :---: | :---: | :---: |
 | **Pricing & Licensing** | **100% Free** *(+$100 Lifetime Shop Branding)* | $50–$189/yr per PC (Subscription / Paid) | Included with Windows |
 | **Architectural Model** | **100% Native OS Engines** (Zero Resident) | Heavy Background Daemons & Filter Drivers | Native Windows |

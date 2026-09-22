@@ -70,14 +70,17 @@ SOLELY RESPONSIBLE FOR VERIFYING ARCHIVE INTEGRITY AND HARDWARE READINESS.
 6. EMERGENCY SHIELD, KILL SWITCH & PROCESS INTERCEPTION DISCLAIMER
 --------------------------------------------------------------------------------
 WINBARS includes emergency defense utilities, including the Scam Buster browser
-freeze termination hotkey (Ctrl+Win+B) and the Remote Access Tool Interceptor.
-These features are designed to protect end-users against active browser lockups,
-tech support scams, and unauthorized remote access.
+freeze termination hotkey (Ctrl+Win+B), automated background watchdog sentries,
+and the Remote Access Tool Interceptor. These features are designed to protect
+end-users against active browser lockups, tech support scams, and unauthorized
+remote access.
 
 ALL PROCESS TERMINATIONS, NETWORK DISCONNECTIONS, AND BROWSER DEFUSALS ARE
 EXECUTED EITHER UPON EXPLICIT END-USER INTERACTION (E.G. CLICKING '[STOP]
 DISCONNECT & BLOCK' OR TRIGGERING EMERGENCY HOTKEYS) OR VIA USER-CONFIGURED
-AUTOMATION PREFERENCES. 
+AUTOMATION PREFERENCES, INCLUDING ALL AUTOMATED, RULE-BASED, AND PROACTIVE
+BACKGROUND INTERCEPTIONS WHERE THE SOFTWARE ACTS ON PRE-CONFIGURED CRITERIA
+WITHOUT DIRECT USER ACTION AT THE TIME OF INTERVENTION.
 
 THE AUTHOR ASSUMES NO RESPONSIBILITY OR LIABILITY FOR ANY INTERRUPTED SESSIONS,
 TERMINATED PROCESSES, UNSAVED WORK, OR REMOTE WORKFLOW DISRUPTIONS RESULTING

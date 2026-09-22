@@ -34,6 +34,8 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Remote RAT & Scam Watchdog** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ✅ Silent Shield (Default ON) | ✅ Silent Shield (Default ON) | ✅ Visual Sentry (Default ON) |
 | **Floppy Tray Sentry** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ⚪ Default OFF (Toggable) | ⚪ Default OFF (Toggable) | 🟢 Default ON (Toggable) |
+| **Windows Health Check (SFC/DISM)** | ❌ | ✅ Daily 3AM (Fixed) | ✅ Daily 3AM (Fixed) | ✅ Idle 30 min | ✅ Idle 30 min | ✅ Idle 30 min |
+| **Windows Event Log Integration** | ❌ | ✅ Default ON | ✅ Default ON | ✅ Default ON | ✅ Default ON | ✅ Default ON |
 
 > **Notes & Operational Explanations**:
 > - **Zero Windows Services Architectural Guarantee**: Across **ALL** modes (0 through 4), WINBARS installs **zero Windows Services (`services.msc`)**, zero kernel drivers, and zero system daemons. Modes 0, N, and 1 run with **0 resident background processes / 0 MB RAM** via native Windows Task Scheduler. Modes 2, 3, and 4 run solely as a lightweight user-session background process (`WINBARS.exe`, ~12–16 MB RAM) via `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, which exits cleanly when the user logs off.
@@ -76,6 +78,8 @@ The matrix below outlines exactly what capabilities each deployment profile acti
     2. `Windows System Restore` (Launches native `rstrui.exe`).
     3. `Browse Backup Files` (Resolves the backup drive and opens Windows File Explorer directly into the backed-up user folders).
   * Creates an unbranded Start Menu group: `System Backup & Recovery`.
+  * **Windows Health Check** (SFC + DISM): Schedules a daily system file integrity scan via native `sfc.exe` at 3:00 AM (configurable). If SFC finds unfixable corruption, automatically escalates to DISM RestoreHealth. Skips silently if machine was off at trigger time. Results written to Windows Event Viewer (Application log, Event IDs 1010–1015). On-demand available via `WINBARS.exe -WindowsHealthCheck`.
+  * **Windows Event Log Integration**: Registers a named Event Log source at deployment time. All significant WINBARS actions (backups, health checks, mode changes) are written to `eventvwr.msc` → Application log. Source name configurable via `EventLog.SourceName` in config (defaults to `WINBARS`; branding token overrides available).
 * **What It DOES NOT Do**:
   * Places **0 files in `C:\SystemRecovery`** (all backup assets live on the external Backup Drive).
   * Leaves **0 background EXEs or running services** on the host.

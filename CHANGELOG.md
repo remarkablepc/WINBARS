@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.9.7-beta] - 2026-09-22
+
+### Security & Hardening (Soft-Launch Beta)
+- **Immutable Sentry RAT/Blocklist Floor**: Compiled hardcoded core baseline for remote access tools (AnyDesk, TeamViewer, ConnectWise ScreenConnect, UltraViewer, RustDesk, Splashtop, LogMeIn, Ammyy, Chrome Remote Desktop) and malicious process blockers directly in `tray_code.cs`, preventing external JSON wipe or scammer tampering from blinding the watchdog.
+- **Sterility Audit Expansion**: Enforced zero-leak sterility validation across all dist packages and public repository synchronization, automatically blocking `.ps1`, `.cs`, `.pfx`, `.key`, and runtime `*.log` files from ever escaping to public releases.
+- **Resilient Web Deployer (`install.ps1`)**: Added fallback asset resolution to direct GitHub raw endpoints if `winbars.remarkablepc.com` is unreachable, robust self-elevation fallback for restricted PowerShell environments, and non-drifting release asset packaging.
+- **SemVer 2.0 Compliance**: Adopted `-beta` pre-release SemVer tagging with automated PS2EXE 4-part numeric header translation (`0.9.7.0`).
+- **Strict Pure-ASCII Source Encoding**: Sanitized all source modules of multi-byte Unicode artifacts to ensure bulletproof syntax parsing under PowerShell 5.1 on legacy Windows-1252 code pages.
+
+### Fixed & Enhanced
+- **Dispatcher & UAC Elevation**: Restructured elevation command-line reconstruction from `$PSBoundParameters` to preserve custom parameter flags, expanded admin-elevation coverage across 10+ privileged actions, and eliminated double-dispatch edge cases.
+- **Suite-Context & Base Directory**: Hardened base directory discovery against non-filesystem providers, UNC shares, and PowerShell host execution contexts; eliminated blanket error suppression.
+- **Deployment Profiles & Scheduled Tasks**: Hardened task uninstallation with per-step error traps, dynamic scheduled task path resolution under `\WinRestoreBackup\`, and fixed Mode 0 vs. Mode N task description metadata tags.
+- **Tray Sentry**: Fixed mutex detection race condition using `Mutex.TryOpenExisting` with graceful `AbandonedMutexException` handling; standardized all destructive/critical confirmation dialogues with warning icons.
+- **Console Menu & Assistance**: Fixed duplicate menu indices, enabled hotkey configuration menu `[K]`, wired lowercase input handling in backup submenus, and added field-testing disclaimer banners.
+
+---
+
 ## [0.9.5] - 2026-09-12
 
 ### Added & Enhanced (Feature-Complete Release Candidate)

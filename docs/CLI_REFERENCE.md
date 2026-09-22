@@ -1,12 +1,24 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.9.5)
+# WINBARS Command-Line Interface (CLI) Reference (v0.9.7-beta)
 
 ## 1. Quick Syntax Overview
 
-`cmd
-WINBARS.exe [-Action <ActionName>] [-Profile <ProfileName>] [Operational Switches]
-`
+```cmd
+WINBARS.exe [-CLI | -GUI] [-Action <ActionName>] [-SetProfile <ProfileName>] [Operational Switches]
+```
 
-All switches can be passed with standard PowerShell syntax (-Switch) or Windows command prompt syntax (/Switch).
+All switches can be passed with standard PowerShell syntax (`-Switch`) or Windows command prompt syntax (`/Switch`).
+
+### 🖥️ Primary Interface Modes & Smart Launch Defaults
+
+| Mode Switch | Aliases | Description |
+| :--- | :--- | :--- |
+| **`-CLI`** ⭐ | `-Console`, `-Menu` | Launches the interactive Technician Console Menu with real-time host inspection, dynamic USB tools, and full subsystem access. |
+| **`-GUI`** 🪟 | `-StatusCard`, `-Status` | Launches the visual Protection Center Live Dashboard (`Ctrl+Win+W`) with 1-click backups, live health gauges, and system recovery tools. |
+
+> [!TIP]
+> **Context-Aware Smart Default Launch**:
+> - **Portable Media / USB / IRM Download**: Running `WINBARS.exe` with no switches automatically detects that the executable is running outside `C:\Tools\WINBARS` and defaults to **`-CLI`** (interactive technician mode).
+> - **Local Installation (`C:\Tools\WINBARS`)**: Running `WINBARS.exe` with no switches automatically defaults to **`-GUI`** (Protection Center Live Dashboard for clients and end users).
 
 ---
 
@@ -144,9 +156,9 @@ Whenever a profile is selected interactively (Modes 0–4 or 5+):
 | -SetPrimaryBackupDrive <Path> | Designates a backup drive/path as Primary. |
 | -Baseline | Captures a permanent Day-1 baseline restore point or bare-metal system image (`_baseline.wim`). Excluded permanently from retention rotation. |
 | -Description <Text> | Specifies a custom hardware or repair label for baseline restore points (e.g., `-Description "Pre-I2C Mouse Fix"`). |
-| -MaxRetentionOverride <N> | Overrides default system image retention rotation count (default: 1 on `C:`, 2 on external storage). |
-| -StatusCard / -GUI | Opens the GUI Protection Center Live Dashboard (Ctrl+Win+W). |
-| -Console / -Menu | Launches the interactive technician CLI console. |
+| -GUI / -StatusCard | Opens the visual GUI Protection Center Live Dashboard (Ctrl+Win+W). Aliases: `-StatusCard`, `-Status`. |
+| -CLI / -Console | Launches the interactive technician CLI console menu. Aliases: `-Console`, `-Menu`. |
+| -Uninstall | Unregisters all suite scheduled tasks, desktop & Start Menu shortcuts, WinRE recovery hooks, and tray sentry autostart. |
 | -Tray | Launches the background Floppy Tray Sentry in the Windows notification area. |
 | -InstallTray | Registers Floppy Tray Sentry to start automatically at user logon. |
 | -UninstallTray | Removes Floppy Tray Sentry from Windows startup. |
@@ -397,4 +409,77 @@ In `v0.9.0`, hotkeys are fully customizable via Tech Mode in `config.json` (`Hot
 Before binding hotkeys, the Floppy Tray Sentry runs an unmanaged Win32 P/Invoke probe (`RegisterHotKey` / `UnregisterHotKey` against a hidden message window):
 - **Conflict Prevention**: If a key combination is already reserved by Windows or another application (e.g. `Ctrl+Win+Q` reserved by Microsoft Quick Assist), WINBARS detects the collision and prevents silent registration failures.
 - **AltGr Protection**: `Alt` and `Ctrl+Alt` combinations are strictly prohibited by policy to prevent collision with dead-key accents on European and international keyboard layouts.
+
+---
+
+## 11. Windows Health Check (SFC / DISM)
+
+On-demand and scheduled system file integrity scanning using native Windows tools (`sfc.exe` → `DISM.exe`).
+
+| Switch | Parameters | Description |
+| :--- | :--- | :--- |
+| `-WindowsHealthCheck` | — | Runs SFC + optional DISM scan interactively with live progress window. Respects `IntervalDays` frequency cap. |
+| `-CheckWindowsHealth` | — | Alias for `-WindowsHealthCheck`. |
+| `-EnableHealthCheck` | — | Enables the scheduled Windows Health Check task (writes `WindowsHealthCheck.Enabled = true` to config and re-registers Task Scheduler task). |
+| `-DisableHealthCheck` | — | Disables the scheduled task and writes `WindowsHealthCheck.Enabled = false` to config. |
+| `-NoHealthCheckRestorePoint` | — | Disables creation of the safety restore point checkpoint before running SFC/DISM scans. |
+| `-ConfigureHealthCheck` | `-HealthCheckInterval <days>` | Sets minimum days between health check runs (`IntervalDays`). |
+| `-ConfigureHealthCheck` | `-HealthCheckTime <HH:mm>` | Sets fixed daily trigger time for Modes 1-4 and Mode N (e.g. `03:00`). |
+| `-ConfigureHealthCheck` | `-HealthCheckIdle <minutes>` | Sets idle threshold in minutes before triggering a run when in Idle mode (e.g. `15`, `30`, `45`, `60`). |
+| `-ConfigureHealthCheck` | `-HealthCheckMode <mode>` | Sets trigger mode: `Daily`, `Weekly`, or `Idle`. |
+
+### Scheduled Task Details
+
+| Mode | Task Path | Task Name | Trigger |
+| :--- | :--- | :--- | :--- |
+| **Mode 0** | *None* | *None* | ❌ Forensic Sterility (0 host tasks) |
+| **Mode N** | `\WindowsBackup\` | `WindowsHealthCheck` | Daily at `ScheduledTime` (default 03:00, configurable) |
+| **Mode 1** | `\WinRestoreBackup\` | `WinRestoreBackup_WindowsHealthCheck` | Daily at `ScheduledTime` (default 03:00, configurable) |
+| **Mode 2** | `\WinRestoreBackup\` | `WinRestoreBackup_WindowsHealthCheck` | Configurable: Daily, Weekly, or Idle (default 30m idle) |
+| **Mode 3** | `\WinRestoreBackup\` | `WinRestoreBackup_WindowsHealthCheck` | Configurable: Daily, Weekly, or Idle (default 30m idle) |
+| **Mode 4** | `\WinRestoreBackup\` | `WinRestoreBackup_WindowsHealthCheck` | Configurable: Daily, Weekly, or Idle (default 30m idle) |
+
+All tasks run as `NT AUTHORITY\SYSTEM`, `RunLevel = Highest`, `StartWhenAvailable = false` (skip if missed).
+
+---
+
+## 12. Windows Event Log Integration
+
+WINBARS writes structured events to the Windows Application Event Log for auditing and fleet management.
+
+| Switch | Parameters | Description |
+| :--- | :--- | :--- |
+| `-EnableEventLog` | — | Enables Event Log writes (`EventLog.Enabled = true`). |
+| `-DisableEventLog` | — | Disables Event Log writes (`EventLog.Enabled = false`). |
+| `-ConfigureEventLog` | `-SourceName <name>` | Sets the Event Log source name (e.g. `"TechPros PC Care"`). Re-registers the source if admin elevation is available. |
+
+### Mode Defaults
+
+| Mode | Event Log Default | Source Registration |
+| :--- | :--- | :--- |
+| Mode 0 | ❌ OFF (cannot be enabled) | Never registered (zero-footprint contract) |
+| Mode N | ✅ ON | Registered at deployment |
+| Mode 1 | ✅ ON | Registered at deployment |
+| Mode 2 | ✅ ON | Registered at deployment |
+| Mode 3 | ✅ ON | Registered at deployment |
+| Mode 4 | ✅ ON | Registered at deployment |
+
+---
+
+## 13. Routine Backup & Restore Point Schedule Configuration
+
+Quickly reconfigure routine daily restore points and sync schedules for Modes 1-4 and Mode N without re-running interactive setup.
+
+| Switch | Parameters | Description |
+| :--- | :--- | :--- |
+| `-ConfigureSchedule` / `-SetSchedule` | `-DailyTime <HH:mm>` | Sets the daily restore point execution time in 24-hr format (e.g. `09:00`, `21:30`). Updates Task Scheduler immediately. |
+| `-ConfigureSchedule` / `-SetSchedule` | `-Frequency <Daily\|Weekly\|Startup>` | Sets the recurrence trigger for restore points. |
+
+### Source Name Resolution Priority
+
+1. `EventLog.SourceName` in `config.json` (explicit override)
+2. `Branding.ShopName` in `config.json` (white-label branding token)
+3. Default: `"WINBARS"`
+
+> 📖 *For the complete Event ID table and health check escalation diagram, see [Windows Health Check](WINDOWS_HEALTH_CHECK.md).*
 

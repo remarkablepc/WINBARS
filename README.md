@@ -1,8 +1,8 @@
-# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.7)
+# WINBARS - Windows Backup, Assistance, Recovery & Security Suite (v0.9.7-beta)
 ### *Built by a computer repair technician to eliminate the recurring system and data recovery failures that bring PCs back to the bench — free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.7-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.7--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -14,18 +14,18 @@
 </p>
 
 <p align="center">
-  <sub>⚠️ <b>Field Testing Release (v0.9.x)</b>: Actively undergoing technician bench validation prior to v1.0.0 General Availability.</sub>
+  <sub>⚠️ <b>Field Testing Release (v0.9.7-beta)</b>: Feature complete and undergoing community and technician bench validation prior to v1.0.0 General Availability.</sub>
   <br><br>
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.7-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.7--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br>
-  <sub><em>Recommended for supervised deployment.</em></sub>
+  <sub><em>Recommended for supervised deployment and community evaluation.</em></sub>
 </p>
 
 <div align="center">
 
-  **[📥 Download Complete Package (`WINBARS-v0.9.7.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.7)**
+  **[📥 Download Complete Package (`WINBARS-v0.9.7-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.7-beta)**
 
   <br>
 
@@ -41,6 +41,10 @@
 </div>
 
 ---
+
+> [!WARNING]
+> ### ⚠️ Field Testing & Community Notice
+> **WINBARS v0.9.7-beta is feature complete and available for community and bench testing.** Production fleet deployment experience has not yet been established. Use at your own discretion and always maintain independent secondary backups.
 
 > [!IMPORTANT]
 > ### 💡 The Core Principle: Orchestration & Hardening, Not Proprietary Bloat
@@ -90,8 +94,7 @@ Technicians can launch or deploy WINBARS directly on any bench or client PC with
 # In an elevated PowerShell prompt (Run as Administrator):
 irm winbars.remarkablepc.com | iex
 
-# Alternate short URL / direct GitHub fallback:
-irm remarkablepc.com/winbars | iex
+# Direct GitHub raw fallback (if custom domain is unreachable):
 irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
 ```
 > 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile SystemUndo -Quiet"`.*
@@ -101,7 +104,7 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 ### 💾 Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
-   Download the latest [`WINBARS-v0.9.7.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
+   Download the latest [`WINBARS-v0.9.7-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
 2. **Launch Setup**:
    Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
 3. **Select Your Mode**:
@@ -122,6 +125,11 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 | **💽 Any Volume Image** | `WINBARS.exe -Action CaptureVolumeImage` | Captures standalone DISM `.wim` of any drive/partition (VSS frozen). |
 | **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
 | **🩺 Feature Diagnostics** | `WINBARS.exe -Action Diagnostics` | Runs profile-aware audit with PASS / WARN / FAIL / N/A scorecard. |
+| **🩹 Windows Health Check** | `WINBARS.exe -WindowsHealthCheck` | On-demand SFC + DISM scan with live progress bars. Results logged to Windows Event Viewer. |
+| **⚙️ Configure Health Check** | `WINBARS.exe -ConfigureHealthCheck -Interval 14 -Time 02:00 -IdleMinutes 45` | Set scan interval (days), scheduled time (Modes N/1), or idle threshold (Modes 2–4). |
+| **🗂️ Toggle Health Check** | `WINBARS.exe -EnableHealthCheck` / `-DisableHealthCheck` | Enable or disable the scheduled SFC/DISM health scan task. |
+| **📋 Event Log Toggle** | `WINBARS.exe -EnableEventLog` / `-DisableEventLog` | Enable or disable Windows Event Viewer integration (Application log). |
+| **🏷️ Event Log Branding** | `WINBARS.exe -ConfigureEventLog -SourceName "TechPros PC Care"` | Override the Event Log source name for white-label deployments. |
 | **🚀 Deploy Mode 0** | `WINBARS.exe -Profile ZeroFootprint` | 100% native Windows automation (0 files on `C:\`). |
 | **👻 Deploy Mode N** | `WINBARS.exe -Profile NearZeroFootprint` | Stealth native automation with unbranded shortcuts. |
 | **⏪ Deploy Mode 1** | `WINBARS.exe -Profile SystemUndo` | Daily System Restore hardening + VSS auto-heal. |
@@ -505,6 +513,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Operating System**: Windows 10 (1809+), Windows 11 (all versions), Windows Server 2016/2019/2022/2025 *(Note: Systems in "S Mode" must switch out of S Mode to run standard Win32 executables)*.
 * **Engine Framework**: Microsoft PowerShell 5.1+, WMI/CIM, Volume Shadow Copy Service (VSS), DISM (`dism.exe`), Robocopy (`robocopy.exe`).
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
-* **Binary Size**: Standalone executable $\approx 640$ KB with zero external runtime dependencies.
+* **Binary Size**: Standalone executable $\approx 1.5$ MB with zero external runtime dependencies.
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
+* **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 

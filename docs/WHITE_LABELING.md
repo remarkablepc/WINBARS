@@ -83,6 +83,46 @@ REM Deploy Vanilla / Unbranded (Force ignores branding.json):
 WINBARS.exe -Install -Vanilla
 ```
 
+### Step 4: Web Deployment via Private/Public Web Server (One-Liner Install)
+You can deploy your white-labeled WINBARS suite over the web via a single PowerShell command:
+
+```powershell
+irm https://backup.yourshop.com | iex
+```
+
+#### Smart User-Agent Routing (`.htaccess`)
+Your web server can serve both interactive web users and automated PowerShell scripts from the exact same root URL:
+- **Browsers (Chrome, Edge, Safari)**: Served `index.php` or `index.html` (professional white-labeled landing/info page), or redirected to your main company website.
+- **PowerShell / `curl` / `Invoke-RestMethod`**: Automatically rewritten to serve `install.ps1` as `text/plain`.
+
+```apache
+# Apache .htaccess Smart User-Agent Routing
+AddType text/plain .ps1
+DirectoryIndex index.php index.html install.ps1
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. Automated CLI Runners -> Serve install.ps1
+    RewriteCond %{HTTP_USER_AGENT} (PowerShell|WindowsPowerShell|curl|Wget|WinGet) [NC]
+    RewriteCond %{DOCUMENT_ROOT}/install.ps1 -f
+    RewriteRule ^$ install.ps1 [L]
+
+    # 2. (Optional) Redirect Web Browsers to Main Website
+    # RewriteCond %{HTTP_USER_AGENT} !(PowerShell|WindowsPowerShell|curl|Wget|WinGet) [NC]
+    # RewriteRule ^$ https://yourshop.com/ [R=302,L]
+</IfModule>
+```
+
+#### Folder Structure & Aliasing
+On your private web server, place your brand JSONs and certificates in simple folders. The package automatically resolves aliases:
+- **Branding Directory**: `brands/`, `brand/`, or `branding/` (e.g. `brands/my_shop.json`)
+- **Certificates Directory**: `certs/`, `cert/`, or `certificates/` (e.g. `certs/ShopMasterKey.cer` — public `.cer` key only; never upload private `.pfx` keys!)
+
+#### Zero-Footprint Staging in %TEMP%
+When clients execute the web installer, the staging ZIP archive and extraction process live entirely within `%TEMP%`. If Mode 0 (`ZeroFootprint`) is deployed, the staging files are purged upon task execution, preserving complete forensic sterility on the client host.
+
 ---
 
 ## 5. Branded User Experience Across the Suite

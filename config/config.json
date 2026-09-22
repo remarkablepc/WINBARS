@@ -159,7 +159,8 @@
                       "FileHistoryStaleThresholdHours":  48,
                       "RestorePointSchedule":  "Daily",
                       "SystemImageMonthlyTime":  "02:00",
-                      "RestorePointDailyTime":  "09:00"
+                      "RestorePointDailyTime":  "09:00",
+                      "HealthCheckDailyTime":  "03:00"
                   },
     "RestorePointDailyTime":  "09:00",
     "Logging":  {
@@ -206,5 +207,19 @@
                           "CustomBackupFolders":  [
 
                                                   ]
-                      }
-}
+                      },
+    "WindowsHealthCheck":  {
+                                "Enabled":                   true,
+                                "ScheduleMode":              "Daily",
+                                "ScheduledTime":             "03:00",
+                                "IntervalDays":              1,
+                                "SkipIfMissed":              true,
+                                "IdleMinutesBeforeRun":      30,
+                                "CreatePreScanRestorePoint": true,
+                                "EscalateToDismOnFailure":   true
+                            },
+    "EventLog":  {
+                     "Enabled":    true,
+                     "SourceName": "WINBARS"
+                 }
+}
