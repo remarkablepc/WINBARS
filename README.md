@@ -579,7 +579,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
 * **Binary Size & Checksum (v0.9.8-beta)**:
   - Binary: `WINBARS.exe` (1.49 MB)
-  - SHA-256: `6836B26230D9FAA02132180994EEC5C2FFF411076F7D84A1E7025B94439C5D93`
+  - SHA-256: `D367364A707275C7B0E56FC9AB3A429BA9B4AC49AC36B47530213AD2186A1472`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 
