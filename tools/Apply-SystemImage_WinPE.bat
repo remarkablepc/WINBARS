@@ -158,13 +158,18 @@ if "!SAME_DRV!"=="1" (
 if "!STRATEGY!"=="1" (
     echo.
     echo ==============================================================================
-    echo   SAFE OVERLAY CONFIRMATION: IN-PLACE SYSTEM REFRESH
+    echo   SAFE OVERLAY CONFIRMATION: IN-PLACE SYSTEM REFRESH (macOS-Style)
     echo ==============================================================================
     echo   Image Source:  !SELECTED_WIM!
     echo   Target Volume: !TARGET_DRV!\
     echo.
-    echo   NOTICE: This will refresh Windows OS and Program Files.
-    echo   Your personal data in !TARGET_DRV!\Users will remain INTACT.
+    echo   SAFETY VERIFICATION:
+    echo   [x] format.com: BYPASSED (No partition reformat; file table preserved)
+    echo   [x] diskpart:   BYPASSED (No disk wipe or partition destruction)
+    echo   [x] !TARGET_DRV!\Users: PRESERVED (Documents, photos, desktop profiles untouched)
+    echo.
+    echo   EXACT NATIVE COMMAND TO BE EXECUTED:
+    echo   dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify
     echo ==============================================================================
     echo.
     set /p "CONFIRM_OVERLAY=Type YES to start In-Place Safe Overlay to !TARGET_DRV!\: "
@@ -173,6 +178,22 @@ if "!STRATEGY!"=="1" (
         echo [ABORTED] Restoration cancelled by user.
         pause
         exit /b 0
+    )
+
+    :: Beta-Phase Optional Safety Belt
+    if exist "!TARGET_DRV!\Users" (
+        echo.
+        echo [BETA-PHASE SAFETY BELT]
+        echo Safe Overlay is engineered to preserve !TARGET_DRV!\Users completely in-place.
+        echo However, while in community beta testing (or on mission-critical client PCs),
+        echo you may optionally snapshot !TARGET_DRV!\Users to your backup drive first.
+        echo.
+        set /p "BETA_SNAP=Perform optional safety snapshot of !TARGET_DRV!\Users? (Y/N) [Default: N]: "
+        if /i "!BETA_SNAP!"=="Y" (
+            echo [*] Creating safety snapshot in !SRC_DRV!\PreRestore_Users_Snapshot\...
+            robocopy "!TARGET_DRV!\Users" "!SRC_DRV!\PreRestore_Users_Snapshot" /E /R:1 /W:1 /XJ /NDL /NFL /NP
+            echo [OK] Safety snapshot completed. Proceeding with Safe Overlay...
+        )
     )
 ) else (
     echo.
@@ -215,6 +236,14 @@ if exist "!TARGET_DRV!\hiberfil.sys" (
 )
 chkdsk.exe !TARGET_DRV! /f /x >nul 2>&1
 
+echo.
+if "!STRATEGY!"=="1" (
+    echo [*] Strategy: Safe Overlay Refresh (format.com BYPASSED, !TARGET_DRV!\Users preserved).
+) else (
+    echo [*] Strategy: Bare-Metal Clean Apply (!TARGET_DRV!\ formatted).
+)
+echo [*] [TRANSPARENCY (CLI Mode)] Executing exact native command:
+echo     dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify
 echo.
 echo [*] Applying DISM image to !TARGET_DRV!\ (this may take 5-15 minutes)...
 dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify

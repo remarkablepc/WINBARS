@@ -15,6 +15,9 @@
         "EnableQuietNotificationPrompts": true,
         "BlockAutomaticBitLockerEncryption": true
     },
+    "Diagnostics": {
+        "EchoNativeCommands": true
+    },
     "InstallDirectory": "C:\\Tools\\WINBARS",
     "SystemImageMonthlyDay":  1,
     "LogRetentionDays":  730,
