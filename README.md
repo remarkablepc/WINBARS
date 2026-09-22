@@ -14,16 +14,21 @@
 </p>
 
 <p align="center">
-  <sub>⚠️ <b>Field Testing Release (v0.9.8-beta)</b>: Feature complete and undergoing community and technician bench validation<br>prior to v1.0.0 General Availability.</sub>
-  <br><br>
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.8--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
-  </a>
+  <sub>⚠️ <b>Field Testing Release (v0.9.8-beta)</b>: Feature complete and undergoing community and technician bench validation<br>prior to v1.0.0 General Availability. Recommended for supervised deployment and community evaluation.</sub>
+</p>
+
+<p align="center">
+  <img src="assets/screenshot.png" alt="WINBARS Protection Center and Sentry Dashboard" width="820" />
   <br>
-  <sub><em>Recommended for supervised deployment and community evaluation.</em></sub>
+  <em>WINBARS Protection Center Live Dashboard (Ctrl+Win+W), Floppy Tray Sentry, and Quick-Action Bar</em>
 </p>
 
 <div align="center">
+
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.8--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+  </a>
+  <br><br>
 
   **[📥 Download Complete Package (`WINBARS-v0.9.8-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.8-beta)**
 
@@ -33,45 +38,15 @@
 
   <br>
 
-  ✨ **[🍏 Non-Destructive "macOS-Style" Windows OS Refresh: Repair Windows without wiping personal files ➔](#macos-style-safe-overlay)**<br>
-  🚑 **[💾 Native WinRE Boot Hook: Turn the Blue "Automatic Repair" Screen into a 1-Click Rescue Console (No USB Needed) ➔](#native-winre-boot-hook)**<br>
-  🩺 **[🛠️ Automated Windows Health Check: Proactive SFC & DISM Auto-Repair with Safety Checkpoints ➔](#windows-health-check)**<br>
-  🚨 **[🛡️ Scam Buster & RAT Interceptor: Instant Screen Unfreeze & Scam Defense ➔](#scambuster-rat-interceptor)**<br>
-  🔐 **[🔑 Bootloader Auto-Heal & BitLocker Disaster Vaults: Automated BCD Repair & Printable Keycards ➔](#bootloader-bitlocker-safety-net)**
+  ✨ **[🍏 Non-Destructive OS Refresh](#macos-style-safe-overlay)** &nbsp;•&nbsp;
+  🚑 **[💾 1-Click WinRE Hook](#native-winre-boot-hook)** &nbsp;•&nbsp;
+  🩺 **[🛠️ Auto Health Check](#windows-health-check)** &nbsp;•&nbsp;
+  🚨 **[🛡️ Scam Buster & RAT Guard](#scambuster-rat-interceptor)** &nbsp;•&nbsp;
+  🔐 **[🔑 BitLocker Vaults](#bootloader-bitlocker-safety-net)**
 
 </div>
 
 ---
-
-> [!WARNING]
-> ### ⚠️ Field Testing & Community Notice
-> **WINBARS v0.9.8-beta is feature complete and available for community and bench testing.** Production fleet deployment experience has not yet been established. Use at your own discretion and always maintain independent secondary backups.
-
-> [!TIP]
-> ### 🔍 Radical Command Transparency & Configurable Recovery (CLI & Offline Tools)
-> During the community beta period, **Live Command Transparency** is active by default across all command-line and offline recovery interfaces. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
-> 
-> * **Live Windows Suite Configuration (`config/config.json`)**:
->   Both command transparency and WinRE bootloader hooks can be inspected and toggled together in the unified `"Diagnostics"` block:
->   ```json
->   "Diagnostics": {
->       "EchoNativeCommands": true,
->       "EnableWinReIntegration": true
->   }
->   ```
->   *Command echoing can also be toggled anytime in the CLI interactive menu via `[T]` or bypassed via `-NoEcho` / `-EchoCommands`. WinRE integration can be bypassed with `-NoWinRE` or configured under profile component `[4]`.*
-> 
-> * **Offline USB & WinPE Rescue Tools (`.bat`)**:
->   All standalone recovery batch files generated on external backup drives (`Apply-SystemImage_WinPE.bat`, `Restore_BCD_WinPE.bat`, `Restore_Registry_WinPE.bat`, `Restore_WiFi.bat`) feature a transparent header toggle:
->   ```cmd
->   set "SHOW_COMMAND_ECHO=1"
->   ```
->   *Technicians can toggle this to `0` in Notepad for quiet scripts or pass `/NoEcho` on the command line. When enabled, every BCD, registry hive copy, and DISM overlay command echoes with non-destructive verification tags.*
-> 
-> * **Zero-Footprint File Sync (Modes 0 & N)**:
->   Manual sync passes run from desktop shortcuts display the live Robocopy command parameters in cyan, while background Task Scheduler passes record full command audits silently to `Daily_Sync_Audit.log`.
-> 
-> *The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.*
 
 > [!IMPORTANT]
 > ### 💡 The Core Principle: Orchestration & Hardening, Not Proprietary Bloat
@@ -82,12 +57,6 @@
 > The flaw has never been the engines—it's that Windows leaves them uncoordinated: updates quietly disable File History, restore points are throttled to once every 24 hours, and USB drive letter changes halt backups without alert.
 > 
 > 🛡️ **Zero Lock-In & Verifiable Host Footprint**: Backups are standard Windows files and native `.wim` images. WINBARS is never required to restore your system. It installs 0 kernel drivers, 0 Windows NT services, and zero unsolicited network telemetry. See the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md).
-
-<p align="center">
-  <img src="assets/screenshot.png" alt="WINBARS Protection Center and Sentry Dashboard" width="820" />
-  <br>
-  <em>WINBARS Protection Center Live Dashboard (Ctrl+Win+W), Floppy Tray Sentry, and Quick-Action Bar</em>
-</p>
 
 ---
 
@@ -101,9 +70,10 @@
 6. [🛡️ Key Protections at a Glance](#key-protections-at-a-glance)
    - 🍏 [macOS-Style Non-Destructive OS Refresh](#macos-style-safe-overlay)
    - 🚑 [Native WinRE Boot Hook & Blue-Screen Rescue Console](#native-winre-boot-hook)
-   - 🩺 [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
    - 🚨 [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
    - 🔐 [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
+   - 🩺 [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
+   - 🔍 [Radical Command Transparency (CLI & Offline Tools)](#command-transparency)
 7. [💡 Why WINBARS is Different: The 4 Guarantees](#why-winbars-is-different-the-4-guarantees)
 8. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
 9. [🏷️ Shop White-Labeling & Community Sponsorship](#shop-white-labeling--community-sponsorship)
@@ -117,7 +87,7 @@
 <a id="quick-start"></a>
 ## ⚡ Quick Start
 
-### 🌐 1-Click Remote Web Launch (PowerShell)
+### 🌐 Option A: 1-Click Remote Web Launch (PowerShell)
 Technicians can launch or deploy WINBARS directly on any bench or client PC without downloading ZIP archives manually:
 ```powershell
 # In an elevated PowerShell prompt (Run as Administrator):
@@ -130,7 +100,7 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 >
 > ⚠️ **Field Testing Notice**: *WINBARS v0.9.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
 
-### 💾 Offline Flash Drive Setup (3 Steps)
+### 💾 Option B: Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
    Download the latest [`WINBARS-v0.9.8-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
@@ -350,7 +320,7 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 <a id="key-protections-at-a-glance"></a>
 ## 🛡️ Key Protections at a Glance
 
-WINBARS unifies **B**ackup, **A**ssistance, **R**ecovery, and **S**ecurity into a single, cohesive safety net. Here are four of its unique standout capabilities:
+WINBARS unifies **B**ackup, **A**ssistance, **R**ecovery, and **S**ecurity into a single, cohesive safety net. Here are six of its unique standout capabilities:
 
 <a id="macos-style-safe-overlay"></a>
 ### 🍏 1. Non-Destructive "macOS-Style" Safe Overlay OS Refresh
@@ -444,6 +414,35 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 * **Mode-Aware Scheduling & Idle Guard (Fully Adjustable)**: Operates on a **weekly cadence, triggered only after the system has been continuously idle for 30 minutes** on desktop profiles (Modes 2–4). This frequency-capped schedule ensures intensive SFC and DISM component store repairs never cause disk or CPU slowdowns while users are actively working. On headless and stealth profiles (Modes N & 1), it defaults to a fixed daily schedule at 03:00 AM (skipping cleanly if the machine was asleep or powered off). **All triggers and frequencies are fully adjustable**: technicians can switch between Daily, Weekly, or Idle modes, customize trigger times, and adjust interval days anytime in `config/config.json` or via CLI switches.
 * **Technician On-Demand CLI**: Run an instant scan & repair anytime via `WINBARS.exe -WindowsHealthCheck` or reconfigure schedules with `WINBARS.exe -ConfigureHealthCheck -Interval 14 -Time 02:00` (or toggle with `-EnableHealthCheck` / `-DisableHealthCheck`).
 * 🔗 [Deep Dive: Windows Health Check & Auto-Repair Guide](docs/WINDOWS_HEALTH_CHECK.md)
+
+---
+
+
+<a id="command-transparency"></a>
+### 🔍 6. Radical Command Transparency & Configurable Recovery (CLI & Offline Tools)
+During the community beta period, **Live Command Transparency** is active by default across all command-line and offline recovery interfaces. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
+
+* **Live Windows Suite Configuration (`config/config.json`)**:
+  Both command transparency and WinRE bootloader hooks can be inspected and toggled together in the unified `"Diagnostics"` block:
+  ```json
+  "Diagnostics": {
+      "EchoNativeCommands": true,
+      "EnableWinReIntegration": true
+  }
+  ```
+  *Command echoing can also be toggled anytime in the CLI interactive menu via `[T]` or bypassed via `-NoEcho` / `-EchoCommands`. WinRE integration can be bypassed with `-NoWinRE` or configured under profile component `[4]`.*
+
+* **Offline USB & WinPE Rescue Tools (`.bat`)**:
+  All standalone recovery batch files generated on external backup drives (`Apply-SystemImage_WinPE.bat`, `Restore_BCD_WinPE.bat`, `Restore_Registry_WinPE.bat`, `Restore_WiFi.bat`) feature a transparent header toggle:
+  ```cmd
+  set "SHOW_COMMAND_ECHO=1"
+  ```
+  *Technicians can toggle this to `0` in Notepad for quiet scripts or pass `/NoEcho` on the command line. When enabled, every BCD, registry hive copy, and DISM overlay command echoes with non-destructive verification tags.*
+
+* **Zero-Footprint File Sync (Modes 0 & N)**:
+  Manual sync passes run from desktop shortcuts display the live Robocopy command parameters in cyan, while background Task Scheduler passes record full command audits silently to `Daily_Sync_Audit.log`.
+
+*The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.*
 
 ---
 
