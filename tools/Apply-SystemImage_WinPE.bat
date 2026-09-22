@@ -1,5 +1,13 @@
 @echo off
 setlocal EnableDelayedExpansion
+:: ============================================================================
+:: COMMAND TRANSPARENCY TOGGLE (1 = Verbose command audit, 0 = Quiet)
+:: ============================================================================
+set "SHOW_COMMAND_ECHO=1"
+if /i "%~1"=="/NoEcho" set "SHOW_COMMAND_ECHO=0"
+if /i "%~1"=="-NoEcho" set "SHOW_COMMAND_ECHO=0"
+if /i "%~1"=="/Echo"   set "SHOW_COMMAND_ECHO=1"
+if /i "%~1"=="-Echo"   set "SHOW_COMMAND_ECHO=1"
 title WINBARS - Bare-Metal System Image Disaster Recovery (WinPE/WinRE)
 color 1F
 
@@ -242,9 +250,11 @@ if "!STRATEGY!"=="1" (
 ) else (
     echo [*] Strategy: Bare-Metal Clean Apply (!TARGET_DRV!\ formatted).
 )
-echo [*] [TRANSPARENCY (CLI Mode)] Executing exact native command:
-echo     dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify
-echo.
+if "!SHOW_COMMAND_ECHO!"=="1" (
+    echo [*] [TRANSPARENCY (CLI Mode)] Executing exact native command:
+    echo     dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify
+    echo.
+)
 echo [*] Applying DISM image to !TARGET_DRV!\ (this may take 5-15 minutes)...
 dism.exe /Apply-Image /ImageFile:"!SELECTED_WIM!" /Index:1 /ApplyDir:!TARGET_DRV!\ /CheckIntegrity /Verify
 set "DISM_ERR=!ERRORLEVEL!"
