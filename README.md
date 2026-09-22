@@ -508,10 +508,16 @@ Rather than forcing you into complicated AWS S3, Wasabi, or Azure portals with s
 ### Q: My repair shop installed WINBARS on my PC — what does that mean for me?
 It means your technician has proactively set up your PC to protect itself before disaster happens, rather than waiting until something breaks. Think of it as a pre-installed safety net: daily restore points are created and verified automatically, your critical files are mirrored to your backup drive, and — if the PC ever gets hit by a browser scam or boots into a BitLocker lockout screen — the recovery tools are already in place without needing to bring it back to the shop. It's the same kind of proactive service a mechanic provides by rotating your tires before they go bald.
 
-### Q: Why does my antivirus flag WINBARS?
-WINBARS is a compiled PowerShell executable (`WINBARS.exe`) that orchestrates native Windows system tools — the same `robocopy.exe`, `vssadmin.exe`, `dism.exe`, and `reagentc.exe` that Microsoft ships with Windows. Because security heuristics can be triggered by compiled scripts that touch system components, some antivirus engines flag it as "suspicious" despite zero malicious behavior.
+### Q: Why does Windows SmartScreen or my antivirus flag WINBARS?
+Because WINBARS is a freshly published compiled executable (`WINBARS.exe`) that orchestrates low-level Windows system tools (`robocopy.exe`, `vssadmin.exe`, `dism.exe`, `reagentc.exe`), automated security heuristics may flag it until global download reputation builds:
+* **Windows Defender SmartScreen ("Windows protected your PC")**: Because this is a new community release without tens of thousands of corporate telemetry hits recorded by Microsoft, SmartScreen may display an unrecognized app notice. Simply click **"More info" ➔ "Run anyway"**.
+* **Antivirus Heuristic False Positives**: Security scanners frequently flag compiled scripts that interact with system components. To resolve this, run `tools\Whitelist-WINBARS.bat` (included in the download) to add a verified Windows Defender folder and process exclusion. If you use a third-party antivirus and are on **Modes 2–4**, add `C:\Tools\WINBARS\WINBARS.exe` and the `C:\Tools\WINBARS\` folder to its exclusion list; on **Mode 1**, whitelist the `C:\SystemRecovery\` folder instead. Every system operation is documented in the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md) for independent verification.
 
-**This is a known false positive.** To resolve it, run `Whitelist-WINBARS.bat` (included in the download) to add a verified Windows Defender folder and process exclusion. If you use a third-party antivirus and are on **Modes 2–4**, add `C:\Tools\WINBARS\WINBARS.exe` and the `C:\Tools\WINBARS\` folder to its exclusion list; on **Mode 1**, whitelist the `C:\SystemRecovery\` folder instead. Every WINBARS release is signed and every system operation it performs is documented in the [System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md) for independent verification.
+### Q: How do I cleanly uninstall WINBARS?
+WINBARS respects your machine and leaves **zero stubborn residue**. It can be completely uninstalled at any time with a single command or click:
+* **Interactive CLI / GUI**: Run `WINBARS.exe -Uninstall` or launch `installers\Uninstall.bat`.
+* **Silent / Unattended**: Run `installers\Uninstall.bat /Quiet` from an elevated prompt.
+* **What Gets Removed**: The uninstaller cleanly unregisters all scheduled tasks (`\WinRestoreBackup\`, `\WindowsBackup\`), removes desktop and Start Menu shortcuts, wipes the registry Run autostart key, cleans up Defender exclusions, and deletes the `C:\Tools\WINBARS\` suite directory. Your backup files and restore points remain 100% intact on your backup drive.
 
 ---
 
@@ -559,7 +565,9 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Operating System**: Windows 10 (1809+), Windows 11 (all versions), Windows Server 2016/2019/2022/2025 *(Note: Systems in "S Mode" must switch out of S Mode to run standard Win32 executables)*.
 * **Engine Framework**: Microsoft PowerShell 5.1+, WMI/CIM, Volume Shadow Copy Service (VSS), DISM (`dism.exe`), Robocopy (`robocopy.exe`).
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
-* **Binary Size**: Standalone executable $\approx 1.5$ MB with zero external runtime dependencies.
+* **Binary Size & Checksum (v0.9.7-beta)**:
+  - Binary: `WINBARS.exe` (1.49 MB)
+  - SHA-256: `140169707880158FC6F7E5CDA2D9C0F3917556ACA168D97CE6413D42BF50400F`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 
