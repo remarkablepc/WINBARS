@@ -46,6 +46,12 @@
 > ### ⚠️ Field Testing & Community Notice
 > **WINBARS v0.9.7-beta is feature complete and available for community and bench testing.** Production fleet deployment experience has not yet been established. Use at your own discretion and always maintain independent secondary backups.
 
+> [!TIP]
+> ### 🔍 Radical Command Transparency in Beta (CLI Mode Only)
+> During the community beta period, **Live Command Transparency** is active by default in CLI / terminal mode. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, explicitly confirming that destructive tools like `format.com` and `diskpart` are bypassed during in-place Safe Overlay refreshes.
+> 
+> *The Windows Forms GUI and Floppy Tray Sentry remain pristine and quiet for end-users, with full audit details saved to `LOGS_*.txt`.* Command echoing can be toggled via `[T]` in the CLI menu, passing `-NoEcho`, or setting `"EchoNativeCommands": false` in `config/config.json`.
+
 > [!IMPORTANT]
 > ### 💡 The Core Principle: Orchestration & Hardening, Not Proprietary Bloat
 > **WINBARS does not reinvent wheels with proprietary code; it acts as an intelligent conductor for Microsoft’s enterprise-grade tools—coordinating, scheduling, and hardening them so disaster recovery actually works when disaster strikes.**
