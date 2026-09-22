@@ -1,5 +1,5 @@
-# WINBARS - Zero-Footprint Autonomous Windows Disaster Recovery Suite (v0.9.8-beta)
-### *Zero-footprint autonomous Windows disaster recovery: bare-metal DISM imaging, native personal file mirroring, instant baseline rollbacks, and anti-scam sentry protection — built by a computer repair technician, free for personal and commercial use.*
+# WINBARS - Autonomous Windows Disaster Recovery Suite (v0.9.8-beta)
+### *Autonomous Windows disaster recovery, zero-footprint personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam sentry protection — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.8--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
