@@ -199,9 +199,8 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 
 ### ⚡ Turnkey Root Launchers, Installers & Utilities
 - **Root Fast-Launchers (`Run-WINBARS.bat`)**:
-  - `[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]` &mdash; **Instant Unattended Deployment** for each mode in 1 click.
-  - `0S`, `NS`, `1S`, `2S`, `3S`, `4S` &mdash; **Deploy + Immediate Baseline System Image** (Bare-metal image on external drive for 0/N; DISM `.wim` checkpoint for 1–4).
-  - `0E`, `NE`, `1E`, `2E`, `3E`, `4E` &mdash; **Pre-Flight Customization** (inspect capability cards, change target drives, toggle tasks).
+  - `[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]` &mdash; **Instant Fast-Path Deployment**: Select any profile to view its tailored targets, drive capacity validation (`[PASS]` / `[WARN: Low Space]`), and 1-click confirmation screen (`[ENTER]` to deploy, `[S]` to deploy + capture baseline image, `[E]` to edit paths & schedules, `[B]` to cancel).
+  - Direct technician shortcuts: `0S`, `NS`, `1S`, `2S`, `3S`, `4S` (Deploy + Immediate Baseline System Image) and `0E`–`4E` (Open Pre-Flight Editor directly).
   - `[S]` &mdash; **Capture Baseline System Image Now** (instant standalone DISM `.wim` capture).
 - **1-Click Mode Batch Installers (`installers/`)**:
   - `installers/Install-Mode0-ZeroFootprint.bat` &nbsp;&bull;&nbsp; `installers/Install-ModeN-NearZeroFootprint.bat`

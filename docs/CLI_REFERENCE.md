@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.9.7-beta)
+# WINBARS Command-Line Interface (CLI) Reference (v0.9.8-beta)
 
 ## 1. Quick Syntax Overview
 
@@ -86,10 +86,20 @@ Need to know which profile to pick for a customer at a glance? Use this cheat sh
 | **Mode 3 (`HeadlessFull`)** | External Backup Volumes & Shares | Multi-Target `.winbar_canary.dat` + `.winbars_remote_canary.sha256` | Daily automated pre-sync audit. If canary fails, aborts file sync immediately and disconnects network share. |
 | **Mode 4 (`TotalProtection`)** | Local + All External & Network Targets | Real-time Honeypot Sentinels | **Continuous Real-Time Monitoring**: Floppy Tray Sentry actively watches tripwire tokens; triggers immediate desktop Toast alert, siren alarm, and Webhook dispatch (Discord/Slack/Teams). |
 
+### ⚡ Fast-Path Confirmation Screen & Pre-Flight Architecture
+When selecting any profile (`[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]`):
+* **Launchpad Flight Check**: The top-level menu lists clean profile cards, while the dedicated Confirmation Screen performs real-time destination and capacity evaluation:
+  * `Target Backup Drive` (auto-detected external drive or local partition)
+  * `Personal Data Target` (specific path or N/A)
+  * `System Image Target` (DISM `.wim` or wbadmin path)
+  * `Drive Capacity Check` (`[PASS]` / `[WARN: Low Space]`)
+* **1-Click Execution Options**:
+  * **`[ENTER]`**: Instantly deploys the profile with hardened defaults.
+  * **`[S]`**: Deploys profile and immediately triggers a bare-metal System Image (`.wim`) capture.
+  * **`[E]`**: Opens the full interactive **Pre-Flight Customization Editor**.
+  * **`[B]`**: Cancels and returns to the deployment menu.
 
-### ⚡ Pre-Flight Quick Defaults Review Screen
-Whenever a profile is selected interactively (Modes 0–4 or 5+):
-* **1-Key Default Execution**: Pressing **`[ENTER]`** immediately applies the profile using hardened system defaults with zero unnecessary prompts.
+### 🛠️ Pre-Flight Customization Editor (Options via `[E]`):
 * **Component Toggling (`1-9`)**: Press any number to toggle individual components in memory:
   * `[1]` User Data Sync (Robocopy Mirror + 30-Day Retention)
   * `[2]` Bare-Metal System Image (DISM / VHDX)
