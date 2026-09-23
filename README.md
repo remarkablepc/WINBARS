@@ -134,14 +134,14 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 * 🔗 [Deep Dive: Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)
 
 ### 5. The "No Rescue USB" Catch-22 ➔ **Pre-Staged Emergency Recovery (+ Optional Rescue USB)**
-* 🏷️ **Active in: Modes 1, 2, 3, 4** *(Local pre-staging on internal drive); **Modes 0 & N** store 100% of recovery tools strictly on the external Backup Drive, leaving 0 files on `C:\` or `C:\SystemRecovery`.*
+* 🏷️ **Active in: Modes 1, 2, 3, 4** *(Local pre-staging on internal drive in `C:\SystemRecovery`); **Modes 0 & N** store 100% of recovery tools strictly on the external Backup Drive, never creating `C:\SystemRecovery` or touching `C:\`.*
 * **The Solution**: Rather than hoping you made a rescue USB before disaster struck, WINBARS pre-stages emergency recovery tools directly onto your PC (`C:\SystemRecovery` in Modes 1–4) and hooks into the native Windows Recovery Environment Troubleshoot menu (`reagentc` in Modes 2–4). Even with no USB in the house, you can roll back registry hives, rebuild bootloaders, and repair Windows.
 * **Modes 0 & N — Recovery from Backup Drive**: In zero-footprint modes, all rescue tools live exclusively on the Backup Drive root. If you ever plug in your backup drive after a crash, you'll see `RECOVERY_START_HERE.bat` — a single double-click that auto-detects your Windows drive, checks disk health, and walks you through the full recovery ladder.
 * **Optional Bootable Rescue USB**: You can also promote any external backup drive into a full bootable Windows PE Rescue USB (`WINBARS.exe -RescueUsb`), making the backup drive itself your recovery media — no separate flash drive needed.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
 ### 6. The "Wipe & Reinstall" Trap ➔ **macOS-Style Safe Overlay Refresh**
-* 🏷️ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, 4 capture monthly local images in `C:\SystemRecovery`; Mode 1\* offers an optional Day-1 baseline image `_baseline.wim` in `C:\SystemRecovery` if disk space $\ge 25$ GB; Modes 0 & N store `.wim` images **strictly on the external Backup Drive**, leaving `C:\SystemRecovery` completely empty).*
+* 🏷️ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, and 4 capture monthly local images in `C:\SystemRecovery`; Mode 1\* offers an optional Day-1 baseline image `_baseline.wim` in `C:\SystemRecovery` if local free space is >= 25 GB; Modes 0 & N store images **strictly on the external Backup Drive**, never creating `C:\SystemRecovery` or writing any image files to `C:\`).*
 * **The Solution**: Big-box stores wipe your entire hard drive when Windows gets corrupted, erasing all your programs and preferences. WINBARS captures bare-metal `.wim` images that exclude personal data, allowing you to reinstall a factory-clean Windows OS and your programs in under 5 minutes while leaving **all personal documents, photos, desktop profiles, and browser data 100% untouched on disk**.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
