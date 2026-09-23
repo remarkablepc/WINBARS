@@ -228,7 +228,8 @@ WINBARS.exe -ConfigureEventLog -SourceName "TechPros PC Care"
 The health check writes a small JSON state file after each run to enforce the `IntervalDays` frequency cap:
 
 - **Modes 2–4**: `C:\ProgramData\WINBARS\health_check_state.json`
-- **Modes N / 1**: External backup drive `WINBARS_Logs\health_check_state.json` (falls back to `C:\SystemRecovery\health_check_state.json`)
+- **Mode 1**: `C:\SystemRecovery\health_check_state.json` (or external backup drive `WINBARS_Logs\health_check_state.json`)
+- **Mode N**: External backup drive `WINBARS_Logs\health_check_state.json` (never creates `C:\SystemRecovery` or `C:\ProgramData\WINBARS`)
 
 ```json
 {

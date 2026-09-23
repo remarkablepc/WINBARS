@@ -63,7 +63,7 @@ WINBARS is designed with flexible operational boundaries. If strict security pol
 
 ### Filesystem Paths (When Modes 2–4 Installed):
 * **Executable & Config**: `C:\Tools\WINBARS\` (`WINBARS.exe`, `config.json`, `branding.json`, `deployment.log`)
-* **Local Recovery Vault**: `C:\SystemRecovery\` (Contains local `.wim` image captures and emergency .bat tools, protected by Windows ACLs)
+* **Local Recovery Vault**: `C:\SystemRecovery\` (Created only in Modes 1–4; contains local `.wim` image captures and emergency .bat tools, protected by Windows ACLs. **Modes 0 and N never create `C:\SystemRecovery`**; all tools and images live exclusively on the external backup media)
 * **VSS Snapshot Junctions**: `C:\ProgramData\WINBARS\VssMount_*` (Temporary directory junctions created *only* during active Robocopy passes, deleted immediately upon completion)
 
 ---

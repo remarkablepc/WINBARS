@@ -11,7 +11,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | Capability / Feature | Mode 0<br>ZeroFootprint | Mode N<br>NearZero | Mode 1<br>SystemUndo | Mode 2<br>LocalDisasterGuard | Mode 3<br>HeadlessFull | Mode 4<br>TotalProtection |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **Reason for Being** | **Forensic Sterility**<br>(Nothing on `C:\`) | **Native Automation**<br>(0 background EXEs) | **Bench Warranty Baseline**<br>(Zero third-party binaries) | **Single-Drive Disaster Recovery**<br>(Local image; no external drive) | **Silent Multi-Drive Automation**<br>(Full backup; zero UI clutter) | **Visual Observability & Control**<br>(Floppy Tray, live GUI & alerts) |
-| **What Sits on C:\** | **0 Files** | **Shortcuts Only** | `C:\SystemRecovery\`<br>*(3 text scripts + key; 0 EXEs)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **What Sits on C:\** | **0 Files**<br>*(No `C:\SystemRecovery`)* | **Shortcuts Only**<br>*(No `C:\SystemRecovery`)* | `C:\SystemRecovery\`<br>*(3 text scripts + key; 0 EXEs)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
 | **Where Rescue Scripts Live** | **Backup Drive Only** | **Backup Drive Only** | `C:\SystemRecovery\` *(Local)* | `C:\SystemRecovery\` *(Local)* | **Both** Local & Backup Drive | **Both** Local & Backup Drive |
 | **Background RAM** | **0 MB** | **0 MB** | **0 MB** | ~12 MB | ~12 MB | ~16 MB |
 | **Resident Processes** | None | None | None | Silent Sentry (Hotkey + Watchdog) | Silent Sentry (Hotkey + Watchdog) | Tray Sentry + Hotkey + Watchdog |
@@ -41,11 +41,11 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 > - **Zero Windows Services Architectural Guarantee**: Across **ALL** modes (0 through 4), WINBARS installs **zero Windows Services (`services.msc`)**, zero kernel drivers, and zero system daemons. Modes 0, N, and 1 run with **0 resident background processes / 0 MB RAM** via native Windows Task Scheduler. Modes 2, 3, and 4 run solely as a lightweight user-session background process (`WINBARS.exe`, ~12–16 MB RAM) via `HKCU\Software\Microsoft\Windows\CurrentVersion\Run`, which exits cleanly when the user logs off.
 > - `✅` **Active & Scheduled**: Fully configured, scheduled, or monitored under this profile.
 > - `❌` **Not Provisioned**: Omitted by design to maintain a strict zero-resident or near-zero footprint policy.
-> - `*` **Optional / On-Demand**: Feature is optional during setup (e.g. Mode 1 offers an optional one-time baseline image `_baseline.wim` if host disk space $\ge 25\text{ GB}$).
+> - `*` **Optional / On-Demand**: Feature is optional during setup (e.g. Mode 1 offers an optional one-time baseline image `_baseline.wim` if host disk space >= 25 GB).
 > - **Terminology Clarification**:
 >   - **Backup Drive (Storage Target)**: The dedicated drive/partition where user file mirrors, baseline `.wim` images, and recovery scripts live. Even in Mode 0, this can be an internal secondary drive/partition (e.g. `D:\`, `E:\`) or an external drive. 0 files touch `C:\`.
 >   - **WINBARS Util USB (Technician Flash Drive)**: The portable, bootable flash drive holding `WINBARS.exe`, batch installers, and offline WinPE recovery tools.
-> - **Rescue .BAT Scripts Placement**: In **Modes 0 and N**, exactly 0 batch scripts or binaries are placed on `C:\`, and **0 files are placed in `C:\SystemRecovery`**. All rescue scripts (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) and system images live exclusively on the **Backup Drive**. In **Mode 1**, exactly 3 unbranded emergency files (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and any optional baseline image sit in `C:\SystemRecovery\` (strictly locked down with NTFS ACLs to SYSTEM and elevated Administrators, leaving `C:\` root completely clean).
+> - **Rescue .BAT Scripts Placement**: In **Modes 0 and N**, exactly 0 batch scripts, binaries, or recovery folders are placed on `C:\` (**`C:\SystemRecovery` is never created**). All rescue scripts (`EMERGENCY_RECOVERY.bat`, `Apply-SystemImage_WinPE.bat`) and system images live exclusively on the **Backup Drive**. In **Mode 1**, exactly 3 unbranded emergency files (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and any optional baseline image sit in `C:\SystemRecovery\` (strictly locked down with NTFS ACLs to SYSTEM and elevated Administrators, leaving `C:\` root completely clean).
 > - **Running Safe Overlay from `C:\` in Mode 1**: If Windows fails to boot in Mode 1, you can boot into WinRE Command Prompt (`Shift + F10`) and run `C:\SystemRecovery\Apply-SystemImage_WinPE.bat` directly from `C:\`. The script detects that the image is stored on the target volume (`SAME_DRV = 1`), automatically locks out the destructive reformat option, and safely applies **Option [1] Safe Overlay**—refreshing Windows OS and Program Files while leaving `C:\Users\` 100% intact!
 > - **Unthrottled System Restore**: Standard Windows limits restore point creation to once every 24 hours (`SystemRestorePointCreationFrequency = 1440`). WINBARS unthrottles this limit (`Frequency = 0`) so checkpoints are captured whenever requested, while guaranteeing 10%–15% shadow storage headroom so restore points are never purged prematurely.
 > - **Safe Overlay OS Refresh**: Allows non-destructive restoration of the Windows OS and Program Files from a `.wim` image directly over `C:\` while leaving `C:\Users\` 100% untouched on disk (Option [1] in `Apply-SystemImage_WinPE.bat`). Available whenever a DISM image is present.
@@ -63,7 +63,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
   * Secures BitLocker disaster recovery keys to the external backup drive using Shop/Company Master RSA encryption (`.enc`) or AES-256 (`.aes`)—never unencrypted plaintext (HIPAA 45 CFR § 164.312 compliant).
   * Dynamically auto-discovers external drive letter drift across reconnects.
 * **What It DOES NOT Do**:
-  * Places **0 files, 0 scripts, and 0 binaries on `C:\` (and 0 files in `C:\SystemRecovery`)**.
+  * Places **0 files, 0 scripts, and 0 binaries on `C:\` (`C:\SystemRecovery` is never created)**.
   * Does not install any system tray icon or background sentry.
   * Does not install desktop shortcuts.
 * **Best Suited For**: Highly audited enterprise workstations, compliance-sensitive environments, or technicians working on client machines where third-party software installation is strictly prohibited.
@@ -81,7 +81,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
   * **Windows Health Check** (SFC + DISM): Schedules a daily system file integrity scan via native `sfc.exe` at 3:00 AM (configurable). If SFC finds unfixable corruption, automatically escalates to DISM RestoreHealth. Skips silently if machine was off at trigger time. Results written to Windows Event Viewer (Application log, Event IDs 1010–1015). On-demand available via `WINBARS.exe -WindowsHealthCheck`.
   * **Windows Event Log Integration**: Registers a named Event Log source at deployment time. All significant WINBARS actions (backups, health checks, mode changes) are written to `eventvwr.msc` → Application log. Source name configurable via `EventLog.SourceName` in config (defaults to `WINBARS`; branding token overrides available).
 * **What It DOES NOT Do**:
-  * Places **0 files in `C:\SystemRecovery`** (all backup assets live on the external Backup Drive).
+  * **Never creates `C:\SystemRecovery`** (all backup assets live on the external Backup Drive; `C:\` contains only the three unbranded desktop shortcuts).
   * Leaves **0 background EXEs or running services** on the host.
   * Leaves no WINBARS vendor branding.
 * **Best Suited For**: Small business workstations, family computers, and corporate clients where users need 1-click access to backup and restore without third-party vendor branding.
@@ -97,7 +97,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
     1. `EMERGENCY_RECOVERY.bat` (Interactive triage console: Safe Mode, WinRE, BCD repair, chkdsk).
     2. `Restore_Registry_WinPE.bat` (Offline registry hive rollback from RegBack).
     3. `BitLocker_Recovery_Key.txt` (Administrator-restricted emergency key record; encrypted at rest on external media in `BitLocker_Recovery_Key.enc` per HIPAA § 164.312).
-  * Optionally captures an initial offline baseline system image (`_baseline.wim` + `Apply-SystemImage_WinPE.bat`) if free disk space permits ($\ge 25\text{ GB}$).
+  * Optionally captures an initial offline baseline system image (`_baseline.wim` + `Apply-SystemImage_WinPE.bat`) if free disk space permits (>= 25 GB).
 * **What It DOES NOT Do**:
   * Installs **0 software / 0 resident EXEs / 0 background daemons** (only recovery scripts and an optional baseline image reside in `C:\SystemRecovery\`).
   * **Does not install ScamBuster, hotkeys, or tray monitors**—omitted to maintain total transparency, uphold clean bench standards, and ensure the client's PC remains completely free of third-party software.
