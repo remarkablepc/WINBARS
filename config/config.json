@@ -53,6 +53,7 @@
                                    "EnableScamBusterHotkey":  true,
                                    "EnableTraySentry":  true,
                                    "EasyMenuMode":  true,
+                                   "ShowQuickActionBar":  true,
                                    "DeploymentProfile":  "HeadlessFull",
                                    "DomainBlacklist":  [
                                                            "support-alert-microsoft.com",
