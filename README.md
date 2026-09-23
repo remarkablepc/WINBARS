@@ -1,8 +1,8 @@
-# WINBARS - Autonomous Windows Disaster Recovery Suite (v0.9.8-beta)
+# WINBARS - Autonomous Windows Disaster Recovery Suite (v0.10.0-beta)
 ### *Autonomous Windows disaster recovery, zero-footprint personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam sentry protection — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.9.8--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.10.0--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <sub>⚠️ <b>Field Testing Release (v0.9.8-beta)</b>: Feature complete and undergoing community and technician bench validation<br>prior to v1.0.0 General Availability. Recommended for supervised deployment and community evaluation.</sub>
+  <sub>⚠️ <b>Field Testing Release (v0.10.0-beta)</b>: Feature complete and undergoing community and technician bench validation<br>prior to v1.0.0 General Availability. Recommended for supervised deployment and community evaluation.</sub>
 </p>
 
 <p align="center">
@@ -26,11 +26,11 @@
 <div align="center">
 
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.9.8--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.10.0--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br><br>
 
-  **[📥 Download Complete Package (`WINBARS-v0.9.8-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.9.8-beta)**
+  **[📥 Download Complete Package (`WINBARS-v0.10.0-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.10.0-beta)**
 
   <br>
 
@@ -160,6 +160,9 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
    - 🚨 [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
    - 🔐 [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
    - 🩺 [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
+   - 🛡️ [Air-Gapped Target Isolation & Ransomware Shielding](#air-gap-protection)
+   - 🧪 [Archive Integrity Scrubbing & Bit-Rot Sentry](#archive-scrubbing)
+   - 💽 [Automated WinPE Driver Harvester & Rescue USB](#winpe-driver-harvester)
    - 🔍 [Radical Command Transparency (CLI & Offline Tools)](#command-transparency)
 7. [💡 Why WINBARS is Different: The 4 Guarantees](#why-winbars-is-different-the-4-guarantees)
 8. [❓ Frequently Asked Questions (FAQ)](#frequently-asked-questions-faq)
@@ -238,7 +241,7 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 ### 💾 Option B: Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
-   Download the latest [`WINBARS-v0.9.8-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
+   Download the latest [`WINBARS-v0.10.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
 2. **Launch Setup**:
    Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
 3. **Select Your Mode**:
@@ -258,6 +261,8 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 | **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemRecovery` (Modes 1–4; Modes 0 & N write strictly to Backup Drive, never creating `C:\SystemRecovery`). |
 | **💽 Any Volume Image** | `WINBARS.exe -Action CaptureVolumeImage` | Captures standalone DISM `.wim` of any drive/partition (VSS frozen). |
 | **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
+| **🧪 Archive Scrubbing** | `WINBARS.exe -Action VerifyArchives` | Verifies DISM WIM headers & computes SHA-256 integrity checksums. |
+| **💽 WinPE Rescue USB** | `WINBARS.exe -Action RescueUsb` | Builds bootable WinPE drive with automated host driver harvesting & injection. |
 | **🩺 Feature Diagnostics** | `WINBARS.exe -Action Diagnostics` | Runs profile-aware audit with PASS / WARN / FAIL / N/A scorecard. |
 | **🩹 Windows Health Check** | `WINBARS.exe -WindowsHealthCheck` | On-demand SFC + DISM scan with live progress bars. Results logged to Windows Event Viewer. |
 | **⚙️ Configure Health Check** | `WINBARS.exe -ConfigureHealthCheck`<br>`-Interval 14 -Time 02:00` | Set scan interval (days), scheduled time (Modes N/1), or idle threshold (Modes 2–4). |
@@ -417,9 +422,35 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 
 ---
 
+<a id="air-gap-protection"></a>
+### 🛡️ 6. Air-Gapped Target Isolation & Ransomware Shielding
+Connected backup drives are prime targets for modern ransomware strains that scan all mounted drive letters to encrypt archives. WINBARS provides native post-job volume isolation:
+* **Automated Post-Backup Dismounting**: When `AirGapUnmountPostBackup` is enabled in `config/config.json`, WINBARS unmounts the backup volume drive letter immediately upon job completion via native `mountvol <DriveLetter>: /D`. The volume becomes invisible to user sessions, Explorer, and automated malware scanners.
+* **Hardware Read-Only Attributes**: When `AirGapReadOnlyPostBackup` is enabled, WINBARS engages Windows volume flags via `diskpart` (`attributes volume set readonly`) after backups finish, preventing file modifications even if a secondary script or ransomware payload discovers the volume.
+* **Just-In-Time Re-Mounting**: Scheduled and manual backup jobs automatically re-mount the target volume dynamically before execution and re-apply write protections immediately upon completion.
+
+---
+
+<a id="archive-scrubbing"></a>
+### 🧪 7. Archive Integrity Scrubbing & Bit-Rot Sentry
+Unverified backups create false confidence: technicians only discover an image is corrupted when a boot crisis strikes. WINBARS integrates proactive archive validation directly into its maintenance routines:
+* **DISM Header & Table Audits**: `Test-SystemImageIntegrity` verifies that the internal XML metadata, integrity streams, and partition table structures of bare-metal `.wim` archives remain uncorrupted.
+* **Cryptographic SHA-256 Scrubbing**: When companion `.sha256` checksum sidecars exist, WINBARS verifies byte-level archive consistency to catch silent bit-rot, flash media decay, or bad disk sectors before disaster strikes.
+* **Automated Diagnostic Health Scoring**: Check 5b in `WINBARS.exe -Action Diagnostics` automatically audits the latest system image archive, scoring it `[PASS]` or flagging corrupt images with immediate remediation instructions. Also executable on-demand via `WINBARS.exe -Action VerifyArchives`.
+
+---
+
+<a id="winpe-driver-harvester"></a>
+### 💽 8. Automated WinPE Driver Harvester & Rescue USB
+Creating standard bootable USB drives often leaves technicians with an unbootable environment on modern hardware due to missing Intel Rapid Storage Technology (RST), Intel VMD, NVMe controller, or network adapter drivers.
+* **Automated Host Driver Harvesting**: When building a rescue drive (`WINBARS.exe -RescueUsb` or `tools/Create-RescueUSB.bat`), WINBARS automatically harvests all active third-party storage, RAID, and NIC drivers from the live Windows host via native `Export-WindowsDriver`.
+* **Zero-Intervention DISM Offline Injection**: Injects harvested driver INF packages directly into the rescue environment (`boot.wim`) using `dism.exe /Add-Driver /Recurse`.
+* **Plug-and-Play Bare-Metal Booting**: Guarantees that the WinPE Rescue USB instantly recognizes internal NVMe arrays, RAID storage, and network interfaces on that specific hardware without requiring manual driver hunting.
+
+---
 
 <a id="command-transparency"></a>
-### 🔍 6. Radical Command Transparency & Configurable Recovery (CLI & Offline Tools)
+### 🔍 9. Radical Command Transparency & Configurable Recovery (CLI & Offline Tools)
 During the community beta period, **Live Command Transparency** is active by default across all command-line and offline recovery interfaces. WINBARS displays the exact native Microsoft commands (`dism.exe`, `robocopy.exe`, `reagentc.exe`, `bcdedit.exe`, `vssadmin.exe`) before execution, providing verifiable proof that destructive tools like `format.com` and `diskpart` are never run during backup, maintenance, or safe recovery operations.
 
 * **Live Windows Suite Configuration (`config/config.json`)**:
@@ -578,9 +609,9 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Operating System**: Windows 10 (1809+), Windows 11 (all versions), Windows Server 2016/2019/2022/2025 *(Note: Systems in "S Mode" must switch out of S Mode to run standard Win32 executables)*.
 * **Engine Framework**: Microsoft PowerShell 5.1+, WMI/CIM, Volume Shadow Copy Service (VSS), DISM (`dism.exe`), Robocopy (`robocopy.exe`).
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
-* **Binary Size & Checksum (v0.9.8-beta)**:
-  - Binary: `WINBARS.exe` (1.49 MB)
-  - SHA-256: `D367364A707275C7B0E56FC9AB3A429BA9B4AC49AC36B47530213AD2186A1472`
+* **Binary Size & Checksum (v0.10.0-beta)**:
+  - Binary: `WINBARS.exe` (1.54 MB)
+  - SHA-256: `FB7BE2ED35B79D774436F79F28FF0A4293B71E4254A79A60C8E9123DFD201A2B`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 

@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.9.8-beta)
+# WINBARS Command-Line Interface (CLI) Reference (v0.10.0-beta)
 
 ## 1. Quick Syntax Overview
 
@@ -31,6 +31,8 @@ All switches can be passed with standard PowerShell syntax (`-Switch`) or Window
 | -Action FileHistory | Runs multi-threaded unbuffered Robocopy personal file synchronization. | WINBARS.exe -Action FileHistory -Unattended |
 | -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). Use `-Baseline` to tag as permanent master (`_baseline.wim`). | WINBARS.exe -Action SystemImage -Baseline -Unattended |
 | -Action CaptureVolumeImage | Captures a standalone DISM image (`.wim`) of any drive or volume (secondary drives, data volumes, OS) with VSS freeze & loop guard. | WINBARS.exe -Action CaptureVolumeImage -CaptureVolume D: -ImageDestination E:\Images\Data.wim |
+| -Action VerifyArchives | Verifies DISM `.wim` image integrity and tests SHA-256 archive checksums (Aliases: `AuditArchives`, `ScrubArchives`). | WINBARS.exe -Action VerifyArchives |
+| -Action RescueUsb | Creates bootable WinPE Rescue USB with automated host RAID/NVMe/NIC driver harvesting & offline injection. | WINBARS.exe -Action RescueUsb |
 | -Action All | Runs a complete multi-pass backup (Restore Point, File Mirror, DISM Image). | WINBARS.exe -Action All -Unattended |
 | -Action AutoHeal | Runs a silent scan to self-heal Windows VSS & SystemProtection. | WINBARS.exe -Action AutoHeal -Unattended |
 | -Action Diagnostics | Runs profile-aware feature diagnostics audit across 12 subsystems with structured PASS / WARN / FAIL / N/A scorecard. | WINBARS.exe -Action Diagnostics |

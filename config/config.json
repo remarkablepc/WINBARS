@@ -124,6 +124,8 @@
                                "LowSpaceWarningThresholdGB":  15,
                                "LocalOnlyMode":  false,
                                "RegisteredBackupDrives":  [],
+                               "AirGapUnmountPostBackup":  false,
+                               "AirGapReadOnlyPostBackup":  false,
                                "PreferredExternalDriveLetter":  ""
                            },
     "Defaults":  {

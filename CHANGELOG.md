@@ -7,6 +7,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.10.0-beta] - 2026-09-22
+
+### Security, Air-Gap Defense & Disaster Hardening
+- **Air-Gapped / Post-Backup Volume Isolation & Read-Only Locks**:
+  - Implemented `Dismount-BackupVolume` (via native `mountvol /D`) and `Mount-BackupVolume` to unmount target backup drives immediately upon backup job completion, rendering them invisible to ransomware.
+  - Implemented `Set-BackupVolumeReadOnly` via `diskpart` attributes (`attributes volume set readonly` / `clear readonly`) to guarantee write-protection at rest.
+  - Configurable via `AirGapUnmountPostBackup` and `AirGapReadOnlyPostBackup` keys in `config/config.json`.
+- **WinPE Automated Host Driver Harvester & Offline Injection**:
+  - Implemented `Invoke-WinPeDriverInjection` in `StorageAdvisor.ps1` using native `Export-WindowsDriver` to harvest active host third-party RAID, NVMe, and NIC drivers.
+  - Automatically mounts and injects harvested drivers into `boot.wim` during `New-WinbarRescueUsb` (`tools/Create-RescueUSB.bat` / `-Action RescueUsb`), ensuring seamless bare-metal booting on modern storage hardware without missing-disk errors.
+- **Archive Integrity Scrubbing & Bit-Rot Sentry**:
+  - Implemented `Test-SystemImageIntegrity` and `Invoke-ArchiveHealthScrubbing` in `SystemImage.ps1` to perform non-destructive header audits and SHA-256 integrity validation on DISM `.wim` archives.
+  - Integrated into 12-subsystem health diagnostics as Check 5b in `Invoke-SelfDiagnostics`.
+  - Added CLI actions `-Action VerifyArchives`, `AuditArchives`, and `ScrubArchives` in `Dispatcher.ps1`.
+- **Hard SemVer 1.0.0 Ceiling Enforcement**:
+  - Hardened `Build-ExePackage.ps1` with a strict safety ceiling that permanently blocks automated version increments from reaching or exceeding `1.0.0` without explicit `-AllowMajorRelease` authorization.
+  - Synchronized automated version updates across `Suite-Context.ps1`, `tray_code.cs`, `Publish-GithubRepos.ps1`, and `WINBARS.ps1`.
+
+### GUI Polish & Bug Fixes
+- **Dialog Layouts & Text Truncation**:
+  - Enlarged `PromptNewBackupDrive` (`560x275`), widened buttons and labels, added re-entrancy protection, and cleanly sanitized prompt text.
+  - Fixed text clipping across `PromptDailyRestorePointTime`, `PromptConfigureWindowsHealth`, and `ShowAboutDialog`.
+  - Added `AutoEllipsis` to status labels in `ShowStatusCard`.
+- **3-Click Technician Mode**:
+  - Resolved Windows Forms double-click event swallowing in `handleStatusClick` by capturing both `MouseDown` and `DoubleClick` across all header panels and status labels with a 900ms sliding threshold.
+- **Quick Action 1-Click Launching**:
+  - Overhauled `LaunchAction` in `tray_code.cs` to detect compiled binary execution (`Application.ExecutablePath` / `WINBARS.exe`) and pass `-ShowProgress` for all backup actions (`FastBackup`, `All`, `FileHistory`, `FileBackup`, `SystemImage`, `RestorePoint`).
+
+---
+
 ## [0.9.7-beta] - 2026-09-22
 
 ### Security & Hardening (Soft-Launch Beta)
