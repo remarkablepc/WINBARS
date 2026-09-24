@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.0-beta] - 2026-09-24
+
+### Portable USB Technician Registry & Deployment Tracking
+- **Automated Portable USB Deployment Database (`WINBARS_Deployments.csv`)**:
+  - Implemented `Write-UsbDeploymentRecord` in `Deployment-Profiles.ps1` to automatically record every workstation deployment when running from a removable USB flash drive or technician toolkit media.
+  - Generates a standard RFC 4180 UTF-8 CSV log (`<USBDrive>\WINBARS_Deployments.csv`) openable directly in Microsoft Excel, Google Sheets, or importable into shop PSA/RMM systems.
+  - Automatically captures installation timestamp, customer/business name, shop label/ticket #, deployment mode, computer hostname, logged-in user profile, hardware manufacturer & model, BIOS/Chassis serial number / Service Tag, Windows edition & build, backup destination path, and suite version.
+- **Customer & Shop Label Tracking**:
+  - Added dedicated `Customer` parameter (covering Client Name, Family, or Business Name) and `ShopLabel` (ticket #, invoice, or technician initials).
+  - **Interactive 1-Click Fast-Path Integration**: When running interactively from USB media, the confirmation card prompts politely for `Customer [Name or Business - Press Enter to skip]` upon confirmation, or allows pressing `[C]` to pre-tag customer and ticket info before deploying.
+  - **CLI Automation**: Supported `-Customer <Name>`, `-ShopLabel <Label>`, `-DeploymentLog <Path>`, and `-NoShopLog` across `Dispatcher.ps1`.
+  - **Batch Installers Updated**: Added `/customer:`, `/shoplabel:`, and `/ticket:` switches across all standalone installer scripts (`Install-Mode0`, `Install-ModeN`, `Install-Mode1`, `Install-Mode2`, `Install-Mode3`, `Install-Mode4`), automatically forwarding deployment logs back to the technician's USB drive.
+- **Non-Blocking & Write-Protect Safe**:
+  - Wrapped USB database operations in strict fail-safe exception handlers; physical USB write-protect switches, read-only policies, or sudden drive removal will never abort or degrade an installation.
+- **CCSync-Style "Good to Code" Preflight Utility (`gitalign`)**:
+  - Implemented `gitalign.bat`, `git-align.bat`, and `tools/git-align.ps1` with 5-stage preflight validation (Insync cloud sync health, `.git/*.lock` sentinel, conflicted file copies, dual-repo remote verification, upstream divergence, and working tree cleanliness).
+  - Integrated automated preflight checks at the conclusion of `Publish-GithubRepos.ps1` and `Build-ExePackage.ps1`.
+
+---
+
 ## [0.11.6-beta] - 2026-09-24
 
 ### 1-Click Zero-Questionnaire Deployment & Setup Polish

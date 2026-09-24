@@ -36,11 +36,14 @@ if /i "!A!"=="/reset" ( set "ARG_RESET=1" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/nowhitelist" ( set "ARG_WHITELIST=N" & shift & goto PARSE_LOOP )
 if /i "!A!"=="/whitelist" ( set "ARG_WHITELIST=Y" & shift & goto PARSE_LOOP )
 
-:: Switches with values
 if /i "!A:~0,7!"=="/brand:" ( set "ARG_BRAND=!A:~7!" & shift & goto PARSE_LOOP )
 if /i "!A:~0,6!"=="/data:" ( set "ARG_DATA=!A:~6!" & shift & goto PARSE_LOOP )
 if /i "!A:~0,7!"=="/image:" ( set "ARG_IMAGE=!A:~7!" & shift & goto PARSE_LOOP )
 if /i "!A:~0,10!"=="/baseline:" ( set "ARG_BASELINE=!A:~10!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,10!"=="/customer:" ( set "ARG_CUSTOMER=!A:~10!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,11!"=="/shoplabel:" ( set "ARG_SHOPLABEL=!A:~11!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,8!"=="/ticket:" ( set "ARG_SHOPLABEL=!A:~8!" & shift & goto PARSE_LOOP )
+if /i "!A:~0,7!"=="/label:" ( set "ARG_SHOPLABEL=!A:~7!" & shift & goto PARSE_LOOP )
 
 shift
 goto PARSE_LOOP
@@ -286,7 +289,12 @@ if exist "C:\Tools\WINBARS\config\config.json" (
 echo.
 echo   Applying Mode 4 TotalProtection defaults and scheduling tasks...
 echo   ----------------------------------------------------------------
-!RUN_CMD! -SetProfile TotalProtection !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
+set "EXTRA_FLAGS="
+if defined ARG_CUSTOMER set "EXTRA_FLAGS=!EXTRA_FLAGS! -Customer "!ARG_CUSTOMER!""
+if defined ARG_SHOPLABEL set "EXTRA_FLAGS=!EXTRA_FLAGS! -ShopLabel "!ARG_SHOPLABEL!""
+if /i not "%~d0"=="C:" set "EXTRA_FLAGS=!EXTRA_FLAGS! -DeploymentLog "%~d0\WINBARS_Deployments.csv""
+
+!RUN_CMD! -SetProfile TotalProtection !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!" !EXTRA_FLAGS!
 set "PROFILE_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !PROFILE_EXIT! EQU 0 (
