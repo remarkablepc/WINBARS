@@ -146,7 +146,7 @@ graph TD
    - Conceals WINBARS branding completely: backups route to `E:\WindowsBackup\`, Start Menu folder is generically named `System Backup & Recovery`, and standard 2 desktop shortcuts use generic titles (`Backup Personal Files` [Purple Floppy] and `Windows System Restore` [Blue Floppy]).
    - Restores with 100% native Windows tools: Explorer drag-and-drop / Robocopy for user files, `rstrui.exe` for System Restore, and WinRE (`shutdown.exe /r /o /t 0`) for bare-metal image restoration.
    - Protects your technician toolchain from predatory competitor MSPs attempting to audit and poach client accounts.
-3. **Mode 1 (`SystemUndo` / `Minimal`)**:
+3. **Mode 1 (`SystemUndo` - System Undo / OS Rapid Rollback)**:
    - The rapid OS rollback foundation.
    - Configures unthrottled daily Windows System Restore checkpoints and auto-heals VSS writer errors.
    - Preserves offline WinPE boot recovery and native Windows System Protection.

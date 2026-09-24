@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.11.6-beta] - 2026-09-24
+
+### 1-Click Zero-Questionnaire Deployment & Setup Polish
+- **Eliminated Interactive Questionnaires in Installers**:
+  - Completely removed interactive `Read-Host` prompts in `Install-SuiteTasks` (daily restore point time, monthly DISM image day, backup drive letter, notification levels, desktop shortcut creation, drive cloaking, health check toggle, and baseline restore point / image capture).
+  - All operational parameters, schedules, and paths are derived non-interactively from profile defaults, `config/config.json`, or the Pre-Flight Editor (`[E]`), providing a true unattended 1-click experience.
+  - Retained clean non-interactive status summaries detailing active profile, tasks, and schedules.
+- **Deployment Menu Loop Fix**:
+  - Overhauled `Show-FastPathDeploymentConfirmation` to return boolean completion status.
+  - `Show-DeploymentProfileMenu` captures deployment outcomes; upon successful deployment, it exits the selection loop and transitions directly into `Show-MainMenu` (or returns to the parent menu), preventing the menu from looping back to profile selection.
+- **Canonical Naming Alignment (`SystemUndo`)**:
+  - Standardized Mode 1 profile identifier to `SystemUndo` (with display label `Mode 1: System Undo (OS Rapid Rollback)`) across all status centers, CLI dispatchers, configuration files, and task descriptors.
+  - Maintained seamless backward-compatibility mapping for `Minimal` and `1`.
+- **Multi-Config Synchronization & State Resolution**:
+  - `Set-DeploymentProfile` mirrors configuration changes across both `C:\Tools\WINBARS\config\config.json` and `C:\ProgramData\WINBARS\config.json`.
+  - Prioritized explicit `$ConfigPath` in `Get-SuiteDeploymentState`, `Get-CurrentDeploymentProfile`, and updated `Test-IsSuiteInstalled` to accept and forward `$ConfigPath`.
+- **Automated Dual-Repo Publishing Pipeline**:
+  - Verified and executed `Publish-GithubRepos.ps1` to publish closed-source binaries and upload `WINBARS.zip` release assets to `remarkablepc/WINBARS`, ensuring remote web installers (`irm macpc.remarkablepc.com | iex`) pull the latest binaries immediately.
+
+---
+
 ## [0.10.0-beta] - 2026-09-22
 
 ### Security, Air-Gap Defense & Disaster Hardening

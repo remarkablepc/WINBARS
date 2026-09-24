@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.10.0-beta)
+# WINBARS Command-Line Interface (CLI) Reference (v0.11.6-beta)
 
 ## 1. Quick Syntax Overview
 
@@ -157,7 +157,7 @@ When selecting any profile (`[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]`):
 | -Update / -Upgrade | In-Place Suite Upgrade Engine: terminates running instances to release locks, copies updated binaries/modules, refreshes tasks, and relaunches sentry. |
 | -ResetSuite / -ResetConfig | Factory Reset & Reprovisioning Engine: unregisters all scheduled tasks, sentries, run keys, and clears config.json back to pristine state without deleting application binaries or customer backups. |
 | -SwitchMode <Profile> | Seamless Mode Switch: cleans prior mode tasks and sentries to prevent drift, then applies and arms the newly chosen profile. |
-| -SetProfile <Profile> | Applies specified deployment profile (ZeroFootprint, NearZeroFootprint, Minimal, LocalDisasterGuard, HeadlessFull, FullInteractive) non-interactively (automatically routes via SwitchMode). |
+| -SetProfile <Profile> | Applies specified deployment profile (ZeroFootprint, NearZeroFootprint, SystemUndo, LocalDisasterGuard, HeadlessFull, FullInteractive) non-interactively (automatically routes via SwitchMode). |
 | -DefuseOneDriveNags | Surgically silences deceptive Windows / OneDrive 'Not Backed Up' scare banners & KFM takeover. |
 | -RestoreOneDriveNags | Restores standard Windows / OneDrive notification and folder defaults. |
 | -ScamBuster | Terminates rogue browser lockups, silences sirens, and clears reload traps (Ctrl+Win+B). |
@@ -358,7 +358,7 @@ WINBARS includes pre-packaged Windows Command Scripts (`.bat`) in `installers/` 
 | `Run-WINBARS.bat` | Main Interactive Launcher & Privilege Escalation | `WINBARS.exe` | Menu | N/A (Interactive Hub) |
 | `installers/Install-Mode0-ZeroFootprint.bat` | Mode 0: Zero Footprint (100% native Windows engines) | `-SetProfile ZeroFootprint -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Data:<Path>`, `/Image:<Path>` |
 | `installers/Install-ModeN-NearZeroFootprint.bat` | Mode N: Near-Zero Footprint (Stealth native automation) | `-SetProfile NearZeroFootprint -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Data:<Path>`, `/Image:<Path>` |
-| `installers/Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile Minimal -Vanilla -Unattended` | **1** | `/?`, `/Quiet`, `/Vanilla`, `/Baseline:Y\|N` |
+| `installers/Install-Mode1-SystemUndo.bat` | Mode 1: System Undo (Daily restore points & VSS auto-heal) | `-SetProfile SystemUndo -Vanilla -Unattended` | **0** | `/?`, `/Quiet`, `/Vanilla`, `/Baseline:Y\|N` |
 | `installers/Install-Mode2-LocalDisasterGuard.bat` | Mode 2: Local Disaster Guard (Local partition DISM image) | `-SetProfile LocalDisasterGuard -Vanilla -Unattended` | **0** | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"` |
 | `installers/Install-Mode3-HeadlessFull.bat` | Mode 3: Headless Full (Silent Robocopy + images) | `-SetProfile HeadlessFull -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"`, `/Data:<Path>`, `/Image:<Path>` |
 | `installers/Install-Mode4-TotalProtection.bat` | Mode 4: Total Protection (Tray sentry + Scam Buster) | `-SetProfile TotalProtection -Vanilla -Unattended` | 2 | `/?`, `/Quiet`, `/Vanilla`, `/Brand:"Name"`, `/Data:<Path>`, `/Image:<Path>` |
