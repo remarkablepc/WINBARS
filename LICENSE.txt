@@ -1,0 +1,139 @@
+================================================================================
+          WINBARS - WINDOWS BACKUP AND RECOVERY SUITE - SOFTWARE LICENSE
+                  100% FREE FOR PERSONAL & COMMERCIAL USE
+================================================================================
+
+Copyright (c) 2026 RemarkablePC. All rights reserved.
+
+IMPORTANT NOTICE: PLEASE READ THIS SOFTWARE LICENSE AGREEMENT CAREFULLY BEFORE
+USING THIS SOFTWARE. BY DOWNLOADING, INSTALLING, OR USING THIS SOFTWARE,
+YOU AGREE TO BE BOUND BY THE TERMS AND CONDITIONS OF THIS AGREEMENT.
+
+1. GRANT OF LICENSE (FREEWARE / NO FEATURE LOCKS)
+--------------------------------------------------------------------------------
+This Software is licensed, not sold. The Author grants you a perpetual,
+non-exclusive, royalty-free license to download, install, execute, and deploy
+the Software across any number of computer systems for personal, educational,
+non-profit, and commercial/business use.
+
+All core disaster recovery capabilities—including bare-metal DISM system
+imaging, atomic RegBack registry snapshots, Windows RE blue-screen recovery
+integration, BitLocker key auto-archival, ransomware canary sentinels,
+browser profile harvesting, and the Floppy Tray Sentry—are 100% unlocked,
+free of charge, and free of artificial paywalls or nagware for all users.
+
+2. DONATION PERK (CUSTOM IT / SHOP BRANDING)
+--------------------------------------------------------------------------------
+Commercial IT repair shops, MSPs, and consultants who choose to sponsor the
+Author with a voluntary donation ($100+) may receive a cryptographically
+signed Sponsor Branding Token (WINBARS-TOK-...). This token embeds custom
+company branding, phone number, and support website into the system tray sentry
+and Protection Center dashboard.
+
+Branding is provided strictly as a donor thank-you perk. All backup,
+imaging, and disaster recovery features remain 100% functional without a token.
+
+3. RESTRICTIONS & INTELLECTUAL PROPERTY PROTECTION
+--------------------------------------------------------------------------------
+You may NOT:
+a) Decompile, disassemble, reverse engineer, or attempt to derive the source
+   code of the compiled binary or tamper with cryptographic validation routines.
+b) Modify, adapt, rent, lease, loan, or sell the Software as a standalone product.
+c) Charge any fee, subscription, or paywalled download for this Software.
+d) Bundle this Software inside third-party adware, malware, or paywalled wrapper
+   installers without explicit written consent from the Author.
+
+4. REDISTRIBUTION
+--------------------------------------------------------------------------------
+You are permitted to redistribute unmodified copies of the executable (WINBARS.exe)
+or scripts provided that:
+a) The Software is distributed in its original form.
+b) No fee is charged for the Software itself.
+c) This License Agreement and copyright notices remain intact.
+
+5. DISCLAIMER OF WARRANTIES & LIMITATION OF LIABILITY
+--------------------------------------------------------------------------------
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHOR, COPYRIGHT HOLDERS, OR CONTRIBUTORS BE LIABLE
+FOR ANY CLAIM, DAMAGES, LOSS OF DATA, SYSTEM DOWNTIME, CORRUPTION, OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM,
+OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+ALL BACKUPS, RESTORES, PROCESS TERMINATIONS, AND DISASTER RECOVERY DRILLS ARE
+EXECUTED AT THE USER'S OWN DISCRETION AND RISK. USERS AND ADMINISTRATORS ARE
+SOLELY RESPONSIBLE FOR VERIFYING ARCHIVE INTEGRITY AND HARDWARE READINESS.
+
+6. EMERGENCY SHIELD, KILL SWITCH & PROCESS INTERCEPTION DISCLAIMER
+--------------------------------------------------------------------------------
+WINBARS includes emergency defense utilities, including the Scam Buster browser
+freeze termination hotkey (Ctrl+Win+B), automated background watchdog sentries,
+and the Remote Access Tool Interceptor. These features are designed to protect
+end-users against active browser lockups, tech support scams, and unauthorized
+remote access.
+
+ALL PROCESS TERMINATIONS, NETWORK DISCONNECTIONS, AND BROWSER DEFUSALS ARE
+EXECUTED EITHER UPON EXPLICIT END-USER INTERACTION (E.G. CLICKING '[STOP]
+DISCONNECT & BLOCK' OR TRIGGERING EMERGENCY HOTKEYS) OR VIA USER-CONFIGURED
+AUTOMATION PREFERENCES, INCLUDING ALL AUTOMATED, RULE-BASED, AND PROACTIVE
+BACKGROUND INTERCEPTIONS WHERE THE SOFTWARE ACTS ON PRE-CONFIGURED CRITERIA
+WITHOUT DIRECT USER ACTION AT THE TIME OF INTERVENTION.
+
+THE AUTHOR ASSUMES NO RESPONSIBILITY OR LIABILITY FOR ANY INTERRUPTED SESSIONS,
+TERMINATED PROCESSES, UNSAVED WORK, OR REMOTE WORKFLOW DISRUPTIONS RESULTING
+FROM THE OPERATION OF THESE SAFEGUARDS. LOCAL AUDIT LOGS (SECURITY_AUDIT.LOG)
+ARE MAINTAINED TO PROVIDE AN IMMUTABLE RECORD OF USER-INITIATED ACTIONS.
+
+7. NO OBLIGATION OF TECHNICAL SUPPORT OR MAINTENANCE
+--------------------------------------------------------------------------------
+THIS SOFTWARE IS DISTRIBUTED FREE OF CHARGE ON AN "AS IS" AND "AS AVAILABLE"
+BASIS. THE AUTHOR AND COPYRIGHT HOLDERS ARE UNDER NO OBLIGATION TO PROVIDE
+TECHNICAL SUPPORT, CUSTOMER SERVICE, CONSULTATION, MAINTENANCE, ERROR
+CORRECTIONS, ENHANCEMENTS, OR FUTURE UPDATES. ANY ASSISTANCE, FORUM RESPONSES,
+OR COMMUNITY GUIDANCE PROVIDED BY THE AUTHOR IS OFFERED PURELY AS A COURTESY
+WITHOUT ANY SERVICE LEVEL AGREEMENT (SLA) OR BINDING COMMITMENT.
+
+8. DEFENSIVE SCOPE & NOT AN ANTIVIRUS / EDR REPLACEMENT
+--------------------------------------------------------------------------------
+WINBARS IS AN ADMINISTRATIVE DISASTER RECOVERY AND ENDPOINT HARDENING UTILITY;
+ITS SCAM BUSTER AND REMOTE ACCESS INTERCEPTION MODULES FUNCTION AS HEURISTIC,
+PROTECTIVE AIDS. WINBARS IS NOT AN ANTIVIRUS (AV), ENDPOINT DETECTION AND
+RESPONSE (EDR), OR COMPLETE CYBERSECURITY SOLUTION. IT DOES NOT GUARANTEE
+DETECTION OR PREVENTION OF ALL VIRUSES, RANSOMWARE VARIANTS, ZERO-DAY EXPLOITS,
+OR SOCIAL ENGINEERING ATTACKS.
+
+9. SYSTEM MAINTENANCE & HEALTH CHECK OPERATIONS
+--------------------------------------------------------------------------------
+SCHEDULED AND ON-DEMAND WINDOWS HEALTH CHECKS (INCLUDING DISM COMPONENT STORE
+SERVICING, SYSTEM FILE CHECKER, CHKDSK, AND AUTOMATED DISK CLEANUP) EXECUTE
+NATIVE WINDOWS MAINTENANCE ROUTINES. TO PROTECT AGAINST SYSTEM FAILURE AND
+DATA LOSS ON FAILING STORAGE, THE SOFTWARE AUTOMATICALLY PRE-AUDITS HARDWARE
+HEALTH (S.M.A.R.T. STATUS AND RECENT BAD-BLOCK EVENTS) AND PAUSES HEALTH CHECK
+OPERATIONS UPON DETECTING PHYSICAL DEGRADATION. RUNNING INTENSIVE REPAIR
+OPERATIONS ON PHYSICALLY FAILING DRIVES CARRIES INHERENT RISK; USERS AND
+ADMINISTRATORS SHOULD CLONE OR BACK UP CRITICAL DATA PRIOR TO RUNNING LOW-LEVEL
+REPAIRS ON UNSTABLE HARDWARE.
+
+10. TRADEMARK & THIRD-PARTY PRODUCT NOTICE
+--------------------------------------------------------------------------------
+MICROSOFT, WINDOWS, BITLOCKER, POWERSHELL, DISM, AND ROBOCOPY ARE REGISTERED
+TRADEMARKS OR TRADEMARKS OF MICROSOFT CORPORATION. WINBARS IS AN INDEPENDENT
+UTILITY CREATED BY REMARKABLEPC AND IS NOT AFFILIATED WITH, ENDORSED BY,
+SPONSORED BY, OR PRODUCED BY MICROSOFT CORPORATION. THIRD-PARTY REMOTE ACCESS
+UTILITIES (E.G., ANYDESK, TEAMVIEWER, SCREENCONNECT, ULTRAVIEWER, RUSTDESK,
+SPLASHTOP) AND COMMERCIAL BACKUP UTILITIES (E.G., ACRONIS, MACRIUM) ARE
+TRADEMARKS OF THEIR RESPECTIVE OWNERS. THEIR MENTION DOES NOT IMPLY ENDORSEMENT
+BY OR AFFILIATION WITH WINBARS, NOR DOES WINBARS IMPLY THAT COMMERCIAL REMOTE
+TOOLS ARE INHERENTLY MALICIOUS, BUT RECOGNIZES THEY ARE FREQUENTLY ABUSED IN
+UNAUTHORIZED REMOTE TAKEOVERS.
+
+11. ZERO TELEMETRY & LOCAL PRIVACY GUARANTEE
+--------------------------------------------------------------------------------
+WINBARS OPERATES STRICTLY ON-DEVICE. NO TELEMETRY, CUSTOMER FILES, ENCRYPTION
+KEYS, PERSONAL DATA, OR USAGE METRICS ARE HARVESTED, STORED ON REMOTE SERVERS,
+OR TRANSMITTED TO ANY EXTERNAL THIRD PARTY.
+================================================================================
+

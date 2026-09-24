@@ -1,0 +1,48 @@
+{
+  "Locale": "it-IT",
+  "DisplayName": "Italiano (Italian)",
+  "Folders": {
+    "Desktop": [
+      "Desktop"
+    ],
+    "Documents": [
+      "Documenti"
+    ],
+    "Pictures": [
+      "Immagini",
+      "Foto"
+    ],
+    "Music": [
+      "Musica"
+    ],
+    "Videos": [
+      "Video"
+    ],
+    "Downloads": [
+      "Scaricati",
+      "Downloads"
+    ],
+    "Favorites": [
+      "Preferiti"
+    ],
+    "Contacts": [
+      "Contatti"
+    ],
+    "SavedGames": [
+      "Partite salvate"
+    ],
+    "Links": [
+      "Collegamenti"
+    ]
+  },
+  "Strings": {
+    "StatusCardTitle": "WINBARS - Centro di Protezione",
+    "BackupNow": "Esegui backup dei file adesso",
+    "CreateRestorePoint": "Crea punto di ripristino",
+    "ContactSupport": "Contatta il supporto tecnico",
+    "DriveMissingTitle": "Unità di backup assente",
+    "DriveMissingMessage": "Collega l'unità di backup esterna per continuare la protezione.",
+    "BackupCompleteTitle": "Backup completato",
+    "BackupCompleteMessage": "Backup completato con successo."
+  }
+}

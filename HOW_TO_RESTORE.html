@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <meta charset=UTF-8>
+    <meta name=viewport content=width=device-width, initial-scale=1.0>
+    <title>WINBARS - Emergency Disaster Recovery & File Restore Guide</title>
+    <style>
+        :root {
+            --bg-body: #0d1117;
+            --bg-card: #161b22;
+            --border-color: #30363d;
+            --text-main: #c9d1d9;
+            --text-heading: #ffffff;
+            --text-muted: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-amber: #d29922;
+            --accent-red: #f85149;
+            --code-bg: #090d13;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 24px;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            padding: 32px 16px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 32px;
+        }
+        header h1 {
+            color: var(--text-heading);
+            font-size: 2rem;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        header p {
+            color: var(--accent-blue);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .sub-header {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+        .triage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .triage-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .triage-card:hover {
+            transform: translateY(-2px);
+        }
+        .triage-card.green { border-top: 4px solid var(--accent-green); }
+        .triage-card.amber { border-top: 4px solid var(--accent-amber); }
+        .triage-card.red { border-top: 4px solid var(--accent-red); }
+        .triage-card.blue { border-top: 4px solid var(--accent-blue); }
+        
+        .triage-card h3 {
+            color: var(--text-heading);
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .triage-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+        .action-link {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.06);
+            color: var(--text-heading);
+            border: 1px solid var(--border-color);
+        }
+        .section {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            color: var(--text-heading);
+            font-size: 1.35rem;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-list {
+            list-style: none;
+            counter-reset: steps;
+        }
+        .step-list li {
+            counter-increment: steps;
+            margin-bottom: 16px;
+            position: relative;
+            padding-left: 36px;
+        }
+        .step-list li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            background-color: var(--accent-blue);
+            color: #000;
+            font-weight: bold;
+            font-size: 0.8rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        code, pre {
+            font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+        }
+        code {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.88rem;
+            color: var(--accent-blue);
+        }
+        pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            margin: 10px 0;
+            overflow-x: auto;
+            color: #e6edf3;
+            font-size: 0.88rem;
+        }
+        .alert {
+            border-radius: 6px;
+            padding: 14px 16px;
+            margin: 14px 0;
+            font-size: 0.92rem;
+            display: flex;
+            gap: 12px;
+        }
+        .alert-warning {
+            background-color: rgba(210, 153, 34, 0.15);
+            border: 1px solid var(--accent-amber);
+            color: #f0883e;
+        }
+        .alert-danger {
+            background-color: rgba(248, 81, 73, 0.15);
+            border: 1px solid var(--accent-red);
+            color: #ff7b72;
+        }
+        .alert-info {
+            background-color: rgba(88, 166, 255, 0.12);
+            border: 1px solid var(--accent-blue);
+            color: #79c0ff;
+        }
+        footer {
+            text-align: center;
+            padding: 24px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div class=container>
+
+    <header>
+        <h1>Disaster Recovery &amp; File Restoration Guide</h1>
+        <p>100% Native Windows Architecture &bull; Zero Vendor Lock-In &bull; Works Offline</p>
+        <div class=sub-header>This external drive contains your verified files, system images, BitLocker keys, and emergency rollback tools.</div>
+    </header>
+
+    <!-- Emergency Triage -->
+    <div class=triage-grid>
+        <div class=triage-card green>
+            <h3>&#128194; Need Your Files?</h3>
+            <p>Access your documents, desktop, and photos immediately on any working PC, Mac, or Linux machine without installing software.</p>
+            <a href=#section-files class=action-link>Open Users Folder &rarr;</a>
+        </div>
+        <div class=triage-card amber>
+            <h3>&#128737;&#65039; Blue Screen / Crash?</h3>
+            <p>Windows won't boot due to a corrupt update or driver? Roll back offline registry hives directly from WinRE.</p>
+            <a href=#section-registry class=action-link>Registry Rollback &rarr;</a>
+        </div>
+        <div class=triage-card red>
+            <h3>&#128190; Bare-Metal Restore?</h3>
+            <p>Hard drive replaced or died? Apply clean Windows OS &amp; Programs WIM image directly via WinPE recovery shell.</p>
+            <a href=#section-baremetal class=action-link>System Image Restore &rarr;</a>
+        </div>
+        <div class=triage-card blue>
+            <h3>&#128268; Need a Bootable USB?</h3>
+            <p>Target computer won't boot? Turn any blank USB flash drive (4GB+) into a dedicated emergency bootable recovery tool.</p>
+            <a href=#section-rescue-usb class=action-link>Create Rescue USB &rarr;</a>
+        </div>
+    </div>
+
+    <!-- Section 1: Restoring Files -->
+    <div class=section id=section-files>
+        <h2>&#128194; 1. Restoring User Files &amp; Folders (Zero Software Required)</h2>
+        <p>Your files are stored in 100% standard Windows NTFS format with original file names, dates, and folder trees preserved.</p>
+        <ul class=step-list>
+            <li>
+                <strong>Connect this drive</strong> to any working computer (Windows, macOS, or Linux).
+            </li>
+            <li>
+                <strong>Open the <code>Users\</code> folder</strong> located on the root of this backup drive.
+            </li>
+            <li>
+                <strong>Drag and drop</strong> your Desktop, Documents, Downloads, Pictures, and other data directly back onto your computer.
+            </li>
+        </ul>
+        <div class=alert alert-info>
+            <strong>Accidentally deleted or modified a file?</strong><br>
+            WINBARS preserves deleted and replaced files for 30 days in the <code>\_DeletedArchive\YYYY-MM-DD\</code> folder on this drive.
+        </div>
+    </div>
+
+    <!-- Section 2: Bootable Rescue USB & Bootable Backup Drive -->
+    <div class=section id=section-rescue-usb>
+        <h2>&#128268; 2. All-in-One Bootable Backup Drive or Dedicated Rescue USB</h2>
+        <p>If the target computer won't boot, you can turn any blank USB drive into a dedicated rescue tool, or make <strong>this backup drive itself</strong> bootable:</p>
+        <ul class=step-list>
+            <li>
+                <strong>Option A - Make This Backup Drive Bootable (Non-Destructive):</strong><br>
+                Plug this drive into any working Windows PC (or your own). Right-click <code>Create-RescueUSB.bat</code> on the root of this drive and select <strong>Run as administrator</strong>. Select this drive: WINBARS will non-destructively carve out a 2 GB FAT32 UEFI boot partition (<code>WINBARS_BOOT</code>). <strong>All existing user backups, system images, and files remain 100% untouched!</strong>
+            </li>
+            <li>
+                <strong>Option B - Dedicated Technician Flash Drive:</strong><br>
+                Plug in a blank USB flash drive (4 GB+) and run <code>Create-RescueUSB.bat</code> to format it as a dedicated portable UEFI WinRE recovery drive.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 3: Blue Screen & Registry Rollback -->
+    <div class=section id=section-registry>
+        <h2>&#128737;&#65039; 3. Emergency Blue Screen / Registry Rollback (Shift + F10)</h2>
+        <p>If Windows is trapped in a reboot loop or blue screen (BSOD) after an update or driver install:</p>
+        <ul class=step-list>
+            <li>
+                Boot the failing computer into the <strong>Windows Recovery Environment (WinRE)</strong> (hold <code>Shift</code> while clicking Restart, tap F11/F12 at boot, or boot from a Windows Setup / Rescue USB).
+            </li>
+            <li>
+                Select <strong>Troubleshoot &rarr; Advanced options &rarr; Command Prompt</strong> (or press <strong>Shift + F10</strong> on any Windows Setup screen).
+            </li>
+            <li>
+                <strong>The Notepad Graphical File Manager Trick:</strong><br>
+                If you aren't sure which drive letter was assigned to your backup drive in WinRE, simply type:
+                <pre>notepad</pre>
+                Press Enter, then click <strong>File &rarr; Open</strong> and change "Files of type" to <strong>All Files (*.*)</strong>. You now have a full graphical Windows Explorer window to visually see drive letters, browse files, and right-click to run scripts!
+            </li>
+            <li>
+                Run the emergency recovery assistant from your backup drive (typically drive <code>D:</code> or <code>E:</code>):
+                <pre>D:\EMERGENCY_RECOVERY.bat</pre>
+                <em>(Or <code>E:\EMERGENCY_RECOVERY.bat</code> if your CD/system reserved shifted the letters)</em>
+            </li>
+            <li>
+                Select <strong>[1] Offline Registry Rollback</strong>. WINBARS will automatically locate your Windows installation on disk, back up the corrupt hives, and restore pristine uncorrupted hives.
+            </li>
+            <li>
+                Type <code>exit</code> and click <strong>Continue to Windows</strong>.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 4: Bare-Metal System Image Restore -->
+    <div class=section id=section-baremetal>
+        <h2>&#128190; 4. System Image Restore (Safe Overlay vs. Clean Wipe)</h2>
+        <p>System images captured by WINBARS are stored in <code>\SystemRecovery\</code> (or legacy <code>\SystemImages\</code>) (e.g. <code>SystemImage_OS_and_Programs_*.wim</code>).</p>
+        
+        <div class="alert alert-info" style="margin-bottom: 16px;">
+            <strong>Two Recovery Pathways Available:</strong><br>
+            &bull; <strong>Option [1] Safe Overlay (macOS-Style Non-Destructive Refresh):</strong> Overlays Windows OS and Program Files from the <code>.wim</code> image while leaving <code>C:\Users\</code> 100% untouched on disk. Perfect when Windows is corrupted or bluescreening but client data remains on drive C:.<br>
+            &bull; <strong>Option [2] Bare-Metal Clean Wipe &amp; Re-Format:</strong> Completely wipes and re-formats drive C: before applying the image. Use for drive replacements (new SSDs) or catastrophic malware. Enforces mandatory two-step confirmation.
+        </div>
+
+        <ul class=step-list>
+            <li>
+                Boot the target computer into WinPE/WinRE (via Windows Setup USB, our Rescue USB, or Bootable Backup Drive).
+            </li>
+            <li>
+                Press <code>Shift + F10</code> to open the recovery Command Prompt.
+            </li>
+            <li>
+                Switch to this backup drive and launch the recovery assistant:
+                <pre>D:\EMERGENCY_RECOVERY.bat</pre>
+                <em>(Or run <code>D:\Apply-SystemImage_WinPE.bat</code> directly)</em>
+            </li>
+            <li>
+                <strong>Choose Your Restore Method:</strong>
+                <ol style="margin-left: 24px; margin-top: 8px;">
+                    <li><code>Option [1] Safe Overlay:</code> Refreshes OS &amp; Program Files while preserving all existing user folders and files on disk.</li>
+                    <li><code>Option [2] Bare-Metal Wipe:</code> Prompts for two-step confirmation, formats drive C:, and applies fresh OS image.</li>
+                </ol>
+            </li>
+            <li>
+                Once DISM completes (typically 5&ndash;15 minutes), the script automatically invokes <code>BCDBoot</code> to rebuild the UEFI bootloader.
+            </li>
+            <li>
+                Reboot the PC into your freshly restored Windows environment.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 5: BitLocker Keys -->
+    <div class=section id=section-bitlocker>
+        <h2>&#128272; 5. BitLocker Emergency Recovery Keys</h2>
+        <p>If Windows displays a blue BitLocker prompt asking for a 48-digit numerical recovery key:</p>
+        <ul class=step-list>
+            <li>
+                Open this backup drive on any working computer or mobile phone (via USB-OTG).
+            </li>
+            <li>
+                Locate <code>BitLocker_Recovery_Key.txt</code> (or encrypted escrow <code>BitLocker_Recovery_Key.enc</code> / <code>.aes</code> in root or <code>Backup_Logs\</code>).
+            </li>
+            <li>
+                If encrypted under HIPAA zero-plaintext compliance, your authorized support technician can decrypt the escrow offline using their Master Key, or you can decrypt using the local host PIN recorded at setup. Enter the 48-digit numerical password on the locked computer screen to unlock the drive.
+            </li>
+        </ul>
+    </div>
+
+    <!-- Section 6: Drive Cloaking -->
+    <div class=section id=section-cloaking>
+        <h2>&#128065;&#65039; 6. Cloaking / Hiding this Backup Drive in Windows Explorer</h2>
+        <p>To protect this backup drive from accidental tampering or ransomware visibility while permanently connected:</p>
+        <ul class=step-list>
+            <li>
+                Right-click <code>Toggle_Backup_Drive_Visibility.bat</code> on the root of this drive.
+            </li>
+            <li>
+                Select <strong>Run as administrator</strong>.
+            </li>
+            <li>
+                The script will toggle whether this drive is visible or cloaked in 'This PC'. Backups continue running silently in the background even when cloaked.
+            </li>
+        </ul>
+    </div>
+
+    <footer>
+        <p><strong>WINBARS Disaster Recovery Suite</strong> &bull; Created by David Hewitt (RemarkablePC)</p>
+        <p>100% Native Windows Subsystems (VSS, Robocopy, DISM, WinRE, BCDBoot). Zero proprietary bloat.</p>
+    </footer>
+
+</div>
+
+</body>
+</html>

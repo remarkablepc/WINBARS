@@ -1,0 +1,51 @@
+{
+  "Locale": "en-US",
+  "DisplayName": "English (United States)",
+  "Folders": {
+    "Desktop": [
+      "Desktop"
+    ],
+    "Documents": [
+      "Documents",
+      "My Documents"
+    ],
+    "Pictures": [
+      "Pictures",
+      "My Pictures",
+      "Photos"
+    ],
+    "Music": [
+      "Music",
+      "My Music"
+    ],
+    "Videos": [
+      "Videos",
+      "My Videos"
+    ],
+    "Downloads": [
+      "Downloads"
+    ],
+    "Favorites": [
+      "Favorites"
+    ],
+    "Contacts": [
+      "Contacts"
+    ],
+    "SavedGames": [
+      "Saved Games"
+    ],
+    "Links": [
+      "Links"
+    ]
+  },
+  "Strings": {
+    "StatusCardTitle": "WINBARS - Protection Center",
+    "BackupNow": "Backup My Files Now",
+    "CreateRestorePoint": "Create System Restore Point",
+    "ContactSupport": "Contact Tech Support",
+    "DriveMissingTitle": "Backup Drive Missing",
+    "DriveMissingMessage": "Please connect your external backup drive to ensure continuous protection.",
+    "BackupCompleteTitle": "Backup Complete",
+    "BackupCompleteMessage": "Backup completed successfully."
+  }
+}

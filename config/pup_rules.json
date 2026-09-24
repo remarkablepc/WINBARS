@@ -1,0 +1,56 @@
+{
+  "BlacklistedNames": [
+    "onelaunch",
+    "wavebrowser",
+    "waveserver",
+    "driverone",
+    "driverfix",
+    "driverupdate",
+    "driversupport",
+    "pcdirector",
+    "segurazo",
+    "santivirus",
+    "webdiscover",
+    "bytefence",
+    "restoro",
+    "pcacceleratesetup",
+    "outbyte",
+    "mypcbackup",
+    "slimcleaner",
+    "reimage",
+    "driverbooster",
+    "iobituninstaller"
+  ],
+  "InstallerPatterns": [
+    "(?i).*onelaunch.*",
+    "(?i).*wave.*setup.*",
+    "(?i).*driverone.*",
+    "(?i).*driver.*fix.*",
+    "(?i).*pc.*accelerate.*",
+    "(?i).*restoro.*",
+    "(?i).*outbyte.*",
+    "(?i).*segurazo.*",
+    "(?i).*santivirus.*",
+    "(?i).*bytefence.*",
+    "(?i).*slimcleaner.*",
+    "(?i).*driver.*booster.*"
+  ],
+  "AvInstallerPatterns": [
+    "(?i).*avast.*setup.*",
+    "(?i).*avg.*setup.*",
+    "(?i).*mcafee.*install.*",
+    "(?i).*norton.*down.*",
+    "(?i).*totalav.*setup.*",
+    "(?i).*avira.*setup.*",
+    "(?i).*kaspersky.*setup.*",
+    "(?i).*bitdefender.*setup.*"
+  ],
+  "Descriptions": {
+    "onelaunch": "OneLaunch modifies your default web browser, replaces your taskbar search bar, and consumes continuous background CPU resources.",
+    "wavebrowser": "Wave Browser is a repackaged browser known to bundle intrusive search modifiers, hijack default file associations, and push unauthorized popups.",
+    "driverone": "DriverOne is an unverified utility known to flag false system errors and demand recurring credit card subscriptions to 'repair' drivers.",
+    "driverfix": "DriverFix is an aggressive driver updater known to cause device driver instability and blue screen boot failures.",
+    "segurazo": "Segurazo / Santivirus hooks deeply into system services, resists standard uninstallation, and severely slows system responsiveness.",
+    "restoro": "Restoro is an unverified PC optimizer tool that flags phantom registry errors and aggressive payment prompts."
+  }
+}
