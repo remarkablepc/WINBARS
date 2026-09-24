@@ -93,9 +93,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%RO
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
 if exist "%ROOT_DIR%WINBARS.exe" (
-    set "RUN_CMD=^"%~dp0WINBARS.exe^""
+    set "RUN_CMD=^"%ROOT_DIR%WINBARS.exe^""
 ) else if exist "%ROOT_DIR%WINBARS.ps1" (
-    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
+    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%ROOT_DIR%WINBARS.ps1^""
 ) else if exist "C:\Tools\WINBARS\WINBARS.exe" (
     set "RUN_CMD=^"C:\Tools\WINBARS\WINBARS.exe^""
 )

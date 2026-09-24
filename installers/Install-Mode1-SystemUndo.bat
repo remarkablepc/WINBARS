@@ -120,9 +120,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%RO
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
 if exist "%ROOT_DIR%WINBARS.exe" (
-    set "RUN_CMD=^"%~dp0WINBARS.exe^""
+    set "RUN_CMD=^"%ROOT_DIR%WINBARS.exe^""
 ) else if exist "%ROOT_DIR%WINBARS.ps1" (
-    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
+    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%ROOT_DIR%WINBARS.ps1^""
 )
 if not defined RUN_CMD (
     echo.
@@ -163,15 +163,15 @@ if "!FORCE_VANILLA!"=="1" set "BRAND_FLAG=-Vanilla"
 :: ---- 5. Resolve the active config file (same order the engine uses) ----
 set "ACTIVE_CONFIG_PATH="
 if exist "%ROOT_DIR%config\config.json" (
-    set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config\config.json"
 ) else if exist "%ROOT_DIR%config.json" (
-    set "ACTIVE_CONFIG_PATH=%~dp0config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config.json"
 ) else if exist "C:\ProgramData\WINBARS\config.json" (
     set "ACTIVE_CONFIG_PATH=C:\ProgramData\WINBARS\config.json"
 )
 if not defined ACTIVE_CONFIG_PATH (
     if not exist "%ROOT_DIR%config" mkdir "%ROOT_DIR%config" >nul 2>&1
-    set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config\config.json"
 )
 
 if "!ARG_RESET!"=="1" (
@@ -186,7 +186,7 @@ if "!ARG_RESET!"=="1" (
 echo.
 echo   Applying Mode 1 SystemUndo stealth hardening...
 echo   ----------------------------------------------------------------
-!RUN_CMD! -SetProfile Minimal !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
+!RUN_CMD! -SetProfile SystemUndo !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!"
 set "PROFILE_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !PROFILE_EXIT! EQU 0 (
@@ -204,14 +204,15 @@ if exist "%TEMP%\winbars_c_free.txt" (
 )
 
 echo.
-echo   QUESTION 1 OF 1 - OPTIONAL BASELINE SYSTEM IMAGE
+echo   BASELINE SYSTEM IMAGE STATUS
 echo   Drive C: has !FREE_GB! GB free space.
 set "BASE_IN="
 if defined ARG_BASELINE (
     set "BASE_IN=!ARG_BASELINE!"
-    echo   Pre-set via switch: !BASE_IN!
+    echo   Baseline capture pre-set via switch: !BASE_IN!
 ) else (
-    set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+    set "BASE_IN=N"
+    echo   Baseline image capture: Skipped by default (Restore points & VSS auto-healing active).
 )
 set "IMAGE_EXIT=0"
 set "DID_CAPTURE=0"

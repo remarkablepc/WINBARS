@@ -108,9 +108,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%RO
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
 if exist "%ROOT_DIR%WINBARS.exe" (
-    set "RUN_CMD=^"%~dp0WINBARS.exe^""
+    set "RUN_CMD=^"%ROOT_DIR%WINBARS.exe^""
 ) else if exist "%ROOT_DIR%WINBARS.ps1" (
-    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
+    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%ROOT_DIR%WINBARS.ps1^""
 )
 if not defined RUN_CMD (
     echo.
@@ -151,15 +151,15 @@ if "!FORCE_VANILLA!"=="1" set "BRAND_FLAG=-Vanilla"
 :: ---- 5. Resolve the active config file (same order the engine uses) ----
 set "ACTIVE_CONFIG_PATH="
 if exist "%ROOT_DIR%config\config.json" (
-    set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config\config.json"
 ) else if exist "%ROOT_DIR%config.json" (
-    set "ACTIVE_CONFIG_PATH=%~dp0config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config.json"
 ) else if exist "C:\ProgramData\WINBARS\config.json" (
     set "ACTIVE_CONFIG_PATH=C:\ProgramData\WINBARS\config.json"
 )
 if not defined ACTIVE_CONFIG_PATH (
     if not exist "%ROOT_DIR%config" mkdir "%ROOT_DIR%config" >nul 2>&1
-    set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config\config.json"
 )
 
 :: ---- 6. Question 1 of 1: System image drive ----
@@ -184,25 +184,9 @@ echo   ----------------------------------------------------------------
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-CimInstance Win32_LogicalDisk | Where-Object { $_.DriveType -in 2,3 -and $_.DeviceID -ne 'C:' } | Sort-Object DeviceID | ForEach-Object { '{0}  {1}  (Free: {2:N1} GB)' -f $_.DeviceID, $_.VolumeName, ($_.FreeSpace/1GB) }"
 echo   ----------------------------------------------------------------
 
-:ASK_IMAGE
-echo.
-echo   QUESTION 1 OF 1 - WINDOWS SYSTEM IMAGE DRIVE
-echo   Mode 2 stores a monthly bare-metal image for offline recovery.
-echo   Default: C: (local folder C:\SystemRecovery).
-set /p IMG_IN="   Enter drive letter or press ENTER for default [C]: "
-set "IMG_IN=!IMG_IN: =!"
-if not defined IMG_IN set "IMG_IN=C"
-echo !IMG_IN! | findstr /r "^[A-Za-z]$" >nul
-if !errorLevel! NEQ 0 (
-    echo   [ERROR] Invalid entry - enter a single drive letter A-Z.
-    goto ASK_IMAGE
-)
-if not exist "!IMG_IN!:\" (
-    echo   [ERROR] Drive !IMG_IN!: does not exist or is not ready.
-    goto ASK_IMAGE
-)
-set "IMAGE_LETTER=!IMG_IN!"
-set "IMG_PATH=!IMAGE_LETTER!:\SystemRecovery"
+set "IMAGE_LETTER=C"
+set "IMG_PATH=C:\SystemRecovery"
+echo   System image location: !IMG_PATH!
 
 :WRITE_CONFIG
 :: ---- 7. Write the chosen image drive into the active config ----
@@ -280,8 +264,7 @@ if defined ARG_BASELINE (
     echo.
     echo   Baseline capture pre-set via switch: !BASE_IN!
 ) else (
-    echo.
-    set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+    set "BASE_IN=N"
 )
 if /i "!BASE_IN!"=="Y" (
     echo.
@@ -303,9 +286,6 @@ if defined ARG_WHITELIST (
     set "WL_IN=!ARG_WHITELIST!"
     echo.
     echo   Windows Defender whitelisting pre-set via switch: !WL_IN!
-) else if not "!QUIET_MODE!"=="1" (
-    echo.
-    set /p WL_IN="   Add Windows Defender folder & process exclusions for WINBARS? (Y/N) [Default: Y]: "
 ) else (
     set "WL_IN=Y"
 )

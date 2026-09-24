@@ -1,33 +1,53 @@
-{
-    "SystemMigrationAdvisory":  {
-                                    "ShowAdvisory":  true,
-                                    "ActionUrl":  "https://github.com/jdavidhewitt",
-                                    "Title":  "Need Full Legacy App \u0026 License Migration?",
-                                    "ButtonText":  "Learn More",
-                                    "Status":  "ComingSoon",
-                                    "BadgeText":  "Advanced Application Migration",
-                                    "Message":  "Winget cleanly restores modern desktop applications. For complex legacy software, databases, proprietary tools, and full machine-to-machine application migrations, an advanced migration module will be supported in a future update."
-                                },
-    "SecurityShields": {
-        "EnablePupShield": true,
-        "EnableDualAvWarning": true,
-        "BrowserNotificationMode": "Smart",
-        "EnableQuietNotificationPrompts": true,
-        "BlockAutomaticBitLockerEncryption": true
-    },
-    "Diagnostics": {
-        "EchoNativeCommands": true,
-        "EnableWinReIntegration": true
-    },
-    "InstallDirectory": "C:\\Tools\\WINBARS",
-    "SystemImageMonthlyDay":  1,
-    "LogRetentionDays":  730,
-    "CanaryGuard":  {
-                        "SentinelFileName":  ".winbar_canary.dat",
-                        "CreateEmergencyRestorePoint":  true,
-                        "EnableCanaryGuard":  true,
-                        "AutoLockOnTamper":  true
-                    },
+﻿{
+    "ScamBuster":  {
+                       "MediaWhitelist":  [
+                                              "youtube",
+                                              "netflix",
+                                              "twitch",
+                                              "disney",
+                                              "hulu",
+                                              "prime video",
+                                              "spotify",
+                                              "vimeo",
+                                              "hbo",
+                                              "max.com",
+                                              "crunchyroll",
+                                              "plex",
+                                              "google slides",
+                                              "powerpoint",
+                                              "canva",
+                                              "slides.com"
+                                          ],
+                       "EnableShortcut":  true,
+                       "EnableProactiveScamDetection":  true,
+                       "ScamKeywords":  [
+                                            "virus",
+                                            "trojan",
+                                            "infected",
+                                            "0x800",
+                                            "call 1-8",
+                                            "call 800",
+                                            "call +1",
+                                            "call support",
+                                            "computer locked",
+                                            "has been locked",
+                                            "security alert",
+                                            "defender security",
+                                            "pornographic",
+                                            "spyware alert",
+                                            "access blocked",
+                                            "ip address hacked",
+                                            "microsoft support",
+                                            "apple support",
+                                            "security warning",
+                                            "threat detected",
+                                            "critical alert",
+                                            "call toll free",
+                                            "call toll-free",
+                                            "suspicious activity"
+                                        ],
+                       "EnableAutoMute":  true
+                   },
     "Webhooks":  {
                      "DiscordWebhookUrl":  "",
                      "CustomWebhookUrl":  "",
@@ -41,20 +61,65 @@
                      "EnableWebhooks":  false,
                      "SlackWebhookUrl":  ""
                  },
+    "WindowsHealthCheck":  {
+                               "Enabled":  true,
+                               "ScheduleMode":  "Daily",
+                               "ScheduledTime":  "03:00",
+                               "IntervalDays":  1,
+                               "SkipIfMissed":  true,
+                               "IdleMinutesBeforeRun":  30,
+                               "CreatePreScanRestorePoint":  true,
+                               "EscalateToDismOnFailure":  true,
+                               "PauseOnDiskDegradation":  true
+                           },
+    "SecurityShields":  {
+                            "EnablePupShield":  true,
+                            "EnableDualAvWarning":  true,
+                            "BrowserNotificationMode":  "Smart",
+                            "EnableQuietNotificationPrompts":  true,
+                            "BlockAutomaticBitLockerEncryption":  true
+                        },
+    "EventLog":  {
+                     "Enabled":  true,
+                     "SourceName":  "WINBARS"
+                 },
+    "RestorePointSchedule":  "Daily",
+    "SystemMigrationAdvisory":  {
+                                    "ShowAdvisory":  true,
+                                    "ActionUrl":  "https://github.com/jdavidhewitt",
+                                    "Title":  "Need Full Legacy App \u0026 License Migration?",
+                                    "ButtonText":  "Learn More",
+                                    "Status":  "ComingSoon",
+                                    "BadgeText":  "Advanced Application Migration",
+                                    "Message":  "Winget cleanly restores modern desktop applications. For complex legacy software, databases, proprietary tools, and full machine-to-machine application migrations, an advanced migration module will be supported in a future update."
+                                },
+    "Branding":  {
+                     "DefaultBrand":  "Auto",
+                     "AllowTechnicianOverride":  true
+                 },
     "SentryAndNotifications":  {
-                                   "EnableUsbHotPlugAutoBackup":  true,
-                                   "EnableRemoteAccessMonitoring":  true,
-                                   "EnableToastNotifications":  true,
-                                   "ProtectionCenterKey":  "W",
-                                   "ScamBusterKey":  "S",
-                                   "EnableBitLockerAutoArchival":  true,
-                                   "EnableProactiveScamDetection":  true,
-                                   "DefuseOneDriveNags":  true,
+                                   "EasyMenuMode":  true,
+                                   "AutoEnableFileHistory":  true,
                                    "EnableScamBusterHotkey":  true,
                                    "EnableTraySentry":  true,
-                                   "EasyMenuMode":  true,
+                                   "NotificationMode":  "WarningsAndErrors",
+                                   "EnableProactiveScamDetection":  true,
+                                   "ScamBusterHotkey":  "Ctrl+Win+B",
+                                   "EnableToastNotifications":  true,
+                                   "ProtectionCenterHotkey":  "Ctrl+Win+W",
+                                   "ScamBusterKey":  "S",
+                                   "DeploymentProfile":  "SystemUndo",
                                    "ShowQuickActionBar":  true,
-                                   "DeploymentProfile":  "HeadlessFull",
+                                   "EnableRemoteAccessMonitoring":  true,
+                                   "AllowedRemoteTools":  [
+                                                              "teamviewer",
+                                                              "teamviewer_service",
+                                                              "anydesk"
+                                                          ],
+                                   "EnableCanarySentinel":  true,
+                                   "DefuseOneDriveNags":  true,
+                                   "EnableUsbHotPlugAutoBackup":  true,
+                                   "EnableBitLockerAutoArchival":  true,
                                    "DomainBlacklist":  [
                                                            "support-alert-microsoft.com",
                                                            "security-critical-error.net",
@@ -63,121 +128,33 @@
                                                            "helpdesk-assist-login.com",
                                                            "system-warning-center.net"
                                                        ],
-                                   "EnableCanarySentinel":  true,
-                                   "NotificationMode":  "WarningsAndErrors",
-                                   "AutoEnableFileHistory":  true,
-                                   "AllowedRemoteTools":  [
-                                                              "teamviewer",
-                                                              "teamviewer_service",
-                                                              "anydesk"
-                                                          ]
+                                   "QuickAssistHotkey":  "Ctrl+Win+Q",
+                                   "ProtectionCenterKey":  "W"
                                },
+    "NotificationMode":  "WarningsAndErrors",
+    "LogRetentionDays":  730,
     "Verification":  {
                          "VerifyManifests":  true,
                          "AutoVerifyAfterBackup":  true,
                          "VerifyCanarySentinels":  true,
                          "VerifyWimIntegrity":  true
                      },
-    "AppRestore":  {
-                       "RestoreSmartAppDataWithApps":  true,
-                       "EnableWingetRestore":  true,
-                       "WingetInteractiveMode":  false,
-                       "WingetManifestPath":  "System_Migration_Manifest\\winget_packages.json"
-                   },
-    "GlobalShortcuts":  {
-                            "ProtectionCenterHotkey":  "Ctrl+Win+W",
-                            "ScamBusterHotkey":  "Ctrl+Win+B",
-                            "QuickAssistHotkey":  "Ctrl+Win+Q",
-                            "Description":  "Uniform global shortcuts when WINBARS Tray Sentry is running: Ctrl+Win+W for Protection Center (fallback: Ctrl+Win+P), Ctrl+Win+B for Scam Buster (fallback: Ctrl+Win+K), Ctrl+Win+Q for Quick Assist (fallback: Ctrl+Win+A)."
-                        },
-    "StorageAndHardware":  {
-                               "BackupVolumeLabel":  "",
-                               "PauseOnLowBattery":  true,
-                               "PromptMissingDrive":  true,
-                               "EnableLocalImageBackup":  true,
-                               "IgnoredDriveSerials":  [
-                                                           "8A178420",
-                                                           "5028CB66"
-                                                       ],
-                               "MinBatteryPercentRequired":  20,
-                               "EnableLocalBackupFallback":  false,
-                               "RescuePartition":  {
-                                                       "Enabled":  false,
-                                                       "VolumeGuid":  "",
-                                                       "VolumeLabel":  "WINBARS_RECOVERY",
-                                                       "AllocatedSizeGB":  "AUTO",
-                                                       "MinPostShrinkHostFreeSpaceGB":  35,
-                                                       "HideDriveLetter":  true
-                                                   },
-                               "BackupVolumeGuid":  "",
-                               "EnableDriveCapacityWarnings":  true,
-                               "LocalBackupFolder":  "C:\\WINBARS_Backups",
-                               "ExternalImageRetentionCount":  2,
-                               "EnableExternalImageBackup":  true,
-                               "LocalImageFolder":  "C:\\SystemRecovery",
-                               "LegacyImageFolderFallback":  "C:\\SystemImages",
-                               "MinFreeSpaceGBRequired":  25,
-                               "AutoSizingImageCompressionRatio":  0.6,
-                               "BackupVolumeSerialNumber":  "",
-                               "LocalImageRetentionCount":  1,
-                               "MinExternalDriveSizeGB":  "AUTO",
-                               "AutoSizingBufferPercent":  25,
-                               "LowSpaceWarningThresholdGB":  15,
-                               "LocalOnlyMode":  false,
-                               "RegisteredBackupDrives":  [],
-                               "AirGapUnmountPostBackup":  false,
-                               "AirGapReadOnlyPostBackup":  false,
-                               "PreferredExternalDriveLetter":  ""
-                           },
     "Defaults":  {
                      "DefaultLogRetentionDays":  730,
                      "DefaultDeploymentProfile":  "ZeroFootprint",
                      "DefaultMenuChoice":  "1",
                      "DefaultBrand":  "Auto"
                  },
+    "InstallDirectory":  "C:\\Tools\\WINBARS",
+    "SystemImageMonthlyDay":  1,
+    "CanaryGuard":  {
+                        "SentinelFileName":  ".winbar_canary.dat",
+                        "CreateEmergencyRestorePoint":  true,
+                        "EnableCanaryGuard":  true,
+                        "AutoLockOnTamper":  true
+                    },
     "SystemImageMonthlyTime":  "02:00",
     "RestorePointTime":  "09:00",
-    "Branding":  {
-                     "DefaultBrand":  "Auto",
-                     "AllowTechnicianOverride":  true
-                 },
-    "RansomwareCanary":  {
-                             "AutoLockBackups":  true,
-                             "DetectionThreshold":  1,
-                             "Enabled":  true
-                         },
-    "RestorePointSchedule":  "Daily",
-    "ScamBuster":  {
-                       "EnableShortcut":  true,
-                       "EnableProactiveScamDetection":  true,
-                       "EnableAutoMute":  true
-                   },
-    "SystemRestore":  {
-                          "MaxRestorePoints":  14,
-                          "RestorePointRetentionDays":  30,
-                          "MaxShadowStoragePercent":  10
-                      },
-    "NotificationMode":  "WarningsAndErrors",
-    "Schedules":  {
-                      "SystemImageMonthlyDay":  1,
-                      "RestorePointTime":  "09:00",
-                      "FileHistoryCheckIntervalHours":  24,
-                      "FileSyncTime":  "12:00",
-                      "FileHistoryStaleThresholdHours":  48,
-                      "RestorePointSchedule":  "Daily",
-                      "SystemImageMonthlyTime":  "02:00",
-                      "RestorePointDailyTime":  "09:00",
-                      "HealthCheckDailyTime":  "03:00"
-                  },
-    "RestorePointDailyTime":  "09:00",
-    "Logging":  {
-                    "EnableAppDataLogs":  true,
-                    "LogFolderPath":  "C:\\ProgramData\\WINBARS\\Logs",
-                    "LogMaxSizeBytes":  10485760,
-                    "LogMaxArchiveFiles":  5,
-                    "EnableLocalLogSubfolder":  true,
-                    "LogRetentionDays":  730
-                },
     "BackupTargets":  {
                           "BrowserExclusions":  [
                                                     "Cache",
@@ -215,19 +192,96 @@
 
                                                   ]
                       },
-    "WindowsHealthCheck":  {
-                                "Enabled":                   true,
-                                "ScheduleMode":              "Daily",
-                                "ScheduledTime":             "03:00",
-                                "IntervalDays":              1,
-                                "SkipIfMissed":              true,
-                                "IdleMinutesBeforeRun":      30,
-                                "CreatePreScanRestorePoint": true,
-                                "EscalateToDismOnFailure":   true,
-                                "PauseOnDiskDegradation":    true
-                            },
-    "EventLog":  {
-                     "Enabled":    true,
-                     "SourceName": "WINBARS"
-                 }
-}
+    "RestorePointDailyTime":  "09:00",
+    "Hotkeys":  {
+                    "ScamBusterHotkey":  "Ctrl+Win+B",
+                    "ProtectionCenterHotkey":  "Ctrl+Win+W",
+                    "QuickAssistHotkey":  "Ctrl+Win+Q"
+                },
+    "AppRestore":  {
+                       "RestoreSmartAppDataWithApps":  true,
+                       "EnableWingetRestore":  true,
+                       "WingetInteractiveMode":  false,
+                       "WingetManifestPath":  "System_Migration_Manifest\\winget_packages.json"
+                   },
+    "Logging":  {
+                    "EnableAppDataLogs":  true,
+                    "LogFolderPath":  "C:\\ProgramData\\WINBARS\\Logs",
+                    "LogMaxSizeBytes":  10485760,
+                    "LogMaxArchiveFiles":  5,
+                    "EnableLocalLogSubfolder":  true,
+                    "LogRetentionDays":  730
+                },
+    "Schedules":  {
+                      "HealthCheckDailyTime":  "03:00",
+                      "SystemImageMonthlyDay":  1,
+                      "RestorePointTime":  "09:00",
+                      "FileHistoryCheckIntervalHours":  24,
+                      "RestorePointSchedule":  "Daily",
+                      "FileHistoryStaleThresholdHours":  48,
+                      "SystemImageMonthlyTime":  "02:00",
+                      "FileSyncTime":  "12:00",
+                      "RestorePointDailyTime":  "09:00"
+                  },
+    "SystemRestore":  {
+                          "MaxRestorePoints":  14,
+                          "RestorePointRetentionDays":  30,
+                          "MaxShadowStoragePercent":  10
+                      },
+    "RansomwareCanary":  {
+                             "AutoLockBackups":  true,
+                             "DetectionThreshold":  1,
+                             "Enabled":  true
+                         },
+    "GlobalShortcuts":  {
+                            "ProtectionCenterHotkey":  "Ctrl+Win+W",
+                            "ScamBusterHotkey":  "Ctrl+Win+B",
+                            "QuickAssistHotkey":  "Ctrl+Win+Q",
+                            "Description":  "Uniform global shortcuts when WINBARS Tray Sentry is running: Ctrl+Win+W for Protection Center (fallback: Ctrl+Win+P), Ctrl+Win+B for Scam Buster (fallback: Ctrl+Win+K), Ctrl+Win+Q for Quick Assist (fallback: Ctrl+Win+A)."
+                        },
+    "Diagnostics":  {
+                        "EchoNativeCommands":  true,
+                        "EnableWinReIntegration":  true
+                    },
+    "StorageAndHardware":  {
+                               "AirGapUnmountPostBackup":  false,
+                               "BackupVolumeLabel":  "",
+                               "PauseOnLowBattery":  true,
+                               "PromptMissingDrive":  true,
+                               "EnableLocalImageBackup":  true,
+                               "IgnoredDriveSerials":  [
+                                                           "8A178420",
+                                                           "5028CB66"
+                                                       ],
+                               "MinBatteryPercentRequired":  20,
+                               "EnableLocalBackupFallback":  false,
+                               "LegacyImageFolderFallback":  "C:\\SystemImages",
+                               "RescuePartition":  {
+                                                       "Enabled":  false,
+                                                       "VolumeGuid":  "",
+                                                       "VolumeLabel":  "WINBARS_RECOVERY",
+                                                       "AllocatedSizeGB":  "AUTO",
+                                                       "MinPostShrinkHostFreeSpaceGB":  35,
+                                                       "HideDriveLetter":  true
+                                                   },
+                               "BackupVolumeGuid":  "",
+                               "EnableDriveCapacityWarnings":  true,
+                               "LocalBackupFolder":  "C:\\WINBARS_Backups",
+                               "ExternalImageRetentionCount":  2,
+                               "EnableExternalImageBackup":  true,
+                               "LocalImageFolder":  "C:\\SystemRecovery",
+                               "AirGapReadOnlyPostBackup":  false,
+                               "MinFreeSpaceGBRequired":  25,
+                               "AutoSizingImageCompressionRatio":  0.6,
+                               "BackupVolumeSerialNumber":  "",
+                               "LocalImageRetentionCount":  1,
+                               "MinExternalDriveSizeGB":  "AUTO",
+                               "AutoSizingBufferPercent":  25,
+                               "LowSpaceWarningThresholdGB":  15,
+                               "LocalOnlyMode":  false,
+                               "RegisteredBackupDrives":  [
+
+                                                          ],
+                               "PreferredExternalDriveLetter":  ""
+                           }
+}

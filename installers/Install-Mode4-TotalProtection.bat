@@ -112,9 +112,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "Get-ChildItem -Path '%RO
 :: ---- 3. Detect execution engine ----
 set "RUN_CMD="
 if exist "%ROOT_DIR%WINBARS.exe" (
-    set "RUN_CMD=^"%~dp0WINBARS.exe^""
+    set "RUN_CMD=^"%ROOT_DIR%WINBARS.exe^""
 ) else if exist "%ROOT_DIR%WINBARS.ps1" (
-    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%~dp0WINBARS.ps1^""
+    set "RUN_CMD=powershell.exe -NoProfile -ExecutionPolicy Bypass -File ^"%ROOT_DIR%WINBARS.ps1^""
 )
 if not defined RUN_CMD (
     echo.
@@ -155,15 +155,15 @@ if "!FORCE_VANILLA!"=="1" set "BRAND_FLAG=-Vanilla"
 :: ---- 5. Resolve the active config file (same order the engine uses) ----
 set "ACTIVE_CONFIG_PATH="
 if exist "%ROOT_DIR%config\config.json" (
-    set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config\config.json"
 ) else if exist "%ROOT_DIR%config.json" (
-    set "ACTIVE_CONFIG_PATH=%~dp0config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config.json"
 ) else if exist "C:\ProgramData\WINBARS\config.json" (
     set "ACTIVE_CONFIG_PATH=C:\ProgramData\WINBARS\config.json"
 )
 if not defined ACTIVE_CONFIG_PATH (
     if not exist "%ROOT_DIR%config" mkdir "%ROOT_DIR%config" >nul 2>&1
-    set "ACTIVE_CONFIG_PATH=%~dp0config\config.json"
+    set "ACTIVE_CONFIG_PATH=%ROOT_DIR%config\config.json"
 )
 
 :: ---- 6. Auto-detect and pre-check drives ----
@@ -201,57 +201,27 @@ if exist "%TEMP%\winbars_auto_drive.txt" (
     del /f /q "%TEMP%\winbars_auto_drive.txt" >nul 2>&1
 )
 
-:: ---- 7. Question 1 of 2: Data backup drive ----
-if defined DATA_LETTER goto SKIP_ASK_DATA
-:ASK_DATA
-echo.
-echo   QUESTION 1 OF 2 - DATA BACKUP DRIVE
-echo   Personal files, File History and daily syncs are mirrored here.
-set /p DATA_IN="   Enter drive letter (e.g. E) or press ENTER for default [!AUTO_DRIVE!]: "
-set "DATA_IN=!DATA_IN: =!"
-if not defined DATA_IN set "DATA_IN=!AUTO_DRIVE!"
-if not defined DATA_IN (
-    echo   [i] No external drive detected - WINBARS will auto-resolve
-    echo       the target drive at runtime.
-) else (
-    echo !DATA_IN! | findstr /r "^[A-Za-z]$" >nul
-    if !errorLevel! NEQ 0 (
-        echo   [ERROR] Invalid entry - enter a single drive letter A-Z.
-        goto ASK_DATA
-    )
-    if not exist "!DATA_IN!:\" (
-        echo   [ERROR] Drive !DATA_IN!: does not exist or is not ready.
-        goto ASK_DATA
-    )
-    set "DATA_LETTER=!DATA_IN!"
+:: ---- 7. Data backup drive ----
+if not defined DATA_LETTER (
+    set "DATA_LETTER=!AUTO_DRIVE!"
 )
-:SKIP_ASK_DATA
-
-:: ---- 8. Question 2 of 2: System image drive ----
-if defined IMG_PATH goto WRITE_CONFIG
-:ASK_IMAGE
-set "IMG_DEFAULT=!DATA_LETTER!"
-if not defined IMG_DEFAULT set "IMG_DEFAULT=!AUTO_DRIVE!"
-echo.
-echo   QUESTION 2 OF 2 - WINDOWS SYSTEM IMAGE DRIVE
-echo   Bare-metal DISM images (.wim) are written here.
-set /p IMG_IN="   Enter drive letter or press ENTER for default [!IMG_DEFAULT!]: "
-set "IMG_IN=!IMG_IN: =!"
-if not defined IMG_IN set "IMG_IN=!IMG_DEFAULT!"
-if not defined IMG_IN (
-    echo   [i] No image drive specified - WINBARS will auto-resolve at runtime.
+if defined DATA_LETTER (
+    echo   Data backup drive target: !DATA_LETTER!:
 ) else (
-    echo !IMG_IN! | findstr /r "^[A-Za-z]$" >nul
-    if !errorLevel! NEQ 0 (
-        echo   [ERROR] Invalid entry - enter a single drive letter A-Z.
-        goto ASK_IMAGE
+    echo   [i] No external drive detected - WINBARS will auto-resolve the target drive at runtime.
+)
+
+:: ---- 8. System image drive ----
+if not defined IMG_PATH (
+    set "IMG_DEFAULT=!DATA_LETTER!"
+    if not defined IMG_DEFAULT set "IMG_DEFAULT=!AUTO_DRIVE!"
+    if defined IMG_DEFAULT (
+        set "IMAGE_LETTER=!IMG_DEFAULT!"
+        set "IMG_PATH=!IMAGE_LETTER!:\WindowsImageBackup"
+        echo   Windows System Image target: !IMG_PATH!
+    ) else (
+        echo   [i] No image drive specified - WINBARS will auto-resolve at runtime.
     )
-    if not exist "!IMG_IN!:\" (
-        echo   [ERROR] Drive !IMG_IN!: does not exist or is not ready.
-        goto ASK_IMAGE
-    )
-    set "IMAGE_LETTER=!IMG_IN!"
-    set "IMG_PATH=!IMAGE_LETTER!:\WindowsImageBackup"
 )
 
 :WRITE_CONFIG
@@ -332,8 +302,7 @@ if defined ARG_BASELINE (
     echo.
     echo   Baseline capture pre-set via switch: !BASE_IN!
 ) else (
-    echo.
-    set /p BASE_IN="   Capture a permanent baseline system image now (_baseline.wim)? (Y/N) [Default: N]: "
+    set "BASE_IN=N"
 )
 if /i "!BASE_IN!"=="Y" (
     echo.
@@ -355,9 +324,6 @@ if defined ARG_WHITELIST (
     set "WL_IN=!ARG_WHITELIST!"
     echo.
     echo   Windows Defender whitelisting pre-set via switch: !WL_IN!
-) else if not "!QUIET_MODE!"=="1" (
-    echo.
-    set /p WL_IN="   Add Windows Defender folder & process exclusions for WINBARS? (Y/N) [Default: Y]: "
 ) else (
     set "WL_IN=Y"
 )
