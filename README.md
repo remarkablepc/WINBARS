@@ -1,5 +1,5 @@
 # WINBARS - Autonomous Windows Disaster Recovery Suite (v0.12.0-beta)
-### *Autonomous Windows disaster recovery, zero-footprint personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam sentry protection — built by a computer repair technician, free for personal and commercial use.*
+### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.0--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
@@ -7,6 +7,7 @@
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
   <img src="https://img.shields.io/badge/Binary-WINBARS.exe-informational" alt="Standalone Binary" />
+  <img src="https://img.shields.io/badge/Deployment%20Tiers-Modes%200%20to%204-blueviolet" alt="5 Deployment Tiers" />
   <img src="https://img.shields.io/badge/Agentless%20Native-Mode%200%20Supported-brightgreen" alt="Agentless Zero-Footprint Mode" />
   <img src="https://img.shields.io/badge/License-100%25%20Free%20for%20Personal%20%26%20Commercial%20Use-brightgreen" alt="License" />
   <a href="https://www.paypal.com/ncp/payment/EKH76RTYHH24S"><img src="https://img.shields.io/badge/Say%20Thanks-PayPal-00457C?logo=paypal&logoColor=white" alt="Say Thanks" /></a>
