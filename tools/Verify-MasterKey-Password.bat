@@ -35,7 +35,9 @@ if not defined PFX_PATH (
     for %%D in (D E F G H I U V W X Y Z) do (
         if not defined PFX_PATH (
             if exist "%%D:\Shop_Master_Private.pfx" set "PFX_PATH=%%D:\Shop_Master_Private.pfx"
+            if exist "%%D:\BitLocker\Shop_Master_Private.pfx" set "PFX_PATH=%%D:\BitLocker\Shop_Master_Private.pfx"
             if exist "%%D:\ShopMasterKey_Private.pfx" set "PFX_PATH=%%D:\ShopMasterKey_Private.pfx"
+            if exist "%%D:\BitLocker\ShopMasterKey_Private.pfx" set "PFX_PATH=%%D:\BitLocker\ShopMasterKey_Private.pfx"
             if exist "%%D:\ShopVault\Shop_Master_Private.pfx" set "PFX_PATH=%%D:\ShopVault\Shop_Master_Private.pfx"
             if exist "%%D:\Company_Master_Private.pfx" set "PFX_PATH=%%D:\Company_Master_Private.pfx"
             if exist "%%D:\CompanyMasterKey_Private.pfx" set "PFX_PATH=%%D:\CompanyMasterKey_Private.pfx"

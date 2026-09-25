@@ -121,7 +121,7 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 * **The Solution**: Automatically archives your 48-digit key and generates a printable, high-contrast **Emergency Recovery Card**. More importantly, if your PC locks at the blue BitLocker screen, the WINBARS WinRE recovery wizard lets you **unlock the drive using your familiar Windows login password or PIN** (via an AES-256 encrypted vault). Once verified, WINBARS unlocks `C:` and temporarily suspends encryption for **exactly one reboot** (`-RebootCount 1`)—Windows boots straight to your normal desktop and automatically re-seals the TPM chip!
 * **Silent Auto-Encryption Prevention**: Windows 11 (24H2) silently turns on background Device Encryption on modern hardware without displaying the 48-digit recovery key. WINBARS configures native registry policy (`PreventDeviceEncryption = 1`) across **Modes 1, 2, 3, and 4** to prevent this silent trap, while preserving full manual control to turn BitLocker on when desired.
 * *(Note on **Mode 1 & External Backup Media Compliance**: In accordance with HIPAA (45 CFR § 164.312), GDPR, and enterprise security standards, raw 48-digit recovery keys are **never stored as unencrypted plaintext on external backup drives**. Keys on external media are cryptographically secured at rest using the Shop Master Public Key (`BitLocker_Recovery_Key.enc` + `ShopVault\`) or AES-256 encryption (`BitLocker_Recovery_Key.aes`). Local administrative copies in `C:\SystemRecovery\` are strictly locked down with elevated NTFS ACLs (`SYSTEM` & `Administrators` only) and secured by the host's underlying BitLocker volume encryption).*
-* *(Note on the **Shop & Enterprise Master Keys** *(optional, advanced)*: A repair shop or business can generate RSA key pairs using `tools/Generate-MasterKey.bat`. Public certificates (`.cer`) are auto-discovered from `certs/`, `branding/`, or embedded directly in JSON (`MasterCertificateBase64`). Technicians have complete granular control: toggle co-custody anytime via the Pre-Flight menu (`[M]`) or CLI (`-NoShopKey`). When enrolled, authorized private keys (`*.pfx`, kept safe offline in secure vaults) can unlock any enrolled client PC in a disaster without customer credentials using `tools/Unlock-BitLocker-With-MasterKey.bat`. See the [BitLocker Master Key Guide](docs/BITLOCKER_MASTER_KEYS.md) and [BitLocker Vault Guide](docs/BITLOCKER_VAULT.md) for full architectural details).*
+* *(Note on the **Shop & Enterprise Master Keys** *(optional, advanced)*: A repair shop or business can generate 30-year RSA-2048 Data Recovery Agent (DRA) key pairs using `tools/Generate-MasterKey.bat`. The tool exports the private key (`.pfx`), public cert (`.cer`), and Base64 token directly to the Desktop. Public certificates (`.cer`) are auto-discovered from `certs/`, `branding/`, or embedded directly in JSON (`MasterCertificateBase64`). Technicians have complete granular control: toggle co-custody anytime via the Pre-Flight menu (`[M]`) or CLI (`-NoShopKey`). Master keys are **100% functional standalone** and require neither a branding token nor internet connectivity. When enrolled, authorized private keys (`*.pfx`, kept safe offline in secure vaults) can unlock any enrolled client PC in a disaster without customer credentials using `tools/Unlock-BitLocker-With-MasterKey.bat`. See the [BitLocker Master Key Guide](docs/BITLOCKER_MASTER_KEYS.md) and [BitLocker Vault Guide](docs/BITLOCKER_VAULT.md) for full architectural details).*
 * 🔗 [Deep Dive: BitLocker Master Key & Enterprise DRA Guide](docs/BITLOCKER_MASTER_KEYS.md)
 * 🔗 [Deep Dive: BitLocker AES-256 Disaster Vault Guide](docs/BITLOCKER_VAULT.md)
 
@@ -135,14 +135,14 @@ How WINBARS addresses each failure scenario natively—and exactly which deploym
 * 🔗 [Deep Dive: Scam Sentry & Remote Access Interceptor](docs/SCAM_SENTRY.md)
 
 ### 5. The "No Rescue USB" Catch-22 ➔ **Pre-Staged Emergency Recovery (+ Optional Rescue USB)**
-* 🏷️ **Active in: Modes 1, 2, 3, 4** *(Local pre-staging on internal drive in `C:\SystemRecovery`); **Modes 0 & N** store 100% of recovery tools strictly on the external Backup Drive, never creating `C:\SystemRecovery` or touching `C:\`.*
+* 🏷️ **Active in: Modes 1, 2, 3, 4** *(Local pre-staging on internal drive in `C:\SystemRecovery` / `C:\SystemImages`); **Modes 0 & N** store 100% of recovery tools strictly on the external Backup Drive, never creating `C:\SystemRecovery` or touching `C:\`.*
 * **The Solution**: Rather than hoping you made a rescue USB before disaster struck, WINBARS pre-stages emergency recovery tools directly onto your PC (`C:\SystemRecovery` in Modes 1–4) and hooks into the native Windows Recovery Environment Troubleshoot menu (`reagentc` in Modes 2–4). Even with no USB in the house, you can roll back registry hives, rebuild bootloaders, and repair Windows.
 * **Modes 0 & N — Recovery from Backup Drive**: In zero-footprint modes, all rescue tools live exclusively on the Backup Drive root. If you ever plug in your backup drive after a crash, you'll see `RECOVERY_START_HERE.bat` — a single double-click that auto-detects your Windows drive, checks disk health, and walks you through the full recovery ladder.
 * **Optional Bootable Rescue USB**: You can also promote any external backup drive into a full bootable Windows PE Rescue USB (`WINBARS.exe -RescueUsb`), making the backup drive itself your recovery media — no separate flash drive needed.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
 ### 6. The "Wipe & Reinstall" Trap ➔ **macOS-Style Safe Overlay Refresh**
-* 🏷️ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, and 4 capture monthly local images in `C:\SystemRecovery`; Mode 1\* offers an optional Day-1 baseline image `_baseline.wim` in `C:\SystemRecovery` if local free space is >= 25 GB; Modes 0 & N store images **strictly on the external Backup Drive**, never creating `C:\SystemRecovery` or writing any image files to `C:\`).*
+* 🏷️ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, and 4 feature **Dual Baseline Mirroring** via Preflight Option `[J]`: keeping 1 permanent baseline image locally in `C:\SystemImages` AND on the external backup drive, while subsequent scheduled rotating images strictly target external storage to prevent host disk congestion; Mode 1\* offers an optional baseline image; Modes 0 & N store images **strictly on the external Backup Drive**, never touching `C:\`).*
 * **The Solution**: Big-box stores wipe your entire hard drive when Windows gets corrupted, erasing all your programs and preferences. WINBARS captures bare-metal `.wim` images that exclude personal data, allowing you to reinstall a factory-clean Windows OS and your programs in under 5 minutes while leaving **all personal documents, photos, desktop profiles, and browser data 100% untouched on disk**.
 * 🔗 [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
@@ -519,7 +519,7 @@ Rather than forcing a false choice between an opaque black-box (with proprietary
 * **Do NOT Manually Delete Them**: Deleting or altering a canary file causes WINBARS to treat the event as an active ransomware compromise, instantly suspending scheduled backups and isolating network shares to prevent compromised files from overwriting your pristine archives. If tripped accidentally, reset it anytime via `WINBARS.exe -CanaryReset`.
 
 ### Q: Is WINBARS really 100% free?
-**Yes.** WINBARS is completely free for both personal and commercial use. There are no paid tiers, no ad popups, and no recurring subscriptions. Computer repair shops can optionally purchase a $100 one-time lifetime branding token to display their own shop name, support phone number, and contact details across client-facing dialogs—which directly funds continued development.
+**Yes.** WINBARS is completely free for both personal and commercial use. There are no paid tiers, no ad popups, and no recurring subscriptions. Computer repair shops can optionally obtain a $100 one-time lifetime branding token (via PayPal or GitHub Sponsors) to display their own shop name, support phone number, and contact details across client-facing dialogs—which directly funds continued development.
 
 ### Q: Can I restore my files if WINBARS is uninstalled or my PC dies?
 **Yes, 100%.** WINBARS never traps your files inside proprietary containers (`.mrimg`, `.tibx`). Backed-up files in `UserBackups\` are standard Windows files that can be browsed and copied on any PC, Mac, or Linux computer. System images are standard Microsoft DISM `.wim` files readable by official Windows installation media.
@@ -556,7 +556,7 @@ WINBARS respects your machine and leaves **zero stubborn residue**. It can be co
 <a id="shop-white-labeling--community-sponsorship"></a>
 ## 🏷️ Shop White-Labeling & Community Sponsorship
 
-For independent repair shops, system integrators, and MSPs: community sponsorship of **$100 (one-time lifetime token)** funds continued development of WINBARS.
+For independent repair shops, system integrators, and MSPs: voluntary community sponsorship of **$100 (one-time lifetime token via PayPal or GitHub Sponsors)** directly funds continued development of WINBARS.
 
 In appreciation, RemarkablePC provides an offline, digitally signed `branding.json` token that seamlessly integrates your shop's identity across client-facing dialogs:
 * Your shop name and support phone number on the Protection Center dashboard (`Ctrl+Win+W`).
@@ -564,7 +564,7 @@ In appreciation, RemarkablePC provides an offline, digitally signed `branding.js
 * Custom emergency contact info on printed BitLocker recovery cards.
 * Instructions on Scam Buster intercept alerts to call your verified shop hotline.
 
-> 💼 *Learn more in the [Shop White-Labeling Guide](docs/WHITE_LABELING.md) or visit the [Sponsorship Portal](https://www.paypal.com/ncp/payment/EKH76RTYHH24S).*
+> 💼 *Learn more in the [Shop White-Labeling Guide](docs/WHITE_LABELING.md), sponsor via [GitHub Sponsors](https://github.com/sponsors/remarkablepc?utm_source=WINBARS), or visit the [PayPal Sponsorship Portal](https://www.paypal.com/ncp/payment/EKH76RTYHH24S).*
 
 ---
 
