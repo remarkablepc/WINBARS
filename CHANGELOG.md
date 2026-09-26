@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.6-beta] - 2026-09-26
+
+### Fixed
+- **Mode detection and canonical profile normalization**: standardized profile aliases and matching logic so Mode 4 / FullInteractive / TotalProtection resolve to a single canonical profile before state comparison and task deployment.
+- **Same-mode redeploy preservation**: prevented a redeploy of the active mode from clearing existing schedules, paths, and drive inventory when the deployment target matches the current profile.
+- **Drive-letter retention in deployment settings**: preserved the preferred external drive letter across redeploys so the settings panel no longer shows the drive as empty or offline after a mode refresh.
+- **Silent background tray startup**: switched tray startup to a hidden VBScript/wscript wrapper so Windows no longer opens blank console windows when the tray is launched or kept running in the background.
+
+---
+
 ## [0.12.0-beta] - 2026-09-24
 
 ### Portable USB Technician Registry & Deployment Tracking
