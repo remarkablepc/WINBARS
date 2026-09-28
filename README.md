@@ -1,4 +1,4 @@
-# WINBARS - Autonomous Windows Disaster Recovery Suite (v0.12.6-beta)
+# WINBARS — Windows Backup Assistance and Recovery Suite (v0.12.6-beta)
 ### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
@@ -10,6 +10,7 @@
   <img src="https://img.shields.io/badge/Deployment%20Tiers-Modes%200%20to%204-blueviolet" alt="5 Deployment Tiers" />
   <img src="https://img.shields.io/badge/Agentless%20Native-Mode%200%20Supported-brightgreen" alt="Agentless Zero-Footprint Mode" />
   <img src="https://img.shields.io/badge/License-100%25%20Free%20for%20Personal%20%26%20Commercial%20Use-brightgreen" alt="License" />
+  <a href="#coming-soon-winbars-guard"><img src="https://img.shields.io/badge/Microsoft%20Store-Guard%20Coming%20Soon-0078D4?logo=microsoft&logoColor=white" alt="Microsoft Store Coming Soon" /></a>
   <a href="https://www.paypal.com/ncp/payment/EKH76RTYHH24S"><img src="https://img.shields.io/badge/Say%20Thanks-PayPal-00457C?logo=paypal&logoColor=white" alt="Say Thanks" /></a>
   <a href="https://github.com/sponsors/remarkablepc?utm_source=WINBARS"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors" /></a>
 </p>
@@ -201,6 +202,31 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 >
 > 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
+<a id="coming-soon-winbars-guard"></a>
+### 🛍️ Coming Soon to the Microsoft Store: WINBARS Guard
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Microsoft%20Store-Coming%20Soon-0078D4?logo=microsoft&logoColor=white&style=flat-square" alt="Microsoft Store Coming Soon" />
+  <img src="https://img.shields.io/badge/Architecture-Based%20on%20Mode%204%20(TotalProtection)-blueviolet?style=flat-square" alt="Based on Mode 4" />
+  <img src="https://img.shields.io/badge/Target%20Audience-Everyday%20Users%20%26%20Families-success?style=flat-square" alt="Home Users" />
+  <img src="https://img.shields.io/badge/Format-Certified%20Store%20App-informational?style=flat-square" alt="Certified Store App" />
+</p>
+
+> *"Quiet, automated peace of mind for your Windows PC. Install it once, let Guard handle the rest."*
+
+Looking for an effortless, family-friendly backup and anti-scam shield for non-technical users? **WINBARS Guard** is the consumer edition currently in development for the **Microsoft Store**—built directly on the complete disaster recovery and defense architecture of **Mode 4 (`TotalProtection`)**.
+
+While **WINBARS** on GitHub remains 100% free for technicians, power users, and sysadmins who want granular scriptable control across Modes 0 through 4, **WINBARS Guard** takes Mode 4's full capabilities and wraps them in a friction-free consumer experience with certified Store updates, native low-memory WPF presentation, and zero terminal interaction:
+
+* **Smart External Drive Detection & Auto-Sync**: Simply plug in your USB backup drive. Guard automatically recognizes it, secures your personal files (Documents, Desktop, Photos) with a 30-day deleted file safety net, and sleeps when disconnected.
+* **Smart BitLocker Key Rescue**: Automatically backs up your critical 48-digit BitLocker encryption key to your external drive, ensuring you are never locked out of your own computer after a firmware or Windows update.
+* **Emergency F4 Startup Recovery**: Press **`F4`** during startup if Windows ever fails to boot. Guard pre-stages an instant recovery hook into the Windows bootloader (with automatic F7 fallback), allowing you to roll back bad updates or restore your system without needing a bootable USB.
+* **Instant Scam Defusal & Audio Silencer**: If a fake virus alarm freezes your screen with blaring sirens, press **`Ctrl + Win + B`**. Guard instantly mutes the speakers, terminates locked browser processes, halts unauthorized remote support tools, and displays a calming, togglable reassurance card.
+* **100% Transparent Consumer Integrity**: Zero hidden developer menus, zero secret CLI commands, zero background adware, and zero telemetry. Runs natively in Windows with a featherweight memory footprint (~25–35 MB).
+* **Universal Ecosystem Cross-Compatibility**: Backups created by WINBARS Guard are standard Windows files and `.wim` images that can be seamlessly inspected and restored interchangeably using WINTools, WINBARS, or native Windows utilities.
+
+---
+
 ### ⚡ Turnkey Root Launchers, Installers & Utilities
 - **Root Fast-Launchers (`Run-WINBARS.bat`)**:
   - `[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]` &mdash; **Instant Fast-Path Deployment**: Select any profile to view its tailored targets, drive capacity validation (`[PASS]` / `[WARN: Low Space]`), and 1-click confirmation screen (`[ENTER]` to deploy, `[S]` to deploy + capture baseline image, `[E]` to edit paths & schedules, `[B]` to cancel).
@@ -344,7 +370,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 * **Reset this PC** is a destructive nuclear option that wipes installed desktop applications.
 * And if you don't already have a prepared bootable USB drive, you are completely stranded.
 
-**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `C:\Recovery\OEM\WinreConfig.xml` and `reagentc.exe /enable`. **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
+**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `C:\Recovery\OEM\WinreConfig.xml` and `reagentc.exe /enable`. Additionally, Modes 2–4 can register an optional **F4 Emergency Rescue Hotkey** directly in Windows BCD (`customactions`), allowing 1-touch offline disaster recovery before Windows even attempts to load. **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
 
 #### 🖥️ Native WinRE Boot Hook & Live Rescue Console Flow:
 ```text
@@ -368,7 +394,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
                                   │
                                   ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│      WINBARS (Windows Backup And Recovery) - WinRE Rescue Console      │
+│ WINBARS (Windows Backup Assistance and Recovery Suite) - WinRE Console │
 ├────────────────────────────────────────────────────────────────────────┤
 │ Target Windows OS: C:\Windows (Windows 11 Pro 64-bit)                  │
 │ Detected Vault(s): D:\WINBARS_Backup (External USB - 465 GB Free)      │

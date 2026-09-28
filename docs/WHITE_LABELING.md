@@ -141,3 +141,22 @@ When branded, the client encounters your business identity across all customer t
      *"If someone claiming to be technical support asked you to install this, STOP! Call [Your Business Name] at [Your Phone] before proceeding."*
 4. **Printable BitLocker Emergency Card**:
    * The generated offline `BitLocker_Emergency_Card.html` features your shop header and emergency assistance instructions.
+
+---
+
+## 6. The "Golden Handoff" (Technician Bench Checkout Script)
+
+One of the most effective ways for independent computer repair shops to drive client loyalty, eliminate post-repair scam panic, and command higher service value is the **Golden Handoff** upon completing a tune-up, SSD upgrade, or malware cleanup.
+
+When a customer picks up their PC, the technician delivers this simple, memorable 2-point script:
+
+> **The Shop Bench Script:**  
+> *"We've installed our WINBARS protection suite on your PC before you leave today:*  
+> 1. *If a fake virus popup or loud siren ever locks your screen, press **`Ctrl + Win + B`** to silence it immediately and freeze the lockout.*  
+> 2. *If Windows ever won't start after a bad update, press **`F4`** during startup to enter our emergency recovery console.*  
+> *Both tools have our shop's direct contact card built right in."*
+
+### Why This Drives Business & Retention:
+* **Tangible Value**: Customers often leave repair shops unsure of what was actually fixed under the hood. Giving them two concrete emergency lifelines provides visible, memorable peace of mind.
+* **Direct Referral & Re-engagement**: Because ScamBuster and the Protection Center display your verified shop name and hotline, the customer calls **your shop** first instead of searching Google and falling victim to sponsored scam call centers.
+* **Zero Host Pollution**: Built on Microsoft's native engines with zero third-party kernel drivers or heavy background telemetry.

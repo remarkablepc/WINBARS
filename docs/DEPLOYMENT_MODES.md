@@ -13,8 +13,9 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | **Reason for Being** | **Forensic Sterility**<br>(Nothing on `C:\`) | **Native Automation**<br>(0 background EXEs) | **Bench Warranty Baseline**<br>(Zero third-party binaries) | **Single-Drive Disaster Recovery**<br>(Local image; no external drive) | **Silent Multi-Drive Automation**<br>(Full backup; zero UI clutter) | **Visual Observability & Control**<br>(Floppy Tray, live GUI & alerts) |
 | **What Sits on C:\** | **0 Files**<br>*(No `C:\SystemRecovery`)* | **Shortcuts Only**<br>*(No `C:\SystemRecovery`)* | `C:\SystemRecovery\`<br>*(3 text scripts + key; 0 EXEs)* | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
 | **Where Rescue Scripts Live** | **Backup Drive Only** | **Backup Drive Only** | `C:\SystemRecovery\` *(Local)* | `C:\SystemRecovery\` *(Local)* | **Both** Local & Backup Drive | **Both** Local & Backup Drive |
-| **Background RAM** | **0 MB** | **0 MB** | **0 MB** | ~12 MB | ~12 MB | ~16 MB |
+| **Background RAM** | **0 MB** | **0 MB** | **0 MB** | ~25–35 MB (Scam Watchdog) | ~25–35 MB (Scam Watchdog) | ~25–35 MB (Watchdog + Tray) |
 | **Resident Processes** | None | None | None | Silent Sentry (Hotkey + Watchdog) | Silent Sentry (Hotkey + Watchdog) | Tray Sentry + Hotkey + Watchdog |
+| **UI Presentation** | ❌ None | ❌ None | ❌ None | 📱 On-Demand Dialog (No Tray) | 📱 On-Demand Dialog (No Tray) | 🖥️ Tray Sentry + Live Dashboard |
 | **WINBARS Branding** | ❌ None | ❌ None | ❌ None | ✅ Yes | ✅ Yes | ✅ Yes |
 | **Desktop Shortcuts** | ❌ None | ✅ Native (Unbranded) | ❌ None | ✅ Mode-Aware (No Ext Backup) | ✅ Yes | ✅ Yes |
 | **Automated Daily Sync** | ✅ Daily | ✅ Daily | ❌ None | ❌ None | ✅ Daily | ✅ Daily |
@@ -24,6 +25,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | **30-Day Safety Recycle Bin** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
 | **BitLocker Card & Vault** | ✅ Backup Drive | ✅ Backup Drive | Local (C:\SystemRecovery) | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
 | **Emergency Recovery Launcher** | ✅ Backup Drive | ✅ Backup Drive | ✅ Local (C:\SystemRecovery) | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
+| **Startup Recovery Key (F4 / F7 Fallback)** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ✅ BCD 0x100004 | ✅ BCD 0x100004 | ✅ BCD 0x100004 |
 | **Native WinRE Boot Hook** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **VSS Subsystem Auto-Heal** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Bare-Metal DISM Image** | ✅ Backup Drive | ✅ Backup Drive | Local* | ✅ Local (C:\SystemRecovery) | ✅ Both | ✅ Both |
@@ -33,7 +35,7 @@ The matrix below outlines exactly what capabilities each deployment profile acti
 | **Protection Hotkey (`Ctrl+Win+W`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Panic Hotkey (`Ctrl+Win+B`)** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
 | **Remote RAT & Scam Watchdog** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ✅ Silent Shield (Default ON) | ✅ Silent Shield (Default ON) | ✅ Visual Sentry (Default ON) |
-| **Floppy Tray Sentry** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ⚪ Default OFF (Toggable) | ⚪ Default OFF (Toggable) | 🟢 Default ON (Toggable) |
+| **Floppy Tray Sentry** | ❌ Locked OFF | ❌ Locked OFF | ❌ Locked OFF | ⚪ Default OFF (No Tray) | ⚪ Default OFF (No Tray) | 🟢 Default ON (Toggable) |
 | **Windows Health Check (SFC/DISM)** | ❌ | ✅ Daily 3AM (Fixed) | ✅ Daily 3AM (Fixed) | ✅ Idle 30 min | ✅ Idle 30 min | ✅ Idle 30 min |
 | **Windows Event Log Integration** | ❌ | ✅ Default ON | ✅ Default ON | ✅ Default ON | ✅ Default ON | ✅ Default ON |
 
@@ -138,9 +140,27 @@ The matrix below outlines exactly what capabilities each deployment profile acti
   * Runs the **Real-Time Remote Access RAT Interceptor**: actively monitors for 25+ remote support tools (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk) frequently weaponized by phone scammers, presenting an instant `[STOP] Disconnect & Block` prompt.
   * Full desktop shortcuts (Protection Center, Backup Personal Data with live Dual Progress Bar, System Restore, Create System Image).
   * Supports custom shop branding ($100 lifetime shop token) on the dashboard and support cards.
-* **What It DOES NOT Do**:
-  * Does not install kernel drivers or proprietary background services; runs as a lightweight user-session tray sentry (~16 MB RAM).
-* **Best Suited For**: Everyday home users, seniors, family members, VIP workstations, and customers who need visual reassurance, 1-click desktop actions, and active scam protection.
+---
+
+### 🛡️ Mode 4 (`TotalProtection`) vs. WINBARS Guard (Microsoft Store)
+
+While **WINBARS Guard** is directly based on the complete engine of **Mode 4**, they serve two distinct distribution channels and user expectations:
+
+| Dimension | **WINBARS Suite: Mode 4 (`TotalProtection`)** | **WINBARS Guard (Microsoft Store)** |
+| :--- | :--- | :--- |
+| **Primary Audience** | Computer repair shops, MSPs, corporate IT, sysadmins | Everyday PC users, home offices, non-technical consumers |
+| **Distribution** | Standalone ZIP, technician USB, PowerShell IRM launcher | Certified Microsoft Store App (MSIX package) |
+| **User Interface** | Floppy Tray Sentry, full CLI switchboard, Pre-Flight menu | Clean, modern Consumer Dashboard + System Tray Sentry |
+| **Hidden Features Policy** | Deep technician flags (`-SwitchMode`, `-CanaryReset`, CLI) | **100% Transparent**: Zero hidden menus, zero CLI commands |
+| **Startup Recovery Key** | **F4** (`0x100004`) with automatic **F7** fallback | **F4** (`0x100004`) with automatic **F7** fallback |
+| **ScamBuster Sentry** | `Ctrl + Win + B`, audio muter, togglable reassurance card | `Ctrl + Win + B`, audio muter, togglable reassurance card |
+| **BitLocker Protection** | Escrows key; optional Shop RSA Master DRA certificate | Automatically backs up 48-digit key to external drive |
+| **White-Label Branding** | Supported via shop branding tokens ($100 lifetime) | Standard Store branding & Microsoft Store support channel |
+| **Memory Footprint** | ~25–35 MB (ScamBuster Watchdog + Tray) | ~25–35 MB (ScamBuster Watchdog + Tray) |
+
+> 📌 **Where Does the F4 Startup Recovery Key Land?**
+> - **Active in Modes 2, 3, 4, and WINBARS Guard**: Registers BCD custom action `0x100004` (F4) pointing to the pre-staged recovery environment. If another OEM or utility has registered F4, it dynamically falls back to **F7** (`0x100007`).
+> - **Strictly Omitted in Modes 0, N, and 1**: To preserve the absolute zero-footprint and native Windows bootloader guarantee, Modes 0, N, and 1 make **zero modifications** to the Windows BCD.
 
 ---
 

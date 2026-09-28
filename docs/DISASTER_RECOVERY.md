@@ -15,6 +15,13 @@ When Windows fails to boot, encounters a bootloop, or trips multiple BSODs, Wind
 ### Registered via WinreConfig.xml & reagentc.exe:
 In Managed Workstation profiles (Modes 2, 3, and 4), WINBARS registers a native recovery entry into the Windows Recovery Environment (WinRE). Clicking it instantly launches the standalone WINBARS Disaster Recovery Console.
 
+### 1-Touch F4 Startup Recovery Hotkey (Modes 2–4 & Guard):
+In addition to the WinRE menu hook, WINBARS registers an emergency recovery hotkey directly into Windows Boot Configuration Data (`{bootmgr}` BCD `customactions` `0x100004`):
+* **"Press F4 during startup for WINBARS Recovery"**: Bypasses Windows startup entirely and boots directly into the rescue environment.
+* **Universal Hardware Clearance**: F4 is completely clear across all major Tier-1 PC manufacturers (Dell uses F2/F12, HP uses F9/F10/F11, Lenovo uses F1/F2/F12, Asus uses F2/F8/Del).
+* **Automatic Preflight & F7 Fallback**: If an existing third-party utility claims `0x100004`, WINBARS automatically detects the collision and safely arms **F7** (`0x100007`) as a secondary conflict-free hotkey.
+* **Universal Zero-Hotkey Failsafe**: Even if a user misses the key or has a locked `Fn` row, Windows automatically presents the pre-staged **WINBARS Emergency Tool** on the blue Troubleshoot screen after two failed boots.
+
 > [!NOTE]
 > **Strict Zero-Software Pledge (Modes 0, N, and 1)**: To preserve complete host sterility on corporate workstations and shop bench check-ins, Modes 0, N, and 1 never modify `C:\Recovery\OEM` or inject custom buttons into the Windows boot menu. Systems backed up under Modes 0, N, or 1 boot directly into standard WinRE / WinPE and execute disaster recovery via the standalone rescue scripts on the backup drive.
 
@@ -26,7 +33,7 @@ WINBARS automatically pre-scans all attached drives in real time to display acti
 
 ```text
 ========================================================================
-     WINBARS (Windows Backup And Recovery) - WinRE Rescue Console        
+ WINBARS (Windows Backup Assistance and Recovery Suite) - WinRE Console 
 ========================================================================
  Target Windows OS: C:\Windows (Windows 11 Pro 64-bit)
  Detected Vault(s): D:\WINBARS_Backup (External USB - 465 GB Free)
