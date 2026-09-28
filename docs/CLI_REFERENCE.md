@@ -1,4 +1,4 @@
-# WINBARS Command-Line Interface (CLI) Reference (v0.11.6-beta)
+﻿# WINBARS Command-Line Interface (CLI) Reference (v0.11.6-beta)
 
 ## 1. Quick Syntax Overview
 
@@ -28,8 +28,7 @@ All switches can be passed with standard PowerShell syntax (`-Switch`) or Window
 | :--- | :--- | :---: |
 | -Action FastBackup | Runs daily fast backup pass: mirrors personal files + creates System Checkpoint. [⚡ 1-Click: Backup My Files Now] | WINBARS.exe -Action FastBackup -Unattended |
 | -Action RestorePoint | Creates a hardened, atomic Windows System Restore Point checkpoint. Use `-Baseline` for permanent driver/hardware checkpoint. | WINBARS.exe -Action RestorePoint -Baseline -Description "Pre-Driver Fix" |
-| -Action FileHistory | Runs multi-threaded unbuffered Robocopy personal file synchronization. | WINBARS.exe -Action FileHistory -Unattended |
-| -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim). Use `-Baseline` to tag as permanent master (`_baseline.wim`). | WINBARS.exe -Action SystemImage -Baseline -Unattended |
+| -Action SystemImage | Captures a full bare-metal DISM system image archive (.wim) containing Windows OS + installed apps + drivers. Use `-Baseline` to tag as permanent master (`_baseline.wim`). Use `-NoLocalCopy` to store exclusively on external drive. | WINBARS.exe -Action SystemImage -Baseline -Unattended |
 | -Action CaptureVolumeImage | Captures a standalone DISM image (`.wim`) of any drive or volume (secondary drives, data volumes, OS) with VSS freeze & loop guard. | WINBARS.exe -Action CaptureVolumeImage -CaptureVolume D: -ImageDestination E:\Images\Data.wim |
 | -Action VerifyArchives | Verifies DISM `.wim` image integrity and tests SHA-256 archive checksums (Aliases: `AuditArchives`, `ScrubArchives`). | WINBARS.exe -Action VerifyArchives |
 | -Action RescueUsb | Creates bootable WinPE Rescue USB with automated host RAID/NVMe/NIC driver harvesting & offline injection. | WINBARS.exe -Action RescueUsb |
@@ -167,6 +166,7 @@ When selecting any profile (`[0]`, `[N]`, `[1]`, `[2]`, `[3]`, `[4]`):
 | -RemoveBackupDrive <Path> [-Force] | Removes a backup destination. Enforces 1-Drive Minimum Guardrail (requires `-Force` for technician override). |
 | -SetPrimaryBackupDrive <Path> | Designates a backup drive/path as Primary. |
 | -Baseline | Captures a permanent Day-1 baseline restore point or bare-metal system image (`_baseline.wim`). Excluded permanently from retention rotation. |
+| -NoLocalCopy / -SkipLocalCopy | Omits writing a local baseline copy to `C:\SystemRecovery\_baseline.wim`, keeping the image exclusively on the external backup drive. Automatically skipped if `C:` has < 25 GB free. |
 | -Description <Text> | Specifies a custom hardware or repair label for baseline restore points (e.g., `-Description "Pre-I2C Mouse Fix"`). |
 | -GUI / -StatusCard | Opens the visual GUI Protection Center Live Dashboard (Ctrl+Win+W). Aliases: `-StatusCard`, `-Status`. |
 | -CLI / -Console | Launches the interactive technician CLI console menu. Aliases: `-Console`, `-Menu`. |

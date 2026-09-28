@@ -1,4 +1,4 @@
-# WINBARS Suite Architecture & Design Philosophy
+﻿# WINBARS Suite Architecture & Design Philosophy
 
 ## 1. The Core Philosophy: Coordinator & Hardener, Not Proprietary Black Box
 
@@ -274,7 +274,7 @@ The **Settings & Protection Console** serves as the central configuration and go
   * **Step Progress (0–100%)**: Visualizes micro step throughput, active file transfer counts, and transfer rates.
   * **Cancellation Abort (`[X] Cancel`)**: Provides an immediate safe abort mechanism setting `active_backup.json` status to `"canceled"`.
 * **Context-Aware Floating Quick-Action Bar**:
-  * **Idle Mode**: Displays 5 instant action buttons (`Backup Files`, `Restore`, `Checkpoint`, `Scam Buster`, `Remote Support`) with crisp emoji rendering (`Segoe UI Emoji` / `Segoe UI Symbol`).
+  * **Idle Mode**: Displays 5 instant action buttons (`Backup Files`, `Win & Apps`, `Restore`, `Dashboard`, `Remote Support`) with crisp emoji rendering (`Segoe UI Emoji` / `Segoe UI Symbol`).
   * **Active Mode**: Transforms in real time into a live dual-progress bar monitor reading `active_backup.json` every 500ms, defensively locking out concurrent backup triggers.
 * **Tray Sentry Single vs. Double-Click Debouncing**:
   * A 220ms timer separates single-click (toggles floating quick bar) from double-click (opens the System Health Info Card flicker-free).

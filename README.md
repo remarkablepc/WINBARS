@@ -1,8 +1,8 @@
-# WINBARS — Windows Backup Assistance and Recovery Suite (v0.12.6-beta)
+﻿# WINBARS — Windows Backup Assistance and Recovery Suite (v0.12.7-beta)
 ### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.6--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.7--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <sub>⚠️ <b>Early Beta / Field Testing Release (v0.12.6-beta)</b>: This build is for controlled technician validation and beta testing only. It is not a general-production recommendation, and it should not be treated as a broadly promoted stable release. Use with caution, validate restores and schedules on test systems before relying on it for live client deployments.</sub>
+  <sub>⚠️ <b>Early Beta / Field Testing Release (v0.12.7-beta)</b>: This build is for controlled technician validation and beta testing only. It is not a general-production recommendation, and it should not be treated as a broadly promoted stable release. Use with caution, validate restores and schedules on test systems before relying on it for live client deployments.</sub>
 </p>
 
 <p align="center">
@@ -28,11 +28,11 @@
 <div align="center">
 
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.6--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.7--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br><br>
 
-  **[📥 Download Complete Package (`WINBARS-v0.12.6-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.12.6-beta)**
+  **[📥 Download Complete Package (`WINBARS-v0.12.7-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.12.7-beta)**
 
   <br>
 
@@ -285,7 +285,7 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 | **⚡ 1-Click Backup** | `WINBARS.exe -Action FastBackup` | Mirrors personal files + creates System Checkpoint. |
 | **📊 Visual Backup** | `WINBARS.exe -Action FastBackup -ShowProgress` | Launches live Dual Progress Bar in real-time. |
 | **🛡 System Checkpoint** | `WINBARS.exe -Action RestorePoint` | Creates unthrottled atomic System Restore Point. |
-| **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image to target or `C:\SystemRecovery` (Modes 1–4; Modes 0 & N write strictly to Backup Drive, never creating `C:\SystemRecovery`). |
+| **💾 Bare-Metal Image** | `WINBARS.exe -Action SystemImage` | Captures DISM `.wim` image (Windows + Apps + Drivers) to target or `C:\SystemRecovery` (Modes 1–4; Modes 0 & N write strictly to Backup Drive). Pass `-NoLocalCopy` to save host disk space and store exclusively on external drive. Automatically skips local copy if `C:` has < 25 GB free. |
 | **💽 Any Volume Image** | `WINBARS.exe -Action CaptureVolumeImage` | Captures standalone DISM `.wim` of any drive/partition (VSS frozen). |
 | **📦 Complete Backup** | `WINBARS.exe -Action All` | Runs full 3-tier pass (Restore Point + Files + Image). |
 | **🧪 Archive Scrubbing** | `WINBARS.exe -Action VerifyArchives` | Verifies DISM WIM headers & computes SHA-256 integrity checksums. |
@@ -346,6 +346,20 @@ Available in Modes 2 through 4 for emergency assistance:
 * **`Ctrl + Win + W` $\rightarrow$ WINBARS Protection Center**: Opens the live System Health dashboard, backup status, and 1-click tools.
 * **`Ctrl + Win + B` $\rightarrow$ Emergency Scam Buster**: Instantly closes frozen full-screen browsers, kills audio sirens, and clears crash-reload loops.
 * **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**: Displays verified support details before launching Microsoft Quick Assist for remote screen sharing.
+
+### 🎛️ Floating Quick-Action Bar & Protection Center Dual Actions
+Left-clicking or hovering over the Floppy Tray Sentry provides instant access to the streamlined **5-Button Quick-Action Bar**:
+* **`[Backup Files]`**: Instant multi-threaded Robocopy mirror of personal files (Documents, Desktop, Photos, Videos) to the backup drive with a 30-day deleted archive safety net.
+* **`[Win & Apps]`**: Fast bare-metal DISM system image capturing Windows OS + installed applications + drivers (System Image).
+* **`[Restore]`**: Guided interactive restore launcher for recovering personal files or rolling back system images.
+* **`[Dashboard]`**: Launches the full **WINBARS Protection Center** live dashboard (`Ctrl + Win + W`).
+* **`[Remote Support]`**: Displays verified technician contact details and launches Microsoft Quick Assist (`Ctrl + Win + Q`).
+
+Inside the **Protection Center (`Ctrl + Win + W`)**, the primary action is split into two dedicated, side-by-side buttons:
+* **`[▶ Backup My Files]`** (Blue): Triggers personal file mirroring and an unthrottled System Restore Point.
+* **`[📦 Win & Programs]`** (Purple): Captures a bare-metal DISM system image of Windows and installed programs (`.wim`).
+
+Both buttons feature instant click debounce with immediate visual progress feedback to eliminate multi-click delays. In addition, the storage sentry dynamically detects connected backup drives even if Windows shifts drive letters or drops volume mount assignments.
 
 ---
 

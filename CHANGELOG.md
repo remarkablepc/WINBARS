@@ -1,9 +1,24 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the **WINBARS** (**Win**dows **B**ackup **A**ssistance and **R**ecovery **S**uite) are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [0.12.7-beta] - 2026-09-28
+
+### Added
+- **Revamped 5-Button Quick-Action Bar**: Streamlined tray quick bar to `[Backup Files]`, `[Win & Apps]`, `[Restore]`, `[Dashboard]`, and `[Remote Support]`, providing dedicated direct access to DISM System Imaging without cluttering anti-scam sentry hotkeys.
+- **Protection Center Dual Action Buttons**: Split the primary action in `ShowStatusCard()` into two side-by-side dedicated buttons: `[▶ Backup My Files]` (personal files sync & unthrottled restore point) and `[📦 Win & Programs]` (bare-metal DISM system image capturing Windows + installed programs + drivers).
+- **Dual Baseline Switches (`-NoLocalCopy`, `-SkipLocalCopy`)**: Allows technicians to capture baseline images exclusively to external backup media without storing a local copy in `C:\SystemRecovery\_baseline.wim`, conserving host disk space.
+- **Automated Host Disk Guard**: Automatically skips local baseline mirror if `C:` has less than 25 GB free space, protecting host storage health while safely writing to external storage.
+
+### Fixed
+- **Instant Click Debounce & Visual Progress**: Added instantaneous UI state locking (`isBackupRunning = true`, `btn.Enabled = false`, `Cursors.WaitCursor`) and immediate progress dialog display to eliminate the multi-second delay before visual feedback.
+- **Resilient Drive Auto-Detection**: Enhanced `UpdateBackupDriveInfo()` and Settings drive inventory to heuristic fallback search across all ready volumes (`.winbars_identity.json`, `WINBARS_Backup`, `WindowsImageBackup`) to resolve shifted or missing drive letters.
+- **Pre-Flight Confirmation Label**: Corrected pre-flight confirmation label from F8 to F4 Emergency Recovery Environment.
 
 ---
 
