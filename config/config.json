@@ -77,6 +77,7 @@
                             "EnableDualAvWarning":  true,
                             "BrowserNotificationMode":  "Smart",
                             "EnableQuietNotificationPrompts":  true,
+                            "EnableMasterBitLockerKey":  true,
                             "BlockAutomaticBitLockerEncryption":  true
                         },
     "EventLog":  {
