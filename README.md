@@ -384,7 +384,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 * **Reset this PC** is a destructive nuclear option that wipes installed desktop applications.
 * And if you don't already have a prepared bootable USB drive, you are completely stranded.
 
-**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `C:\Recovery\OEM\WinreConfig.xml` and `reagentc.exe /enable`. Additionally, Modes 2–4 can register an optional **F4 Emergency Rescue Hotkey** directly in Windows BCD (`customactions`), allowing 1-touch offline disaster recovery before Windows even attempts to load. **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
+**WINBARS turns Windows Automatic Repair into a self-healing technician console**: In Managed Workstation profiles (Modes 2–4), WINBARS registers a native recovery hook directly into Microsoft's official boot menu via `C:\Recovery\OEM\WinreConfig.xml` and `reagentc.exe /enable`. Additionally, Modes 2–4 can register an optional **F7 Emergency Rescue Hotkey** directly in Windows BCD (`customactions`), allowing 1-touch offline disaster recovery before Windows even attempts to load (bypassing OEM motherboard F4/F12 conflicts). **No USB flash drive, no secondary PC, and no BIOS navigation are required.**
 
 #### 🖥️ Native WinRE Boot Hook & Live Rescue Console Flow:
 ```text
