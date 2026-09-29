@@ -1,9 +1,22 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to the **WINBARS** (**Win**dows **B**ackup **A**ssistance and **R**ecovery **S**uite) are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [0.12.11-beta] - 2026-09-29
+
+### Added
+- **Unified Floppy Disk Shortcut Family**: Harmonized all desktop shortcut icons with high-DPI 256x256 native `.ico` assets: Blue Floppy (`assets\app.ico`) for Protection Center, Purple Floppy (`assets\app_backup.ico`) for Backup My Files, Green Floppy (`assets\floppy_green.ico`) for Create System Image, and Yellow/Amber Floppy (`assets\floppy_yellow.ico`) for Create Restore Point.
+- **Root Public Web Installer (`install.ps1`)**: Added public web installer bootstrapper at repository root for instantaneous deployment via `irm winbars.remarkablepc.com | iex` and direct GitHub raw fallback.
+
+### Fixed
+- **Mode 2 USB Deployment Auto-Provisioning**: Fixed an issue where deploying Mode 2 (LocalDisasterGuard) from portable media targeted the technician's USB drive instead of `C:`. The installer now auto-provisions to `C:\Tools\WINBARS` and strictly restricts Mode 2 target destination searches to `C:` and fixed internal drives (`DriveType 3`), excluding removable flash media (`DriveType 2`).
+- **Desktop Shortcut Target Integrity**: Desktop shortcuts generated during portable media deployment now permanently bind to `C:\Tools\WINBARS` rather than temporary removable drive paths.
+- **Sterility Audit Exemption for Public Web Installer**: Configured `Publish-GithubRepos.ps1` to cleanly package and publish `install.ps1` to the public repository while maintaining strict zero-source-code sterility for internal modules and scripts.
 
 ---
 

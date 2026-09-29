@@ -1,8 +1,8 @@
-﻿# WINBARS — Windows Backup Assistance and Recovery Suite (v0.12.7-beta)
+# WINBARS — Windows Backup Assistance and Recovery Suite (v0.12.11-beta)
 ### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers — built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.7--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.11--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <sub>⚠️ <b>Early Beta / Field Testing Release (v0.12.7-beta)</b>: This build is for controlled technician validation and beta testing only. It is not a general-production recommendation, and it should not be treated as a broadly promoted stable release. Use with caution, validate restores and schedules on test systems before relying on it for live client deployments.</sub>
+  <sub>⚠️ <b>Early Beta / Field Testing Release (v0.12.11-beta)</b>: This build is for controlled technician validation and beta testing only. It is not a general-production recommendation, and it should not be treated as a broadly promoted stable release. Use with caution, validate restores and schedules on test systems before relying on it for live client deployments.</sub>
 </p>
 
 <p align="center">
@@ -28,11 +28,11 @@
 <div align="center">
 
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.7--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.11--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br><br>
 
-  **[📥 Download Complete Package (`WINBARS-v0.12.7-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.12.7-beta)**
+  **[📥 Download Complete Package (`WINBARS-v0.12.11-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;•&nbsp; **[📦 All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;•&nbsp; **[📜 Changelog](CHANGELOG.md)** &nbsp;•&nbsp; **[📋 Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.12.11-beta)**
 
   <br>
 
@@ -261,18 +261,18 @@ irm winbars.remarkablepc.com | iex
 # Direct GitHub raw fallback (if custom domain is unreachable):
 irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
 ```
-> 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile SystemUndo -Quiet"`.*
+> 💡 *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile LocalDisasterGuard"` or `-PassthruArgs "-Action FastBackup -ShowProgress"`.*
 >
-> ⚠️ **Field Testing Notice**: *WINBARS v0.9.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
+> ⚠️ **Field Testing Notice**: *WINBARS v0.12.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
 
 ### 💾 Option B: Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
-   Download the latest [`WINBARS-v0.10.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
+   Download the latest [`WINBARS-v0.12.11-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
 2. **Launch Setup**:
    Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
 3. **Select Your Mode**:
-   Choose your preferred deployment profile (e.g., press `[0]` for Zero-Footprint, or double-click `installers\Install-Mode4-TotalProtection.bat` for full interactive protection).
+   Choose your preferred deployment profile (e.g., press `[2]` for Local Disaster Guard, or double-click `installers\Install-Mode4-TotalProtection.bat` for full interactive protection).
 
 > 💡 *For unattended batch flags and command-line automation, see the [CLI Reference](docs/CLI_REFERENCE.md).*
 
@@ -650,9 +650,9 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Operating System**: Windows 10 (1809+), Windows 11 (all versions), Windows Server 2016/2019/2022/2025 *(Note: Systems in "S Mode" must switch out of S Mode to run standard Win32 executables)*.
 * **Engine Framework**: Microsoft PowerShell 5.1+, WMI/CIM, Volume Shadow Copy Service (VSS), DISM (`dism.exe`), Robocopy (`robocopy.exe`).
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
-* **Binary Size & Checksum (v0.10.0-beta)**:
-  - Binary: `WINBARS.exe` (1.54 MB)
-  - SHA-256: `FB7BE2ED35B79D774436F79F28FF0A4293B71E4254A79A60C8E9123DFD201A2B`
+* **Binary Size & Checksum (v0.12.11-beta)**:
+  - Binary: `WINBARS.exe` (1.78 MB)
+  - SHA-256: `E915944D736930D54757BFBCDB5839D04D1837EA703591B73B6527030EBB3568`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
 
