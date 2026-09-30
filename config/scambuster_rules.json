@@ -94,6 +94,34 @@
       "WarningMessage": "Remote support session detected."
     },
     {
+      "Name": "HopToDesk",
+      "ProcessNames": [ "hoptodesk" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "hoptodesk.com" ],
+      "WarningMessage": "Open-source remote desktop tool commonly abused by fraudulent support operators."
+    },
+    {
+      "Name": "HelpWire",
+      "ProcessNames": [ "helpwire" ],
+      "RiskLevel": "Medium",
+      "AssociatedDomains": [ "helpwire.app" ],
+      "WarningMessage": "Remote desktop support utility detected."
+    },
+    {
+      "Name": "AeroAdmin",
+      "ProcessNames": [ "aeroadmin" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "aeroadmin.com" ],
+      "WarningMessage": "Zero-configuration remote desktop software frequently used in refund scams."
+    },
+    {
+      "Name": "Ammyy Admin",
+      "ProcessNames": [ "ammyyadmin", "ammyy" ],
+      "RiskLevel": "High",
+      "AssociatedDomains": [ "ammyy.com" ],
+      "WarningMessage": "Legacy remote desktop software heavily associated with tech support fraud."
+    },
+    {
       "Name": "VNC / Chrome Remote / DWAgent / RemotePC",
       "ProcessNames": [ "winvnc", "vncviewer", "remoting_host", "chromoting", "dwagent", "remotepc", "remotepcservice", "srmanager", "srserver", "ateraagent", "ninjarmmagent" ],
       "RiskLevel": "Medium",

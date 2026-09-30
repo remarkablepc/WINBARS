@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to the **WINBARS** (**Win**dows **B**ackup **A**ssistance and **R**ecovery **S**uite) are documented in this file.
 
@@ -7,15 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.12.21-beta] - 2026-09-30
+## [0.12.22-beta] - 2026-09-30
 
 ### Added
 - **Instant Multi-Channel Update & Upgrade Hub (`[U]`)**: Pressing `[U]` immediately probes the host machine, USB media, and GitHub online release channels simultaneously with zero intermediary menus, displaying a unified tri-state comparison matrix and single-keystroke upgrade paths.
-- **Update Release Highlights & Changelog Pager**: Automatically extracts clean 3–5 bullet point executive summaries from release notes, offering an interactive on-demand pager (`[C]`) to inspect full changelogs without terminal buffer blowouts.
+- **Update Release Highlights & Changelog Pager**: Automatically extracts clean 3â€“5 bullet point executive summaries from release notes, offering an interactive on-demand pager (`[C]`) to inspect full changelogs without terminal buffer blowouts.
 - **DISM System Image Live Progress & Controls**: Integrated dynamic 24-character ASCII progress bar, percentage tracker, elapsed counter, dynamic ETA, and interactive kernel-level Pause/Resume (`[P]`) and Cancel/Stop (`[S]`) controls during bare-metal and image deployment.
 
 ### Fixed
-- **BitLocker Master Key Pre-Arming (Modes 1–4)**: Resolved an issue where Master Recovery Keys and Data Recovery Agent (DRA) certificates failed to arm when BitLocker was temporarily unencrypted. Pre-arming policies now deploy certificates to the store, configure Group Policy FVE flags, and arm automatically across Modes 1–4.
+- **BitLocker Master Key Pre-Arming (Modes 1â€“4)**: Resolved an issue where Master Recovery Keys and Data Recovery Agent (DRA) certificates failed to arm when BitLocker was temporarily unencrypted. Pre-arming policies now deploy certificates to the store, configure Group Policy FVE flags, and arm automatically across Modes 1â€“4.
 - **Strict Offline-First Network Isolation**: WINBARS guarantees zero outbound network traffic without explicit technician invocation, ensuring safe operation in air-gapped, healthcare, and privacy-sensitive bench environments.
 
 ---
@@ -37,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - **Revamped 5-Button Quick-Action Bar**: Streamlined tray quick bar to `[Backup Files]`, `[Win & Apps]`, `[Restore]`, `[Dashboard]`, and `[Remote Support]`, providing dedicated direct access to DISM System Imaging without cluttering anti-scam sentry hotkeys.
-- **Protection Center Dual Action Buttons**: Split the primary action in `ShowStatusCard()` into two side-by-side dedicated buttons: `[▶ Backup My Files]` (personal files sync & unthrottled restore point) and `[📦 Win & Programs]` (bare-metal DISM system image capturing Windows + installed programs + drivers).
+- **Protection Center Dual Action Buttons**: Split the primary action in `ShowStatusCard()` into two side-by-side dedicated buttons: `[â–¶ Backup My Files]` (personal files sync & unthrottled restore point) and `[ðŸ“¦ Win & Programs]` (bare-metal DISM system image capturing Windows + installed programs + drivers).
 - **Dual Baseline Switches (`-NoLocalCopy`, `-SkipLocalCopy`)**: Allows technicians to capture baseline images exclusively to external backup media without storing a local copy in `C:\SystemRecovery\_baseline.wim`, conserving host disk space.
 - **Automated Host Disk Guard**: Automatically skips local baseline mirror if `C:` has less than 25 GB free space, protecting host storage health while safely writing to external storage.
 
@@ -170,11 +170,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **WinRE Boot Hooks**:
   - Integrated custom recovery hooks into the Windows Recovery Environment boot menu (`reagentc.exe` / `WinreConfig.xml`) for Managed Workstation modes.
 - **Block-Level Delta Streamer (Driverless CBT Engine)**:
-  - Pure C#/.NET in-process engine (`Winbars.Storage.BlockDeltaEngine`) — no kernel drivers, no VSAM, no WFilter. Compiles on-demand via `Add-Type`.
+  - Pure C#/.NET in-process engine (`Winbars.Storage.BlockDeltaEngine`) â€” no kernel drivers, no VSAM, no WFilter. Compiles on-demand via `Add-Type`.
   - Splits large monolithic database files (`*.pst`, `*.ost`, `*.qbw`, `*.qbb`, `*.vhdx`, `*.vhd`, `*.mdf`, `*.ldf`, `*.accdb`, `*.sqlite`) into 4 MB blocks and computes MD5 hashes for each.
   - Writes **only changed blocks** in-place to the destination file, preserving all unchanged regions, eliminating re-transfer of entire multi-GB files when only a few bytes changed (e.g., a Outlook PST file that added 10 bytes writes only 4 MB instead of the full file).
   - Atomic crash-safety: uses a `.delta_journal` sidecar so interrupted syncs are safely resumable without destination file corruption.
-  - Hooked into `Invoke-RobocopyWithSafetyArchive` as Step 1.5 — runs before Robocopy, which then skips delta-handled extensions via `/XF` exclusions.
+  - Hooked into `Invoke-RobocopyWithSafetyArchive` as Step 1.5 â€” runs before Robocopy, which then skips delta-handled extensions via `/XF` exclusions.
 - **1-Click Custom Profile Standalone Batch Generator (`Export-CustomProfileInstaller`)**:
   - Automatically exports custom deployment profiles into standalone, self-elevating `Install-Custom-<ProfileName>.bat` launchers.
   - Enables IT technicians and MSPs to configure a profile once and distribute a 1-click zero-prompt batch file to dozens of client machines.
@@ -197,7 +197,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added & Hardened
 - **Grade A File Synchronization Engine**:
   - **Smart Exclusion Filters**: Added intelligent `/XF` and `/XD` exclusions for transient lock files (`*.tmp`, `~*`), OS thumbnails & icon locks (`thumbs.db`, `desktop.ini`), virtual memory hives (`pagefile.sys`, `hiberfil.sys`, `swapfile.sys`), and heavy ephemeral web caches (`node_modules`, `AppData\Local\Temp`, `INetCache`).
-  - **Exit Code Bitmask Auditing**: Implemented granular Robocopy exit code classification and logging (codes 0–7 classified as successful mirror variants; codes $\ge 8$ logged as actionable errors).
+  - **Exit Code Bitmask Auditing**: Implemented granular Robocopy exit code classification and logging (codes 0â€“7 classified as successful mirror variants; codes $\ge 8$ logged as actionable errors).
 - **Item 4A: Windows Long Path Ceiling Guard (`LongPathsEnabled = 1`)**:
   - Automatically verifies and configures `LongPathsEnabled = 1` in `HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem` across profile setup, AutoHeal, and repair routines to remove the legacy 260-character `MAX_PATH` limitation.
 - **Item 4B: Native Bare-Metal Restore Assistant (`Apply-SystemImage_WinPE.bat`)**:
@@ -206,7 +206,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Item 4C: Active VSS Headroom Pre-Flight Guard**:
   - Enforces pre-flight disk free space verification before triggering VSS snapshot creation or System Restore checkpoints. Safely aborts or falls back if `C:\` has $< 2.0$ GB or $< 3.0$ GB free space, preventing VSS crash loops on full SSDs.
 - **Item 4D: 4K High-DPI Scaling (Per-Monitor v2)**:
-  - Programmatic Win32 P/Invoke `SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)` with fallback to `SetProcessDPIAware()` in `src/gui/tray_code.cs`, delivering pixel-crisp rendering of the Floppy Tray Sentry, Toast alerts, and GUI dashboard across 125%–200% displays even without external `.config` files.
+  - Programmatic Win32 P/Invoke `SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2)` with fallback to `SetProcessDPIAware()` in `src/gui/tray_code.cs`, delivering pixel-crisp rendering of the Floppy Tray Sentry, Toast alerts, and GUI dashboard across 125%â€“200% displays even without external `.config` files.
 - **Universal "OS & Programs Only" System Image Standard**:
   - Re-engineered DISM image naming to `SystemImage_OS_and_Programs_YYYY-MM-DD_HHmm.wim` (and `..._baseline.wim`) across all profiles.
   - Injected self-describing internal XML metadata into `.wim` headers (`/Name` and `/Description`) explicitly clarifying that the image restores OS, drivers, and software, while personal files are preserved separately in `\Users` on external/secondary storage.
@@ -278,13 +278,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.8.3] - 2026-09-08
 
 ### Added
-- **Silent Hotkey Sentry for Headless & Disaster Modes (Modes 1–3)**:
+- **Silent Hotkey Sentry for Headless & Disaster Modes (Modes 1â€“3)**:
   - Universal hotkey access (Ctrl+Win+W for Protection Center / Ctrl+Win+B for ScamBuster) is now supported across Modes 1, 2, and 3 via the lightweight Silent Sentry (WINBARS.exe -Tray -Silent).
   - Runs in the background consuming < 5 MB RAM without placing a floppy disk icon in the system notification tray.
   - Automatically registered at user logon via Register-TrayStartup -Silent whenever the Hotkeys component toggle [6] is active.
 - **Multilingual Windows Folder Discovery (Internationalization)**:
   - Native folder localization support for non-English Windows installations (German, Spanish, French, Italian, and Portuguese).
-  - Automatically discovers, sizes, and mirrors localized user folders (Dokumente, Documentos, Bilder, Imágenes, Images, Immagini, Musik, Musique, Música, Videos, Vidéos, Descargas, Téléchargements, Scaricati, Transferências, Schreibtisch, Bureau, Escritorio).
+  - Automatically discovers, sizes, and mirrors localized user folders (Dokumente, Documentos, Bilder, ImÃ¡genes, Images, Immagini, Musik, Musique, MÃºsica, Videos, VidÃ©os, Descargas, TÃ©lÃ©chargements, Scaricati, TransferÃªncias, Schreibtisch, Bureau, Escritorio).
   - Integrated dynamic Windows Registry query against HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders to resolve custom and redirected shell folder locations.
   - Standardized across Invoke-RobocopyFallback, Invoke-BackupDrill, Get-DynamicStorageRequirements, Get-DiscoveredBackupSources, and modules/Storage-Advisor.ps1.
 
@@ -293,7 +293,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed an issue where launching WINBARS.exe -StatusCard (e.g. clicking the desktop shortcut on Mode 2 laptops) would instantly terminate in 5 ms.
   - ShowStandaloneDialog now properly launches Application.Run(standaloneApp.activeStatusForm) with FormClosed thread termination to provide a robust Windows Forms message pump when running standalone.
 - **Pre-Flight CLI Hotkey Option Clarification**:
-  - Re-labeled Pre-flight Option [6] to: [6] Universal Shortcut Hotkeys (Ctrl+Win+W / Ctrl+Win+B — Silent Sentry) with default [ON ] across Modes 1–4 and [OFF] for Modes 0 and N.
+  - Re-labeled Pre-flight Option [6] to: [6] Universal Shortcut Hotkeys (Ctrl+Win+W / Ctrl+Win+B â€” Silent Sentry) with default [ON ] across Modes 1â€“4 and [OFF] for Modes 0 and N.
 
 ### Improved & Hardened
 - **Reliability & Crash Prevention**:
@@ -332,7 +332,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - In `Show-BackupNowSubmenu`: Option `[1]` runs bare-metal .wim image, restore point, and S.M.A.R.T. health checks without triggering external drive Robocopy errors.
   - Option `[3]` (File History & Robocopy Sync) explicitly indicates `[N/A in Mode 2 - Requires External Drive]` and safely exits if pressed.
 - **Single-Drive Cloaking Guardrail**:
-  - Explorer volume cloaking (`[H]`) is safely disabled when the system or target backup drive is `C:`: displayed as `[N/A — Single Drive System (C: cannot be cloaked)]`.
+  - Explorer volume cloaking (`[H]`) is safely disabled when the system or target backup drive is `C:`: displayed as `[N/A â€” Single Drive System (C: cannot be cloaked)]`.
   - Guardrail prevents technicians from accidentally cloaking the active operating system partition.
 - **Complete CLI Menu Deduplication**:
   - Main Menu: Eliminated duplicate `[1]` by designating `[L]` to Launch Installed Suite at `C:\Tools\WINBARS`, `[U]` for USB Build Upgrade, and `[I]` for Initial Provisioning.
@@ -371,7 +371,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Dynamic Status & Path Badges Across CLI Menus**:
   - Added live indicators to Main Menu and Submenu items for Active Profile, Execution Location (`[Installed: C:\Tools\WINBARS]` vs `[Portable Media]`), Registered Task Counts, Target Storage Drive with Free Space, Latest System Restore Point timestamp, S.M.A.R.T. Health, Log Paths, and Cloaking status (`[Drive D: Visible]` vs `[Stealth Active]`).
 - **Unified Dual-Progress Bar Architecture**:
-  - Combined overall phase progress (0–100%) and step progress (0–100%) with real-time transfer counters, file counts, elapsed time, and immediate defensive `[X] Cancel` abort.
+  - Combined overall phase progress (0â€“100%) and step progress (0â€“100%) with real-time transfer counters, file counts, elapsed time, and immediate defensive `[X] Cancel` abort.
 - **Context-Aware Morphing Floating Quick-Action Bar**:
   - Floppy Tray sentry quick bar morphs automatically between 5 idle action buttons and live dual-progress bar monitor reading `active_backup.json` every 500ms.
   - Replaced missing square glyphs ("tofu" boxes) with crisp `Segoe UI Emoji` / `Segoe UI Symbol` font rendering.
@@ -412,12 +412,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.7.43] - 2026-09-08
 
 ### Added
-- **Master Baseline Checkpoint Protection**: Pinned restore points via `-Baseline` switch and interactive wizard. Tagged with `WINBARS Baseline Checkpoint: <label>` and `[📌 BASELINE]` badges in console restore lists.
+- **Master Baseline Checkpoint Protection**: Pinned restore points via `-Baseline` switch and interactive wizard. Tagged with `WINBARS Baseline Checkpoint: <label>` and `[ðŸ“Œ BASELINE]` badges in console restore lists.
 - **VSS Shadow Quota Auto-Sizing**: Automatically resizes VSS shadow storage quota to at least 15% upon creating a baseline restore point.
 - **FIFO Deletion Immunity**: Hardened `Invoke-RestorePointHardener` to skip `/oldest` shadow deletion if the oldest checkpoint is a pinned baseline.
 - **Master Bare-Metal Image Creator (`_baseline.wim`)**: Dedicated technician wizard under Option `[B]` to capture permanent hardware baselines alongside restore points.
 - **Enhanced Capability Cards**: Added Storage Requirements, Target Persona, Active UI/Hotkeys, and Master Baseline support to `Show-ProfileCapabilityCard`.
-- **Mode Icons & Real Floppy Graphics**: Integrated profile icons (⭐, 👻, ⏪, 💽, 🏢, 🛡️, 🛠️) and real floppy disk visuals.
+- **Mode Icons & Real Floppy Graphics**: Integrated profile icons (â­, ðŸ‘», âª, ðŸ’½, ðŸ¢, ðŸ›¡ï¸, ðŸ› ï¸) and real floppy disk visuals.
 
 ### Changed
 - **OneDrive Alert Guard**: Renamed deceptive cloud nag removal to *OneDrive Alert Guard & Local Folder Protection*.
@@ -447,7 +447,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.7.35] - [0.7.40] - 2026-09-07 to 2026-09-08
 
 ### Added
-- **Dual Progress Bar GUI**: Added real-time overall progress (0–100%) and step progress bar for on-demand personal file sync passes.
+- **Dual Progress Bar GUI**: Added real-time overall progress (0â€“100%) and step progress bar for on-demand personal file sync passes.
 - **ScamBuster Active Watchdog (`Ctrl+Win+B`)**: Background watchdog detecting unauthorized remote access tools (AnyDesk, TeamViewer, RustDesk, ConnectWise) and defusing full-screen browser lockup scareware.
 - **Universal Global Hotkeys**: Registered `Ctrl+Win+W` (Protection Center) and `Ctrl+Win+B` (ScamBuster Panic Button).
 - **High-DPI Scaling Engine**: Vector rendering and DPI awareness manifests for crystal-clear visuals on 4K / Retina displays.
@@ -482,3 +482,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Bare-Metal DISM Imaging**: System image capture engine creating compressed `.wim` images for complete OS disaster recovery.
 - **Console TUI & Interactive Menu**: Unified technician interface for backup passes, profile deployment, and drive inspection.
 - **PS2EXE Standalone Compiler**: Self-contained single-file executable packaging with embedded floppy icon.
+

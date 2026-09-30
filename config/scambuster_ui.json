@@ -1,0 +1,15 @@
+{
+  "_schema_version": "1.0",
+  "ShopName": "",
+  "PhoneNumber": "",
+  "PhonePrompt": "Call or Text",
+  "Website": "",
+  "SupportEmail": "",
+  "AlertTitle": "EMERGENCY SECURITY FREEZE ACTIVATED",
+  "AlertMessage": "ScamBuster has frozen the system, terminated web browsers, and muted sound loops to prevent fraud.",
+  "TechnicianNote": "DO NOT call any telephone numbers displayed on web pages or popups. Microsoft, Apple, and your bank will NEVER ask you to call them or purchase gift cards.",
+  "ThemeColor": "DarkRed",
+  "EnableSoundAlert": true,
+  "ShowReassuranceDialog": true,
+  "AllowYieldToWINBARS": true
+}
