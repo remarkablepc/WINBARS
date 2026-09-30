@@ -53,7 +53,7 @@ if (-not $isAdmin) {
     Write-Host "[!] Administrator privileges required. Requesting elevation..." -ForegroundColor Yellow
     $argString = if ($PassthruArgs) { $PassthruArgs -join " " } else { "" }
     $elevateCommand = "& { try { irm winbars.remarkablepc.com | iex } catch { irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex } } $argString"
-    Start-Process powershell.exe -Verb RunAs -ArgumentList "-NoExit -NoProfile -ExecutionPolicy Bypass -Command `"$elevateCommand`""
+    Start-Process powershell.exe -Verb RunAs -ArgumentList @("-NoExit", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $elevateCommand)
     return
 }
 
@@ -68,11 +68,14 @@ $exePath = Join-Path -Path $stagingDir -ChildPath "WINBARS.exe"
 
 $skipDownload = $false
 if ((Test-Path $exePath) -and (Test-Path $zipPath)) {
-    $age = (Get-Date) - (Get-Item $exePath).LastWriteTime
-    if ($age.TotalMinutes -lt 15) {
-        Write-Host "[*] Reusing cached WINBARS package ($([math]::Round($age.TotalMinutes, 1))m old)..." -ForegroundColor Green
-        $skipDownload = $true
-    }
+    try {
+        $exeSize = (Get-Item $exePath).Length
+        $age = (Get-Date) - (Get-Item $exePath).LastWriteTime
+        if ($exeSize -gt 500KB -and $age.TotalMinutes -lt 15) {
+            Write-Host "[*] Reusing cached WINBARS package ($([math]::Round($age.TotalMinutes, 1))m old)..." -ForegroundColor Green
+            $skipDownload = $true
+        }
+    } catch { }
 }
 
 if (-not $skipDownload) {
@@ -104,6 +107,7 @@ if (-not $skipDownload) {
         Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop
         $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
         foreach ($entry in $zip.Entries) {
+            if ($entry.Name -like "*.zip") { continue }
             $destPath = Join-Path $stagingDir $entry.FullName
             if ([string]::IsNullOrEmpty($entry.Name)) {
                 if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
@@ -146,8 +150,12 @@ if (-not (Test-Path $exePath)) {
 Write-Host "[OK] Launching WINBARS Control Console..." -ForegroundColor Green
 Write-Host "-------------------------------------------------------------------------" -ForegroundColor Gray
 
+Set-Location -LiteralPath $stagingDir -ErrorAction SilentlyContinue
+
 if ($PassthruArgs -and $PassthruArgs.Count -gt 0) {
-    & $exePath @PassthruArgs
+    $argList = $PassthruArgs -join " "
+    $proc = Start-Process -FilePath $exePath -ArgumentList $argList -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
+    exit $proc.ExitCode
 } else {
-    & $exePath
+    Start-Process -FilePath $exePath -WorkingDirectory $stagingDir
 }
