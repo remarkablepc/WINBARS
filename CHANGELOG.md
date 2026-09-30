@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.12.19-beta] - 2026-09-30
+
+### Added
+- **Unified On-Demand Upgrade & Update Hub (`[U]`)**: Probes host and local runner media completely offline by default, and only queries GitHub online release channels upon explicit technician confirmation (`[O]`).
+- **Update Release Highlights & Changelog Pager**: Automatically extracts clean 3–5 bullet point executive summaries from release notes, offering an interactive on-demand pager (`[C]`) to inspect full changelogs without terminal buffer blowouts.
+- **DISM System Image Live Progress & Controls**: Integrated dynamic 24-character ASCII progress bar, percentage tracker, elapsed counter, dynamic ETA, and interactive kernel-level Pause/Resume (`[P]`) and Cancel/Stop (`[S]`) controls during bare-metal and image deployment.
+
+### Fixed
+- **BitLocker Master Key Pre-Arming (Modes 1–4)**: Resolved an issue where Master Recovery Keys and Data Recovery Agent (DRA) certificates failed to arm when BitLocker was temporarily unencrypted. Pre-arming policies now deploy certificates to the store, configure Group Policy FVE flags, and arm automatically across Modes 1–4.
+- **Strict Offline-First Network Isolation**: WINBARS guarantees zero outbound network traffic without explicit technician invocation, ensuring safe operation in air-gapped, healthcare, and privacy-sensitive bench environments.
+
+---
+
 ## [0.12.11-beta] - 2026-09-29
 
 ### Added
