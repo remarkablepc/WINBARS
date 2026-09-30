@@ -97,7 +97,7 @@ If you have ever repaired Windows PCs for clients, business fleets, or family, y
 >
 > WINBARS is the tool I wished every customer already had running before they walked into my shop. It is completely free, closed-source freeware, with zero cloud telemetry and zero ads. If it saves your family photos, keeps you out of a scammer's hands, or saves you an expensive repair bill, it has done its job."*
 >
-> — **David Hewitt**, Creator of WINBARS (RemarkablePC)
+> — **RemarkablePC**, Creator of WINBARS
 
 ---
 
@@ -206,7 +206,8 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 ### 🛍️ Coming Soon to the Microsoft Store: WINBARS Guard
 
 <p align="left">
-  <img src="https://img.shields.io/badge/Microsoft%20Store-Coming%20Soon-0078D4?logo=microsoft&logoColor=white&style=flat-square" alt="Microsoft Store Coming Soon" />
+  <img src="https://img.shields.io/badge/Microsoft%20Store-Store%20Edition-0078D4?logo=microsoft&logoColor=white&style=flat-square" alt="Microsoft Store Edition" />
+  <img src="https://img.shields.io/badge/Support-GitHub%20Discussions%20Community-EA4AAA?logo=github&logoColor=white&style=flat-square" alt="Community Support" />
   <img src="https://img.shields.io/badge/Architecture-Based%20on%20Mode%204%20(TotalProtection)-blueviolet?style=flat-square" alt="Based on Mode 4" />
   <img src="https://img.shields.io/badge/Target%20Audience-Everyday%20Users%20%26%20Families-success?style=flat-square" alt="Home Users" />
   <img src="https://img.shields.io/badge/Format-Certified%20Store%20App-informational?style=flat-square" alt="Certified Store App" />
@@ -216,8 +217,11 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 
 Looking for an effortless, family-friendly backup and anti-scam shield for non-technical users? **WINBARS Guard** is the consumer edition currently in development for the **Microsoft Store**—built directly on the complete disaster recovery and defense architecture of **Mode 4 (`TotalProtection`)**.
 
-While **WINBARS** on GitHub remains 100% free for technicians, power users, and sysadmins who want granular scriptable control across Modes 0 through 4, **WINBARS Guard** takes Mode 4's full capabilities and wraps them in a friction-free consumer experience with certified Store updates, native low-memory WPF presentation, and zero terminal interaction:
+* **Store Edition**: Available as a one-time purchase on the Microsoft Store (no subscriptions, no recurring monthly fees).
+* **Support Model**: Supported exclusively through our open **[GitHub Discussions Community](https://github.com/remarkablepc/WINBARS/discussions)**. To keep support sustainable and eliminate high-overhead ticketing, there is **no 1-on-1 private phone or email support**.
+* **WINBARS vs. Guard**: While **WINBARS Guard** is packaged for Microsoft Store convenience, **WINBARS** on GitHub remains **100% free closed-source freeware** for personal and commercial bench use across all Modes (0 through 4), with an optional **$100 lifetime donation token** for repair shops wishing to display their custom business branding across dialogs.
 
+**Guard Capabilities & Protections:**
 * **Smart External Drive Detection & Auto-Sync**: Simply plug in your USB backup drive. Guard automatically recognizes it, secures your personal files (Documents, Desktop, Photos) with a 30-day deleted file safety net, and sleeps when disconnected.
 * **Smart BitLocker Key Rescue**: Automatically backs up your critical 48-digit BitLocker encryption key to your external drive, ensuring you are never locked out of your own computer after a firmware or Windows update.
 * **Emergency F4 Startup Recovery**: Press **`F4`** during startup if Windows ever fails to boot. Guard pre-stages an instant recovery hook into the Windows bootloader (with automatic F7 fallback), allowing you to roll back bad updates or restore your system without needing a bootable USB.
@@ -654,5 +658,5 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
   - Binary: `WINBARS.exe` (1.78 MB)
   - SHA-256: `E915944D736930D54757BFBCDB5839D04D1837EA703591B73B6527030EBB3568`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
-* **Community & Feedback**: Found a bug, have an idea, or want to share bench testing results? Join the conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions).
+* **Community & Discussions**: Have field observations or bench testing results to share? Join the peer-to-peer conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions). *(Note: Provided as-is with no 1-on-1 support).*
 

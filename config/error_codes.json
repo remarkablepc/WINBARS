@@ -1,0 +1,38 @@
+{
+  "_schema_version": "1.0.0",
+  "_description": "Standardized exit codes and error categories across RemarkablePC engineering suites",
+  "codes": {
+    "SUCCESS": 0,
+    "ERR_GENERAL_FAILURE": 1,
+    "ERR_INVALID_ARGS": 101,
+    "ERR_ELEVATION_REQUIRED": 102,
+    "ERR_TARGET_DRIVE_NOT_FOUND": 103,
+    "ERR_WIM_CORRUPT": 104,
+    "ERR_INSUFFICIENT_SPACE": 105,
+    "ERR_BITLOCKER_LOCKED": 106,
+    "ERR_SOURCE_IMAGE_MISSING": 107,
+    "ERR_USER_CANCELLED": 108,
+    "ERR_DOWNLOAD_FAILED": 109,
+    "ERR_SCRATCHPAD_MOUNT_FAILED": 110,
+    "ERR_DISM_APPLY_FAILED": 111,
+    "ERR_WRITE_BLOCK_ENGAGED": 112,
+    "ERR_CHECKSUM_MISMATCH": 121
+  },
+  "descriptions": {
+    "0": "Operation completed successfully.",
+    "1": "General unexpected runtime failure.",
+    "101": "Invalid command-line arguments or parameters provided.",
+    "102": "Administrative elevation required to execute operation.",
+    "103": "Target storage drive or volume not found.",
+    "104": "Windows Imaging Format (.wim/.esd) file is corrupted or unreadable.",
+    "105": "Insufficient disk space on target volume.",
+    "106": "Drive is BitLocker locked or missing required recovery key.",
+    "107": "Source installation image or rescue ISO is missing.",
+    "108": "Operation explicitly cancelled or aborted by user.",
+    "109": "Network download failed or server unreachable.",
+    "110": "Failed to create or mount RAM scratchpad / temporary volume.",
+    "111": "DISM apply or restore operation failed.",
+    "112": "Hardware/kernel write-blocker engaged; write operation refused.",
+    "121": "SHA256/MD5 checksum verification mismatch."
+  }
+}
