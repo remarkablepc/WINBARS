@@ -7,10 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [0.12.19-beta] - 2026-09-30
+## [0.12.21-beta] - 2026-09-30
 
 ### Added
-- **Unified On-Demand Upgrade & Update Hub (`[U]`)**: Probes host and local runner media completely offline by default, and only queries GitHub online release channels upon explicit technician confirmation (`[O]`).
+- **Instant Multi-Channel Update & Upgrade Hub (`[U]`)**: Pressing `[U]` immediately probes the host machine, USB media, and GitHub online release channels simultaneously with zero intermediary menus, displaying a unified tri-state comparison matrix and single-keystroke upgrade paths.
 - **Update Release Highlights & Changelog Pager**: Automatically extracts clean 3–5 bullet point executive summaries from release notes, offering an interactive on-demand pager (`[C]`) to inspect full changelogs without terminal buffer blowouts.
 - **DISM System Image Live Progress & Controls**: Integrated dynamic 24-character ASCII progress bar, percentage tracker, elapsed counter, dynamic ETA, and interactive kernel-level Pause/Resume (`[P]`) and Cancel/Stop (`[S]`) controls during bare-metal and image deployment.
 
