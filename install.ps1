@@ -98,11 +98,22 @@ if (-not $skipDownload) {
         }
     }
 
-    # 4. Fast Package Extraction
+    # 4. Fast Package Extraction (Safe Overwrite)
     Write-Host "[*] Extracting package..." -ForegroundColor Cyan
     try {
         Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop
-        [System.IO.Compression.ZipFile]::ExtractToDirectory($zipPath, $stagingDir)
+        $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+        foreach ($entry in $zip.Entries) {
+            $destPath = Join-Path $stagingDir $entry.FullName
+            if ([string]::IsNullOrEmpty($entry.Name)) {
+                if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
+                continue
+            }
+            $parentDir = Split-Path -Parent $destPath
+            if (-not (Test-Path $parentDir)) { New-Item -ItemType Directory -Path $parentDir -Force | Out-Null }
+            [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destPath, $true)
+        }
+        $zip.Dispose()
     } catch {
         try {
             Expand-Archive -Path $zipPath -DestinationPath $stagingDir -Force
