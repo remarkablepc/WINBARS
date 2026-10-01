@@ -2,7 +2,7 @@
 ### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers â€” built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.21--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.22--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -28,7 +28,7 @@
 <div align="center">
 
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.21--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.22--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br><br>
 
@@ -47,6 +47,22 @@
   ðŸ” **[ðŸ”‘ BitLocker Vaults](#bootloader-bitlocker-safety-net)**
 
 </div>
+
+---
+
+## ⏱️ 3-Minute Quickstart (Public Beta v0.12.22-beta)
+
+1. **Download & Extract**: Download [`WINBARS-v0.12.22-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract to a technician USB or local directory.
+2. **Launch Interactive Dashboard**: Right-click `Run-WINBARS.bat` and select **Run as Administrator** (or press `Ctrl + Win + W` if already running).
+3. **Choose Your Tier**:
+   - **Mode 0 (Zero-Footprint)**: 100% native agentless scheduler; sets up Windows tasks and exits immediately with zero background processes.
+   - **Mode 1 (System Undo)**: Unthrottles restore points and enables automatic daily registry backups.
+   - **Mode 2 (Local Disaster Guard)**: Hardens local recovery partition and schedules automatic DISM bare-metal system imaging.
+   - **Mode 3 (Headless Full)**: Full automated backup to external USB drive without user prompts.
+   - **Mode 4 (Total Protection)**: Full suite with active Floppy Tray Sentry and real-time ScamBuster monitoring.
+4. **Emergency Shortcuts**:
+   - `Ctrl + Win + W` — Open WINBARS Protection Center.
+   - `Ctrl + Win + B` — ScamBuster Emergency Panic Defusal & Siren Muter.
 
 ---
 
