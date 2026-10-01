@@ -33,6 +33,12 @@ try {
 } catch { }
 
 Write-Host ""
+Write-Host '  __        _____ _   _ ____    _    ____  ____  ' -ForegroundColor Cyan
+Write-Host '  \ \      / /_ _| \ | | __ )  / \  |  _ \/ ___| ' -ForegroundColor Cyan
+Write-Host '   \ \ /\ / / | ||  \| |  _ \ / _ \ | |_) \___ \ ' -ForegroundColor Cyan
+Write-Host '    \ V  V /  | || |\  | |_) / ___ \|  _ < ___) |' -ForegroundColor Cyan
+Write-Host '     \_/\_/  |___|_| \_|____/_/   \_\_| \_\____/ ' -ForegroundColor Cyan
+Write-Host ""
 Write-Host "=========================================================================" -ForegroundColor Cyan
 Write-Host "  WINBARS - Windows Backup, Assistance, Recovery and Security Suite      " -ForegroundColor White
 Write-Host "  Community Field-Testing Release | Supervised Deployment Recommended   " -ForegroundColor Yellow
@@ -157,5 +163,6 @@ if ($PassthruArgs -and $PassthruArgs.Count -gt 0) {
     $proc = Start-Process -FilePath $exePath -ArgumentList $argList -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
     exit $proc.ExitCode
 } else {
-    Start-Process -FilePath $exePath -WorkingDirectory $stagingDir
+    $proc = Start-Process -FilePath $exePath -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
+    exit $proc.ExitCode
 }
