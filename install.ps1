@@ -152,6 +152,27 @@ if (-not (Test-Path $exePath)) {
     return
 }
 
+# 6.5. Synchronize Canonical Host Installation if C:\Tools\WINBARS exists
+$canonicalHost = "C:\Tools\WINBARS"
+if (Test-Path $canonicalHost) {
+    Write-Host "[*] Upgrading installed suite files at $canonicalHost..." -ForegroundColor Cyan
+    try {
+        Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+        Start-Sleep -Milliseconds 400
+        foreach ($entryName in @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "config", "assets", "brands", "docs")) {
+            $srcItem = Join-Path $stagingDir $entryName
+            if (Test-Path $srcItem) {
+                Copy-Item -Path $srcItem -Destination (Join-Path $canonicalHost $entryName) -Recurse -Force -ErrorAction SilentlyContinue
+            }
+        }
+        $exePath = Join-Path $canonicalHost "WINBARS.exe"
+        $stagingDir = $canonicalHost
+        Write-Host "  [OK] Successfully synchronized latest release to $canonicalHost" -ForegroundColor Green
+    } catch {
+        Write-Host "  [!] Notice during host installation upgrade: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+}
+
 # 7. Execute WINBARS with Passed Arguments
 Write-Host "[OK] Launching WINBARS Control Console..." -ForegroundColor Green
 Write-Host "-------------------------------------------------------------------------" -ForegroundColor Gray
