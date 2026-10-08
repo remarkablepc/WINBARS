@@ -1,4 +1,5 @@
 {
+  "SchemaVersion": "1.1",
   "BlacklistedNames": [
     "onelaunch",
     "wavebrowser",
@@ -19,13 +20,26 @@
     "slimcleaner",
     "reimage",
     "driverbooster",
-    "iobituninstaller"
+    "iobituninstaller",
+    "totalav",
+    "systemmechanic",
+    "drivereasy",
+    "drivergenius",
+    "advancedsystemcare",
+    "smartdefrag",
+    "pcoptimizerpro",
+    "speedingupmypc",
+    "mycleanpc"
   ],
   "InstallerPatterns": [
     "(?i).*onelaunch.*",
     "(?i).*wave.*setup.*",
     "(?i).*driverone.*",
     "(?i).*driver.*fix.*",
+    "(?i).*driver.*support.*",
+    "(?i).*driver.*booster.*",
+    "(?i).*driver.*easy.*",
+    "(?i).*driver.*genius.*",
     "(?i).*pc.*accelerate.*",
     "(?i).*restoro.*",
     "(?i).*outbyte.*",
@@ -33,7 +47,11 @@
     "(?i).*santivirus.*",
     "(?i).*bytefence.*",
     "(?i).*slimcleaner.*",
-    "(?i).*driver.*booster.*"
+    "(?i).*totalav.*setup.*",
+    "(?i).*system.*mechanic.*",
+    "(?i).*advanced.*system.*care.*",
+    "(?i).*pc.*optimizer.*pro.*",
+    "(?i).*mycleanpc.*"
   ],
   "AvInstallerPatterns": [
     "(?i).*avast.*setup.*",
@@ -45,12 +63,22 @@
     "(?i).*kaspersky.*setup.*",
     "(?i).*bitdefender.*setup.*"
   ],
+  "Whitelist": [],
   "Descriptions": {
     "onelaunch": "OneLaunch modifies your default web browser, replaces your taskbar search bar, and consumes continuous background CPU resources.",
     "wavebrowser": "Wave Browser is a repackaged browser known to bundle intrusive search modifiers, hijack default file associations, and push unauthorized popups.",
     "driverone": "DriverOne is an unverified utility known to flag false system errors and demand recurring credit card subscriptions to 'repair' drivers.",
     "driverfix": "DriverFix is an aggressive driver updater known to cause device driver instability and blue screen boot failures.",
+    "driversupport": "DriverSupport is an unverified utility that displays exaggerated driver error alerts to solicit paid subscriptions.",
+    "driverbooster": "Driver Booster frequently bundles third-party toolbars and can install untested generic drivers that cause system instability.",
+    "drivereasy": "Driver Easy aggressively prompts users to upgrade to paid subscriptions for basic driver installations.",
     "segurazo": "Segurazo / Santivirus hooks deeply into system services, resists standard uninstallation, and severely slows system responsiveness.",
-    "restoro": "Restoro is an unverified PC optimizer tool that flags phantom registry errors and aggressive payment prompts."
+    "restoro": "Restoro is an unverified PC optimizer tool that flags phantom registry errors and displays aggressive payment prompts.",
+    "outbyte": "Outbyte is an aggressive system cleaner known to flag harmless cache files as critical security warnings.",
+    "bytefence": "ByteFence bundles with freeware downloaders, alters default browser search engines, and displays nag popups.",
+    "totalav": "TotalAV frequently installs as a bundled trial via deceptive web ads and generates alarmist popups to push high-cost renewals.",
+    "systemmechanic": "System Mechanic runs background tasks that often conflict with native Windows Defender and maintenance services.",
+    "advancedsystemcare": "Advanced SystemCare installs persistent background update daemons that degrade system startup speed.",
+    "DefaultFallback": "This software is classified by computer repair technicians as a Potentially Unwanted Program (PUP) that commonly injects background processes, modifies browser configurations, displays false error alerts, or degrades computer responsiveness."
   }
 }

@@ -159,7 +159,7 @@ if (Test-Path $canonicalHost) {
     try {
         Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         Start-Sleep -Milliseconds 400
-        foreach ($entryName in @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "config", "assets", "brands", "docs")) {
+        foreach ($entryName in @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "config", "assets", "brands", "docs", "certs")) {
             $srcItem = Join-Path $stagingDir $entryName
             if (Test-Path $srcItem) {
                 Copy-Item -Path $srcItem -Destination (Join-Path $canonicalHost $entryName) -Recurse -Force -ErrorAction SilentlyContinue
