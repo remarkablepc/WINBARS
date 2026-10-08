@@ -1,8 +1,8 @@
-# WINBARS â€” Windows Backup Assistance and Recovery Suite (v0.12.22-beta)
+# WINBARS â€” Windows Backup Assistance and Recovery Suite (v0.13.0-beta)
 ### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers â€” built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.12.22--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.13.0--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <sub>âš ï¸ <b>Public Beta Release (v0.12.22-beta)</b>: This build is verified for technician bench deployment and field validation. All core features (bare-metal DISM progress & controls, BitLocker master key pre-arming, multi-channel [U] updates, and ScamBuster anti-fraud) are fully operational.</sub>
+  <sub>âš ï¸ <b>Public Beta Release (v0.13.0-beta)</b>: This build is verified for technician bench deployment and field validation. All core features (bare-metal DISM progress & controls, BitLocker master key pre-arming, multi-channel [U] updates, ScamBuster anti-fraud, and PUP Shield junkware defense) are fully operational.</sub>
 </p>
 
 <p align="center">
@@ -28,11 +28,11 @@
 <div align="center">
 
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.12.22--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.13.0--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br><br>
 
-  **[ðŸ“¥ Download Complete Package (`WINBARS-v0.12.22-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;â€¢&nbsp; **[ðŸ“¦ All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;â€¢&nbsp; **[ðŸ“œ Changelog](CHANGELOG.md)** &nbsp;â€¢&nbsp; **[ðŸ“‹ Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.12.22-beta)**
+  **[ðŸ“¥ Download Complete Package (`WINBARS-v0.13.0-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;â€¢&nbsp; **[ðŸ“¦ All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;â€¢&nbsp; **[ðŸ“œ Changelog](CHANGELOG.md)** &nbsp;â€¢&nbsp; **[ðŸ“‹ Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.13.0-beta)**
 
   <br>
 
@@ -44,22 +44,23 @@
   ðŸš‘ **[ðŸ’¾ 1-Click WinRE Hook](#native-winre-boot-hook)** &nbsp;â€¢&nbsp;
   ðŸ©º **[ðŸ› ï¸ Auto Health Check](#windows-health-check)** &nbsp;â€¢&nbsp;
   ðŸš¨ **[ðŸ›¡ï¸ Scam Buster & RAT Guard](#scambuster-rat-interceptor)** &nbsp;â€¢&nbsp;
-  ðŸ” **[ðŸ”‘ BitLocker Vaults](#bootloader-bitlocker-safety-net)**
+  ðŸ” **🛑 **[🛡️ PUP Shield](#pup-shield)** &nbsp;•&nbsp;
+  [ðŸ”‘ BitLocker Vaults](#bootloader-bitlocker-safety-net)**
 
 </div>
 
 ---
 
-## ⏱️ 3-Minute Quickstart (Public Beta v0.12.22-beta)
+## ⏱️ 3-Minute Quickstart (Public Beta v0.13.0-beta)
 
-1. **Download & Extract**: Download [`WINBARS-v0.12.22-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract to a technician USB or local directory.
+1. **Download & Extract**: Download [`WINBARS-v0.13.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract to a technician USB or local directory.
 2. **Launch Interactive Dashboard**: Right-click `Run-WINBARS.bat` and select **Run as Administrator** (or press `Ctrl + Win + W` if already running).
 3. **Choose Your Tier**:
    - **Mode 0 (Zero-Footprint)**: 100% native agentless scheduler; sets up Windows tasks and exits immediately with zero background processes.
    - **Mode 1 (System Undo)**: Unthrottles restore points and enables automatic daily registry backups.
-   - **Mode 2 (Local Disaster Guard)**: Hardens local recovery partition and schedules automatic DISM bare-metal system imaging.
-   - **Mode 3 (Headless Full)**: Full automated backup to external USB drive without user prompts.
-   - **Mode 4 (Total Protection)**: Full suite with active Floppy Tray Sentry and real-time ScamBuster monitoring.
+   - **Mode 2 (Local Disaster Guard)**: Hardens local recovery partition, bare-metal DISM imaging, and silent background ScamBuster + PUP Shield defense.
+   - **Mode 3 (Headless Full)**: Full automated backup to external USB drive without user prompts, with background ScamBuster and PUP Shield protection.
+   - **Mode 4 (Total Protection)**: Full suite with active Floppy Tray Sentry, real-time ScamBuster, interactive dashboard, and active PUP Shield (Default ON).
 4. **Emergency Shortcuts**:
    - `Ctrl + Win + W` — Open WINBARS Protection Center.
    - `Ctrl + Win + B` — ScamBuster Emergency Panic Defusal & Siren Muter.
@@ -79,7 +80,7 @@
 ---
 
 <a id="why-winbars-was-born-6-real-world-nightmares"></a>
-## ðŸ’” Why WINBARS Was Born: 6 Real-World Nightmares
+## ðŸ’” Why WINBARS Was Born: 7 Real-World Nightmares
 
 If you have ever repaired Windows PCs for clients, business fleets, or family, you already know these six recurring failure points:
 
@@ -100,6 +101,9 @@ If you have ever repaired Windows PCs for clients, business fleets, or family, y
 
 ### 6. The "Wipe & Reinstall" Trap: Losing Every App & Setting
 > *"When Windows gets corrupted, the standard big-box verdict is always: 'Wipe the drive and start over.' Even if personal documents are saved, the user loses every installed program, customized preference, and printer driverâ€”spending weeks hunting down lost software licenses and reinstalling their digital life."*
+
+### 7. The Deceptive Junkware & PUP Plague: OneLaunch, Rogue Drivers & Fake Cleaners
+> *"An everyday user or elderly relative clicks an ad or a misleading 'Download' button online, unwittingly installing persistent junkware like **OneLaunch, WaveBrowser, DriverFix, or Restoro**. These programs silently hijack default browsers, place intrusive toolbars over the taskbar, inject popup ads, and bombard the screen with fabricated '3,482 Errors Found!' warnings demanding an expensive annual credit card subscription to 'repair'. Traditional antivirus tools let them right through because they aren't technically file-encrypting malware, leaving users confused, frustrated, and calling repair shops."*
 
 ---
 
@@ -158,6 +162,14 @@ How WINBARS addresses each failure scenario nativelyâ€”and exactly which de
 * **Optional Bootable Rescue USB**: You can also promote any external backup drive into a full bootable Windows PE Rescue USB (`WINBARS.exe -RescueUsb`), making the backup drive itself your recovery media â€” no separate flash drive needed.
 * ðŸ”— [Deep Dive: WinRE Blue Screen & Disaster Recovery Manual](docs/DISASTER_RECOVERY.md)
 
+### 7. The Deceptive Junkware & PUP Plague ➔ **PUP Shield & Bloatware Interceptor**
+* 🏷️ **Active in: Modes 2, 3, 4** *(Default **ON** in Mode 4 (`TotalProtection`); Default **OFF** but toggleable via CLI (`-EnablePupShield`) or Pre-Flight `[9]` in Modes 2 & 3; contractually **Hard-Locked OFF** in Modes 0, N, and 1 to protect forensic sterility and zero-footprint compliance).*
+* **The Solution**: Continuously monitors new app installs and driver snapshots for 30+ notorious Potentially Unwanted Programs (PUPs), unverified driver updaters, and rogue registry cleaners. When a deceptive installer is detected, PUP Shield intercepts execution immediately and presents a friendly 3-button technician decision modal:
+  1. **`🛡️ Cancel Installation (Recommended)`** — Immediately terminates the installer process before it can inject registry autostarts, modify browser shortcuts, or install persistent background services.
+  2. **`✓ I Want This App`** — Respects user autonomy and permanently whitelists the executable hash/name in `C:\ProgramData\WINBARS\pup_whitelist.json`.
+  3. **`⏭️ Skip (Allow Once)`** — Allows the installer for the current session without permanently whitelisting, while intelligently suppressing repeated prompts for child/helper setup processes.
+* 🔗 [Deep Dive: System Footprint & Security Audit Blueprint](docs/SYSTEM_FOOTPRINT.md)
+
 ### 6. The "Wipe & Reinstall" Trap âž” **macOS-Style Safe Overlay Refresh**
 * ðŸ·ï¸ **Active in: Modes 0, N, 1\*, 2, 3, 4** *(Modes 2, 3, and 4 feature **Dual Baseline Mirroring** via Preflight Option `[J]`: keeping 1 permanent baseline image locally in `C:\SystemImages` AND on the external backup drive, while subsequent scheduled rotating images strictly target external storage to prevent host disk congestion; Mode 1\* offers an optional baseline image; Modes 0 & N store images **strictly on the external Backup Drive**, never touching `C:\`).*
 * **The Solution**: Big-box stores wipe your entire hard drive when Windows gets corrupted, erasing all your programs and preferences. WINBARS captures bare-metal `.wim` images that exclude personal data, allowing you to reinstall a factory-clean Windows OS and your programs in under 5 minutes while leaving **all personal documents, photos, desktop profiles, and browser data 100% untouched on disk**.
@@ -167,7 +179,7 @@ How WINBARS addresses each failure scenario nativelyâ€”and exactly which de
 
 ## ðŸ“‘ Table of Contents
 
-1. [ðŸ’” Why WINBARS Was Born: 6 Real-World Nightmares](#why-winbars-was-born-6-real-world-nightmares)
+1. [ðŸ’” Why WINBARS Was Born: 7 Real-World Nightmares](#why-winbars-was-born-7-real-world-nightmares)
 2. [ðŸ›¡ï¸ How WINBARS Solves the 6 Nightmares](#how-winbars-solves-the-6-nightmares)
 3. [ðŸš€ Choose Your Protection Profile (Decision Matrix)](#choose-your-protection-profile)
 4. [âš¡ Quick Start & Remote Web Launch](#quick-start)
@@ -176,6 +188,7 @@ How WINBARS addresses each failure scenario nativelyâ€”and exactly which de
    - ðŸ [macOS-Style Non-Destructive OS Refresh](#macos-style-safe-overlay)
    - ðŸš‘ [Native WinRE Boot Hook & Blue-Screen Rescue Console](#native-winre-boot-hook)
    - ðŸš¨ [Scam Buster & Remote Access RAT Interceptor](#scambuster-rat-interceptor)
+   - 🛑 [PUP Shield: Predatory Junkware & Bloatware Interceptor](#pup-shield)
    - ðŸ” [Bootloader Auto-Heal & BitLocker Emergency Vaults](#bootloader-bitlocker-safety-net)
    - ðŸ©º [Automated Windows Health Check (SFC & DISM Auto-Repair)](#windows-health-check)
    - ðŸ›¡ï¸ [Air-Gapped Target Isolation & Ransomware Shielding](#air-gap-protection)
@@ -201,9 +214,9 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 | **Mode 0: `ZeroFootprint`** â­<br>*(Forensic sterility)* | **Audits & Compliance** | Portable System Restore checkpoint + Robocopy file mirror (30-day safety retention) + bare-metal image + BitLocker keys to USB. | **0 Files on `C:\`**<br>*(No `C:\SystemRecovery` folder; rescue tools live on USB only)* |
 | **Mode N: `NearZeroFootprint`** ðŸ‘»<br>*(Native Windows automation)* | **Workstations & Vendor-Neutral** | Mode 0 + unbranded desktop shortcuts + scheduled automated file sync & daily health check. | **Shortcuts Only**<br>*(No `C:\SystemRecovery` folder; all tools on Backup Drive)* |
 | **Mode 1: `SystemUndo`** âª<br>*(Zero third-party binaries)* | **Shop Bench Service & Tune-Ups** | **The Universal Service Warranty**: Daily unthrottled System Restore, 10% VSS quota, RegBack, and local recovery scripts. | `C:\SystemRecovery\`<br>*(3 text scripts; 0 resident EXEs)* |
-| **Mode 2: `LocalDisasterGuard`** ðŸ’½<br>*(Single-drive disaster recovery)* | **Laptops & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) + silent background Scam & RAT Watchdog (auto-mute sirens) + hotkeys. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
-| **Mode 3: `HeadlessFull`** ðŸ¢<br>*(Silent multi-drive automation)* | **Workstations, Accounting & Clinics** | Mode 2 + daily external Robocopy file sync + scheduled bare-metal images + silent office Scam/RAT defense. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
-| **Mode 4: `TotalProtection`** ðŸ›¡ï¸<br>*(Visual observability & control)* | **Everyday Users, Family & Seniors** | Mode 3 + Floppy Tray Sentry (dynamic health colors & live tooltips) + interactive GUI dashboard. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **Mode 2: `LocalDisasterGuard`** ðŸ’½<br>*(Single-drive disaster recovery)* | **Laptops & Single-Drive PCs** | Mode 1 + local bare-metal DISM image (`.wim`) + silent background Scam & RAT Watchdog (auto-mute sirens) + PUP Shield (toggleable) + hotkeys. | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **Mode 3: `HeadlessFull`** ðŸ¢<br>*(Silent multi-drive automation)* | **Workstations, Accounting & Clinics** | Mode 2 + daily external Robocopy file sync + scheduled bare-metal images + silent office Scam/RAT defense + PUP Shield (toggleable). | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
+| **Mode 4: `TotalProtection`** ðŸ›¡ï¸<br>*(Visual observability & control)* | **Everyday Users, Family & Seniors** | Mode 3 + Floppy Tray Sentry (dynamic health colors & live tooltips) + interactive GUI dashboard + PUP Shield (Default ON). | `C:\Tools\WINBARS\`<br>`C:\SystemRecovery\` |
 
 > `*` **Note on Mode 1**: Only unbranded emergency recovery scripts (`EMERGENCY_RECOVERY.bat`, `Restore_Registry_WinPE.bat`, `BitLocker_Recovery_Key.txt`) and an optional baseline `.wim` reside in `C:\SystemRecovery\`. Mode 1 installs **0 resident EXEs and 0 background processes**â€”permanently locking out ScamBuster daemons, tray sentries, and hotkeys to maintain total transparency, uphold clean bench standards, and ensure the client's PC remains completely free of third-party software. (In contrast, **Modes 0 and N never create `C:\SystemRecovery` at all**; all rescue tools, logs, and bare-metal images reside strictly on the external Backup Drive).
 >
@@ -215,6 +228,7 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 > - **Monotonic Hierarchy**: Moving up the ladder (1 $\rightarrow$ 2 $\rightarrow$ 3 $\rightarrow$ 4) strictly adds capabilities. Modes 2, 3, and 4 all feature active Scam & RAT Watchdog defense (instantly muting audio sirens and blocking unauthorized remote tools). Modes 2 & 3 run this as a **Silent Guardian** (no taskbar clutter), while Mode 4 adds the iconic **Floppy Tray Sentry** and full interactive dashboard.
 > - **Mode-Aware Actions & Shortcuts**: Every 1-click action button and desktop shortcut strictly reflects what is available in the current mode. For example, in **Mode 2 (Single-Drive)**, the primary action button captures a local bare-metal System Image and System Restore Pointâ€”automatically omitting external file mirror prompts since no secondary drive exists.
 > - **Floppy Tray Toggle**: The Floppy Tray Sentry is **Default ON** in Mode 4, **Default OFF** in Modes 2 & 3 (toggable via Pre-Flight `[8]`), and **Hard-Locked OFF** in Modes 0, N, and 1.
+> - **PUP Shield Posture**: Default **ON** in Mode 4 (`TotalProtection`), default **OFF** but toggleable via CLI (`-EnablePupShield`) or Pre-Flight `[9]` in Modes 2 & 3, and **Hard-Locked OFF** in Modes 0, N, and 1 to protect zero-footprint sterility.
 >
 > ðŸ” *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
@@ -288,7 +302,7 @@ irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | ie
 ### ðŸ’¾ Option B: Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
-   Download the latest [`WINBARS-v0.12.22-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
+   Download the latest [`WINBARS-v0.13.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
 2. **Launch Setup**:
    Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
 3. **Select Your Mode**:
@@ -386,7 +400,7 @@ Both buttons feature instant click debounce with immediate visual progress feedb
 <a id="key-protections-at-a-glance"></a>
 ## ðŸ›¡ï¸ Key Protections at a Glance
 
-WINBARS unifies **B**ackup, **A**ssistance, **R**ecovery, and **S**ecurity into a single, cohesive safety net. Here are six of its unique standout capabilities:
+WINBARS unifies **B**ackup, **A**ssistance, **R**ecovery, and **S**ecurity into a single, cohesive safety net. Here are its standout capabilities across disaster recovery and system security:
 
 <a id="macos-style-safe-overlay"></a>
 ### ðŸ 1. Non-Destructive "macOS-Style" Safe Overlay OS Refresh
@@ -474,7 +488,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 * **Pre-Staged Emergency Launcher (`EMERGENCY_RECOVERY.bat`)**: A standalone, guided rescue entry point pre-staged in `C:\SystemRecovery` (Modes 1â€“4) and on the backup drive root (Modes 0 & N). Tests physical drive health (S.M.A.R.T.), diagnoses volume errors, and guides non-technical users step-by-step through the least-invasive recovery ladder.
 
 <a id="windows-health-check"></a>
-### ðŸ©º 5. Automated Windows Health Check (SFC & DISM Auto-Repair)
+### ðŸ©º 6. Automated Windows Health Check (SFC & DISM Auto-Repair)
 * **Proactive System File Integrity Scanner**: Continuously defends against silent system corruption, bad Windows Updates, and file degradation by orchestrating native Microsoft `sfc.exe` (System File Checker) and `dism.exe` (Deployment Image Servicing and Management).
 * **Atomic Pre-Scan Safety Checkpoint**: Before modifying or replacing any system files, WINBARS automatically creates a fresh Windows System Restore Point rollback checkpoint (`CreatePreScanRestorePoint`), guaranteeing any system repair can be immediately reversed if needed.
 * **Intelligent Auto-Escalation Ladder**: Automatically executes `sfc /scannow`. If SFC detects system file corruption it cannot repair on its own (Exit Code 2), WINBARS automatically escalates to `DISM /Online /Cleanup-Image /RestoreHealth` to pull pristine component store payloads directly from Microsoft Update servers.
@@ -495,7 +509,7 @@ Connected backup drives are prime targets for modern ransomware strains that sca
 ---
 
 <a id="archive-scrubbing"></a>
-### ðŸ§ª 7. Archive Integrity Scrubbing & Bit-Rot Sentry
+### ðŸ§ª 8. Archive Integrity Scrubbing & Bit-Rot Sentry
 Unverified backups create false confidence: technicians only discover an image is corrupted when a boot crisis strikes. WINBARS integrates proactive archive validation directly into its maintenance routines:
 * **DISM Header & Table Audits**: `Test-SystemImageIntegrity` verifies that the internal XML metadata, integrity streams, and partition table structures of bare-metal `.wim` archives remain uncorrupted.
 * **Cryptographic SHA-256 Scrubbing**: When companion `.sha256` checksum sidecars exist, WINBARS verifies byte-level archive consistency to catch silent bit-rot, flash media decay, or bad disk sectors before disaster strikes.
@@ -504,7 +518,7 @@ Unverified backups create false confidence: technicians only discover an image i
 ---
 
 <a id="winpe-driver-harvester"></a>
-### ðŸ’½ 8. Automated WinPE Driver Harvester & Rescue USB
+### ðŸ’½ 9. Automated WinPE Driver Harvester & Rescue USB
 Creating standard bootable USB drives often leaves technicians with an unbootable environment on modern hardware due to missing Intel Rapid Storage Technology (RST), Intel VMD, NVMe controller, or network adapter drivers.
 * **Automated Host Driver Harvesting**: When building a rescue drive (`WINBARS.exe -RescueUsb` or `tools/Create-RescueUSB.bat`), WINBARS automatically harvests all active third-party storage, RAID, and NIC drivers from the live Windows host via native `Export-WindowsDriver`.
 * **Zero-Intervention DISM Offline Injection**: Injects harvested driver INF packages directly into the rescue environment (`boot.wim`) using `dism.exe /Add-Driver /Recurse`.
@@ -672,7 +686,7 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Operating System**: Windows 10 (1809+), Windows 11 (all versions), Windows Server 2016/2019/2022/2025 *(Note: Systems in "S Mode" must switch out of S Mode to run standard Win32 executables)*.
 * **Engine Framework**: Microsoft PowerShell 5.1+, WMI/CIM, Volume Shadow Copy Service (VSS), DISM (`dism.exe`), Robocopy (`robocopy.exe`).
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
-* **Binary Size & Checksum (v0.12.22-beta)**:
+* **Binary Size & Checksum (v0.13.0-beta)**:
   - Binary: `WINBARS.exe` (1.84 MB)
   - SHA-256: `89CE547EE839CADB8F7C697FF66BBE47742F0E0EDBF06A575A94E3111ABAF77C`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
