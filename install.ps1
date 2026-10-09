@@ -58,7 +58,7 @@ $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIden
 if (-not $isAdmin) {
     Write-Host "[!] Administrator privileges required. Requesting elevation..." -ForegroundColor Yellow
     $argString = if ($PassthruArgs) { $PassthruArgs -join " " } else { "" }
-    $elevateCommand = "& { try { irm winbars.remarkablepc.com | iex } catch { irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex } } $argString"
+    $elevateCommand = "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13; try { irm winbars.remarkablepc.com | iex } catch { irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex } } $argString"
     Start-Process powershell.exe -Verb RunAs -ArgumentList @("-NoExit", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $elevateCommand)
     return
 }
@@ -159,10 +159,20 @@ if (Test-Path $canonicalHost) {
     try {
         Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         Start-Sleep -Milliseconds 400
-        foreach ($entryName in @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "config", "assets", "brands", "docs", "certs")) {
-            $srcItem = Join-Path $stagingDir $entryName
+        $filesToSync = @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "HOW_TO_RESTORE.html", "README.md", "CHANGELOG.md", "LICENSE.txt")
+        foreach ($fileName in $filesToSync) {
+            $srcItem = Join-Path $stagingDir $fileName
             if (Test-Path $srcItem) {
-                Copy-Item -Path $srcItem -Destination (Join-Path $canonicalHost $entryName) -Recurse -Force -ErrorAction SilentlyContinue
+                Copy-Item -Path $srcItem -Destination (Join-Path $canonicalHost $fileName) -Force -ErrorAction SilentlyContinue
+            }
+        }
+        $foldersToSync = @("config", "assets", "brands", "docs", "certs", "tools", "installers")
+        foreach ($folderName in $foldersToSync) {
+            $srcFolder = Join-Path $stagingDir $folderName
+            if (Test-Path $srcFolder) {
+                $destFolder = Join-Path $canonicalHost $folderName
+                if (-not (Test-Path $destFolder)) { New-Item -ItemType Directory -Path $destFolder -Force | Out-Null }
+                Copy-Item -Path (Join-Path $srcFolder "*") -Destination $destFolder -Recurse -Force -ErrorAction SilentlyContinue
             }
         }
         $exePath = Join-Path $canonicalHost "WINBARS.exe"
@@ -184,6 +194,5 @@ if ($PassthruArgs -and $PassthruArgs.Count -gt 0) {
     $proc = Start-Process -FilePath $exePath -ArgumentList $argList -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
     exit $proc.ExitCode
 } else {
-    $proc = Start-Process -FilePath $exePath -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
-    exit $proc.ExitCode
+    Start-Process -FilePath $exePath -WorkingDirectory $stagingDir
 }
