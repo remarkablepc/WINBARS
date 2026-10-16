@@ -1,10 +1,10 @@
 ﻿{
-    "latest_version":  "0.14.1-beta",
+    "latest_version":  "0.14.2-beta",
     "release_date":  "2026-10-16",
     "min_powershell_version":  "5.1",
-    "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.1-beta/WINBARS-v0.14.1-beta.zip",
-    "sha256":  "f4506bfb0f96da02adf5043de79693832c27ce203efce95cc463f9c29db957c4",
-    "exe_sha256":  "224cafba65870abb6e128e3eb0677578824ac913d968ba308ce7fadcb0415e1d",
-    "release_notes":  "WINBARS 0.14.1-beta: Autonomous bare-metal DISM imaging, power \u0026 S0 sleep guard, live CLI progress bars, and GUI update controls.",
+    "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.2-beta/WINBARS-v0.14.2-beta.zip",
+    "sha256":  "9269f815503c62206cbf78a437190cfb36b7f258874304a997167a56daff349a",
+    "exe_sha256":  "a0429969ebf9e462525464efb3810021cfe320ce0f58c6e5d563536c7c479d95",
+    "release_notes":  "WINBARS 0.14.2-beta: Autonomous bare-metal DISM imaging, power \u0026 S0 sleep guard, live CLI progress bars, and GUI update controls.",
     "critical_security_patch":  false
 }
