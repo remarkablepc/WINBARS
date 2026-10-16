@@ -1,10 +1,10 @@
 ﻿{
-    "latest_version":  "0.14.3-beta",
+    "latest_version":  "0.14.4-beta",
     "release_date":  "2026-10-16",
     "min_powershell_version":  "5.1",
-    "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.3-beta/WINBARS-v0.14.3-beta.zip",
-    "sha256":  "7e32d60f8f790babe8ddb34330ccc720a8dfed4dae881dae480aed0e092e2d32",
-    "exe_sha256":  "032c28e736a786acd5d9c8043c0ade7724f39e69d00923e335d8be0dc8e951ec",
-    "release_notes":  "WINBARS 0.14.3-beta: Autonomous bare-metal DISM imaging, power \u0026 S0 sleep guard, live CLI progress bars, and GUI update controls.",
+    "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.4-beta/WINBARS-v0.14.4-beta.zip",
+    "sha256":  "c58823a42fee158d62df9b1b21814c7b410ea45ab9debe1a00f773568af3e7c1",
+    "exe_sha256":  "077194137730f1272b4eea3d8c6e8fe616ecd8a12dd1bc6845909ea101b6f8bb",
+    "release_notes":  "WINBARS 0.14.4-beta: Everything-style multi-term fleet search, threat defense telemetry, and technician PUP Shield toggle.",
     "critical_security_patch":  false
 }
