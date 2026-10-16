@@ -109,7 +109,7 @@
                                    "EnableToastNotifications":  true,
                                    "ProtectionCenterHotkey":  "Ctrl+Win+W",
                                    "ScamBusterKey":  "S",
-                                   "DeploymentProfile":  "SystemUndo",
+                                   "DeploymentProfile":  "TotalProtection",
                                    "ShowQuickActionBar":  true,
                                    "EnableRemoteAccessMonitoring":  true,
                                    "AllowedRemoteTools":  [
