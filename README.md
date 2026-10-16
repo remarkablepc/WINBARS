@@ -1,8 +1,8 @@
-# WINBARS â€” Windows Backup Assistance and Recovery Suite (v0.13.0-beta)
+# WINBARS â€” Windows Backup Assistance and Recovery Suite (v0.14.0-beta)
 ### *Autonomous Windows disaster recovery, automated personal file mirroring, bare-metal DISM imaging, master baseline checkpoints, and anti-scam protection across 5 flexible deployment tiers â€” built by a computer repair technician, free for personal and commercial use.*
 
 <p align="center">
-  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.13.0--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
+  <a href="https://github.com/remarkablepc/WINBARS/releases/latest"><img src="https://img.shields.io/badge/Release-v0.14.0--beta-0078D4?logo=github&logoColor=white" alt="Latest Release" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white" alt="Windows 10 & 11" /></a>
   <a href="https://microsoft.com"><img src="https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white" alt="PowerShell 5.1+" /></a>
   <img src="https://img.shields.io/badge/Architecture-x64%20%7C%20x86-success" alt="Architecture" />
@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <sub>âš ï¸ <b>Public Beta Release (v0.13.0-beta)</b>: This build is verified for technician bench deployment and field validation. All core features (bare-metal DISM progress & controls, BitLocker master key pre-arming, multi-channel [U] updates, ScamBuster anti-fraud, and PUP Shield junkware defense) are fully operational.</sub>
+  <sub>âš ï¸ <b>Public Beta Release (v0.14.0-beta)</b>: This build is verified for technician bench deployment and field validation. All core features (bare-metal DISM progress & controls, BitLocker master key pre-arming, multi-channel [U] updates, ScamBuster anti-fraud, and PUP Shield junkware defense) are fully operational.</sub>
 </p>
 
 <p align="center">
@@ -28,15 +28,15 @@
 <div align="center">
 
   <a href="https://github.com/remarkablepc/WINBARS/releases/latest">
-    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.13.0--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
+    <img src="https://img.shields.io/badge/%E2%9E%9C%20Download%20Latest%20Release-WINBARS%20v0.14.0--beta-2ea44f?style=for-the-badge&logo=windows&logoColor=white" alt="Download Latest Release" height="34" />
   </a>
   <br><br>
 
-  **[ðŸ“¥ Download Complete Package (`WINBARS-v0.13.0-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;â€¢&nbsp; **[ðŸ“¦ All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;â€¢&nbsp; **[ðŸ“œ Changelog](CHANGELOG.md)** &nbsp;â€¢&nbsp; **[ðŸ“‹ Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.13.0-beta)**
+  **[ðŸ“¥ Download Complete Package (`WINBARS-v0.14.0-beta.zip`)](https://github.com/remarkablepc/WINBARS/releases/latest)** &nbsp;â€¢&nbsp; **[ðŸ“¦ All Releases](https://github.com/remarkablepc/WINBARS/releases)** &nbsp;â€¢&nbsp; **[ðŸ“œ Changelog](CHANGELOG.md)** &nbsp;â€¢&nbsp; **[ðŸ“‹ Release Notes](https://github.com/remarkablepc/WINBARS/releases/tag/v0.14.0-beta)**
 
   <br>
 
-  ðŸ’» **Technician Remote Launch (PowerShell Admin)**: `irm winbars.remarkablepc.com | iex`
+  ðŸ’» **Technician Remote Launch (PowerShell Admin)**: `irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex`
 
   <br>
 
@@ -51,9 +51,9 @@
 
 ---
 
-## ⏱️ 3-Minute Quickstart (Public Beta v0.13.0-beta)
+## ⏱️ 3-Minute Quickstart (Public Beta v0.14.0-beta)
 
-1. **Download & Extract**: Download [`WINBARS-v0.13.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract to a technician USB or local directory.
+1. **Download & Extract**: Download [`WINBARS-v0.14.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract to a technician USB or local directory.
 2. **Launch Interactive Dashboard**: Right-click `Run-WINBARS.bat` and select **Run as Administrator** (or press `Ctrl + Win + W` if already running).
 3. **Choose Your Tier**:
    - **Mode 0 (Zero-Footprint)**: 100% native agentless scheduler; sets up Windows tasks and exits immediately with zero background processes.
@@ -279,7 +279,7 @@ Looking for an effortless, family-friendly backup and anti-scam shield for non-t
   - `tools/Reset-Suite.bat` *(Factory Reset Utility: cleanly wipes tasks and sentries while preserving client data)*
   - `tools/Capture-Baseline.bat` &nbsp;&bull;&nbsp; `tools/Apply-SystemImage_WinPE.bat` &nbsp;&bull;&nbsp; `tools/Create-RescueUSB.bat`
   - `tools/Toggle_Backup_Drive_Visibility.bat` *(Cloaks or uncloaks backup drives in Windows Explorer)*
-  - `tools/web-deploy/` *(1-line remote IRM web deployment blueprints for `winbars.remarkablepc.com` and `macpc.remarkablepc.com`)*
+  - `tools/web-deploy/` *(1-line remote IRM web deployment server configurations and hosting blueprints)*
 
 ---
 
@@ -290,19 +290,16 @@ Looking for an effortless, family-friendly backup and anti-scam shield for non-t
 Technicians can launch or deploy WINBARS directly on any bench or client PC without downloading ZIP archives manually:
 ```powershell
 # In an elevated PowerShell prompt (Run as Administrator):
-irm winbars.remarkablepc.com | iex
-
-# Direct GitHub raw fallback (if custom domain is unreachable):
 irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
 ```
-> ðŸ’¡ *Supports unattended technician flags: e.g., `irm winbars.remarkablepc.com | iex -PassthruArgs "-Profile LocalDisasterGuard"` or `-PassthruArgs "-Action FastBackup -ShowProgress"`.*
+> ðŸ’¡ *Supports unattended technician flags: e.g., `irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex -PassthruArgs "-Profile LocalDisasterGuard"` or `-PassthruArgs "-Action FastBackup -ShowProgress"`.*
 >
 > âš ï¸ **Field Testing Notice**: *WINBARS v0.12.x is currently undergoing technician bench validation. Supervised deployment is recommended prior to v1.0.0 General Availability.*
 
 ### ðŸ’¾ Option B: Offline Flash Drive Setup (3 Steps)
 
 1. **Download & Extract**:
-   Download the latest [`WINBARS-v0.13.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
+   Download the latest [`WINBARS-v0.14.0-beta.zip`](https://github.com/remarkablepc/WINBARS/releases/latest) and extract it to a USB flash drive or your computer.
 2. **Launch Setup**:
    Right-click `Run-WINBARS.bat` and select **Run as administrator** (or run `WINBARS.exe`).
 3. **Select Your Mode**:
@@ -686,9 +683,9 @@ For in-depth architectural blueprints, security audits, and WinPE restore manual
 * **Operating System**: Windows 10 (1809+), Windows 11 (all versions), Windows Server 2016/2019/2022/2025 *(Note: Systems in "S Mode" must switch out of S Mode to run standard Win32 executables)*.
 * **Engine Framework**: Microsoft PowerShell 5.1+, WMI/CIM, Volume Shadow Copy Service (VSS), DISM (`dism.exe`), Robocopy (`robocopy.exe`).
 * **Hardware S.M.A.R.T.**: Compatible with NVMe SSDs, SATA SSDs, and mechanical drives.
-* **Binary Size & Checksum (v0.13.0-beta)**:
-  - Binary: `WINBARS.exe` (1.84 MB)
-  - SHA-256: `89CE547EE839CADB8F7C697FF66BBE47742F0E0EDBF06A575A94E3111ABAF77C`
+* **Binary Size & Checksum (v0.14.0-beta)**:
+  - Binary: `WINBARS.exe` (1.91 MB)
+  - SHA-256: `6FD6F056DC3EE0A8B9D33EBB1C7C2678AEEEBEC217A2E71A7E3627287286873A`
 * **License**: Closed-Source Freeware. 100% free for personal, non-profit, educational, and commercial use. See [LICENSE](LICENSE) for terms.
 * **Community & Discussions**: Have field observations or bench testing results to share? Join the peer-to-peer conversation on [GitHub Discussions](https://github.com/remarkablepc/WINBARS/discussions). *(Note: Provided as-is with no 1-on-1 support).*
 

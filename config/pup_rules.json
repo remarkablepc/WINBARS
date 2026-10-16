@@ -29,7 +29,8 @@
     "smartdefrag",
     "pcoptimizerpro",
     "speedingupmypc",
-    "mycleanpc"
+    "mycleanpc",
+    "pupdemo"
   ],
   "InstallerPatterns": [
     "(?i).*onelaunch.*",
@@ -51,7 +52,8 @@
     "(?i).*system.*mechanic.*",
     "(?i).*advanced.*system.*care.*",
     "(?i).*pc.*optimizer.*pro.*",
-    "(?i).*mycleanpc.*"
+    "(?i).*mycleanpc.*",
+    "(?i).*pupdemo.*"
   ],
   "AvInstallerPatterns": [
     "(?i).*avast.*setup.*",
@@ -79,6 +81,7 @@
     "totalav": "TotalAV frequently installs as a bundled trial via deceptive web ads and generates alarmist popups to push high-cost renewals.",
     "systemmechanic": "System Mechanic runs background tasks that often conflict with native Windows Defender and maintenance services.",
     "advancedsystemcare": "Advanced SystemCare installs persistent background update daemons that degrade system startup speed.",
+    "pupdemo": "Safe WINBARS demonstration placeholder simulating a Potentially Unwanted Program (PUP) or bundled junkware installer.",
     "DefaultFallback": "This software is classified by computer repair technicians as a Potentially Unwanted Program (PUP) that commonly injects background processes, modifies browser configurations, displays false error alerts, or degrades computer responsiveness."
   }
 }

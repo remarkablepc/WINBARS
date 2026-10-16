@@ -1,4 +1,4 @@
-﻿{
+{
     "ScamBuster":  {
                        "MediaWhitelist":  [
                                               "youtube",
@@ -113,9 +113,7 @@
                                    "ShowQuickActionBar":  true,
                                    "EnableRemoteAccessMonitoring":  true,
                                    "AllowedRemoteTools":  [
-                                                              "teamviewer",
-                                                              "teamviewer_service",
-                                                              "anydesk"
+
                                                           ],
                                    "EnableCanarySentinel":  true,
                                    "DefuseOneDriveNags":  true,
@@ -244,6 +242,19 @@
                         "EchoNativeCommands":  true,
                         "EnableWinReIntegration":  true
                     },
+    "AutoUpdate":  {
+                       "Enabled":  false,
+                       "AutoInstall":  false,
+                       "UpdateChannel":  "Stable",
+                       "CheckIntervalHours":  24,
+                       "ManifestUrl":  "https://raw.githubusercontent.com/remarkablepc/WINBARS/main/dist/version.json",
+                       "AllowedModes":  [
+                                            "TotalProtection",
+                                            "TotalGuard",
+                                            "LocalDisasterGuard"
+                                        ],
+                       "RollbackRetention":  1
+                   },
     "StorageAndHardware":  {
                                "AirGapUnmountPostBackup":  false,
                                "BackupVolumeLabel":  "",

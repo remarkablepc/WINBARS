@@ -1,12 +1,24 @@
-# install.ps1 (WINBARS Official Public Web Installer)
-# Hosted at: winbars.remarkablepc.com
-# Usage: irm winbars.remarkablepc.com | iex
+﻿# install.ps1 (WINBARS Official Public Web Installer)
+# Hosted at: https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1
+# Usage: irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
 
 [CmdletBinding()]
 param(
+    [Alias("Profile", "SetMode", "ChangeMode")]
+    [string]$Mode = "",
+    [string]$SwitchMode = "",
+    [string]$TargetDrive = "",
+    [switch]$Unattended,
+    [switch]$DryRun,
+    [switch]$Force,
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$PassthruArgs
 )
+
+# Support environment variable override (e.g. $env:WINBARS_MODE=4; irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex)
+if (-not $Mode -and $env:WINBARS_MODE) {
+    $Mode = $env:WINBARS_MODE.Trim()
+}
 
 # Enforce TLS 1.2 / TLS 1.3 & Disable Progress Bar Bottlenecks
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13
@@ -57,8 +69,17 @@ Write-Host ""
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     Write-Host "[!] Administrator privileges required. Requesting elevation..." -ForegroundColor Yellow
-    $argString = if ($PassthruArgs) { $PassthruArgs -join " " } else { "" }
-    $elevateCommand = "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13; try { irm winbars.remarkablepc.com | iex } catch { irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex } } $argString"
+    $forwardArgs = @()
+    if ($Mode) { $forwardArgs += "-Mode `"$Mode`"" }
+    elseif ($SwitchMode) { $forwardArgs += "-SwitchMode `"$SwitchMode`"" }
+    if ($TargetDrive) { $forwardArgs += "-TargetDrive `"$TargetDrive`"" }
+    if ($Unattended) { $forwardArgs += "-Unattended" }
+    if ($DryRun) { $forwardArgs += "-DryRun" }
+    if ($Force) { $forwardArgs += "-Force" }
+    if ($PassthruArgs) { $forwardArgs += ($PassthruArgs -join " ") }
+    $argString = $forwardArgs -join " "
+
+    $elevateCommand = "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13; `$code = (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1' -UseBasicParsing); & ([scriptblock]::Create(`$code)) $argString }"
     Start-Process powershell.exe -Verb RunAs -ArgumentList @("-NoExit", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $elevateCommand)
     return
 }
@@ -73,7 +94,7 @@ $zipPath = Join-Path -Path $stagingDir -ChildPath "WINBARS-Latest.zip"
 $exePath = Join-Path -Path $stagingDir -ChildPath "WINBARS.exe"
 
 $skipDownload = $false
-if ((Test-Path $exePath) -and (Test-Path $zipPath)) {
+if (-not $Force -and (Test-Path $exePath) -and (Test-Path $zipPath)) {
     try {
         $exeSize = (Get-Item $exePath).Length
         $age = (Get-Date) - (Get-Item $exePath).LastWriteTime
@@ -85,14 +106,28 @@ if ((Test-Path $exePath) -and (Test-Path $zipPath)) {
 }
 
 if (-not $skipDownload) {
-    # 3. Download Official Vanilla Package from GitHub Releases
-    $downloadUrl = "https://github.com/remarkablepc/WINBARS/releases/latest/download/WINBARS.zip"
-    Write-Host "[*] Downloading latest WINBARS release from GitHub CDN..." -ForegroundColor Cyan
+    # 3. Download Package (Primary: High-Speed Web Mirror; Fallback: GitHub Releases)
+    $downloadUrls = @(
+        "https://https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1/WINBARS.zip",
+        "https://macpc.remarkablepc.com/WINBARS.zip",
+        "https://github.com/remarkablepc/WINBARS/releases/latest/download/WINBARS.zip"
+    )
+    $downloadSuccess = $false
+    foreach ($url in $downloadUrls) {
+        try {
+            Write-Host "[*] Downloading WINBARS package from $url..." -ForegroundColor Cyan
+            Invoke-WebRequest -Uri $url -OutFile $zipPath -UseBasicParsing -TimeoutSec 45 -ErrorAction Stop
+            if ((Test-Path $zipPath) -and (Get-Item $zipPath).Length -gt 500KB) {
+                $downloadSuccess = $true
+                break
+            }
+        } catch {
+            Write-Host "  [!] Notice: Endpoint $url unavailable ($($_.Exception.Message)). Trying next source..." -ForegroundColor Gray
+        }
+    }
 
-    try {
-        Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath -UseBasicParsing -TimeoutSec 60 -ErrorAction Stop
-    } catch {
-        Write-Host "[!] Direct CDN download failed; resolving via GitHub API..." -ForegroundColor Gray
+    if (-not $downloadSuccess) {
+        Write-Host "[!] Direct package downloads failed; resolving via GitHub API..." -ForegroundColor Yellow
         try {
             $apiUri = "https://api.github.com/repos/remarkablepc/WINBARS/releases/latest"
             $headers = @{ "User-Agent" = "WINBARS-WebInstaller" }
@@ -100,11 +135,16 @@ if (-not $skipDownload) {
             $zipAsset = $releaseInfo.assets | Where-Object { $_.name -like "WINBARS*.zip" } | Select-Object -First 1
             if ($zipAsset) {
                 Invoke-WebRequest -Uri $zipAsset.browser_download_url -OutFile $zipPath -UseBasicParsing -TimeoutSec 60 -ErrorAction Stop
+                if ((Test-Path $zipPath) -and (Get-Item $zipPath).Length -gt 500KB) {
+                    $downloadSuccess = $true
+                }
             }
-        } catch {
-            Write-Host "[FAIL] Download failed: $($_.Exception.Message)" -ForegroundColor Red
-            return
-        }
+        } catch { }
+    }
+
+    if (-not $downloadSuccess) {
+        Write-Host "[FAIL] All package download sources failed. Please verify internet connection." -ForegroundColor Red
+        return
     }
 
     # 4. Fast Package Extraction (Safe Overwrite)
@@ -189,10 +229,30 @@ Write-Host "--------------------------------------------------------------------
 
 Set-Location -LiteralPath $stagingDir -ErrorAction SilentlyContinue
 
-if ($PassthruArgs -and $PassthruArgs.Count -gt 0) {
-    $argList = $PassthruArgs -join " "
+$forwardArgs = @()
+$targetMode = if ($Mode) { $Mode } elseif ($SwitchMode) { $SwitchMode } else { "" }
+if ($targetMode) {
+    $forwardArgs += "-SwitchMode $targetMode"
+}
+if ($TargetDrive) {
+    $forwardArgs += "-TargetDrive `"$TargetDrive`""
+}
+if ($Unattended) {
+    $forwardArgs += "-Unattended"
+}
+if ($DryRun) {
+    $forwardArgs += "-DryRun"
+}
+if ($PassthruArgs) {
+    $forwardArgs += ($PassthruArgs -join " ")
+}
+
+if ($forwardArgs.Count -gt 0) {
+    $argList = $forwardArgs -join " "
+    Write-Host "[*] Executing: $exePath $argList" -ForegroundColor Cyan
     $proc = Start-Process -FilePath $exePath -ArgumentList $argList -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
     exit $proc.ExitCode
 } else {
     Start-Process -FilePath $exePath -WorkingDirectory $stagingDir
 }
+
