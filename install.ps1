@@ -1,4 +1,4 @@
-﻿# install.ps1 (WINBARS Official Public Web Installer)
+# install.ps1 (WINBARS Official Public Web Installer)
 # Hosted at: https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1
 # Usage: irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
 
@@ -108,7 +108,7 @@ if (-not $Force -and (Test-Path $exePath) -and (Test-Path $zipPath)) {
 if (-not $skipDownload) {
     # 3. Download Package (Primary: High-Speed Web Mirror; Fallback: GitHub Releases)
     $downloadUrls = @(
-        "https://https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1/WINBARS.zip",
+        "https://winbars.remarkablepc.com/WINBARS.zip",
         "https://macpc.remarkablepc.com/WINBARS.zip",
         "https://github.com/remarkablepc/WINBARS/releases/latest/download/WINBARS.zip"
     )
@@ -197,6 +197,11 @@ $canonicalHost = "C:\Tools\WINBARS"
 if (Test-Path $canonicalHost) {
     Write-Host "[*] Upgrading installed suite files at $canonicalHost..." -ForegroundColor Cyan
     try {
+        $existingHostCfg = $null
+        $hostCfgPath = Join-Path $canonicalHost "config\config.json"
+        if (Test-Path -LiteralPath $hostCfgPath) {
+            try { $existingHostCfg = Get-Content -LiteralPath $hostCfgPath -Raw -Encoding UTF8 -ErrorAction SilentlyContinue } catch { }
+        }
         Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         Start-Sleep -Milliseconds 400
         $filesToSync = @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "HOW_TO_RESTORE.html", "README.md", "CHANGELOG.md", "LICENSE.txt")
@@ -214,6 +219,9 @@ if (Test-Path $canonicalHost) {
                 if (-not (Test-Path $destFolder)) { New-Item -ItemType Directory -Path $destFolder -Force | Out-Null }
                 Copy-Item -Path (Join-Path $srcFolder "*") -Destination $destFolder -Recurse -Force -ErrorAction SilentlyContinue
             }
+        }
+        if ($existingHostCfg) {
+            try { [System.IO.File]::WriteAllText($hostCfgPath, $existingHostCfg, [System.Text.Encoding]::UTF8) } catch { }
         }
         $exePath = Join-Path $canonicalHost "WINBARS.exe"
         $stagingDir = $canonicalHost
