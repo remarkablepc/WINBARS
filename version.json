@@ -1,10 +1,10 @@
-{
+﻿{
     "latest_version":  "0.14.0-beta",
     "release_date":  "2026-10-15",
     "min_powershell_version":  "5.1",
     "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.0-beta/WINBARS-v0.14.0-beta.zip",
-    "sha256":  "8ce31958c0aede143f75f6925043a6b2643750c2bf8f57908bc159e09fa93e92",
-    "exe_sha256":  "6fd6f056dc3ee0a8b9d33ebb1c7c2678aeeebec217a2e71a7e3627287286873a",
+    "sha256":  "cc7de44ebbc6310202eb01ef130a4e25cf0c7a305f432ba8abc3c656ba1ea853",
+    "exe_sha256":  "5e917cab380b71e08687c1721c9e3d0767a2ec0eaab0862ed8ddb293ae0d7401",
     "release_notes":  "WINBARS 0.14.0-beta: Total Guard real-time PUP \u0026 RAT Shield, Shop BitLocker DRA auto-arming, single full-width Protection Center action bar, and remote installer hardening.",
     "critical_security_patch":  false
 }
