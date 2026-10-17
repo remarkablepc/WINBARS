@@ -9,6 +9,9 @@ param(
     [string]$SwitchMode = "",
     [string]$TargetDrive = "",
     [switch]$Unattended,
+    [Alias("AllowRAT", "WhitelistRATs")]
+    [string[]]$WhitelistRAT = @(),
+    [switch]$AllowRunningRATs,
     [switch]$DryRun,
     [switch]$Force,
     [Parameter(ValueFromRemainingArguments = $true)]
@@ -74,6 +77,8 @@ if (-not $isAdmin) {
     elseif ($SwitchMode) { $forwardArgs += "-SwitchMode `"$SwitchMode`"" }
     if ($TargetDrive) { $forwardArgs += "-TargetDrive `"$TargetDrive`"" }
     if ($Unattended) { $forwardArgs += "-Unattended" }
+    if ($WhitelistRAT) { $forwardArgs += "-WhitelistRAT `"$($WhitelistRAT -join ',')`"" }
+    if ($AllowRunningRATs) { $forwardArgs += "-AllowRunningRATs" }
     if ($DryRun) { $forwardArgs += "-DryRun" }
     if ($Force) { $forwardArgs += "-Force" }
     if ($PassthruArgs) { $forwardArgs += ($PassthruArgs -join " ") }
@@ -231,6 +236,118 @@ if (Test-Path $canonicalHost) {
     }
 }
 
+# 6.8. Smart Live Remote Session Detection & Whitelisting (Friendly-Fire Prevention)
+$knownRatMap = @{
+    "AnyViewer"        = @("anyviewer", "amanhlp")
+    "Remote Utilities" = @("rutserv", "rfusclient", "rutview", "rmanservice")
+    "ScreenConnect"    = @("screenconnect")
+    "AnyDesk"          = @("anydesk")
+    "TeamViewer"       = @("teamviewer")
+    "RustDesk"         = @("rustdesk")
+    "UltraViewer"      = @("ultraviewer")
+    "Splashtop"        = @("splashtop", "srserver", "srfeature")
+    "Zoho Assist"      = @("zohours", "zohomeeting")
+    "Parsec"           = @("parsecd")
+    "LogMeIn"          = @("logmein", "lmiguardian")
+    "ConnectWise"      = @("connectwise")
+    "DWService"        = @("dwagsvc")
+    "AeroAdmin"        = @("aeroadmin")
+    "MeshCentral"      = @("meshagent")
+}
+
+$detectedActiveTools = [System.Collections.Generic.List[string]]::new()
+try {
+    $procs = Get-Process -ErrorAction SilentlyContinue | ForEach-Object { $_.ProcessName.ToLower() }
+    foreach ($kv in $knownRatMap.GetEnumerator()) {
+        foreach ($pat in $kv.Value) {
+            if ($procs -contains $pat -or ($procs | Where-Object { $_ -like "$pat*" })) {
+                if (-not $detectedActiveTools.Contains($kv.Key)) {
+                    $detectedActiveTools.Add($kv.Key)
+                }
+                break
+            }
+        }
+    }
+} catch { }
+
+$whitelistDir = "C:\ProgramData\WINBARS"
+$whitelistFile = Join-Path $whitelistDir "rat_whitelist.json"
+if (-not (Test-Path $whitelistDir)) { New-Item -ItemType Directory -Path $whitelistDir -Force | Out-Null }
+
+# Explicit Whitelist entries from CLI
+if ($WhitelistRAT -and $WhitelistRAT.Count -gt 0) {
+    try {
+        $existing = @()
+        if (Test-Path $whitelistFile) {
+            $raw = Get-Content -Path $whitelistFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
+            if ($raw) { $existing = @($raw) }
+        }
+        foreach ($w in $WhitelistRAT) {
+            $wClean = $w.Trim()
+            $procMatches = if ($knownRatMap.ContainsKey($wClean)) { $knownRatMap[$wClean] } else { @($wClean.ToLower()) }
+            $existing = @($existing | Where-Object { $_.Name -ne $wClean })
+            $existing += [PSCustomObject]@{
+                Name      = $wClean
+                Processes = $procMatches
+                Reason    = "Installer CLI Parameter"
+                DateAdded = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                AddedBy   = [System.Environment]::UserName
+            }
+            Write-Host "  [OK] Whitelisted remote tool: $wClean" -ForegroundColor Green
+        }
+        $existing | ConvertTo-Json -Depth 4 | Set-Content -Path $whitelistFile -Encoding UTF8 -Force
+    } catch { }
+}
+
+# Live Session Detection & Prompt / Auto-Whitelist
+if ($detectedActiveTools.Count -gt 0) {
+    $toolsListStr = ($detectedActiveTools -join ", ")
+    $shouldWhitelistActive = $false
+
+    if ($Unattended -or $AllowRunningRATs -or [Console]::IsInputRedirected) {
+        $shouldWhitelistActive = $true
+        Write-Host "  [!] Live Remote Session Active: $toolsListStr" -ForegroundColor Yellow
+        Write-Host "  [OK] Auto-whitelisting session to prevent accidental disconnect." -ForegroundColor Green
+    } else {
+        Write-Host ""
+        Write-Host "=========================================================================" -ForegroundColor Yellow
+        Write-Host " [!] ACTIVE REMOTE SUPPORT SESSION DETECTED                              " -ForegroundColor Yellow
+        Write-Host "=========================================================================" -ForegroundColor DarkYellow
+        Write-Host " Detected live remote session: $toolsListStr" -ForegroundColor White
+        Write-Host " WINBARS ScamBuster includes automated fraud defense that severs         " -ForegroundColor DarkGray
+        Write-Host " unauthorized remote tools. To keep your current session connected,      " -ForegroundColor DarkGray
+        Write-Host " this tool should be whitelisted.                                        " -ForegroundColor DarkGray
+        Write-Host "-------------------------------------------------------------------------" -ForegroundColor DarkGray
+        $userResp = Read-Host " Whitelist '$toolsListStr' now? [Y/n] (Default: Y)"
+        if (-not $userResp -or $userResp.Trim().ToLower() -eq 'y' -or $userResp.Trim().ToLower() -eq 'yes') {
+            $shouldWhitelistActive = $true
+        }
+    }
+
+    if ($shouldWhitelistActive) {
+        try {
+            $existing = @()
+            if (Test-Path $whitelistFile) {
+                $raw = Get-Content -Path $whitelistFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
+                if ($raw) { $existing = @($raw) }
+            }
+            foreach ($dt in $detectedActiveTools) {
+                $procMatches = if ($knownRatMap.ContainsKey($dt)) { $knownRatMap[$dt] } else { @($dt.ToLower()) }
+                $existing = @($existing | Where-Object { $_.Name -ne $dt })
+                $existing += [PSCustomObject]@{
+                    Name      = $dt
+                    Processes = $procMatches
+                    Reason    = "Live Session Active During Installation"
+                    DateAdded = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
+                    AddedBy   = [System.Environment]::UserName
+                }
+            }
+            $existing | ConvertTo-Json -Depth 4 | Set-Content -Path $whitelistFile -Encoding UTF8 -Force
+            Write-Host "  [OK] Successfully whitelisted active remote session ($toolsListStr)." -ForegroundColor Green
+        } catch { }
+    }
+}
+
 # 7. Execute WINBARS with Passed Arguments
 Write-Host "[OK] Launching WINBARS Control Console..." -ForegroundColor Green
 Write-Host "-------------------------------------------------------------------------" -ForegroundColor Gray
@@ -247,6 +364,12 @@ if ($TargetDrive) {
 }
 if ($Unattended) {
     $forwardArgs += "-Unattended"
+}
+if ($WhitelistRAT) {
+    $forwardArgs += "-WhitelistRAT `"$($WhitelistRAT -join ',')`""
+}
+if ($AllowRunningRATs) {
+    $forwardArgs += "-AllowRunningRATs"
 }
 if ($DryRun) {
     $forwardArgs += "-DryRun"

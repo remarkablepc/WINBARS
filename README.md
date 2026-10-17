@@ -347,7 +347,9 @@ In **Mode 4 (`TotalProtection`)**, WINBARS places a classic floppy disk icon in 
 Available in Modes 2 through 4 for emergency assistance:
 * **`Ctrl + Win + W` $\rightarrow$ WINBARS Protection Center**: Opens the live System Health dashboard, backup status, and 1-click tools.
 * **`Ctrl + Win + B` $\rightarrow$ Emergency Scam Buster**: Instantly closes frozen full-screen browsers, kills audio sirens, and clears crash-reload loops.
-* **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**: Displays verified support details before launching Microsoft Quick Assist for remote screen sharing.
+* **`Ctrl + Win + Q` $\rightarrow$ Quick Assist Remote Support**: Displays verified technician support details before launching Microsoft Quick Assist for remote screen sharing.
+  > [!NOTE]
+  > **Microsoft Quick Assist is a native built-in Windows component**, developed, maintained, and digitally signed by Microsoft Corporation—it is **not** a WINBARS proprietary tool. WINBARS acts solely as an anti-fraud security barrier: when triggered, WINBARS verifies your technician's branding credentials and displays a reassurance card reminding the user to never give control to unsolicited callers, before safely launching Microsoft's native Quick Assist application (`quickassist.exe`).
 
 ### 🎛️ Floating Quick-Action Bar & Protection Center Dual Actions
 Left-clicking or hovering over the Floppy Tray Sentry provides instant access to the streamlined **5-Button Quick-Action Bar**:
@@ -355,7 +357,7 @@ Left-clicking or hovering over the Floppy Tray Sentry provides instant access to
 * **`[Win & Apps]`**: Fast bare-metal DISM system image capturing Windows OS + installed applications + drivers (System Image).
 * **`[Restore]`**: Guided interactive restore launcher for recovering personal files or rolling back system images.
 * **`[Dashboard]`**: Launches the full **WINBARS Protection Center** live dashboard (`Ctrl + Win + W`).
-* **`[Remote Support]`**: Displays verified technician contact details and launches Microsoft Quick Assist (`Ctrl + Win + Q`).
+* **`[Remote Support]`**: Displays verified technician contact details and safely launches native Microsoft Quick Assist (`Ctrl + Win + Q`).
 
 Inside the **Protection Center (`Ctrl + Win + W`)**, the primary action is split into two dedicated, side-by-side buttons:
 * **`[▶ Backup My Files]`** (Blue): Triggers personal file mirroring and an unthrottled System Restore Point.
@@ -577,6 +579,9 @@ Rather than forcing a false choice between an opaque black-box (with proprietary
 
 ### Q: Does WINBARS send data to the cloud or collect telemetry?
 **No. Absolutely zero unsolicited telemetry.** WINBARS operates under a strict offline policy: 0 tracking beacons, 0 analytics pings, 0 auto-update polling, and 0 mandatory user accounts. All branding cryptographic verification is performed 100% offline via local ECDSA signatures. Outbound network traffic occurs strictly when the user or administrator explicitly configures an optional webhook endpoint (Discord/Slack/Teams) for emergency canary/failure alerts, or initiates Microsoft Quick Assist (`Ctrl+Win+Q`).
+
+### Q: Is Microsoft Quick Assist part of WINBARS?
+**No.** Microsoft Quick Assist is a native Windows operating system tool built, signed, and maintained directly by Microsoft Corporation. WINBARS includes **zero proprietary remote-desktop servers or screen-sharing binaries**. Instead, WINBARS acts as a security pre-flight gateway (`Ctrl+Win+Q`): before launching Microsoft Quick Assist, WINBARS displays your verified local repair shop's phone number and credentials, ensuring users are never tricked by fraudulent callers attempting to abuse remote desktop tools.
 
 ### Q: How does WINBARS handle cloud backups?
 Rather than forcing you into complicated AWS S3, Wasabi, or Azure portals with secret keys and monthly egress fees, WINBARS works with the tools you already have: simply select your local **Dropbox, Google Drive, OneDrive, or Sync.com** folder as a backup destination. WINBARS handles the frozen snapshot and 30-day retention, while your official cloud app securely syncs the files off-site.
