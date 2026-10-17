@@ -10,7 +10,6 @@
   <img src="https://img.shields.io/badge/Deployment%20Tiers-Modes%200%20to%204-blueviolet" alt="5 Deployment Tiers" />
   <img src="https://img.shields.io/badge/Agentless%20Native-Mode%200%20Supported-brightgreen" alt="Agentless Zero-Footprint Mode" />
   <img src="https://img.shields.io/badge/License-100%25%20Free%20for%20Personal%20%26%20Commercial%20Use-brightgreen" alt="License" />
-  <a href="#coming-soon-winbars-guard"><img src="https://img.shields.io/badge/Microsoft%20Store-Guard%20Coming%20Soon-0078D4?logo=microsoft&logoColor=white" alt="Microsoft Store Coming Soon" /></a>
   <a href="https://www.paypal.com/ncp/payment/EKH76RTYHH24S"><img src="https://img.shields.io/badge/Say%20Thanks-PayPal-00457C?logo=paypal&logoColor=white" alt="Say Thanks" /></a>
   <a href="https://github.com/sponsors/remarkablepc?utm_source=WINBARS"><img src="https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?logo=githubsponsors&logoColor=white" alt="GitHub Sponsors" /></a>
 </p>
@@ -232,34 +231,6 @@ WINBARS provides 6 tailored deployment profiles to fit any home, business, or re
 >
 > 🔍 *Need the granular 22-feature comparison matrix and custom profile generator details? See [Deployment Profiles in Detail](docs/DEPLOYMENT_MODES.md).*
 
-<a id="coming-soon-winbars-guard"></a>
-### 🛍️ Coming Soon to the Microsoft Store: WINBARS Guard
-
-<p align="left">
-  <img src="https://img.shields.io/badge/Microsoft%20Store-Store%20Edition-0078D4?logo=microsoft&logoColor=white&style=flat-square" alt="Microsoft Store Edition" />
-  <img src="https://img.shields.io/badge/Support-GitHub%20Discussions%20Community-EA4AAA?logo=github&logoColor=white&style=flat-square" alt="Community Support" />
-  <img src="https://img.shields.io/badge/Architecture-Based%20on%20Mode%204%20(TotalProtection)-blueviolet?style=flat-square" alt="Based on Mode 4" />
-  <img src="https://img.shields.io/badge/Target%20Audience-Everyday%20Users%20%26%20Families-success?style=flat-square" alt="Home Users" />
-  <img src="https://img.shields.io/badge/Format-Certified%20Store%20App-informational?style=flat-square" alt="Certified Store App" />
-</p>
-
-> *"Quiet, automated peace of mind for your Windows PC. Install it once, let Guard handle the rest."*
-
-Looking for an effortless, family-friendly backup and anti-scam shield for non-technical users? **WINBARS Guard** is the consumer edition currently in development for the **Microsoft Store**—built directly on the complete disaster recovery and defense architecture of **Mode 4 (`TotalProtection`)**.
-
-* **Store Edition**: Available as a one-time purchase on the Microsoft Store (no subscriptions, no recurring monthly fees).
-* **Support Model**: Supported exclusively through our open **[GitHub Discussions Community](https://github.com/remarkablepc/WINBARS/discussions)**. To keep support sustainable and eliminate high-overhead ticketing, there is **no 1-on-1 private phone or email support**.
-* **WINBARS vs. Guard**: While **WINBARS Guard** is packaged for Microsoft Store convenience, **WINBARS** on GitHub remains **100% free closed-source freeware** for personal and commercial bench use across all Modes (0 through 4), with an optional **$100 lifetime donation token** for repair shops wishing to display their custom business branding across dialogs.
-
-**Guard Capabilities & Protections:**
-* **Smart External Drive Detection & Auto-Sync**: Simply plug in your USB backup drive. Guard automatically recognizes it, secures your personal files (Documents, Desktop, Photos) with a 30-day deleted file safety net, and sleeps when disconnected.
-* **Smart BitLocker Key Rescue**: Automatically backs up your critical 48-digit BitLocker encryption key to your external drive, ensuring you are never locked out of your own computer after a firmware or Windows update.
-* **Emergency F4 Startup Recovery**: Press **`F4`** during startup if Windows ever fails to boot. Guard pre-stages an instant recovery hook into the Windows bootloader (with automatic F7 fallback), allowing you to roll back bad updates or restore your system without needing a bootable USB.
-* **Instant Scam Defusal & Audio Silencer**: If a fake virus alarm freezes your screen with blaring sirens, press **`Ctrl + Win + B`**. Guard instantly mutes the speakers, terminates locked browser processes, halts unauthorized remote support tools, and displays a calming, togglable reassurance card.
-* **100% Transparent Consumer Integrity**: Zero hidden developer menus, zero secret CLI commands, zero background adware, and zero telemetry. Runs natively in Windows with a featherweight memory footprint (~25–35 MB).
-* **Universal Ecosystem Cross-Compatibility**: Backups created by WINBARS Guard are standard Windows files and `.wim` images that can be seamlessly inspected and restored interchangeably using WINTools, WINBARS, or native Windows utilities.
-
----
 
 ### ⚡ Turnkey Root Launchers, Installers & Utilities
 - **Root Fast-Launchers (`Run-WINBARS.bat`)**:
@@ -470,7 +441,7 @@ When a catastrophic update, corrupted driver, or boot failure prevents Windows f
 ### 🚨 3. Scam Buster & Remote Access RAT Interceptor
 * **Proactive Fullscreen Trap & Audio Siren Muter (Modes 2, 3, 4)**: Continuously monitors for rogue borderless browser lockups. The moment a scam window triggers, WINBARS **instantly silences deafening audio sirens** and neutralizes the reload trap. In Mode 4, it also overlays an emergency rescue prompt over the scam tab—protecting panicked seniors without requiring them to remember keyboard shortcuts.
 * **Instant Browser Freeze Escape (`Ctrl + Win + B`)**: Instantly closes rogue full-screen browser traps across 25+ browsers, silences audio sirens, and clears Chromium/Firefox crash-recovery flags to prevent reload loops.
-* **Integrated Anti-Fraud Reassurance & Shop Branding**: Fully integrates with [`config/scambuster_ui.json`](config/scambuster_ui.json) to display verified local shop phone numbers, custom reassurance text, and defusal options. Coordinates seamlessly with companion bench toolkits (WINTools), allowing bench sentinels to yield gracefully to WINBARS Guard to eliminate duplicate tasks or conflicting hotkey listeners.
+* **Integrated Anti-Fraud Reassurance & Shop Branding**: Fully integrates with [`config/scambuster_ui.json`](config/scambuster_ui.json) to display verified local shop phone numbers, custom reassurance text, and defusal options. Coordinates seamlessly with companion bench toolkits (WINTools), allowing bench sentinels to yield gracefully to WINBARS to eliminate duplicate tasks or conflicting hotkey listeners.
 * **Real-Time Remote Access Interceptor (Modes 2, 3, 4)**: Continuously watches for 25+ remote control tools frequently weaponized by phone and pop-up scammers (ScreenConnect, UltraViewer, AnyDesk, TeamViewer, RustDesk, HopToDesk, HelpWire, AeroAdmin, Ammyy Admin, etc.). Automatically intercepts unauthorized sessions, displaying an unmissable **`[STOP] Disconnect & Block`** button in Mode 4.
 * **OneDrive Alert Guard**: Silences deceptive Windows 10/11 "Not Backed Up" scare banners and halts Known Folder Move (KFM) hijacking of Documents, Desktop, and Pictures without breaking normal OneDrive sync.
 
