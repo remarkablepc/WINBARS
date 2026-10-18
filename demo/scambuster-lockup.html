@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WINBARS Demo - ScamBuster lockup simulator (idle)</title>
+<!--
+  WINBARS ScamBuster demo page.
+  100% local and harmless: no network requests, no storage, no popups, no reload traps.
+  It imitates the two things ScamBuster looks for in a real "tech support" lockup:
+    1) a browser window that fills the whole screen, and
+    2) a window title containing scam phrases ("security alert", "virus", "microsoft support").
+  Exit any time with Esc, the End demo button, or wait 3 minutes (auto-ends).
+-->
+<style>
+  html, body { margin: 0; height: 100%; font-family: Segoe UI, Arial, sans-serif; background: #0f172a; color: #e2e8f0; }
+  [hidden] { display: none !important; }
+  #idle { max-width: 760px; margin: 6vh auto; padding: 0 24px; line-height: 1.5; }
+  #idle h1 { font-size: 28px; margin: 0 0 4px; }
+  #idle .tag { display: inline-block; background: #1e293b; border: 1px solid #334155; border-radius: 999px; padding: 2px 12px; font-size: 13px; color: #94a3b8; }
+  .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 18px 22px; margin: 18px 0; }
+  .card h2 { margin: 0 0 8px; font-size: 17px; }
+  ol { margin: 6px 0 0 20px; padding: 0; }
+  li { margin: 6px 0; }
+  .warn { border-color: #92400e; background: #2a1c0b; color: #fde68a; }
+  button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 12px 22px; }
+  #start { background: #7e22ce; color: #fff; font-size: 17px; font-weight: 600; }
+  #start:hover { background: #9333ea; }
+  label { display: block; margin: 12px 0 16px; color: #cbd5e1; }
+
+  #lock { position: fixed; inset: 0; background: #8b0000; color: #fff; text-align: center;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          animation: flash 1.6s ease-in-out infinite; }
+  @keyframes flash { 0%, 100% { background: #7f0000; } 50% { background: #a80000; } }
+  #lock h1 { font-size: clamp(32px, 6vw, 72px); margin: 0 0 12px; letter-spacing: 1px; }
+  #lock p { font-size: clamp(16px, 2.4vw, 28px); margin: 8px 24px; max-width: 1100px; }
+  #phone { font-size: clamp(28px, 5vw, 60px); font-weight: 800; background: #fff; color: #7f0000; padding: 8px 28px; border-radius: 10px; margin: 18px 0; }
+  #count { font-family: Consolas, monospace; font-size: clamp(24px, 4vw, 48px); }
+  #demobar { position: fixed; left: 0; right: 0; bottom: 0; background: #000; color: #fde68a; font-size: 15px;
+             padding: 10px 16px; display: flex; gap: 16px; align-items: center; justify-content: center; }
+  #demobar button { background: #fde68a; color: #000; padding: 6px 14px; font-weight: 600; }
+  #fshint { color: #fde68a; font-size: 15px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<main id="idle">
+  <span class="tag">WINBARS demo &bull; safe simulation</span>
+  <h1>ScamBuster lockup simulator</h1>
+  <p>Shows what ScamBuster does when a fake "virus alert" page takes over the screen.
+     Nothing here is real: the phone number is fictional and nothing is sent or installed.</p>
+
+  <div class="card">
+    <h2>Before you start (Mode 4)</h2>
+    <ol>
+      <li>The Floppy Tray Sentry must be running (it checks the screen about every 2.5 seconds).</li>
+      <li>Close anything you care about: choosing <b>RECLAIM MY COMPUTER</b> closes <b>all</b> browser windows.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>What you should see</h2>
+    <ol>
+      <li>The page goes full screen with a flashing red "virus" alert and a countdown.</li>
+      <li>Within a few seconds ScamBuster mutes browser audio and shows the shop-branded rescue dialog:
+          <i>"THE SCREEN SHOWING BEHIND THIS PROMPT IS A SCAM"</i>.</li>
+      <li>Pick <b>Cancel / Keep Open</b> to keep demonstrating, or <b>RECLAIM MY COMPUTER</b> to show the clean-up.</li>
+    </ol>
+  </div>
+
+  <label><input type="checkbox" id="siren"> Also play a quiet demo siren (lets you show ScamBuster muting the audio)</label>
+  <button id="start" type="button">Start the demo (goes full screen)</button>
+
+  <div class="card warn" style="margin-top:24px">
+    Exit at any time with <b>Esc</b>, or click <b>End demo</b> on the black bar. The demo also ends by itself after 3 minutes.
+  </div>
+</main>
+
+<section id="lock" hidden>
+  <h1>&#9888; WARNING! VIRUS DETECTED &#9888;</h1>
+  <p>Your computer has been infected and your files are at risk. Do NOT turn off your computer.</p>
+  <div id="phone">Call Microsoft Support: 1-800-555-0100</div>
+  <p>Files will be locked in <span id="count">05:00</span></p>
+  <p id="fshint" hidden>Full screen was blocked by the browser. Press F11 (or allow full screen) so ScamBuster can see the lockup.</p>
+  <div id="demobar">
+    <span>WINBARS DEMO - harmless simulation. Press Esc or</span>
+    <button id="end" type="button">End demo</button>
+    <span id="remain"></span>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var IDLE_TITLE  = 'WINBARS Demo - ScamBuster lockup simulator (idle)';
+  var ALERT_TITLE = 'Security Alert - Virus Detected - Call Microsoft Support (WINBARS DEMO)';
+  var MAX_SECONDS = 180;
+
+  var idleEl = document.getElementById('idle');
+  var lockEl = document.getElementById('lock');
+  var countEl = document.getElementById('count');
+  var remainEl = document.getElementById('remain');
+  var fsHintEl = document.getElementById('fshint');
+  var sirenBox = document.getElementById('siren');
+
+  var running = false;
+  var ticker = null;
+  var secondsLeft = 300;
+  var elapsed = 0;
+
+  var audioCtx = null, osc = null, sirenTimer = null;
+
+  function fsElement() {
+    return document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement || null;
+  }
+
+  function enterFullscreen() {
+    var el = document.documentElement;
+    var fn = el.requestFullscreen || el.webkitRequestFullscreen || el.msRequestFullscreen;
+    if (!fn) { return; }
+    try {
+      var p = fn.call(el);
+      if (p && typeof p.catch === 'function') { p.catch(function () {}); }
+    } catch (e) { /* ignored */ }
+  }
+
+  function exitFullscreen() {
+    if (!fsElement()) { return; }
+    var fn = document.exitFullscreen || document.webkitExitFullscreen || document.msExitFullscreen;
+    if (!fn) { return; }
+    try {
+      var p = fn.call(document);
+      if (p && typeof p.catch === 'function') { p.catch(function () {}); }
+    } catch (e) { /* ignored */ }
+  }
+
+  function startSiren() {
+    try {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) { return; }
+      audioCtx = new AC();
+      osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'square';
+      gain.gain.value = 0.03;
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      var hi = false;
+      sirenTimer = setInterval(function () {
+        hi = !hi;
+        osc.frequency.value = hi ? 900 : 600;
+      }, 450);
+    } catch (e) { /* ignored */ }
+  }
+
+  function stopSiren() {
+    try {
+      if (sirenTimer) { clearInterval(sirenTimer); }
+      if (osc) { osc.stop(); }
+      if (audioCtx) { audioCtx.close(); }
+    } catch (e) { /* ignored */ }
+    sirenTimer = null; osc = null; audioCtx = null;
+  }
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function tick() {
+    elapsed += 1;
+    if (secondsLeft > 0) { secondsLeft -= 1; }
+    countEl.textContent = pad(Math.floor(secondsLeft / 60)) + ':' + pad(secondsLeft % 60);
+    var remain = MAX_SECONDS - elapsed;
+    remainEl.textContent = 'Auto-ends in ' + remain + 's';
+    if (elapsed >= MAX_SECONDS) { endDemo(); }
+  }
+
+  function startDemo() {
+    if (running) { return; }
+    running = true;
+    secondsLeft = 300;
+    elapsed = 0;
+    idleEl.hidden = true;
+    lockEl.hidden = false;
+    document.title = ALERT_TITLE;
+    if (sirenBox.checked) { startSiren(); }
+    enterFullscreen();
+    ticker = setInterval(tick, 1000);
+    setTimeout(function () {
+      if (running && !fsElement()) { fsHintEl.hidden = false; }
+    }, 1500);
+  }
+
+  function endDemo() {
+    if (!running) { return; }
+    running = false;
+    if (ticker) { clearInterval(ticker); ticker = null; }
+    stopSiren();
+    exitFullscreen();
+    lockEl.hidden = true;
+    idleEl.hidden = false;
+    fsHintEl.hidden = true;
+    document.title = IDLE_TITLE;
+  }
+
+  function onFullscreenChange() {
+    if (running && !fsElement()) { endDemo(); }
+  }
+
+  document.getElementById('start').addEventListener('click', startDemo);
+  document.getElementById('end').addEventListener('click', endDemo);
+  document.addEventListener('fullscreenchange', onFullscreenChange);
+  document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && running) { endDemo(); }
+  });
+})();
+</script>
+</body>
+</html>
