@@ -247,7 +247,7 @@
                        "AutoInstall":  false,
                        "UpdateChannel":  "Stable",
                        "CheckIntervalHours":  24,
-                       "ManifestUrl":  "https://raw.githubusercontent.com/remarkablepc/WINBARS/main/dist/version.json",
+                       "ManifestUrl":  "https://raw.githubusercontent.com/remarkablepc/WINBARS/main/version.json",
                        "AllowedModes":  [
                                             "TotalProtection",
                                             "TotalGuard",

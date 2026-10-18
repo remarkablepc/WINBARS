@@ -3,7 +3,7 @@
     "release_date":  "2026-10-18",
     "min_powershell_version":  "5.1",
     "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.15.0-beta/WINBARS-v0.15.0-beta.zip",
-    "sha256":  "c0b3843901cb29fbcb0298c7403ae3d43ff142138a00ec56c62f2d003afd5072",
+    "sha256":  "daeae534312c05230c7451378c0eac8c472c4d79f07bc78b6b828d6b55d215a3",
     "exe_sha256":  "e0843b877db79919568b968c8396a53c438411d2273cdd12db491d977cc456d3",
     "release_notes":  "WINBARS 0.15.0-beta: Mode Reset to defaults, Force Reinstall/Update on demand, BitLocker fleet lock telemetry, and ScamBuster multi-mode arming.",
     "critical_security_patch":  false
