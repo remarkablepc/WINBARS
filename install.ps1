@@ -331,8 +331,10 @@ if ($detectedActiveTools.Count -gt 0) {
                 $raw = Get-Content -Path $whitelistFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
                 if ($raw) { $existing = @($raw) }
             }
+            $allProcsToWhitelist = [System.Collections.Generic.List[string]]::new()
             foreach ($dt in $detectedActiveTools) {
                 $procMatches = if ($knownRatMap.ContainsKey($dt)) { $knownRatMap[$dt] } else { @($dt.ToLower()) }
+                foreach ($pm in $procMatches) { if (-not $allProcsToWhitelist.Contains($pm)) { $allProcsToWhitelist.Add($pm) } }
                 $existing = @($existing | Where-Object { $_.Name -ne $dt })
                 $existing += [PSCustomObject]@{
                     Name      = $dt
@@ -343,6 +345,34 @@ if ($detectedActiveTools.Count -gt 0) {
                 }
             }
             $existing | ConvertTo-Json -Depth 4 | Set-Content -Path $whitelistFile -Encoding UTF8 -Force
+
+            # Also sync into config.json AllowedRemoteTools
+            $cfgCandidates = @(
+                (Join-Path $stagingDir "config\config.json"),
+                "C:\Tools\WINBARS\config\config.json"
+            )
+            foreach ($cfgPath in $cfgCandidates) {
+                if (Test-Path $cfgPath) {
+                    try {
+                        $cfgContent = Get-Content $cfgPath -Raw -ErrorAction SilentlyContinue
+                        if ($cfgContent) {
+                            foreach ($pm in $allProcsToWhitelist) {
+                                $entry = "`"$pm`""
+                                if ($cfgContent -notmatch $entry) {
+                                    $cfgContent = $cfgContent -replace '("AllowedRemoteTools"\s*:\s*\[)', "`$1`r`n                                                              $entry,"
+                                }
+                            }
+                            Set-Content -Path $cfgPath -Value $cfgContent -Encoding UTF8 -Force
+                        }
+                    } catch { }
+                }
+            }
+
+            if (-not $WhitelistRAT) { $WhitelistRAT = @() }
+            foreach ($dt in $detectedActiveTools) {
+                if ($WhitelistRAT -notcontains $dt) { $WhitelistRAT += $dt }
+            }
+
             Write-Host "  [OK] Successfully whitelisted active remote session ($toolsListStr)." -ForegroundColor Green
         } catch { }
     }
