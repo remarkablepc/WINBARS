@@ -295,5 +295,10 @@
 
                                                           ],
                                "PreferredExternalDriveLetter":  ""
-                           }
+                           },
+    "PrivacyAndLedger":  {
+                             "SyncCustomerPII":  false,
+                             "AllowCustomerNameOnWeb":  false,
+                             "AllowCustomerPhoneOnWeb":  false
+                         }
 }
