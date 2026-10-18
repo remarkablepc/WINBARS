@@ -3,8 +3,8 @@
     "release_date":  "2026-10-17",
     "min_powershell_version":  "5.1",
     "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.4-beta/WINBARS-v0.14.4-beta.zip",
-    "sha256":  "3889d392f24027c17772579d00fd1bc9885ef2904420767e0fa3fe0f8c66322d",
-    "exe_sha256":  "dee6e1a44af8572d1378e968b4752e6ec0a8f28fb11d1843a73ca6efcb102d84",
+    "sha256":  "66a1fe7c7cf650270388f63b4f7abc1174836323da62ab341cf3fb4fc39f95ac",
+    "exe_sha256":  "2f22b07cf321fd46743b4d04d2c20a2baeb4448fb702589abfe9ed95ba3f8b26",
     "release_notes":  "WINBARS 0.14.4-beta: Everything-style multi-term fleet search, threat defense telemetry, and technician PUP Shield toggle.",
     "critical_security_patch":  false
 }
