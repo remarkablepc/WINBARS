@@ -1,10 +1,10 @@
 ﻿{
-    "latest_version":  "0.14.4-beta",
-    "release_date":  "2026-10-17",
+    "latest_version":  "0.15.0-beta",
+    "release_date":  "2026-10-18",
     "min_powershell_version":  "5.1",
-    "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.14.4-beta/WINBARS-v0.14.4-beta.zip",
-    "sha256":  "0b18fe4623aae8aabb4a3fb1936b4ccc86613e3a9cf35baa1c843d27ed6c135c",
-    "exe_sha256":  "3423015878d1b695771fd752e457524bc9129bc3076264fe3f5a95b7c2b658cf",
-    "release_notes":  "WINBARS 0.14.4-beta: Everything-style multi-term fleet search, threat defense telemetry, and technician PUP Shield toggle.",
+    "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.15.0-beta/WINBARS-v0.15.0-beta.zip",
+    "sha256":  "c0b3843901cb29fbcb0298c7403ae3d43ff142138a00ec56c62f2d003afd5072",
+    "exe_sha256":  "e0843b877db79919568b968c8396a53c438411d2273cdd12db491d977cc456d3",
+    "release_notes":  "WINBARS 0.15.0-beta: Mode Reset to defaults, Force Reinstall/Update on demand, BitLocker fleet lock telemetry, and ScamBuster multi-mode arming.",
     "critical_security_patch":  false
 }

@@ -51,11 +51,16 @@ set "DEFAULT_WIM="
 
 echo [*] Scanning for system images in:
 echo     - %~dp0
+echo     - %~dp0Images\
 echo     - %ROOT_DIR%
+echo     - %ROOT_DIR%Images\
+echo     - %ROOT_DIR%SystemRecovery\
+echo     - %ROOT_DIR%SystemRecovery\Images\
 echo     - %ROOT_DIR%SystemImages\
+echo     - %ROOT_DIR%SystemImages\Images\
 echo.
 
-for %%D in ("%~dp0" "%ROOT_DIR%" "%ROOT_DIR%SystemImages\") do (
+for %%D in ("%~dp0" "%~dp0Images\" "%ROOT_DIR%" "%ROOT_DIR%Images\" "%ROOT_DIR%SystemRecovery\" "%ROOT_DIR%SystemRecovery\Images\" "%ROOT_DIR%SystemImages\" "%ROOT_DIR%SystemImages\Images\") do (
     if exist "%%~fD" (
         for %%F in ("%%~fD*.wim") do (
             set /a IMG_COUNT+=1
