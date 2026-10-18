@@ -208,12 +208,40 @@ if (Test-Path $canonicalHost) {
             try { $existingHostCfg = Get-Content -LiteralPath $hostCfgPath -Raw -Encoding UTF8 -ErrorAction SilentlyContinue } catch { }
         }
         Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-        Start-Sleep -Milliseconds 400
+        # Wait up to 3 seconds for OS handles to release
+        $sw = [System.Diagnostics.Stopwatch]::StartNew()
+        while ($sw.ElapsedMilliseconds -lt 3000) {
+            $stillRunning = Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue
+            if (-not $stillRunning) { break }
+            Start-Sleep -Milliseconds 150
+        }
         $filesToSync = @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "HOW_TO_RESTORE.html", "README.md", "CHANGELOG.md", "LICENSE.txt")
         foreach ($fileName in $filesToSync) {
             $srcItem = Join-Path $stagingDir $fileName
             if (Test-Path $srcItem) {
-                Copy-Item -Path $srcItem -Destination (Join-Path $canonicalHost $fileName) -Force -ErrorAction SilentlyContinue
+                $targetFile = Join-Path $canonicalHost $fileName
+                $copied = $false
+                for ($att = 1; $att -le 5; $att++) {
+                    try {
+                        Copy-Item -LiteralPath $srcItem -Destination $targetFile -Force -ErrorAction Stop
+                        $copied = $true
+                        break
+                    } catch {
+                        if (Test-Path -LiteralPath $targetFile) {
+                            $oldFile = "$targetFile.old"
+                            Remove-Item -LiteralPath $oldFile -Force -ErrorAction SilentlyContinue
+                            if (Test-Path -LiteralPath $oldFile) { $oldFile = "$targetFile.old.$(Get-Random)" }
+                            try {
+                                Move-Item -LiteralPath $targetFile -Destination $oldFile -Force -ErrorAction Stop
+                                Copy-Item -LiteralPath $srcItem -Destination $targetFile -Force -ErrorAction Stop
+                                $copied = $true
+                                Remove-Item -LiteralPath $oldFile -Force -ErrorAction SilentlyContinue
+                                break
+                            } catch { }
+                        }
+                        Start-Sleep -Milliseconds 300
+                    }
+                }
             }
         }
         $foldersToSync = @("config", "assets", "brands", "docs", "certs", "tools", "installers")
