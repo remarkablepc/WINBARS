@@ -1,4 +1,4 @@
-﻿{
+{
     "ScamBuster":  {
                        "MediaWhitelist":  [
                                               "youtube",
@@ -247,7 +247,7 @@
                        "AutoInstall":  false,
                        "UpdateChannel":  "Stable",
                        "CheckIntervalHours":  24,
-                       "ManifestUrl":  "https://raw.githubusercontent.com/remarkablepc/WINBARS/main/version.json",
+                       "ManifestUrl":  "https://macpc.remarkablepc.com/version.json",
                        "AllowedModes":  [
                                             "TotalProtection",
                                             "TotalGuard",

@@ -1,8 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
-title WINBARS One-Click Installer - Mode 4 (TotalProtection)
+title WINBARS One-Click Installer - Mode 4 (TotalGuard)
 :: ============================================================================
-::  WINBARS ONE-CLICK INSTALLER - MODE 4 : TOTAL PROTECTION
+::  WINBARS ONE-CLICK INSTALLER - MODE 4 : TOTAL GUARD
 ::  Applies all Mode 4 defaults automatically. Asks only 2 questions:
 ::    1. Data backup drive      2. Windows system image drive
 ::  Requires WINBARS.exe (or WINBARS.ps1) in this same folder.
@@ -51,7 +51,7 @@ goto PARSE_LOOP
 :SHOW_HELP
 echo.
 echo ========================================================================
-echo   WINBARS ONE-CLICK INSTALLER - MODE 4 : TOTAL PROTECTION
+echo   WINBARS ONE-CLICK INSTALLER - MODE 4 : TOTAL GUARD
 echo ========================================================================
 echo   Full Suite: Data Sync + DISM Images + Floppy Tray + ScamBuster Shield.
 echo.
@@ -85,7 +85,7 @@ if defined ARG_BASELINE set "ARG_BASELINE=!ARG_BASELINE:"=!"
 
 echo.
 echo ================================================================
-echo   WINBARS ONE-CLICK INSTALLER - MODE 4 : TOTAL PROTECTION
+echo   WINBARS ONE-CLICK INSTALLER - MODE 4 : TOTAL GUARD
 echo ================================================================
 echo   What Mode 4 does:
 echo     - Complete automation: Differential Robocopy personal file sync
@@ -287,18 +287,18 @@ if exist "C:\Tools\WINBARS\config\config.json" (
 
 :: ---- 13. Apply the profile (all other settings use mode defaults) ----
 echo.
-echo   Applying Mode 4 TotalProtection defaults and scheduling tasks...
+echo   Applying Mode 4 Total Guard defaults and scheduling tasks...
 echo   ----------------------------------------------------------------
 set "EXTRA_FLAGS="
 if defined ARG_CUSTOMER set "EXTRA_FLAGS=!EXTRA_FLAGS! -Customer "!ARG_CUSTOMER!""
 if defined ARG_SHOPLABEL set "EXTRA_FLAGS=!EXTRA_FLAGS! -ShopLabel "!ARG_SHOPLABEL!""
 if /i not "%~d0"=="C:" set "EXTRA_FLAGS=!EXTRA_FLAGS! -DeploymentLog "%~d0\WINBARS_Deployments.csv""
 
-!RUN_CMD! -SetProfile TotalProtection !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!" !EXTRA_FLAGS!
+!RUN_CMD! -SetProfile TotalGuard !BRAND_FLAG! -Unattended -ConfigPath "!ACTIVE_CONFIG_PATH!" !EXTRA_FLAGS!
 set "PROFILE_EXIT=!errorLevel!"
 echo   ----------------------------------------------------------------
 if !PROFILE_EXIT! EQU 0 (
-    echo   [OK] Mode 4 TotalProtection profile applied successfully.
+    echo   [OK] Mode 4 Total Guard profile applied successfully.
 ) else (
     echo   [ERROR] Profile apply failed with exit code !PROFILE_EXIT!.
 )
@@ -352,7 +352,7 @@ if not !PROFILE_EXIT! EQU 0 set "OVERALL_EXIT=1"
 echo.
 echo ================================================================
 if !OVERALL_EXIT! EQU 0 (
-    echo   [SUCCESS] Mode 4 TotalProtection installation completed.
+    echo   [SUCCESS] Mode 4 Total Guard installation completed.
     echo   Tip: Run Capture-Baseline.bat to pin a permanent baseline image.
     echo   Tip: To make this backup drive directly bootable, run Create-RescueUSB.bat!
 ) else (
