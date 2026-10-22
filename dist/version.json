@@ -1,10 +1,10 @@
 {
     "latest_version":  "0.15.5-beta",
-    "release_date":  "2026-10-20",
+    "release_date":  "2026-10-21",
     "min_powershell_version":  "5.1",
     "download_url":  "https://github.com/remarkablepc/WINBARS/releases/download/v0.15.5-beta/WINBARS-v0.15.5-beta.zip",
-    "sha256":  "1062ebcf8c1ff4daee6f4b368765f8afd043941d6d0fb014c5f6dc38dfcd45be",
-    "exe_sha256":  "9089fac435d347d55cb1ba7d2500a5fb7bba902e895532711c72200219b4164d",
+    "sha256":  "e5a6afc84faf28e1c2d0df1a4c0eea56054439757a6694e256d26e93799a4b40",
+    "exe_sha256":  "576207cabe9453b687766f42f5aec6286f88d0beec2b118f33d01bfd3ea8a81a",
     "release_notes":  "WINBARS 0.15.4-beta: Fixed AnyViewer idle cloud heartbeat false-positive active RAT detection, tightened online satellite detection to live 25m heartbeat window, fixed WhitelistRemoteToolPermanently config.json regex corruption and Load-SuiteConfig/Write-BackupLog recursion hang, and detached FleetBeacon UpdateNow directive via WMI.",
     "critical_security_patch":  false
 }
