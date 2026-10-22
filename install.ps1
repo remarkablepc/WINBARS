@@ -1,6 +1,6 @@
 # install.ps1 (WINBARS Official Public Web Installer)
-# Hosted at: https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1
-# Usage: irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex
+# Hosted at: winbars.remarkablepc.com
+# Usage: irm winbars.remarkablepc.com | iex
 
 [CmdletBinding()]
 param(
@@ -9,16 +9,16 @@ param(
     [string]$SwitchMode = "",
     [string]$TargetDrive = "",
     [switch]$Unattended,
-    [Alias("AllowRAT", "WhitelistRATs")]
-    [string[]]$WhitelistRAT = @(),
-    [switch]$AllowRunningRATs,
     [switch]$DryRun,
     [switch]$Force,
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$PassthruArgs
 )
 
-# Support environment variable override (e.g. $env:WINBARS_MODE=4; irm https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1 | iex)
+# Set execution policy for the current process to bypass any machine-level restrictions
+try { Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force -ErrorAction SilentlyContinue } catch { }
+
+# Support environment variable override (e.g. $env:WINBARS_MODE=4; irm winbars.remarkablepc.com | iex)
 if (-not $Mode -and $env:WINBARS_MODE) {
     $Mode = $env:WINBARS_MODE.Trim()
 }
@@ -77,15 +77,18 @@ if (-not $isAdmin) {
     elseif ($SwitchMode) { $forwardArgs += "-SwitchMode `"$SwitchMode`"" }
     if ($TargetDrive) { $forwardArgs += "-TargetDrive `"$TargetDrive`"" }
     if ($Unattended) { $forwardArgs += "-Unattended" }
-    if ($WhitelistRAT) { $forwardArgs += "-WhitelistRAT `"$($WhitelistRAT -join ',')`"" }
-    if ($AllowRunningRATs) { $forwardArgs += "-AllowRunningRATs" }
     if ($DryRun) { $forwardArgs += "-DryRun" }
     if ($Force) { $forwardArgs += "-Force" }
     if ($PassthruArgs) { $forwardArgs += ($PassthruArgs -join " ") }
     $argString = $forwardArgs -join " "
 
-    $elevateCommand = "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13; `$code = (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1' -UseBasicParsing); & ([scriptblock]::Create(`$code)) $argString }"
-    Start-Process powershell.exe -Verb RunAs -ArgumentList @("-NoExit", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $elevateCommand)
+    $elevateCommand = "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 -bor [Net.SecurityProtocolType]::Tls13; `$code = try { (Invoke-RestMethod -Uri 'https://winbars.remarkablepc.com' -UseBasicParsing) } catch { (Invoke-RestMethod -Uri 'https://raw.githubusercontent.com/remarkablepc/WINBARS/main/install.ps1' -UseBasicParsing) }; & ([scriptblock]::Create(`$code)) $argString }"
+    try {
+        Start-Process powershell.exe -Verb RunAs -ArgumentList @("-NoExit", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", $elevateCommand)
+    } catch {
+        Write-Host "  [!] UAC Elevation prompt could not be launched ($($_.Exception.Message))." -ForegroundColor Yellow
+        Write-Host "  [!] Please open PowerShell as Administrator and run the command again." -ForegroundColor Red
+    }
     return
 }
 
@@ -152,30 +155,110 @@ if (-not $skipDownload) {
         return
     }
 
-    # 4. Fast Package Extraction (Safe Overwrite)
+    # 4. Fast Package Extraction (Safe Overwrite with Resilient Retry)
     Write-Host "[*] Extracting package..." -ForegroundColor Cyan
+
+    # Pre-clean read-only attributes on existing staging files if any
+    try {
+        if (Test-Path $stagingDir) {
+            Get-ChildItem -Path $stagingDir -Recurse -Force -ErrorAction SilentlyContinue | ForEach-Object {
+                if (-not $_.PSIsContainer) { $_.Attributes = 'Normal' }
+            }
+        }
+    } catch { }
+
+    $extractSuccess = $false
+    $extractError = ""
+
+    # Primary Attempt: Direct extraction with attribute clearing
     try {
         Add-Type -AssemblyName System.IO.Compression.FileSystem -ErrorAction Stop
-        $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
-        foreach ($entry in $zip.Entries) {
-            if ($entry.Name -like "*.zip") { continue }
-            $destPath = Join-Path $stagingDir $entry.FullName
-            if ([string]::IsNullOrEmpty($entry.Name)) {
-                if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
-                continue
-            }
-            $parentDir = Split-Path -Parent $destPath
-            if (-not (Test-Path $parentDir)) { New-Item -ItemType Directory -Path $parentDir -Force | Out-Null }
-            [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destPath, $true)
-        }
-        $zip.Dispose()
-    } catch {
+        $zip = $null
         try {
-            Expand-Archive -Path $zipPath -DestinationPath $stagingDir -Force
-        } catch {
-            Write-Host "[FAIL] Extraction failed: $($_.Exception.Message)" -ForegroundColor Red
-            return
+            $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+            foreach ($entry in $zip.Entries) {
+                $normFullName = $entry.FullName -replace '\\','/'
+                if ($normFullName -like "*web-deploy*" -or $normFullName -like "brands/*" -or $normFullName -like "demo/*" -or $normFullName -like "docs/*") { continue }
+                $destPath = Join-Path $stagingDir $entry.FullName
+                if ([string]::IsNullOrEmpty($entry.Name)) {
+                    if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
+                    continue
+                }
+                $parentDir = Split-Path -Parent $destPath
+                if (-not (Test-Path $parentDir)) { New-Item -ItemType Directory -Path $parentDir -Force | Out-Null }
+                if (Test-Path -LiteralPath $destPath) {
+                    try {
+                        [System.IO.File]::SetAttributes($destPath, [System.IO.FileAttributes]::Normal)
+                        [System.IO.File]::Delete($destPath)
+                    } catch { }
+                }
+                try {
+                    [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destPath, $true)
+                } catch {
+                    if ($entry.Name -eq "WINBARS.exe" -or $entry.Name -eq "WINBARS.ps1") {
+                        throw $_
+                    } else {
+                        Write-Host "  [!] Notice: Non-critical entry skipped ($($entry.Name)): $($_.Exception.Message)" -ForegroundColor Gray
+                    }
+                }
+            }
+            $extractSuccess = $true
+        } finally {
+            if ($zip) { $zip.Dispose() }
         }
+    } catch {
+        $extractError = $_.Exception.Message
+    }
+
+    # Fallback Attempt: If primary directory had locked files, extract into an isolated fresh unique staging folder
+    if (-not $extractSuccess) {
+        Write-Host "  [!] Retrying extraction into fresh clean staging container..." -ForegroundColor Yellow
+        $freshStagingDir = Join-Path -Path $env:TEMP -ChildPath ("WINBARS_Bootstrap_" + [System.Guid]::NewGuid().ToString("N").Substring(0, 8))
+        New-Item -ItemType Directory -Path $freshStagingDir -Force | Out-Null
+
+        try {
+            $zip = $null
+            try {
+                $zip = [System.IO.Compression.ZipFile]::OpenRead($zipPath)
+                foreach ($entry in $zip.Entries) {
+                    $normFullName = $entry.FullName -replace '\\','/'
+                    if ($normFullName -like "*web-deploy*" -or $normFullName -like "brands/*" -or $normFullName -like "demo/*" -or $normFullName -like "docs/*") { continue }
+                    $destPath = Join-Path $freshStagingDir $entry.FullName
+                    if ([string]::IsNullOrEmpty($entry.Name)) {
+                        if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
+                        continue
+                    }
+                    $parentDir = Split-Path -Parent $destPath
+                    if (-not (Test-Path $parentDir)) { New-Item -ItemType Directory -Path $parentDir -Force | Out-Null }
+                    try {
+                        [System.IO.Compression.ZipFileExtensions]::ExtractToFile($entry, $destPath, $true)
+                    } catch {
+                        if ($entry.Name -eq "WINBARS.exe" -or $entry.Name -eq "WINBARS.ps1") {
+                            throw $_
+                        }
+                    }
+                }
+                $stagingDir = $freshStagingDir
+                $exePath = Join-Path -Path $stagingDir -ChildPath "WINBARS.exe"
+                $extractSuccess = $true
+            } finally {
+                if ($zip) { $zip.Dispose() }
+            }
+        } catch {
+            try {
+                Expand-Archive -Path $zipPath -DestinationPath $freshStagingDir -Force
+                $stagingDir = $freshStagingDir
+                $exePath = Join-Path -Path $stagingDir -ChildPath "WINBARS.exe"
+                $extractSuccess = $true
+            } catch {
+                $extractError = $_.Exception.Message
+            }
+        }
+    }
+
+    if (-not $extractSuccess) {
+        Write-Host "[FAIL] Extraction failed: $extractError" -ForegroundColor Red
+        return
     }
 }
 
@@ -208,43 +291,15 @@ if (Test-Path $canonicalHost) {
             try { $existingHostCfg = Get-Content -LiteralPath $hostCfgPath -Raw -Encoding UTF8 -ErrorAction SilentlyContinue } catch { }
         }
         Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-        # Wait up to 3 seconds for OS handles to release
-        $sw = [System.Diagnostics.Stopwatch]::StartNew()
-        while ($sw.ElapsedMilliseconds -lt 3000) {
-            $stillRunning = Get-Process -Name "WINBARS", "WINBAR" -ErrorAction SilentlyContinue
-            if (-not $stillRunning) { break }
-            Start-Sleep -Milliseconds 150
-        }
+        Start-Sleep -Milliseconds 400
         $filesToSync = @("WINBARS.exe", "WINBARS.exe.config", "WINBAR.exe", "WINBARS.ps1", "Run-WINBARS.bat", "HOW_TO_RESTORE.html", "README.md", "CHANGELOG.md", "LICENSE.txt")
         foreach ($fileName in $filesToSync) {
             $srcItem = Join-Path $stagingDir $fileName
             if (Test-Path $srcItem) {
-                $targetFile = Join-Path $canonicalHost $fileName
-                $copied = $false
-                for ($att = 1; $att -le 5; $att++) {
-                    try {
-                        Copy-Item -LiteralPath $srcItem -Destination $targetFile -Force -ErrorAction Stop
-                        $copied = $true
-                        break
-                    } catch {
-                        if (Test-Path -LiteralPath $targetFile) {
-                            $oldFile = "$targetFile.old"
-                            Remove-Item -LiteralPath $oldFile -Force -ErrorAction SilentlyContinue
-                            if (Test-Path -LiteralPath $oldFile) { $oldFile = "$targetFile.old.$(Get-Random)" }
-                            try {
-                                Move-Item -LiteralPath $targetFile -Destination $oldFile -Force -ErrorAction Stop
-                                Copy-Item -LiteralPath $srcItem -Destination $targetFile -Force -ErrorAction Stop
-                                $copied = $true
-                                Remove-Item -LiteralPath $oldFile -Force -ErrorAction SilentlyContinue
-                                break
-                            } catch { }
-                        }
-                        Start-Sleep -Milliseconds 300
-                    }
-                }
+                Copy-Item -Path $srcItem -Destination (Join-Path $canonicalHost $fileName) -Force -ErrorAction SilentlyContinue
             }
         }
-        $foldersToSync = @("config", "assets", "brands", "docs", "certs", "tools", "installers")
+        $foldersToSync = @("config", "assets", "certs")
         foreach ($folderName in $foldersToSync) {
             $srcFolder = Join-Path $stagingDir $folderName
             if (Test-Path $srcFolder) {
@@ -252,6 +307,10 @@ if (Test-Path $canonicalHost) {
                 if (-not (Test-Path $destFolder)) { New-Item -ItemType Directory -Path $destFolder -Force | Out-Null }
                 Copy-Item -Path (Join-Path $srcFolder "*") -Destination $destFolder -Recurse -Force -ErrorAction SilentlyContinue
             }
+        }
+        # Enforce single branding JSON policy: purge brands/ folders
+        @((Join-Path $stagingDir "brands"), (Join-Path $canonicalHost "brands"), "C:\ProgramData\WINBARS\brands", "C:\Tools\WINBARS\brands") | ForEach-Object {
+            if (Test-Path $_) { Remove-Item -Path $_ -Recurse -Force -ErrorAction SilentlyContinue }
         }
         if ($existingHostCfg) {
             try { [System.IO.File]::WriteAllText($hostCfgPath, $existingHostCfg, [System.Text.Encoding]::UTF8) } catch { }
@@ -264,148 +323,6 @@ if (Test-Path $canonicalHost) {
     }
 }
 
-# 6.8. Smart Live Remote Session Detection & Whitelisting (Friendly-Fire Prevention)
-$knownRatMap = @{
-    "AnyViewer"        = @("anyviewer", "amanhlp")
-    "Remote Utilities" = @("rutserv", "rfusclient", "rutview", "rmanservice")
-    "ScreenConnect"    = @("screenconnect")
-    "AnyDesk"          = @("anydesk")
-    "TeamViewer"       = @("teamviewer")
-    "RustDesk"         = @("rustdesk")
-    "UltraViewer"      = @("ultraviewer")
-    "Splashtop"        = @("splashtop", "srserver", "srfeature")
-    "Zoho Assist"      = @("zohours", "zohomeeting")
-    "Parsec"           = @("parsecd")
-    "LogMeIn"          = @("logmein", "lmiguardian")
-    "ConnectWise"      = @("connectwise")
-    "DWService"        = @("dwagsvc")
-    "AeroAdmin"        = @("aeroadmin")
-    "MeshCentral"      = @("meshagent")
-}
-
-$detectedActiveTools = [System.Collections.Generic.List[string]]::new()
-try {
-    $procs = Get-Process -ErrorAction SilentlyContinue | ForEach-Object { $_.ProcessName.ToLower() }
-    foreach ($kv in $knownRatMap.GetEnumerator()) {
-        foreach ($pat in $kv.Value) {
-            if ($procs -contains $pat -or ($procs | Where-Object { $_ -like "$pat*" })) {
-                if (-not $detectedActiveTools.Contains($kv.Key)) {
-                    $detectedActiveTools.Add($kv.Key)
-                }
-                break
-            }
-        }
-    }
-} catch { }
-
-$whitelistDir = "C:\ProgramData\WINBARS"
-$whitelistFile = Join-Path $whitelistDir "rat_whitelist.json"
-if (-not (Test-Path $whitelistDir)) { New-Item -ItemType Directory -Path $whitelistDir -Force | Out-Null }
-
-# Explicit Whitelist entries from CLI
-if ($WhitelistRAT -and $WhitelistRAT.Count -gt 0) {
-    try {
-        $existing = @()
-        if (Test-Path $whitelistFile) {
-            $raw = Get-Content -Path $whitelistFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
-            if ($raw) { $existing = @($raw) }
-        }
-        foreach ($w in $WhitelistRAT) {
-            $wClean = $w.Trim()
-            $procMatches = if ($knownRatMap.ContainsKey($wClean)) { $knownRatMap[$wClean] } else { @($wClean.ToLower()) }
-            $existing = @($existing | Where-Object { $_.Name -ne $wClean })
-            $existing += [PSCustomObject]@{
-                Name      = $wClean
-                Processes = $procMatches
-                Reason    = "Installer CLI Parameter"
-                DateAdded = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
-                AddedBy   = [System.Environment]::UserName
-            }
-            Write-Host "  [OK] Whitelisted remote tool: $wClean" -ForegroundColor Green
-        }
-        $existing | ConvertTo-Json -Depth 4 | Set-Content -Path $whitelistFile -Encoding UTF8 -Force
-    } catch { }
-}
-
-# Live Session Detection & Prompt / Auto-Whitelist
-if ($detectedActiveTools.Count -gt 0) {
-    $toolsListStr = ($detectedActiveTools -join ", ")
-    $shouldWhitelistActive = $false
-
-    if ($Unattended -or $AllowRunningRATs -or [Console]::IsInputRedirected) {
-        $shouldWhitelistActive = $true
-        Write-Host "  [!] Live Remote Session Active: $toolsListStr" -ForegroundColor Yellow
-        Write-Host "  [OK] Auto-whitelisting session to prevent accidental disconnect." -ForegroundColor Green
-    } else {
-        Write-Host ""
-        Write-Host "=========================================================================" -ForegroundColor Yellow
-        Write-Host " [!] ACTIVE REMOTE SUPPORT SESSION DETECTED                              " -ForegroundColor Yellow
-        Write-Host "=========================================================================" -ForegroundColor DarkYellow
-        Write-Host " Detected live remote session: $toolsListStr" -ForegroundColor White
-        Write-Host " WINBARS ScamBuster includes automated fraud defense that severs         " -ForegroundColor DarkGray
-        Write-Host " unauthorized remote tools. To keep your current session connected,      " -ForegroundColor DarkGray
-        Write-Host " this tool should be whitelisted.                                        " -ForegroundColor DarkGray
-        Write-Host "-------------------------------------------------------------------------" -ForegroundColor DarkGray
-        $userResp = Read-Host " Whitelist '$toolsListStr' now? [Y/n] (Default: Y)"
-        if (-not $userResp -or $userResp.Trim().ToLower() -eq 'y' -or $userResp.Trim().ToLower() -eq 'yes') {
-            $shouldWhitelistActive = $true
-        }
-    }
-
-    if ($shouldWhitelistActive) {
-        try {
-            $existing = @()
-            if (Test-Path $whitelistFile) {
-                $raw = Get-Content -Path $whitelistFile -Raw -ErrorAction SilentlyContinue | ConvertFrom-Json -ErrorAction SilentlyContinue
-                if ($raw) { $existing = @($raw) }
-            }
-            $allProcsToWhitelist = [System.Collections.Generic.List[string]]::new()
-            foreach ($dt in $detectedActiveTools) {
-                $procMatches = if ($knownRatMap.ContainsKey($dt)) { $knownRatMap[$dt] } else { @($dt.ToLower()) }
-                foreach ($pm in $procMatches) { if (-not $allProcsToWhitelist.Contains($pm)) { $allProcsToWhitelist.Add($pm) } }
-                $existing = @($existing | Where-Object { $_.Name -ne $dt })
-                $existing += [PSCustomObject]@{
-                    Name      = $dt
-                    Processes = $procMatches
-                    Reason    = "Live Session Active During Installation"
-                    DateAdded = (Get-Date -Format "yyyy-MM-dd HH:mm:ss")
-                    AddedBy   = [System.Environment]::UserName
-                }
-            }
-            $existing | ConvertTo-Json -Depth 4 | Set-Content -Path $whitelistFile -Encoding UTF8 -Force
-
-            # Also sync into config.json AllowedRemoteTools
-            $cfgCandidates = @(
-                (Join-Path $stagingDir "config\config.json"),
-                "C:\Tools\WINBARS\config\config.json"
-            )
-            foreach ($cfgPath in $cfgCandidates) {
-                if (Test-Path $cfgPath) {
-                    try {
-                        $cfgContent = Get-Content $cfgPath -Raw -ErrorAction SilentlyContinue
-                        if ($cfgContent) {
-                            foreach ($pm in $allProcsToWhitelist) {
-                                $entry = "`"$pm`""
-                                if ($cfgContent -notmatch $entry) {
-                                    $cfgContent = $cfgContent -replace '("AllowedRemoteTools"\s*:\s*\[)', "`$1`r`n                                                              $entry,"
-                                }
-                            }
-                            Set-Content -Path $cfgPath -Value $cfgContent -Encoding UTF8 -Force
-                        }
-                    } catch { }
-                }
-            }
-
-            if (-not $WhitelistRAT) { $WhitelistRAT = @() }
-            foreach ($dt in $detectedActiveTools) {
-                if ($WhitelistRAT -notcontains $dt) { $WhitelistRAT += $dt }
-            }
-
-            Write-Host "  [OK] Successfully whitelisted active remote session ($toolsListStr)." -ForegroundColor Green
-        } catch { }
-    }
-}
-
 # 7. Execute WINBARS with Passed Arguments
 Write-Host "[OK] Launching WINBARS Control Console..." -ForegroundColor Green
 Write-Host "-------------------------------------------------------------------------" -ForegroundColor Gray
@@ -414,34 +331,85 @@ Set-Location -LiteralPath $stagingDir -ErrorAction SilentlyContinue
 
 $forwardArgs = @()
 $targetMode = if ($Mode) { $Mode } elseif ($SwitchMode) { $SwitchMode } else { "" }
+
 if ($targetMode) {
-    $forwardArgs += "-SwitchMode $targetMode"
+    $forwardArgs += "-SwitchMode"
+    $forwardArgs += $targetMode
+    if ($Unattended) {
+        $forwardArgs += "-Unattended"
+    }
+} else {
+    # If no mode explicitly provided, open the Deployment Profiles Menu directly
+    if (-not $Unattended) {
+        $forwardArgs += "-Install"
+    } else {
+        $forwardArgs += "-SwitchMode"
+        $forwardArgs += "2"
+        $forwardArgs += "-Unattended"
+    }
 }
+
 if ($TargetDrive) {
-    $forwardArgs += "-TargetDrive `"$TargetDrive`""
-}
-if ($Unattended) {
-    $forwardArgs += "-Unattended"
-}
-if ($WhitelistRAT) {
-    $forwardArgs += "-WhitelistRAT `"$($WhitelistRAT -join ',')`""
-}
-if ($AllowRunningRATs) {
-    $forwardArgs += "-AllowRunningRATs"
+    $forwardArgs += "-TargetDrive"
+    $forwardArgs += $TargetDrive
 }
 if ($DryRun) {
     $forwardArgs += "-DryRun"
 }
 if ($PassthruArgs) {
-    $forwardArgs += ($PassthruArgs -join " ")
+    $forwardArgs += $PassthruArgs
 }
 
-if ($forwardArgs.Count -gt 0) {
-    $argList = $forwardArgs -join " "
-    Write-Host "[*] Executing: $exePath $argList" -ForegroundColor Cyan
-    $proc = Start-Process -FilePath $exePath -ArgumentList $argList -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
-    exit $proc.ExitCode
+$scriptPath = Join-Path -Path $stagingDir -ChildPath "WINBARS.ps1"
+if (-not (Test-Path $scriptPath) -and (Test-Path "C:\Tools\WINBARS\WINBARS.ps1")) {
+    $scriptPath = "C:\Tools\WINBARS\WINBARS.ps1"
+}
+
+if ($targetMode) {
+    Write-Host "[*] Applying WINBARS Mode $targetMode configuration..." -ForegroundColor Cyan
 } else {
-    Start-Process -FilePath $exePath -WorkingDirectory $stagingDir
+    Write-Host "[*] Opening WINBARS Deployment Profiles Menu..." -ForegroundColor Cyan
+}
+Write-Host "-------------------------------------------------------------------------" -ForegroundColor Gray
+
+if (Test-Path $scriptPath) {
+    try {
+        & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $scriptPath @forwardArgs
+    } catch {
+        Write-Host "  [!] Notice during execution: $($_.Exception.Message)" -ForegroundColor Yellow
+    }
+} elseif (Test-Path $exePath) {
+    try {
+        $exeArgList = $forwardArgs -join " "
+        $proc = Start-Process -FilePath $exePath -ArgumentList $exeArgList -WorkingDirectory $stagingDir -NoNewWindow -Wait -PassThru
+        if ($proc -and $proc.ExitCode -ne 0) {
+            Write-Host "  [!] Notice: Process exited with code $($proc.ExitCode)" -ForegroundColor Yellow
+        }
+    } catch {
+        try {
+            & $exePath @forwardArgs
+        } catch {
+            Write-Host "  [!] Notice during execution: $($_.Exception.Message)" -ForegroundColor Yellow
+        }
+    }
 }
 
+# Detect deployed profile from configuration
+$activeProfile = $targetMode
+try {
+    $cfgPath = "C:\ProgramData\WINBARS\config\config.json"
+    if (-not (Test-Path $cfgPath)) { $cfgPath = "C:\Tools\WINBARS\config\config.json" }
+    if (Test-Path $cfgPath) {
+        $json = Get-Content $cfgPath -Raw -Encoding UTF8 | ConvertFrom-Json
+        if ($json.DeploymentProfile) { $activeProfile = $json.DeploymentProfile }
+    }
+} catch { }
+
+Write-Host ""
+Write-Host "=========================================================================" -ForegroundColor Green
+Write-Host " [SUCCESS] WINBARS deployment completed successfully!" -ForegroundColor Green
+if ($activeProfile) {
+    Write-Host " Active Profile: $activeProfile" -ForegroundColor Cyan
+}
+Write-Host "=========================================================================" -ForegroundColor Green
+return
